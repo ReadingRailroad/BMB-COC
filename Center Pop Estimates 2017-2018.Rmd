@@ -3,5 +3,32 @@ title: "Center Pop Estimates 2017-2018"
 author: "Marty Simonson"
 date: "October 3, 2018"
 output: pdf_document
+editor_options: 
+  chunk_output_type: console
 ---
+
+setwd("~/BMB-COC")
+
+#### Data Entry
+
+```{r}
+Year<-factor(c(2017,2018))
+COC.PopEst<-c(8675,6298)
+BMB.PopEst<-c(12999,3997)
+COC.LL<-c(6769,2865)
+COC.UL<-c(11578,9731)
+BMB.LL<-c(11243,1216)
+BMB.UL<-c(15463,6778)
+
+df<-data.frame(cbind(Year,COC.PopEst,COC.LL,COC.UL,BMB.PopEst,BMB.LL,BMB.UL))
+df
+
+# Could add biomass and biomass density. Have on hand for 2017, could be done easily for 2018
+```
+
+#### Plot year changes
+
+```{r}
+
+```
 
