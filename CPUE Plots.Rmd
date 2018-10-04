@@ -1,0 +1,460 @@
+---
+title: "CPUE Plots"
+author: "Martin A. Simonson"
+date: "January 12, 2018"
+output: pdf_document
+---
+```{r,include=FALSE}
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
+
+packages(vegan)
+packages(ggplot2)
+packages(gridExtra)
+packages(reshape2)
+packages(nnet)
+#packages(multcomp)
+#packages(plyr)
+#packages(rv)
+#packages(arm)
+packages(lattice)
+packages(tikzDevice)
+#packages(GGally)
+packages(wesanderson)
+packages(devtools)
+#packages(DescTools)
+#packages(mvnormtest)
+#packages(HH)
+#packages(biotools)
+#packages(car)
+#packages(psych)
+#packages(GPArotation)
+packages(dplyr)
+packages(tidyr)
+packages(rcompanion)
+```
+
+# Per MJW Request:
+Scatterplot and Correlation for biomass vs. CPUE for each species, which each lake represented by 1 point with 95% CI
+
+very preliminary at this point and future refinement of how to calculate CPUE is necessary, but we need to describe the relationship somehow.
+
+# ALL 2017 DATA
+
+```{r,}
+# Create DF with CPUE and 95% CI for each lake...
+
+Lakes<-c("Blue","Center","North Twin","South Twin")
+CarpBiomass <- c(120617,57932,9001,51187)
+CarpDensity <- c(438.6,231.7,19.4,92.2)
+BuffBiomass <- c(NA,81894,104513,26802)
+BuffDensity <- c(NA,327.6,225.7,48.3)
+CarpCPUE<-c(80.37,36.3,17.18,41.78)
+BuffCPUE<-c(NA,102.29,24.56,64.65)
+CarpLL<-c(59.99,22.41,9.74,29.96)
+CarpUL<-c(100.76,50.20,24.63,53.05)
+BuffLL<-c(NA,59.40,17.99,36.56)
+BuffUL<-c(NA,145.17,31.14,95.32)
+CarpBM.LL<-c(63432,45202,5387,29180)
+CarpBM.UL<-c(224140,77317,17058,92395)
+BuffBM.LL<-c(NA,70833,58659,21514)
+BuffBM.UL<-c(NA,97419,185741,34005)
+
+DF<-data.frame(Lakes,CarpBiomass,BuffBiomass,CarpBM.LL,CarpBM.UL,BuffBM.LL,BuffBM.UL,
+               CarpCPUE,BuffCPUE,CarpLL,CarpUL,BuffLL,BuffUL)
+
+summary(DF)
+
+```
+
+Now to create 2 plots, with regression lines (YAY!)
+
+```{r,}
+
+# visualize how CPUE changes as a function of biomass....
+#
+# I think biomass density might be beneficial here, but let's go with what MJW said
+
+# Regression lines imply lm() but we'll see........
+
+mod<-lm(CarpCPUE ~ CarpBiomass, data = DF)
+summary(mod)
+R2<-format(summary(mod)$r.squared,digits=3)
+
+
+# Carp FIrst
+carp<-ggplot(DF, aes(x=CarpBiomass, y=CarpCPUE)) +
+  xlim(0,250000)+
+  ylim(0,150)+
+  geom_point(size=4) +
+  geom_errorbar(aes(ymax = CarpUL, ymin = CarpLL),width=5000) +
+  geom_errorbarh(aes(xmax= CarpBM.UL, xmin = CarpBM.LL),height=5) +
+  annotate("text",x=c(130000,69000,25000,40000,10000,10000),y=c(85,33.3,12,49,140,130), 
+           label = c("Blue","Center","North Twin","South Twin","R^2 = 0.972","p = 0.014")) +
+  labs(title = "Relationship Between Common Carp Biomass and CPUE",
+       x = "Estimated Common Carp Biomass (lbs.)",
+       y = "Catch per Unit Effort (fish/hour)") +
+  theme_bw() + 
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
+  geom_smooth(method=lm,se=F) 
+
+
+# Buffalo Second
+
+mod2<-lm(BuffCPUE ~ BuffBiomass, data = DF)
+summary(mod2)
+R22<-format(summary(mod2)$r.squared,digits=3)
+R22
+
+buff<-ggplot(DF, aes(x=BuffBiomass, y=BuffCPUE)) +
+  xlim(0,250000)+
+  ylim(0,150)+
+  geom_point(size=4) +
+  geom_errorbar(aes(ymax = BuffUL, ymin = BuffLL),width=5000) +
+  geom_errorbarh(aes(xmax=BuffBM.UL, xmin = BuffBM.LL),height=5) +
+  annotate("text",x=c(90000,95000,38000,10000,10000),y=c(110,10,42,140,130), 
+           label = c("Center","North Twin","South Twin","R^2 = 0.0902","p = 0.806")) +
+  labs(title = "Relationship Between Bigmouth Buffalo Biomass and CPUE",
+       x = "Estimated Bigmouth Buffalo Biomass (lbs.)",
+       y = "Catch per Unit Effort (fish/hour)") +
+  theme_bw() + 
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
+  geom_smooth(method=lm,se=F)
+
+# Problems here: when I remove the 0s from Blue Lake Buffalo, the regression is negative
+# And the plot certainly doesn't look linear
+
+grid.arrange(carp,buff,nrow=2,ncol=1)
+
+
+
+```
+
+
+I did what was asked, for now. That's all a person can really do.
+
+# 2018 Data
+- as of July 2018 - mixed ranges based on what spencer has entered
+- as of July 23 2018 all samples up to 7-20 are entered (except the last 1 or 2 from Blue and Twins)
+- collapse to averages (see below)
+- still need catch n for CPUE but without seine hauls but with age structures
+
+
+
+```{r}
+
+# Create DF with CPUE, total biomass and biomass density (and 95% CIs) for each lake...
+setwd("C:/Users/M_Sim/OneDrive/IOWA/Iowa State University/CarpR/")
+df<-read.csv("July2018_ALW.csv",header=T) # load data 
+head(df)
+summary(df)
+
+#### Data corrections
+#
+levels(df$Lake)
+#
+levels(df$Species)
+df$Species[df$Species == "BMB"]<-"BIB"
+df$Species[df$Species == "KOI"]<-"COC"
+#
+df$Weight.g[df$Weight.g == 0] <- NA
+df$Weight.g<-df$Weight.g/453.592 # converting to pounds
+
+
+```
+
+creating the data frame necessary to plot
+```{r,}
+
+# CarpBiomass - avg from google sheets age structures * population estimates for that lake
+coc.df<-subset(df,Species == "COC") # just carp
+BM<-aggregate(coc.df$Weight.g~coc.df$Lake, FUN=mean,na.action = na.omit) # average biomasses in g
+BM$CarpN <- c(70697,7136,28932,5281,11505,23833,13041) # est carp abundance for 7 lakes as of 8/7/2018
+BM$CarpBiomass<-BM$`coc.df$Weight.g`*BM$CarpN # estimated carp biomass in pounds
+
+
+# BuffBiomass - avg biomass from google sheets * total fish caught to date
+bib.df<-subset(df,Species == "BIB") # just buffalo
+BM2<-aggregate(bib.df$Weight.g~bib.df$Lake, FUN=mean,na.action=na.omit)
+BM2$BuffN<- c(3386,4455,65180,13923,35214,13041)
+BM$BuffN<- c(NA,3386,4455,65180,13923,35214,13041)
+BM$BuffBiomass <- c(NA,BM2$`bib.df$Weight.g`*BM2$BuffN) # estimated buffalo biomass in pounds
+
+# Lake Areas
+BM$LakeArea[BM$'coc.df$Lake' == "Blue"] <- 275
+BM$LakeArea[BM$'coc.df$Lake' == "Center"] <- 220
+BM$LakeArea[BM$'coc.df$Lake' == "Five Island"] <- 973
+BM$LakeArea[BM$'coc.df$Lake' == "Silver"] <- 1066
+BM$LakeArea[BM$'coc.df$Lake' == "Storm"] <- 3140
+BM$LakeArea[BM$'coc.df$Lake' == "S Twin"] <- 555
+BM$LakeArea[BM$'coc.df$Lake' == "N Twin"] <- 463
+
+
+# CarpDensity - biomass (avg poumds * n) per acre of lake
+# BuffDensity - biomass (avg pounds * n) per acre of each lake
+BM$CarpDensity<-BM$CarpBiomass/BM$LakeArea
+BM$BuffDensity<-BM$BuffBiomass/BM$LakeArea
+
+# CarpCPUE - n fish per hour electrofishing
+#
+summary(coc.df)
+# on-time in seconds to Effort in hours
+coc.df$Effort<-coc.df$On.Time..s./3600
+bib.df$Effort<-bib.df$On.Time..s./3600
+# Need to remove seine hauls
+
+# now to paste date, then lake then run
+coc.df$DLR<-factor(paste(coc.df$Date,coc.df$Lake,coc.df$Run))
+bib.df$DLR<-factor(paste(bib.df$Date,bib.df$Lake,bib.df$Run))
+# Now to divide the count of captured fish by the mean effort per DLR
+coc.cpue<-aggregate(Effort~Lake+DLR, data = coc.df, mean, na.action=NULL)
+coc.df$dummy<-1
+coc.n<-aggregate(dummy~Lake+DLR, data = coc.df, sum)
+coc.cpue$n<-coc.n$dummy
+coc.cpue$cpue<-coc.cpue$n/coc.cpue$Effort
+coc.cpue<-coc.cpue[!is.na(coc.cpue$cpue),]
+
+  
+# BuffCPUE -n fish per hour electrofishing
+
+bib.cpue<-aggregate(Effort~Lake+DLR, data = bib.df, mean, na.action=NULL)
+bib.df$dummy<-1
+bib.n<-aggregate(dummy~Lake+DLR, data = bib.df, sum)
+bib.cpue$n<-bib.n$dummy
+bib.cpue$cpue<-bib.cpue$n/bib.cpue$Effort
+bib.cpue<-bib.cpue[!is.na(bib.cpue$cpue),]
+
+
+# need a boxplot of CPUE for each lake apparently. Let's see:
+
+
+boxplot(cpue~Lake,data=coc.cpue,
+        main="Carp CPUE by Lake: 2018")
+
+boxplot(cpue~Lake,data=bib.cpue,
+        main="Buffalo CPUE by Lake: 2018")
+
+
+###################################################
+# hopefully find summary stats for below
+###################################################
+
+
+# CarpLL - lower bound for y axis 
+# CarpUL- upper bound for y axis
+COC.CPUE.95ci<-groupwiseMean(cpue ~ Lake,
+              data = coc.cpue,
+              conf = 0.95,
+              digits = 3)
+
+# BuffLL - lower bound for y axis
+# BuffUL - upper bound for y axis
+BIB.CPUE.95ci<-groupwiseMean(cpue ~ Lake,
+              data = bib.cpue,
+              conf = 0.95,
+              digits = 3)
+
+# CarpBM.LL - lower bound for x axis
+# CarpBM.UL - upper bound for x axis
+coc.BM<-coc.df[!is.na(coc.df$Weight.g),]
+coc.BM.95ci<-groupwiseMean(Weight.g ~ Lake,
+              data = coc.BM,
+              conf = 0.95,
+              digits = 3)
+CarpBM.LL<-BM$CarpN*coc.BM.95ci$Trad.lower
+CarpBM.UL<-BM$CarpN*coc.BM.95ci$Trad.upper
+
+
+# BuffBM.LL - lower bound for x axis
+# BuffBM.UL - lower bound for x axis
+bib.BM<-bib.df[!is.na(bib.df$Weight.g),]
+bib.BM.95ci<-groupwiseMean(Weight.g ~ Lake,
+              data = bib.BM,
+              conf = 0.95,
+              digits = 3)
+BuffBM.LL<-c(3152,2960,44598,13923,34507,12380)*bib.BM.95ci$Trad.lower
+BuffBM.UL<-c(3152,2960,44598,13923,34507,12380)*bib.BM.95ci$Trad.upper
+
+
+```
+
+put that ish together
+
+
+```{r,}
+
+Lakes<-c("Blue","Center","Five Island","N Twin","Silver","S Twin","Storm")
+
+DF<-data.frame(Lakes,
+               BM$CarpBiomass,
+               BM$BuffBiomass,
+               CarpBM.LL,
+               CarpBM.UL,
+               c(NA,BuffBM.LL),
+               c(NA,BuffBM.UL),
+               COC.CPUE.95ci$Mean,
+               c(NA,BIB.CPUE.95ci$Mean),
+               COC.CPUE.95ci$Trad.lower,
+               COC.CPUE.95ci$Trad.upper,
+               c(NA,BIB.CPUE.95ci$Trad.lower),
+               c(NA,BIB.CPUE.95ci$Trad.upper),
+               BM$CarpDensity,
+               BM$BuffDensity
+               )
+
+colnames(DF)<-c("Lake","CarpBiomass","BuffBiomass","CarpBM.LL","CarpBM.UL","BuffBM.LL","BuffBM.UL","CarpCPUE","BuffCPUE","CarpLL","CarpUL","BuffLL","BuffUL","CarpDensity","BuffDensity")
+
+summary(DF)
+```
+
+Pat yourself on the back! we are in business. Now to build the plot
+
+# X axis: Biomass in pounds
+# Y axis: CPUE: #fish/hour
+
+```{r}
+
+# visualize how CPUE changes as a function of biomass....
+
+mod<-lm(CarpCPUE ~ CarpBiomass, data = DF)
+summary(mod)
+R2<-format(summary(mod)$r.squared,digits=3)
+R2
+
+
+# Carp First
+carp<-ggplot(DF, aes(x=CarpBiomass, y=CarpCPUE)) +
+  xlim(0,500000)+ # increast of 100k
+  ylim(0,350)+ # more than double from 2017
+  geom_point(size=4) +
+  geom_errorbar(aes(ymax = CarpUL, ymin = CarpLL),width=5000) +
+  geom_errorbarh(aes(xmax= CarpBM.UL, xmin = CarpBM.LL),height=5) +
+  annotate("text",x=c(175000,60000,200000,10000,40000,300000,75000,15000,15000),y=c(250,10,40,25,80,40,60,180,160), 
+           label = c("Blue","Center","Five Island","N Twin","Silver","Twin","Storm","R^2 = 0.016","p = 0.014")) +
+  labs(title = "2018 Common Carp Biomass and CPUE",
+       x = "Estimated Common Carp Biomass (lbs.)",
+       y = "Catch per Unit Effort (fish/hour)") +
+  theme_bw() + 
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
+  geom_smooth(method=lm,se=F) 
+
+
+# Buffalo Second
+
+mod2<-lm(BuffCPUE ~ BuffBiomass, data = DF)
+summary(mod2)
+R22<-format(summary(mod2)$r.squared,digits=3)
+R22
+
+buff<-ggplot(DF, aes(x=BuffBiomass, y=BuffCPUE)) +
+  xlim(0,500000)+ # double from 2017
+  ylim(0,150)+ # Same as 2018
+  geom_point(size=4) +
+  geom_errorbar(aes(ymax = BuffUL, ymin = BuffLL),width=5000) +
+  geom_errorbarh(aes(xmax=BuffBM.UL, xmin = BuffBM.LL),height=5) +
+  annotate("text",x=c(25000,25000,460000,75000,275000,190000,20000,20000),y=c(32,5,20,35,35,11,140,130), 
+           label = c("Center","Five Island","N Twin","Silver","S Twin","Storm","R^2 = 0.079","p = 0.867")) +
+  labs(title = "2018 Bigmouth Buffalo Biomass and CPUE",
+       x = "Estimated Bigmouth Buffalo Biomass (lbs.)",
+       y = "Catch per Unit Effort (fish/hour)") +
+  theme_bw() + 
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
+  geom_smooth(method=lm,se=F)
+
+# Problems here: when I remove the 0s from Blue Lake Buffalo, the regression is negative
+# And the plot certainly doesn't look linear
+
+grid.arrange(carp,buff,nrow=2,ncol=1)
+
+```
+
+New plot for prairie lakes conference:
+
+# X axis: fish density (# fish / acre )
+# Y axis: CPUE: #fish/hour
+
+```{r}
+
+# visualize how CPUE changes as a function of biomass....
+
+mod<-lm(CarpCPUE ~ CarpDensity, data = DF)
+summary(mod)
+R2<-format(summary(mod)$r.squared,digits=3)
+R2
+
+
+# Carp First
+carp<-ggplot(DF, aes(x=CarpDensity, y=CarpCPUE)) +
+  xlim(0,600)+ # 
+  ylim(0,300)+ # 
+  geom_point(size=4) +
+  geom_errorbar(aes(ymax = CarpUL, ymin = CarpLL),width=5000) +
+  geom_errorbarh(aes(xmax= CarpBM.UL, xmin = CarpBM.LL),height=5) +
+  annotate("text",x=c(550,275,290,10,60,180,60,250,250),y=c(260,15,40,25,80,25,55,180,160), 
+           label = c("Blue","Center","Five Island","N Twin","Silver","S Twin","Storm","R^2 = 0.591","p = 0.043")) +
+  labs(title = "2018 Common Carp Density and CPUE",
+       x = "Estimated Common Carp Density (fish/acre)",
+       y = "Catch per Unit Effort (fish/hour)") +
+  theme_bw() + 
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
+  geom_smooth(method=lm,se=F) 
+
+
+# Buffalo Second
+
+mod2<-lm(BuffCPUE ~ BuffDensity, data = DF)
+summary(mod2)
+R22<-format(summary(mod2)$r.squared,digits=3)
+R22
+
+buff<-ggplot(DF, aes(x=BuffDensity, y=BuffCPUE)) +
+  xlim(0,1500)+ # double from 2017
+  ylim(0,300)+ # Same as 2018
+  geom_point(size=4) +
+  geom_errorbar(aes(ymax = BuffUL, ymin = BuffLL),width=5000) +
+  geom_errorbarh(aes(xmax=BuffBM.UL, xmin = BuffBM.LL),height=5) +
+  annotate("text",x=c(0,200,1400,150,350,175,500,500),y=c(32,10,20,35,35,0,140,130), 
+           label = c("Center","Five Island","N Twin","Silver","S Twin","Storm","R^2 = 0.026","p = 0.762")) +
+  labs(title = "2018 Bigmouth Buffalo Density and CPUE",
+       x = "Estimated Bigmouth Buffalo Density (fish/acre)",
+       y = "Catch per Unit Effort (fish/hour)") +
+  theme_bw() + 
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
+  geom_smooth(method=lm,se=F)
+
+# Problems here: when I remove the 0s from Blue Lake Buffalo, the regression is negative
+# And the plot certainly doesn't look linear
+
+grid.arrange(carp,buff,nrow=1,ncol=2)
+
+```
+
+# New plot of biomass density on y axis and lakes on x axis
+
+```{r,}
+DF$CarpBMD<-DF$CarpBiomass/BM$LakeArea
+summary(DF$CarpBMD)
+DF$CarpBM.LL.BMD
+
+DF$BuffBMD<-DF$BuffBiomass/BM$LakeArea
+summary(DF$BuffBMD)
+
+boxplot(CarpBMD~Lake,data=DF)
+
+
+
+
+```
+
+

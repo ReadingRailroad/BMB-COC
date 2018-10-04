@@ -1,0 +1,307 @@
+---
+title: "Harvest Data Summary"
+author: "Martin A. Simonson"
+date: "December 4, 2017"
+output: pdf_document
+---
+```{r,include=FALSE}
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
+
+packages(vegan)
+packages(ggplot2)
+packages(gridExtra)
+packages(reshape2)
+packages(nnet)
+#packages(multcomp)
+#packages(plyr)
+#packages(rv)
+#packages(arm)
+packages(lattice)
+packages(tikzDevice)
+#packages(GGally)
+packages(wesanderson)
+#packages(DescTools)
+#packages(mvnormtest)
+#packages(HH)
+#packages(biotools)
+#packages(car)
+#packages(psych)
+#packages(GPArotation)
+packages(doBy)
+```
+
+# Harvest data summary
+
+This is an attempt to collect harvest data from different Iowa DNR district offices to summarize harvest at the six(seven) lakes of my study:
+
+- North Twin Lake (Calhoun) (090)
+- South Twin Lake (Calhoun) (NA)
+- Center Lake (Dickinson)   (019)
+- Silver Lake (Dickinson)   (105)
+- Storm Lake (Buena Vista)  (113)
+- Five Island Lake (Palo Alto)  (036)
+- Blue Lake (Monona)        (012)
+
+
+
+As of 12/4/2017 I have 6 lakes of data (nothing for s. twin lake)
+
+```{r,include=F}
+setwd("C:/Users/M_Sim/OneDrive/IOWA/Iowa State University/CarpR/")
+df<-read.csv("SpiritHarvest.csv",header=T) # load data 
+
+
+summary(df$Lake) 
+summary(df$Carp)
+df$Year<-as.factor(df$Year)
+```
+
+# Harvest per acre
+
+To standardize these systems and make comparisons between lakes more meaningful, I need to scale the harvest (lbs.) by the size of each lake (acres). Then I can plot historical harvest in terms of lbs/acre and look at plots side by side.
+
+```{r,}
+head(df)
+########################################################
+df<-df[df$Lake == "Center Lake" |
+       df$Lake == "Five Island Lake" |
+       df$Lake == "Silver Lake (Dickinson)" |
+       df$Lake == "Blue Lake" | 
+       df$Lake == "Storm Lake" |
+       df$Lake == "North Twin Lake",]
+########################################################
+summary(df)
+df$Acres[df$Lake == "Center Lake"] <- 220
+df$Acres[df$Lake == "Blue Lake"] <- 275
+df$Acres[df$Lake == "Five Island Lake"] <- 973
+df$Acres[df$Lake == "North Twin Lake"] <- 463
+df$Acres[df$Lake == "Silver Lake (Dickinson)"] <- 1066
+df$Acres[df$Lake == "Storm Lake"] <- 3140
+
+df$Total.Harvest<-(df$Carp+df$Buffalo+df$Drum)/df$Acres
+
+df$Buffalo<-df$Buffalo/df$Acres
+df$Drum<-df$Drum/df$Acres
+df$Carp<-df$Carp/df$Acres
+df$Total.Rough.Fish<-df$Total.Rough.Fish/df$Acres
+
+summary(df)
+df<-df[,c(1,4,5:8)]
+```
+
+
+```{r,}
+# create individual data frames for each lake
+Center<-df[df$Lake == "Center Lake",]
+FiveIsland<-df[df$Lake == "Five Island Lake",]
+Silver<-df[df$Lake == "Silver Lake (Dickinson)",]
+Blue<-df[df$Lake == "Blue Lake",]
+Storm<-df[df$Lake == "Storm Lake",]
+NorthTwin<-df[df$Lake == "North Twin Lake",]
+
+
+```
+
+
+# Time to import some water quality data
+```{r,}
+WQ<-read.csv("C:/Users/M_Sim/OneDrive/IOWA/Iowa State University/CarpR/WaterQuality/130Lakes_IowaLakesDatabase.csv", header = TRUE)
+str(WQ)
+summary(WQ$Lake.ID)
+
+BlueWQ<-WQ[WQ$Lake.ID == 12,]
+CenterWQ<-WQ[WQ$Lake.ID == 19,]
+FiveIslandWQ<-WQ[WQ$Lake.ID == 36,]
+NTwinWQ<-WQ[WQ$Lake.ID == 90,]
+SilverWQ<-WQ[WQ$Lake.ID == 105,]
+StormWQ<-WQ[WQ$Lake.ID == 113,]
+
+# Need to average by year maybe...
+BlueWQ<-aggregate(BlueWQ, by=list(BlueWQ$Year), FUN=mean, na.rm = T)
+CenterWQ<-aggregate(CenterWQ, by=list(CenterWQ$Year), FUN=mean, na.rm = T)
+FiveIslandWQ<-aggregate(FiveIslandWQ, by=list(FiveIslandWQ$Year), FUN=mean, na.rm = T)
+NTwinWQ<-aggregate(NTwinWQ, by=list(NTwinWQ$Year), FUN=mean, na.rm = T)
+SilverWQ<-aggregate(SilverWQ, by=list(SilverWQ$Year), FUN=mean, na.rm = T)
+StormWQ<-aggregate(StormWQ, by=list(StormWQ$Year), FUN=mean, na.rm = T)
+
+
+```
+
+#Merge harvest and water quality data frames ---- maybe
+```{r,}
+Center<-merge(Center,CenterWQ,by="Year",all=T)
+# The problem with this is it drops values that aren't common between both datasets....
+
+
+
+
+
+
+
+```
+
+
+# Plotting
+
+I think the best option is to go lake by lake, and try to have the two species (and then total) for each Year
+  
+Then perhaps a final plot with all three lakes on them together, with all 3 variables (two spp. and total).
+
+```{r,}
+
+#####################
+# 
+#
+#    Center Lake
+#
+#
+#####################
+# Melt!
+Center.m<-melt(Center)
+# Harvest plot by year
+CenterPlot<-ggplot(Center.m, aes(x=Year, y=value, fill=variable)) + 
+                geom_bar(stat='identity', position = "dodge", colour="black") +
+                scale_fill_manual(values = wes_palette("Darjeeling2")) +
+                theme(legend.position = "bottom",legend.title = element_blank()) +
+                labs(title = "Center Lake Commercial Harvest",
+                     y = "Harvest (lbs. per acre)")+
+                ylim(0,300)+
+                theme(axis.text.x=element_text(angle=-90)) +
+                geom_line(data=CenterWQ, aes(x=Year, y=CenterWQ[,26]))
+
+#####################
+# 
+#
+#    Silver Lake
+#
+#
+#####################
+# Melt!
+Silver.m<-melt(Silver)
+# Harvest plot by year
+SilverPlot<-ggplot(Silver.m, aes(x=Year, y=value, fill=variable)) + 
+                geom_bar(stat='identity', position = "dodge", colour="black") +
+                scale_fill_manual(values = wes_palette("Darjeeling2")) +
+                theme(legend.position = "bottom",legend.title = element_blank()) +
+                labs(title = "Silver Lake Commercial Harvest",
+                     y = "Harvest (lbs. per acre)")+
+                ylim(0,100)+
+                theme(axis.text.x=element_text(angle=-90))
+
+#####################
+# 
+#
+#    5 Island Lake
+#
+#
+#####################
+# Melt!
+FiveIsland.m<-melt(FiveIsland)
+# Harvest plot by year
+FivePlot<-ggplot(FiveIsland.m, aes(x=Year, y=value, fill=variable)) + 
+                geom_bar(stat='identity', position = "dodge", colour="black") +
+                scale_fill_manual(values = wes_palette("Darjeeling2")) +
+                theme(legend.position = "bottom",legend.title = element_blank()) +
+                labs(title = "Five Island Lake Commercial Harvest",
+                     y = "Harvest (lbs. per acre)")+
+                ylim(0,100)+
+                theme(axis.text.x=element_text(angle=-90))
+
+
+#####################
+# 
+#
+#    Storm Lake
+#
+#
+#####################
+# Melt!
+Storm.m<-melt(Storm)
+# Harvest plot by year
+StormPlot<-ggplot(Storm.m, aes(x=Year, y=value, fill=variable)) + 
+                geom_bar(stat='identity', position = "dodge", colour="black") +
+                scale_fill_manual(values = wes_palette("Darjeeling2")) +
+                theme(legend.position = "bottom",legend.title = element_blank()) +
+                labs(title = "Storm Lake Commercial Harvest",
+                     y = "Harvest (lbs. per acre)")+
+                ylim(0,100)+
+                theme(axis.text.x=element_text(angle=-90))
+
+#####################
+# 
+#
+#    Blue Lake
+#
+#
+#####################
+# Melt!
+Blue.m<-melt(Blue)
+# Harvest plot by year
+BluePlot<-ggplot(Blue.m, aes(x=Year, y=value, fill=variable)) + 
+                geom_bar(stat='identity', position = "dodge", colour="black") +
+                scale_fill_manual(values = wes_palette("Darjeeling2")) +
+                theme(legend.position = "bottom",legend.title = element_blank()) +
+                labs(title = "Blue Lake Commercial Harvest",
+                     y = "Harvest (lbs. per acre)") +
+                ylim(0,100)+
+                theme(axis.text.x=element_text(angle=-90))
+
+#####################
+# 
+#
+#    North Twin Lake
+#
+#
+#####################
+# Melt!
+NorthTwin.m<-melt(NorthTwin)
+# Harvest plot by year
+TwinPlot<-ggplot(NorthTwin.m, aes(x=Year, y=value, fill=variable)) + 
+                geom_bar(stat='identity', position = "dodge", colour="black") +
+                scale_fill_manual(values = wes_palette("Darjeeling2")) +
+                theme(legend.position = "bottom",legend.title = element_blank()) +
+                labs(title = "North Twin Lake Commercial Harvest",
+                     y = "Harvest (lbs. per acre)")+
+                ylim(0,100)+
+                theme(axis.text.x=element_text(angle=-90))
+
+grid.arrange(BluePlot,CenterPlot,FivePlot,SilverPlot,StormPlot,TwinPlot,
+             ncol=2,nrow=3)
+
+```
+
+
+
+
+
+
+```{r,}
+
+#####################
+# 
+#
+#    All 6 Lakes
+#
+#
+#####################
+#All<-rbind(Silver,FiveIsland,Center,Storm,Blue,NorthTwin)
+# Melt!
+All.m<-melt(df)
+# Harvest plot by year
+ggplot(All.m, aes(x=Lake, y=value, fill=variable), ylab = "Harvest (lbs. per acre)", main = "All Lake Harvest") + 
+                geom_bar(stat='identity', position = "dodge", colour = "black") +
+                scale_fill_manual(values = wes_palette("Darjeeling2")) +
+                theme(legend.position = "bottom",legend.title = element_blank()) +
+                labs(title = "Cumulative Commercial Harvest by Lake",
+                     y = "Harvest (lbs/acre)")
+
+```
+
+
+

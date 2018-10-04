@@ -1,0 +1,302 @@
+---
+title: "Initial Twin Lake Plots"
+author: "Martin A. Simonson"
+date: "September 14, 2017"
+output: pdf_document
+---
+```{r,include=F}
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
+
+packages(vegan)
+packages(ggplot2)
+packages(reshape2)
+packages(nnet)
+packages(multcomp)
+packages(plyr)
+packages(rv)
+packages(arm)
+packages(lattice)
+packages(tikzDevice)
+packages(gridExtra)
+
+```
+# reading in data and splitting up lakes and species
+```{r}
+df <- read.csv("C:\\Users/M_Sim/OneDrive/IOWA/Iowa State University/CarpR/TwinLakesLength2017.csv")
+
+summary(df)
+# Keeping units of data sheets, although I would prefer cm to inches
+
+NT.B<-subset(df,df$Lake=="N Twin" & df$Species == "BIB")
+NT.C<-subset(df,df$Lake=="N Twin" & df$Species == "COC")
+ST.B<-subset(df,df$Lake=="S Twin" & df$Species == "BIB")
+ST.C<-subset(df,df$Lake=="S Twin" & df$Species == "COC")
+```
+# Length frequency histograms: two species of fish, two lakes.
+
+```{r}
+
+
+p1<-ggplot(NT.C,aes(x=Length..inches.)) + 
+  geom_histogram(binwidth = 0.5, col = "black", fill = "goldenrod") + 
+  labs(title="Length Frequency for Carp: North Twin Lake",
+       x="Length (inches)",
+       y="Frequency")+
+  ylim(c(0,150))
+
+p2<-ggplot(NT.B,aes(x=Length..inches.)) + 
+  geom_histogram(binwidth = 0.5, col = "black", fill = "cornflowerblue") + 
+  labs(title="Length Frequency for Buffalo: North Twin Lake",
+       x="Length (inches)",
+       y="Frequency")+
+  ylim(c(0,150))
+
+p3<-ggplot(ST.C,aes(x=Length..inches.)) + 
+  geom_histogram(binwidth = 0.5, col = "black", fill = "goldenrod") + 
+  labs(title="Length Frequency for Carp: South Twin Lake",
+       x="Length (inches)",
+       y="Frequency")+
+  ylim(c(0,150))
+
+p4<-ggplot(ST.B,aes(x=Length..inches.)) + 
+  geom_histogram(binwidth = 0.5, col = "black", fill = "cornflowerblue") + 
+  labs(title="Length Frequency for Buffalo: South Twin Lake",
+       x="Length (inches)",
+       y="Frequency")+
+  ylim(c(0,150))
+
+grid.arrange(p1,p2,p3,p4, nrow=2, ncol=2)
+```
+# reading in data and splitting up species
+```{r}
+df <- read.csv("C:\\Users/M_Sim/OneDrive/IOWA/Iowa State University/CarpR/CenterLake2017.csv",header=TRUE)
+
+summary(df)
+df$TL.in.[df$TL.in.=="."]<-NA
+df$TL.in.[df$TL.in.=="0.0"]<-NA
+df$TL.in.<-as.numeric(as.character(df$TL.in.))
+# Keeping units of data sheets, although I would prefer cm to inches
+
+CL.B<-subset(df, df$Spp == "BIB", na.rm=TRUE)
+CL.C<-subset(df, df$Spp == "CAP", na.rm=TRUE)
+
+summary(CL.B)
+summary(CL.C)
+```
+# Length frequency histograms: two species of fish, one lake.
+
+```{r}
+
+p1<-ggplot(CL.B,aes(x=TL.in.)) + 
+  geom_histogram(binwidth = 0.5, col = "black", fill = "cornflowerblue") + 
+  labs(title="Length Frequency for Buffalo: Blue Lake",
+       x="Length (inches)",
+       y="Frequency")+
+  ylim(c(0,150))
+
+CL.C$TL.in.<-as.numeric(CL.C$TL.in.)
+p2<-ggplot(CL.C,aes(x=TL.in.)) + 
+  geom_histogram(binwidth = 0.5, col = "black", fill = "goldenrod") + 
+  labs(title="Length Frequency for Carp: Center Lake",
+       x="Length (inches)",
+       y="Frequency")+
+  ylim(c(0,150))
+
+grid.arrange(p1,p2,ncol=2,nrow=1)
+```
+
+# Length frequency histograms: One species of fish, one lake
+
+```{r}
+df <- read.csv("C:\\Users/M_Sim/OneDrive/IOWA/Iowa State University/CarpR/BL_Carp_Lengths.csv",header=TRUE)
+
+summary(df)
+
+
+#qplot(df$Length..in.,
+#      geom="histogram",
+#      main="Length Freqency for Carp: Blue Lake",
+#      xlab="Length (inches)",
+#      fill=I("goldenrod"),
+#      col=I("red"),
+#      alpha=0.5,
+#      binwidth = 0.5,
+#      ylim = c(0,125), xlim = c(8.5,27.5))
+
+ggplot(df,aes(x=Length..in.)) + 
+  geom_histogram(binwidth = 0.5, col = "black", fill = "goldenrod") + 
+  labs(title="Length Frequency for Carp: Blue Lake",
+       x="Length (inches)",
+       y="Frequency") +
+  ylim(c(0,150))
+
+```
+
+
+# As of Jan 12 2018
+
+Tasked with creating 1 figure with 
+- four length-freq plots (one for each lake)
+- both species in each panel
+- same y-axis limits
+
+I want to have this in "long" form, where the spp is a column and the lengths are the other column. 
+
+### Do this for 4 lakes and then do a grid.arrange?
+
+```{r,}
+#Example from stackoverflow and RPubs
+# http://rpubs.com/sjackman/grid_arrange_shared_legend
+library(ggplot2)
+library(gridExtra)
+grid_arrange_shared_legend <- function(...) {
+    plots <- list(...)
+    g <- ggplotGrob(plots[[1]] + theme(legend.position="bottom"))$grobs
+    legend <- g[[which(sapply(g, function(x) x$name) == "guide-box")]]
+    lheight <- sum(legend$height)
+    grid.arrange(
+        do.call(arrangeGrob, lapply(plots, function(x)
+            x + theme(legend.position="none"))),
+        legend,
+        ncol = 1,
+        heights = unit.c(unit(1, "npc") - lheight, lheight))
+}
+
+# So this function didn't work for me:
+
+# Error in g[[which(sapply(g, function(x) x$name) == "guide-box")]] : 
+#  attempt to select less than one element in get1index
+# In addition: Warning message:
+# Removed 2 rows containing missing values (geom_bar). 
+
+
+```
+
+```{r,}
+########################################################
+#
+#
+# Twin Lakes
+#
+#
+########################################################
+
+df <- read.csv("C:\\Users/M_Sim/OneDrive/IOWA/Iowa State University/CarpR/TwinLakesLength2017.csv")
+
+summary(df)
+# Keeping units of data sheets, although I would prefer cm to inches
+
+NT.B<-subset(df,df$Lake=="N Twin" & df$Species == "BIB")
+NT.C<-subset(df,df$Lake=="N Twin" & df$Species == "COC")
+ST.B<-subset(df,df$Lake=="S Twin" & df$Species == "BIB")
+ST.C<-subset(df,df$Lake=="S Twin" & df$Species == "COC")
+
+North.B<-ggplot(NT.B, aes(x=Length..inches., fill=Species)) +
+  geom_histogram(binwidth=0.5, colour="black", position="dodge") +
+  scale_fill_manual(
+                      breaks=1:2,
+                      values=c("cornflowerblue","goldenrod")) +
+  scale_y_continuous(limits = c(0, 130)) +
+  scale_x_continuous(limits = c(0,35)) +
+  labs(x="Length (Inches)", y="Frequency",title="North Twin Lake: Buffalo")
+
+North.C<-ggplot(NT.C, aes(x=Length..inches., fill=Species)) +
+  geom_histogram(binwidth=0.5, colour="black", position="dodge") +
+  scale_fill_manual(
+                      breaks=1:2,
+                      values=c("cornflowerblue","goldenrod")) +
+  scale_y_continuous(limits = c(0, 130)) +
+  scale_x_continuous(limits = c(0,35))+
+  labs(x="Length (Inches)", y="Frequency",title="North Twin Lake: Carp")
+
+South.B<-ggplot(ST.B, aes(x=Length..inches., fill=Species)) +
+  geom_histogram(binwidth=0.5, colour="black", position="dodge") +
+  scale_fill_manual(breaks=1:2, 
+                    values=c("cornflowerblue","goldenrod")) +
+  scale_y_continuous(limits = c(0, 130)) +
+    scale_x_continuous(limits = c(0,35)) +
+  labs(x="Length (Inches)", y="Frequency",title="South Twin Lake: Buffalo")
+
+South.C<-ggplot(ST.B, aes(x=Length..inches., fill=Species)) +
+  geom_histogram(binwidth=0.5, colour="black", position="dodge") +
+  scale_fill_manual(breaks=1:2, 
+                    values=c("cornflowerblue","goldenrod")) +
+  scale_y_continuous(limits = c(0, 130)) +
+    scale_x_continuous(limits = c(0,35)) +
+  labs(x="Length (Inches)", y="Frequency",title="South Twin Lake: Carp")
+
+#####################################################
+#
+#
+# Center Lake
+#
+#
+#####################################################
+CL <- read.csv("C:\\Users/M_Sim/OneDrive/IOWA/Iowa State University/CarpR/CenterLake2017.csv",header=TRUE)
+
+summary(CL)
+CL$TL.in.[CL$TL.in.=="."]<-NA
+CL$TL.in.[CL$TL.in.=="0.0"]<-NA
+CL$TL.in.<-as.numeric(as.character(CL$TL.in.))
+# Keeping units of data sheets, although I would prefer cm to inches
+CL$Spp<-as.character(CL$Spp)
+CL$Spp[CL$Spp == "CAP"]<-"COC"
+CL$Spp<-as.factor(CL$Spp)
+CL<-na.omit(CL)
+summary(CL)
+
+CL.B<-subset(CL,CL$Spp == "BIB")
+CL.C<-subset(CL,CL$Spp == "COC")
+
+
+Center.B<-ggplot(CL.B, aes(x=TL.in., fill=Spp)) +
+  geom_histogram(binwidth=0.5, colour="black", position="dodge") +
+  scale_fill_manual(breaks=1:2, 
+                    values=c("cornflowerblue","goldenrod")) +
+  scale_y_continuous(limits = c(0, 130)) +
+  scale_x_continuous(limits = c(0,35))+
+  labs(x="Length (Inches)", y="Frequency",title="Center Lake: Buffalo")
+
+Center.C<-ggplot(CL.C, aes(x=TL.in., fill=Spp)) +
+  geom_histogram(binwidth=0.5, colour="black", position="dodge") +
+  scale_fill_manual(breaks=1:2, 
+                    values=c("cornflowerblue","goldenrod")) +
+  scale_y_continuous(limits = c(0, 130)) +
+  scale_x_continuous(limits = c(0,35))+
+  labs(x="Length (Inches)", y="Frequency",title="Center Lake: Carp")
+
+
+#############################################
+#
+# Blue Lake
+#
+#############################################
+BL <- read.csv("C:\\Users/M_Sim/OneDrive/IOWA/Iowa State University/CarpR/BL_Carp_Lengths.csv",header=TRUE)
+BL$Spp<-"COC"
+BL$Spp<-as.factor(BL$Spp)
+summary(BL)
+
+Blue<-ggplot(BL, aes(x=Length..in., fill=Spp)) +
+  geom_histogram(binwidth=0.5, colour="black", position="dodge") +
+  scale_fill_manual(breaks=1:2, 
+                    values=c("cornflowerblue","goldenrod")) +
+  scale_y_continuous(limits = c(0, 130)) +
+  scale_x_continuous(limits = c(0,35))+
+  labs(x="Length (Inches)", y="Frequency",title="Blue Lake: Carp")
+
+grid.arrange(Center.C,Center.B,
+             North.C,North.B,
+             South.C,South.B,
+             Blue,
+             ncol=2,nrow=4)
+
+
+
+
+```

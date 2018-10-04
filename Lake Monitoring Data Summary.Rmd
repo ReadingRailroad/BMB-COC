@@ -1,0 +1,172 @@
+---
+title: "pre2017 Lake Monitoring Summary"
+author: "Martin A. Simonson"
+date: "December 4, 2017"
+output: pdf_document
+---
+```{r,include=FALSE}
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
+
+packages(vegan)
+packages(ggplot2)
+packages(reshape2)
+packages(nnet)
+#packages(multcomp)
+#packages(plyr)
+#packages(rv)
+#packages(arm)
+packages(lattice)
+packages(tikzDevice)
+#packages(GGally)
+packages(wesanderson)
+#packages(DescTools)
+#packages(mvnormtest)
+#packages(HH)
+#packages(biotools)
+#packages(car)
+#packages(psych)
+#packages(GPArotation)
+```
+
+# Lake Monitoring data summary
+
+This is an attempt to sort and analyze lake monitoring data from Iowa DNR to summarize lake quality measurements at the six(seven) lakes of my study:
+
+- North Twin Lake (Calhoun)                                 [090]
+- South Twin Lake (Calhoun) ** Not monitored **
+- Center Lake (Dickinson)                                   [019]
+- Silver Lake (Dickinson)                                   [105]
+- Storm Lake (Buena Vista)                                  [113]
+- Five Island Lake (Palo Alto)                              [036]
+- Blue Lake (Monona)                                        [012]
+
+# Variables of interest!
+
+There's a lot going on here. ~70 variables in total. I need to pare this down a bit.
+
+
+
+After looking at the summary, let's focus on some common things here:
+
+-Zooplankton total biomass in micrograms/L                  [25]
+-Phytoplankton Total biomass in milligrams/L                [24]
+-Average Epilimnetic Turbidity in NTU                       [23]
+-Average Epilimnetic Specific Conductivity in uS/cm         [21]
+-Average Epilimnetic Dissolved Oxygen in mg/L               [20]
+-Average Epilimnetic pH                                     [18]
+-Average Epilimnetic Temp in Celsius                        [17]
+-Average Secchi Depth in meters                             [16]
+-Total Nitrogen in mg/L                                     [11]
+-Total Phosphorus in micrograms/L                           [12]
+-Soluble Reactive Phosphorus in micrograms/L                [13]
+-Total Suspended Solids in mg/L                             [08]
+
+
+
+```{r,include=F}
+setwd("C:/Users/M_Sim/OneDrive/IOWA/Iowa State University/CarpR/")
+df<-read.csv("130Lakes_IowaLakesDatabase.csv",header=T) # load data 
+
+head(df)
+
+# Trim variables and set numeric/factors
+df<-df[,c(2,4,8,11,12,13,16,17,18,20,21,23,24,25)]
+lapply(df,class)
+df$Lake.ID<-as.factor(df$Lake.ID)
+df$Epilimnetic.Average.Turbidity..NTU.<-as.numeric(as.character(df$Epilimnetic.Average.Turbidity..NTU.))
+head(df)
+
+# Trim Lake Names
+df$Lake.ID<-as.character(df$Lake.ID)
+df$Lake.ID[df$Lake.ID == 12]<-"Blue"
+df$Lake.ID[df$Lake.ID == 19]<-"Center"
+df$Lake.ID[df$Lake.ID == 36]<-"5 Island"
+df$Lake.ID[df$Lake.ID == 90]<-"N. Twin"
+df$Lake.ID[df$Lake.ID == 105]<-"Silver"
+df$Lake.ID[df$Lake.ID == 113]<-"Storm"
+df$Lake.ID<-as.factor(df$Lake.ID)
+
+# Sort by lake
+Center<-df[df$Lake.ID == "Center",]
+FiveIsland<-df[df$Lake.ID == "5 Island",]
+Silver<-df[df$Lake.ID == "Silver",]
+Blue<-df[df$Lake.ID == "Blue",]
+Storm<-df[df$Lake.ID == "Storm",]
+NorthTwin<-df[df$Lake.ID == "N. Twin",]
+
+# colmeans
+CenterMns<-colMeans(Center[,3:14],na.rm=T)
+FiveIslandMns<-colMeans(FiveIsland[,3:14],na.rm=T)
+SilverMns<-colMeans(Silver[,3:14],na.rm=T)
+BlueMns<-colMeans(Blue[,3:14],na.rm=T)
+StormMns<-colMeans(Storm[,3:14],na.rm=T)
+TwinMns<-colMeans(NorthTwin[,3:14],na.rm=T)
+
+# Standard Deviation
+CenterSD<-sapply(Center[,3:14],sd,na.rm=T)
+FiveIslandSD<-sapply(FiveIsland[,3:14],sd,na.rm=T)
+SilverSD<-sapply(Silver[,3:14],sd,na.rm=T)
+BlueSD<-sapply(Blue[,3:14],sd,na.rm=T)
+StormSD<-sapply(Storm[,3:14],sd,na.rm=TRUE)
+TwinSD<-sapply(NorthTwin[,3:14],sd,na.rm=T)
+
+# Counts
+CenterN<-45-colSums(sapply(Center[,3:14],is.na))
+FiveIslandN<-45-colSums(sapply(FiveIsland[,3:14],is.na))
+SilverN<-45-colSums(sapply(Silver[,3:14],is.na))
+BlueN<-45-colSums(sapply(Blue[,3:14],is.na))
+StormN<-45-colSums(sapply(Storm[,3:14],is.na))
+TwinN<-45-colSums(sapply(NorthTwin[,3:14],is.na))
+
+# Error (95%CI)
+CenterE<-qnorm(0.975)*CenterSD/sqrt(CenterN)
+FiveIslandE<-qnorm(0.975)*FiveIslandSD/sqrt(FiveIslandN)
+SilverE<-qnorm(0.975)*SilverSD/sqrt(SilverN)
+BlueE<-qnorm(0.975)*BlueSD/sqrt(BlueN)
+StormE<-qnorm(0.975)*StormSD/sqrt(StormN)
+TwinE<-qnorm(0.975)*TwinSD/sqrt(TwinN)
+  
+  
+# Create new df with lakemean/sd
+df2<-cbind(BlueMns,BlueE,
+           CenterMns,CenterE,
+           FiveIslandMns,FiveIslandE,
+           TwinMns,TwinE,
+           SilverMns,SilverE,
+           StormMns,StormE)
+
+print(df2,cutoff=3)
+
+
+```
+
+So that basically sums up the table I want to put in the proposal.
+
+Maybe some plots would be better?
+
+```{r,}
+# Box and Whisker Plots for each variable?
+df3<-rbind(Blue,Center,FiveIsland,NorthTwin,Silver,Storm) #df of just my lakes
+colnames(df3)<-c("Lake.ID","Lake.Name","TSS (mg/L)","TN (mg/L)","TP (µg/L)","SRP (µg/L)",
+                 "Secchi (m)","Temp (C)","pH","DO (mg/L)","Sp.Cond (uS/cm)",
+                 "Turbidity (NTU)","Phytoplankton (mg/L)", "Zooplankton (µg/L)")
+
+
+
+
+par(mfrow=c(3,4),mar=c(3,5,1,1))
+mycol<-c(wes_palette("Zissou"),"darkgreen")
+for(i in 3:14) boxplot(df3[,i]~factor(df3$Lake.ID),ylab=colnames(df3)[i],col=mycol,outline=F)
+
+
+
+
+```
+
+

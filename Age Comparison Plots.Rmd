@@ -1,0 +1,119 @@
+---
+title: "Age Structure Comparison Plots"
+author: "Martin A. Simonson"
+date: "February 20, 2018"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+---
+```{r,include=F}
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
+
+packages(vegan)
+packages(ggplot2)
+packages(reshape2)
+packages(nnet)
+packages(multcomp)
+packages(plyr)
+packages(rv)
+packages(arm)
+packages(lattice)
+packages(tikzDevice)
+packages(gridExtra)
+
+```
+```{r}
+library(ggplot2)
+
+## Age comparison plots for North Twin Lake
+#
+# Buffalo and Carp
+#
+#
+setwd("C:\\Users/M_Sim/OneDrive/IOWA/Iowa State University/CarpR/")
+age<-read.csv("Combined_Ages_3-27-2018_pvg.csv",header=T)
+summary(age)
+
+age$Species[age$Species == "Carp"] <- "COC"
+str(age)
+
+# need to create average age rows and compare
+age$AvgOtolith<-(age$OtolithAge+age$OtolithAge2)/2
+age$AvgSpine<-(age$SpineAge+age$SpineAge2)/2
+
+
+
+
+# Need to compare both age estimates with each structure
+          # Spines
+ggplot(age, aes(x=OtolithAge, y=OtolithAge2, shape= Species))+geom_point(size=5)+
+  geom_abline(slope = 1, intercept = 0)+
+  ggtitle("Otolith Age Readings")
+          # Otoliths
+ggplot(age, aes(x=SpineAge, y=SpineAge2, shape= Species))+geom_point(size=5)+
+  geom_abline(slope = 1, intercept = 0)+
+  ggtitle("Spine Age Readings")
+
+
+# both lakes and both of the first age estimates
+ggplot(age, aes(x=AvgOtolith, y=AvgSpine, shape = Species, colour = Species))+geom_point(size=5)+
+  geom_abline(slope = 1, intercept = 0)+
+  ggtitle("Age Structure Comparisons")
+  
+
+# subset by species then separate by lake
+        #carp
+carp <- subset(age, Species == "COC")
+summary(carp)
+
+ggplot(carp, aes(x=AvgOtolith, y=AvgSpine, shape = Lake, colour = Lake))+geom_point(size=5)+
+  geom_abline(slope = 1, intercept = 0)+
+  ggtitle("Carp Age Estimates by Lake")
+
+        #buffalo
+buff <- subset(age, Species == "BIB")
+summary(buff)
+
+ggplot(buff, aes(x=AvgOtolith, y=AvgSpine, shape = Lake))+geom_point(size=5)+
+  geom_abline(slope = 1, intercept = 0)+
+  ggtitle("Buffalo Age Estimates at North Twin")
+
+
+
+############################################################################
+# Length at age
+buff$Age<-buff$AvgOtolith
+buff$Age[buff$Age > 40]<-NA
+
+ggplot(buff, aes(x=Age, y=TL.mm, shape = Lake))+geom_point(size=5)+
+  ggtitle("Buffalo Length-at-Age: North Twin")
+  
+
+Twin <- subset(age, Lake == "N Twin")
+Twin$Age<-Twin$AvgOtolith
+summary(Twin)
+Twin$Age[Twin$Age > 40]<-NA
+ggplot(Twin, aes(x=Age, y=TL.mm, shape = Species, colour = Species))+geom_point(size=5)+
+  ggtitle("Length at Age for Carp and Buffalo: North Twin Lake")
+
+```
+
+
+```{r,}
+
+ggplot(age, aes(x=Otolith.Age, y=Length..in., shape = Species))+geom_point(size=5)
+
+ggplot(age, aes(x=Otolith.Age, y=Weight..Kg., shape = Species))+geom_point(size=5)
+
+ggplot(age, aes(x=Spine.Age, y=Length..in., shape = Species))+geom_point(size=5)
+
+ggplot(age, aes(x=Spine.Age, y=Weight..Kg., shape = Species))+geom_point(size=5)
+
+```
+
