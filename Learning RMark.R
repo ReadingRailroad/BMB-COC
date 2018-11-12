@@ -214,3 +214,4 @@ summary(dipper.phi.sex.p.Timeplussex,se=T)
 # Individual covariates often used for numeric variables (mass, length) or when the value changes over time
   # need to create k-1 dummy variables for factor variables with k levels
   # design covariates are stored in design data (ddl) 
+
