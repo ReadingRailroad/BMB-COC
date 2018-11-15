@@ -44,7 +44,7 @@ packages(wesanderson)
 
 # Load in data and summarize, look for glaring errors:
 ```{r}
-data<-read.csv("2018_Data_MAS.csv",header=T)
+data<-read.csv("2018_Data_compiled.csv",header=T)
 headtail(data)
 
 str(data)
@@ -65,6 +65,7 @@ str(data$Date)
 summary(data$Lake)
 data$Lake[data$Lake == "SIlver"] <- "Silver"
 data$Lake[data$Lake == "silver"] <- "Silver"
+data$Lake[data$Lake == "Silver (Dickinson)"] <- "Silver"
 data$Lake<-droplevels(data)$Lake
 
 # TAG.NUMBER - Already a factor
@@ -74,21 +75,32 @@ summary(data$TAG.NUMBER)
     # don't think anything else needs to be adjusted. mis-keys would be terrible.
 
 # Species
-levels(data$Species) #KOI could be an issue
+levels(data$Species) #KOI could be an issue, as with BMB and CAP for abbreviations
 data$TAG.NUMBER[data$Species == "KOI"]
 data$Species[data$Species == "KOI"] <- "COC"
+data$Species[data$Species == "CAP"] <- "COC"
+data$Species[data$Species == "BMB"] <- "BIB"
+data$Species[data$Species == "YL Bass"] <- "YLB"
+data$Lake[data$Species == "YLB"]
 data$Species<-droplevels(data$Species)
-# Confirm the abbreviations: yellow bass or yellow bullhead?
+# Confirm the abbreviations: Yellow Bullhead = YEB; Yellow Bass = YLB
 
 # Length..mm.
 data$Length..mm.[data$Length..mm. ==""] <- NA
-data$Length..mm.<-as.numeric(data$Length..mm.)
+data$Length..mm.[data$Length..mm. =="0"] <- NA
+data$Length..mm.<-as.numeric(as.character(data$Length..mm.))
 str(data$Length..mm.)
-summary(data$Length..mm.) # seems legit! only 26 missing values. 
-# MAx should be more than 641! we had 800s and more man!
-# potentially missing silver lakes then?
-#
-#
+summary(data$Length..mm.) # seems legit! only 33 missing values. 
+# 
+# Don't forget to put the character command within the numeric!
+
+
+# Weight..g.
+# Needs to be rounded to whole numbers
+summary(data$Weight..g.)
+# Maximum is now good (30.6 lb buffalo in Storm)
+# Minimum is 13 (yellow bass north twin)
+data$Weight..g.<-round(data$Weight..g.)
 
 
 
