@@ -16,6 +16,12 @@ require(x,character.only=TRUE)
 }
 }
 
+remove.packages(c("ggplot2", "data.table"))
+install.packages('Rcpp', dependencies = TRUE)
+install.packages('ggplot2', dependencies = TRUE)
+install.packages('data.table', dependencies = TRUE)
+
+packages(rcompanion)
 packages(vegan)
 packages(ggplot2)
 packages(gridExtra)
@@ -45,7 +51,7 @@ packages(wesanderson)
 # Load in data and summarize, look for glaring errors:
 ```{r}
 data<-read.csv("2018_Data_compiled.csv",header=T)
-headtail(data)
+headTail(data)
 
 str(data)
 
@@ -86,6 +92,7 @@ data$Species<-droplevels(data$Species)
 # Confirm the abbreviations: Yellow Bullhead = YEB; Yellow Bass = YLB
 
 # Length..mm.
+str(data$Length..mm.)
 data$Length..mm.[data$Length..mm. ==""] <- NA
 data$Length..mm.[data$Length..mm. =="0"] <- NA
 data$Length..mm.<-as.numeric(as.character(data$Length..mm.))
@@ -105,3 +112,64 @@ data$Weight..g.<-round(data$Weight..g.)
 
 
 ```
+
+# Silver Lake Carp Summary
+```{r}
+# Length Frequency Histogram of COC in Silver Lake, IA
+
+silver.coc<-subset(data, Species == "COC")
+silver.coc<-subset(silver.coc, Lake == "Silver")
+silver.coc<-subset(silver.coc, !is.na(silver.coc$Length..mm.))
+head(silver.coc)
+str(silver.coc)
+
+library(ggplot2)
+
+ggplot(silver.coc, aes(x=Length..mm., fill=Species))+
+  geom_histogram(binwidth=10,colour="black",position="dodge")+
+  scale_x_continuous(limits = c(0,1000))+
+  scale_y_continuous(limits = c(0,60))
+
+library(rcompanion)
+groupwiseMean(Length..mm.~1,
+              data = silver.coc,
+              conf = 0.95,
+              digits = 3)
+
+sem<-sd(silver.coc$Length..mm.)/sqrt(length(silver.coc$Length..mm.))
+
+# cpue for coc in silver lake in june
+#
+# CarpCPUE - n fish per hour electrofishing
+#
+summary(silver.coc)
+# on-time in seconds to Effort in hours
+       # Need to remove seine hauls and NAs
+str(silver.coc$On.Time..s.)
+silver.coc$On.Time..s.[silver.coc$On.Time..s. == ""] <- NA
+silver.coc$On.Time..s.[silver.coc$On.Time..s. == "453/488"] <- "941"
+silver.coc$On.Time..s.<-as.numeric(as.character(silver.coc$On.Time..s.))
+silver.coc$Effort<-silver.coc$On.Time..s./3600
+
+
+
+# now to paste date, then lake then run
+silver.coc$DR<-factor(paste(silver.coc$Date,silver.coc$Site.Transect))
+
+# Now to divide the count of captured fish by the mean effort per DLR
+coc.cpue<-aggregate(Effort~DR, data = silver.coc, mean, na.action=NULL)
+silver.coc$dummy<-1
+coc.n<-aggregate(dummy~DR, data = silver.coc, sum)
+coc.cpue$n<-coc.n$dummy
+coc.cpue$cpue<-coc.cpue$n/coc.cpue$Effort
+coc.cpue<-coc.cpue[!is.na(coc.cpue$cpue),]
+
+june.coc.cpue<-coc.cpue[c(12:44),]
+groupwiseMean(cpue~1,
+              data=june.coc.cpue,
+              conf = 0.95)
+
+```
+
+
+
