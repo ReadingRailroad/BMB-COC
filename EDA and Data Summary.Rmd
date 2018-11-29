@@ -51,7 +51,7 @@ packages(wesanderson)
 # Load in data and summarize, look for glaring errors:
 ```{r}
 data<-read.csv("2018_Data_compiled.csv",header=T)
-headTail(data)
+headtail(data)
 
 str(data)
 
@@ -72,42 +72,58 @@ summary(data$Lake)
 data$Lake[data$Lake == "SIlver"] <- "Silver"
 data$Lake[data$Lake == "silver"] <- "Silver"
 data$Lake[data$Lake == "Silver (Dickinson)"] <- "Silver"
-data$Lake<-droplevels(data)$Lake
+data$Lake[data$Lake == "Five Island"] <- "5 Island"
+data$Lake[data$Lake == "N Twin"] <- "N. Twin"
+data$Lake[data$Lake == "S Twin"] <- "S. Twin"
+data$Lake<-droplevels(data$Lake)
 
 # TAG.NUMBER - Already a factor
 summary(data$TAG.NUMBER)
 data$TAG.NUMBER[data$TAG.NUMBER == ""] <- NA # set non-tagged fish to NA
 summary(data$TAG.NUMBER)
-    # don't think anything else needs to be adjusted. mis-keys would be terrible.
+data$TAG.NUMBER<-droplevels(data$TAG.NUMBER)
+    # still need to check NAs, and 7 fish captured 4 times
 
 # Species
 levels(data$Species) #KOI could be an issue, as with BMB and CAP for abbreviations
 data$TAG.NUMBER[data$Species == "KOI"]
+data$Lake[data$Species == "KOI"]
 data$Species[data$Species == "KOI"] <- "COC"
 data$Species[data$Species == "CAP"] <- "COC"
 data$Species[data$Species == "BMB"] <- "BIB"
 data$Species[data$Species == "YL Bass"] <- "YLB"
-data$Lake[data$Species == "YLB"]
+#data$Lake[data$Species == "YLB"]
 data$Species<-droplevels(data$Species)
+summary(data$Species)
 # Confirm the abbreviations: Yellow Bullhead = YEB; Yellow Bass = YLB
 
 # Length..mm.
 str(data$Length..mm.)
 data$Length..mm.[data$Length..mm. ==""] <- NA
 data$Length..mm.[data$Length..mm. =="0"] <- NA
+data$Length..mm.<-droplevels(data$Length..mm.)
 data$Length..mm.<-as.numeric(as.character(data$Length..mm.))
 str(data$Length..mm.)
-summary(data$Length..mm.) # seems legit! only 33 missing values. 
+summary(data$Length..mm.) 
+
+# seems legit! only 33 missing values. 
 # 
 # Don't forget to put the character command within the numeric!
 
 
 # Weight..g.
 # Needs to be rounded to whole numbers
+summary(data$Weight..g.[data$Species == "COC"])
+summary(data$Weight..g.[data$Species == "BIB"]) # Maximum is good (30.6 lb buffalo in Storm)
 summary(data$Weight..g.)
-# Maximum is now good (30.6 lb buffalo in Storm)
-# Minimum is 13 (yellow bass north twin)
-data$Weight..g.<-round(data$Weight..g.)
+# Minimum is 10 (BLG in Blue)
+data$Weight..g.<-round(data$Weight..g.) # set to just grams
+
+#######
+#
+# Recap Column
+#
+summary(data$Recap)
 
 
 
