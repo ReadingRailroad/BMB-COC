@@ -9,7 +9,7 @@ editor_options:
 
 
 ```{r,include=FALSE}
-
+rm(list=ls())
 # Front Matter
 
 packages<-function(x, repos="http://cran.r-project.org", ...){
@@ -25,15 +25,15 @@ require(x,character.only=TRUE)
 #install.packages('ggplot2', dependencies = TRUE)
 #install.packages('data.table', dependencies = TRUE)
 
-packages(rcompanion)
-packages(vegan)
+#packages(rcompanion)
+#packages(vegan)
 packages(ggplot2)
 packages(gridExtra)
 packages(reshape2)
 packages(FSA)
 packages(nnet)
 #packages(multcomp)
-packages(plyr)
+#packages(plyr)
 #packages(rv)
 #packages(arm)
 packages(lattice)

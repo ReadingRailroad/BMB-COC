@@ -8,6 +8,9 @@ editor_options:
 ---
 
 ```{r,include=FALSE}
+rm(list=ls())
+
+
 packages<-function(x, repos="http://cran.r-project.org", ...){
 x<-as.character(match.call()[[2]])
 if (!require(x,character.only=TRUE)){
@@ -21,15 +24,15 @@ require(x,character.only=TRUE)
 #install.packages('ggplot2', dependencies = TRUE)
 #install.packages('data.table', dependencies = TRUE)
 
-packages(rcompanion)
-packages(vegan)
+#packages(rcompanion)
+#packages(vegan)
 packages(ggplot2)
 packages(gridExtra)
 packages(reshape2)
 packages(FSA)
 packages(nnet)
 #packages(multcomp)
-packages(plyr)
+#packages(plyr)
 #packages(rv)
 #packages(arm)
 packages(lattice)
@@ -83,7 +86,9 @@ summary(data$TAG.NUMBER)
 data$TAG.NUMBER[data$TAG.NUMBER == ""] <- NA # set non-tagged fish to NA
 summary(data$TAG.NUMBER)
 data$TAG.NUMBER<-droplevels(data$TAG.NUMBER)
-    # still need to check NAs, and 7 fish captured 4 times
+    # NAs checked
+    # One fish in Storm (20375) captured 4 times in 2018
+    # When doing pivot tables / .INP files for MARK I'll probably find more errors.
 
 # Species
 levels(data$Species) #KOI could be an issue, as with BMB and CAP for abbreviations
@@ -101,21 +106,21 @@ summary(data$Species)
 # Length..mm.
 str(data$Length..mm.)
 data$Length..mm.[data$Length..mm. ==""] <- NA
-data$Length..mm.[data$Length..mm. =="0"] <- NA
 data$Length..mm.<-droplevels(data$Length..mm.)
+summary(data$Length..mm.)
 data$Length..mm.<-as.numeric(as.character(data$Length..mm.))
 str(data$Length..mm.)
 summary(data$Length..mm.) 
 
-# seems legit! only 33 missing values. 
-# 
+# seems legit! only 46 missing values. 
+# Min 26mm is YLB in 5I; Max is 958 buffalo in Storm
 # Don't forget to put the character command within the numeric!
 
 
 # Weight..g.
 # Needs to be rounded to whole numbers
-summary(data$Weight..g.[data$Species == "COC"])
-summary(data$Weight..g.[data$Species == "BIB"]) # Maximum is good (30.6 lb buffalo in Storm)
+summary(data$Weight..g.[data$Species == "COC"]) # Max is good (24.5 lb carp in Silver), minimum is also silver (11 inch fish .5 lbs)
+summary(data$Weight..g.[data$Species == "BIB"]) # Maximum is good (30.6 lb buffalo in Storm) minimum is non-tagged voucher fish from N twin.
 summary(data$Weight..g.)
 # Minimum is 10 (BLG in Blue)
 data$Weight..g.<-round(data$Weight..g.) # set to just grams
@@ -125,7 +130,37 @@ data$Weight..g.<-round(data$Weight..g.) # set to just grams
 # Recap Column
 #
 summary(data$Recap)
-
+# Simply set recaps to 1. I'll double check each "1" after. Year is currently irrelevant (i'll add 2017 tag data later)
+data$Recap[data$Recap == "2017 R"] <- "1"
+data$Recap[data$Recap == "2017 R "] <- "1"
+data$Recap[data$Recap == "2017R "] <- "1"
+data$Recap[data$Recap == "2017R"] <- "1"
+data$Recap[data$Recap == "2018 R"] <- "1"
+data$Recap[data$Recap == "2018R"] <- "1"
+data$Recap[data$Recap == "R"] <- "1"
+data$Recap[data$Recap == "r 2017"] <- "1"
+data$Recap[data$Recap == "R 2017"] <- "1"
+data$Recap[data$Recap == "r 2018"] <- "1"
+data$Recap[data$Recap == "R 2018"] <- "1"
+data$Recap[data$Recap == "R2018"] <- "1"
+data$Recap[data$Recap == "recap 2017"] <- "1"
+data$Recap[data$Recap == "recap 2018"] <- "1"
+data$Recap[data$Recap == "Recap 2018"] <- "1"
+data$Recap[data$Recap == "2017 tag loss"] <- ""
+data$Recap[data$Recap == "2017 tag loss R"] <- ""
+data$Recap[data$Recap == "2017 tagloss"] <- ""
+data$Recap[data$Recap == "2018 tag loss "] <- ""
+data$Recap[data$Recap == "2018 tag loss R"] <- ""
+data$Recap[data$Recap == "R (tag loss)"] <- ""
+# Those entered as tag loss will be entered as "1" in tag loss column
+data$Tag.Loss[data$Recap == "2017 tag loss"] <- "1"
+data$Tag.Loss[data$Recap == "2017 tag loss R"] <- "1"
+data$Tag.Loss[data$Recap == "2017 tagloss"] <- "1"
+data$Tag.Loss[data$Recap == "2018 tag loss "] <- "1"
+data$Tag.Loss[data$Recap == "2018 tag loss R"] <- "1"
+data$Tag.Loss[data$Recap == "R (tag loss)"] <- "1"
+data$Recap<-droplevels(data$Recap)
+summary(data$Recap)
 
 
 ```
