@@ -152,6 +152,7 @@ data$Recap[data$Recap == "2017 tagloss"] <- ""
 data$Recap[data$Recap == "2018 tag loss "] <- ""
 data$Recap[data$Recap == "2018 tag loss R"] <- ""
 data$Recap[data$Recap == "R (tag loss)"] <- ""
+
 # Those entered as tag loss will be entered as "1" in tag loss column
 data$Tag.Loss[data$Recap == "2017 tag loss"] <- "1"
 data$Tag.Loss[data$Recap == "2017 tag loss R"] <- "1"
@@ -161,6 +162,77 @@ data$Tag.Loss[data$Recap == "2018 tag loss R"] <- "1"
 data$Tag.Loss[data$Recap == "R (tag loss)"] <- "1"
 data$Recap<-droplevels(data$Recap)
 summary(data$Recap)
+##### Need to check number of recaps (443 in Google, 503 here. Google does not include 2017-only recaps)
+##### Need to make sure each recap in this column has comment
+
+
+#####################
+#
+# Tag Loss
+#
+str(factor(data$Tag.Loss))
+data$Tag.Loss[data$Tag.Loss == "2017"] <- "1"
+data$Tag.Loss[data$Tag.Loss == "2018"] <- "1"
+data$Tag.Loss<-factor(data$Tag.Loss)
+summary(data$Tag.Loss)
+# 56 tags lost including both years. 
+#### Need to check for comments in each of 56 tags lost!
+
+############
+#
+#   Fin Clipped
+#
+#Levels
+summary(data$Fin.Clipped)
+data$Fin.Clipped[data$Fin.Clipped == "dorsal"] <-"Dorsal"
+data$Fin.Clipped[data$Fin.Clipped == "Both Pectoral"] <- "R/L Pectoral"
+data$Fin.Clipped[data$Fin.Clipped == "N/A"] <-NA
+data$Fin.Clipped[data$Fin.Clipped == ""] <- NA
+data$Fin.Clipped<-droplevels(data$Fin.Clipped)
+summary(data$Fin.Clipped)
+
+#############
+#
+#     Notes
+#
+summary(data$Notes)
+# just making some more consistent
+data$Notes[data$Notes == "2018 recap"] <- "2018 Recap"
+data$Notes[data$Notes == "male"] <- "Male"
+data$Notes[data$Notes == "female"] <- "Female"
+data$Notes[data$Notes == "baby"] <- "Baby"
+# consider adding gender column?????
+data$Notes[data$Notes == "Baby fish"] <- "Baby"
+data$Notes[data$Notes == "biggie"] <- "Rotund"
+data$Notes[data$Notes == "Biggie"] <- "Rotund"
+data$Notes[data$Notes == "Chubby"] <- "Rotund"
+data$Notes[data$Notes == "Chubs"] <- "Rotund"
+data$Notes[data$Notes == "DELTS"] <- "DELTs"
+data$Notes[data$Notes == "Fat"] <- "Rotund"
+data$Notes[data$Notes == "Fatty"] <- "Rotund"
+data$Notes[data$Notes == "Fatty DTF"] <- "Rotund Female"
+data$Notes[data$Notes == "Football"] <- "Rotund"
+data$Notes[data$Notes == "Hog"] <- "Rotund"
+data$Notes[data$Notes == "Plump girl"] <- "Rotund"
+data$Notes[data$Notes == "probs female very round"] <- "Rotund Female"
+data$Notes[data$Notes == "rotund"] <- "Rotund"
+data$Notes[data$Notes == "ROTUND"] <- "Rotund"
+#data$Notes[data$Notes == "rotund male"] <- "Rotund Male"
+data$Notes[data$Notes == "Thick"] <- "Rotund"
+data$Notes<-droplevels(data$Notes)
+summary(data$Notes)
+#######
+
+
+#######
+#
+# Gear
+levels(data$Gear)
+data$Gear[data$Gear == "Seine"] <- "Commercial Seine"
+data$Gear<-droplevels(data$Gear)
+summary(data$Gear)
+
+
 
 
 ```
