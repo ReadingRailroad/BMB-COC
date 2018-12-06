@@ -232,10 +232,85 @@ data$Gear[data$Gear == "Seine"] <- "Commercial Seine"
 data$Gear<-droplevels(data$Gear)
 summary(data$Gear)
 
+#########
+#
+#  Site.Transect
+summary(data$Site.Transect)
+# need to correct 1+ ones (2 through 8)
+# need to correct ALL + MM samples (combine effort)
+data$Site.Transect[data$Site.Transect == "Extra 1"] <- "Bonus 1"
+data$Site.Transect[data$Site.Transect == "Extra 2"] <- "Bonus 2"
+data$Site.Transect[data$Site.Transect == "Extra 3"] <- "Bonus 3"
+# what's up with the NAs? they are fyke nets. changed to fyke in excel
+data$Site.Transect[data$Site.Transect == "Standard 1"] <- "1"
+data$Site.Transect[data$Site.Transect == "Standard 2"] <- "2"
+data$Site.Transect[data$Site.Transect == "Standard 3"] <- "3"
+data$Site.Transect[data$Site.Transect == "Standard 4"] <- "4"
+data$Site.Transect[data$Site.Transect == "Bonus 1 (bridge)"] <- "Bridge"
+data$Site.Transect<-droplevels(data$Site.Transect)
+summary(data$Site.Transect)
 
 
+################
+#
+# On.Time..s.
+#
+
+summary(data$On.Time..s.)
+# check tag 18601 and 18677 tag -- time 453/488
+# check tag 18499 and 19026: gear listed as seine but sites given std transect names, but also seine on that day 5/22/18 five island
+# check 7/26/2018  Silver lake transect 6 has NA for effort. (possibly from Jon Meerbeek scanned sheets?) Those are the only NAs left so can find and replace if needed
+
+# then all blanks (5423 of them) can become NAs because they come from either seines or fykes
+
+
+
+
+
+
+##########
+#
+# water temp
+#
+summary(data$Water.Temp..C.)
+# actually looks good! 88 degrees one day apparently but other than that 2.4 was nov. 8 so that's happy
+
+##############
+#
+# Secchi
+#
+summary(data$Secchi..cm.)
+data$Secchi..cm.<-as.character(data$Secchi..cm.)
+data$Secchi..cm.[data$Secchi..cm. == "210cm"]<-"210"
+data$Secchi..cm.<-as.numeric(data$Secchi..cm.)
+summary(data$Secchi..cm.)
+# this is fairly junky data. Mostly absent and i plan to use more of Ellen's data anyway.
+
+#########
+#
+# Weather
+#
+levels(data$Weather)
+# more arbitrary than anything. more or less useless
+
+
+
+
+
+
+# For loading into other data frames:
+#
+#          need to re-run after other edits above (such as including 2017 data)
+# write.csv(data, "COC_BIB_CMRData.csv")
+#
+#
 
 ```
+
+
+
+
+
 
 # Silver Lake Carp Summary
 This was a quick estimate for MJW specific request. Still some good code here to plot length-frequency histograms and CPUE in June.
