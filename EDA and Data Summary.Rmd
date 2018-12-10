@@ -1,0 +1,375 @@
+---
+title: "2018 EDA_Summary"
+author: "Marty Simonson"
+date: "November 12, 2018"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r,include=FALSE}
+rm(list=ls())
+
+
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
+
+#remove.packages(c("ggplot2", "data.table"))
+#install.packages('Rcpp', dependencies = TRUE)
+#install.packages('ggplot2', dependencies = TRUE)
+#install.packages('data.table', dependencies = TRUE)
+
+#packages(rcompanion)
+#packages(vegan)
+packages(ggplot2)
+packages(gridExtra)
+packages(reshape2)
+packages(FSA)
+packages(nnet)
+#packages(multcomp)
+#packages(plyr)
+#packages(rv)
+#packages(arm)
+packages(lattice)
+packages(tikzDevice)
+#packages(GGally)
+packages(wesanderson)
+#packages(DescTools)
+#packages(mvnormtest)
+#packages(HH)
+#packages(biotools)
+#packages(car)
+#packages(psych)
+#packages(GPArotation)
+packages(doBy)
+packages(dplyr)
+```
+
+
+
+# Load in data and summarize, look for glaring errors:
+```{r}
+data<-read.csv("2018_Data_compiled.csv",header=T)
+headtail(data)
+
+str(data)
+
+############## 
+#
+#     Data Management: Columns formatting
+#
+#
+
+# Date
+levels(data$Date)
+data$Date<-as.Date(data$Date, format = "%m/%d/%Y")
+str(data$Date)
+
+
+# Lake
+summary(data$Lake)
+data$Lake[data$Lake == "SIlver"] <- "Silver"
+data$Lake[data$Lake == "silver"] <- "Silver"
+data$Lake[data$Lake == "Silver (Dickinson)"] <- "Silver"
+data$Lake[data$Lake == "Five Island"] <- "5 Island"
+data$Lake[data$Lake == "N Twin"] <- "N. Twin"
+data$Lake[data$Lake == "S Twin"] <- "S. Twin"
+data$Lake<-droplevels(data$Lake)
+
+# TAG.NUMBER - Already a factor
+summary(data$TAG.NUMBER)
+data$TAG.NUMBER[data$TAG.NUMBER == ""] <- NA # set non-tagged fish to NA
+summary(data$TAG.NUMBER)
+data$TAG.NUMBER<-droplevels(data$TAG.NUMBER)
+    # NAs checked
+    # One fish in Storm (20375) captured 4 times in 2018
+    # When doing pivot tables / .INP files for MARK I'll probably find more errors.
+
+# Species
+levels(data$Species) #KOI could be an issue, as with BMB and CAP for abbreviations
+data$TAG.NUMBER[data$Species == "KOI"]
+data$Lake[data$Species == "KOI"]
+data$Species[data$Species == "KOI"] <- "COC"
+data$Species[data$Species == "CAP"] <- "COC"
+data$Species[data$Species == "BMB"] <- "BIB"
+data$Species[data$Species == "YL Bass"] <- "YLB"
+#data$Lake[data$Species == "YLB"]
+data$Species<-droplevels(data$Species)
+summary(data$Species)
+# Confirm the abbreviations: Yellow Bullhead = YEB; Yellow Bass = YLB
+
+# Length..mm.
+str(data$Length..mm.)
+data$Length..mm.[data$Length..mm. ==""] <- NA
+data$Length..mm.<-droplevels(data$Length..mm.)
+summary(data$Length..mm.)
+data$Length..mm.<-as.numeric(as.character(data$Length..mm.))
+str(data$Length..mm.)
+summary(data$Length..mm.) 
+
+# seems legit! only 46 missing values. 
+# Min 26mm is YLB in 5I; Max is 958 buffalo in Storm
+# Don't forget to put the character command within the numeric!
+
+
+# Weight..g.
+# Needs to be rounded to whole numbers
+summary(data$Weight..g.[data$Species == "COC"]) # Max is good (24.5 lb carp in Silver), minimum is also silver (11 inch fish .5 lbs)
+summary(data$Weight..g.[data$Species == "BIB"]) # Maximum is good (30.6 lb buffalo in Storm) minimum is non-tagged voucher fish from N twin.
+summary(data$Weight..g.)
+# Minimum is 10 (BLG in Blue)
+data$Weight..g.<-round(data$Weight..g.) # set to just grams
+
+#######
+#
+# Recap Column
+#
+summary(data$Recap)
+# Simply set recaps to 1. I'll double check each "1" after. Year is currently irrelevant (i'll add 2017 tag data later)
+data$Recap[data$Recap == "2017 R"] <- "1"
+data$Recap[data$Recap == "2017 R "] <- "1"
+data$Recap[data$Recap == "2017R "] <- "1"
+data$Recap[data$Recap == "2017R"] <- "1"
+data$Recap[data$Recap == "2018 R"] <- "1"
+data$Recap[data$Recap == "2018R"] <- "1"
+data$Recap[data$Recap == "R"] <- "1"
+data$Recap[data$Recap == "r 2017"] <- "1"
+data$Recap[data$Recap == "R 2017"] <- "1"
+data$Recap[data$Recap == "r 2018"] <- "1"
+data$Recap[data$Recap == "R 2018"] <- "1"
+data$Recap[data$Recap == "R2018"] <- "1"
+data$Recap[data$Recap == "recap 2017"] <- "1"
+data$Recap[data$Recap == "recap 2018"] <- "1"
+data$Recap[data$Recap == "Recap 2018"] <- "1"
+data$Recap[data$Recap == "2017 tag loss"] <- ""
+data$Recap[data$Recap == "2017 tag loss R"] <- ""
+data$Recap[data$Recap == "2017 tagloss"] <- ""
+data$Recap[data$Recap == "2018 tag loss "] <- ""
+data$Recap[data$Recap == "2018 tag loss R"] <- ""
+data$Recap[data$Recap == "R (tag loss)"] <- ""
+
+# Those entered as tag loss will be entered as "1" in tag loss column
+data$Tag.Loss[data$Recap == "2017 tag loss"] <- "1"
+data$Tag.Loss[data$Recap == "2017 tag loss R"] <- "1"
+data$Tag.Loss[data$Recap == "2017 tagloss"] <- "1"
+data$Tag.Loss[data$Recap == "2018 tag loss "] <- "1"
+data$Tag.Loss[data$Recap == "2018 tag loss R"] <- "1"
+data$Tag.Loss[data$Recap == "R (tag loss)"] <- "1"
+data$Recap<-droplevels(data$Recap)
+summary(data$Recap)
+##### Need to check number of recaps (443 in Google, 503 here. Google does not include 2017-only recaps)
+##### Need to make sure each recap in this column has comment
+
+
+#####################
+#
+# Tag Loss
+#
+str(factor(data$Tag.Loss))
+data$Tag.Loss[data$Tag.Loss == "2017"] <- "1"
+data$Tag.Loss[data$Tag.Loss == "2018"] <- "1"
+data$Tag.Loss<-factor(data$Tag.Loss)
+summary(data$Tag.Loss)
+# 56 tags lost including both years. 
+#### Need to check for comments in each of 56 tags lost!
+
+############
+#
+#   Fin Clipped
+#
+#Levels
+summary(data$Fin.Clipped)
+data$Fin.Clipped[data$Fin.Clipped == "dorsal"] <-"Dorsal"
+data$Fin.Clipped[data$Fin.Clipped == "Both Pectoral"] <- "R/L Pectoral"
+data$Fin.Clipped[data$Fin.Clipped == "N/A"] <-NA
+data$Fin.Clipped[data$Fin.Clipped == ""] <- NA
+data$Fin.Clipped<-droplevels(data$Fin.Clipped)
+summary(data$Fin.Clipped)
+
+#############
+#
+#     Notes
+#
+summary(data$Notes)
+# just making some more consistent
+data$Notes[data$Notes == "2018 recap"] <- "2018 Recap"
+data$Notes[data$Notes == "male"] <- "Male"
+data$Notes[data$Notes == "female"] <- "Female"
+data$Notes[data$Notes == "baby"] <- "Baby"
+# consider adding gender column?????
+data$Notes[data$Notes == "Baby fish"] <- "Baby"
+data$Notes[data$Notes == "biggie"] <- "Rotund"
+data$Notes[data$Notes == "Biggie"] <- "Rotund"
+data$Notes[data$Notes == "Chubby"] <- "Rotund"
+data$Notes[data$Notes == "Chubs"] <- "Rotund"
+data$Notes[data$Notes == "DELTS"] <- "DELTs"
+data$Notes[data$Notes == "Fat"] <- "Rotund"
+data$Notes[data$Notes == "Fatty"] <- "Rotund"
+data$Notes[data$Notes == "Fatty DTF"] <- "Rotund Female"
+data$Notes[data$Notes == "Football"] <- "Rotund"
+data$Notes[data$Notes == "Hog"] <- "Rotund"
+data$Notes[data$Notes == "Plump girl"] <- "Rotund"
+data$Notes[data$Notes == "probs female very round"] <- "Rotund Female"
+data$Notes[data$Notes == "rotund"] <- "Rotund"
+data$Notes[data$Notes == "ROTUND"] <- "Rotund"
+#data$Notes[data$Notes == "rotund male"] <- "Rotund Male"
+data$Notes[data$Notes == "Thick"] <- "Rotund"
+data$Notes<-droplevels(data$Notes)
+summary(data$Notes)
+#######
+
+
+#######
+#
+# Gear
+levels(data$Gear)
+data$Gear[data$Gear == "Seine"] <- "Commercial Seine"
+data$Gear<-droplevels(data$Gear)
+summary(data$Gear)
+
+#########
+#
+#  Site.Transect
+summary(data$Site.Transect)
+# need to correct 1+ ones (2 through 8)
+# need to correct ALL + MM samples (combine effort)
+data$Site.Transect[data$Site.Transect == "Extra 1"] <- "Bonus 1"
+data$Site.Transect[data$Site.Transect == "Extra 2"] <- "Bonus 2"
+data$Site.Transect[data$Site.Transect == "Extra 3"] <- "Bonus 3"
+# what's up with the NAs? they are fyke nets. changed to fyke in excel
+data$Site.Transect[data$Site.Transect == "Standard 1"] <- "1"
+data$Site.Transect[data$Site.Transect == "Standard 2"] <- "2"
+data$Site.Transect[data$Site.Transect == "Standard 3"] <- "3"
+data$Site.Transect[data$Site.Transect == "Standard 4"] <- "4"
+data$Site.Transect[data$Site.Transect == "Bonus 1 (bridge)"] <- "Bridge"
+data$Site.Transect<-droplevels(data$Site.Transect)
+summary(data$Site.Transect)
+
+
+################
+#
+# On.Time..s.
+#
+
+summary(data$On.Time..s.)
+# check tag 18601 and 18677 tag -- time 453/488
+# check tag 18499 and 19026: gear listed as seine but sites given std transect names, but also seine on that day 5/22/18 five island
+# check 7/26/2018  Silver lake transect 6 has NA for effort. (possibly from Jon Meerbeek scanned sheets?) Those are the only NAs left so can find and replace if needed
+
+# then all blanks (5423 of them) can become NAs because they come from either seines or fykes
+
+
+
+
+
+
+##########
+#
+# water temp
+#
+summary(data$Water.Temp..C.)
+# actually looks good! 88 degrees one day apparently but other than that 2.4 was nov. 8 so that's happy
+
+##############
+#
+# Secchi
+#
+summary(data$Secchi..cm.)
+data$Secchi..cm.<-as.character(data$Secchi..cm.)
+data$Secchi..cm.[data$Secchi..cm. == "210cm"]<-"210"
+data$Secchi..cm.<-as.numeric(data$Secchi..cm.)
+summary(data$Secchi..cm.)
+# this is fairly junky data. Mostly absent and i plan to use more of Ellen's data anyway.
+
+#########
+#
+# Weather
+#
+levels(data$Weather)
+# more arbitrary than anything. more or less useless
+
+
+
+
+
+
+# For loading into other data frames:
+#
+#          need to re-run after other edits above (such as including 2017 data)
+# write.csv(data, "COC_BIB_CMRData.csv")
+#
+#
+
+```
+
+
+
+
+
+
+# Silver Lake Carp Summary
+This was a quick estimate for MJW specific request. Still some good code here to plot length-frequency histograms and CPUE in June.
+Carp only.
+
+```{r}
+# Length Frequency Histogram of COC in Silver Lake, IA
+
+silver.coc<-subset(data, Species == "COC")
+silver.coc<-subset(silver.coc, Lake == "Silver")
+silver.coc<-subset(silver.coc, !is.na(silver.coc$Length..mm.))
+head(silver.coc)
+str(silver.coc)
+
+library(ggplot2)
+
+ggplot(silver.coc, aes(x=Length..mm., fill=Species))+
+  geom_histogram(binwidth=10,colour="black",position="dodge")+
+  scale_x_continuous(limits = c(0,1000))+
+  scale_y_continuous(limits = c(0,60))
+
+library(rcompanion)
+groupwiseMean(Length..mm.~1,
+              data = silver.coc,
+              conf = 0.95,
+              digits = 3)
+
+sem<-sd(silver.coc$Length..mm.)/sqrt(length(silver.coc$Length..mm.))
+
+# cpue for coc in silver lake in june
+#
+# CarpCPUE - n fish per hour electrofishing
+#
+summary(silver.coc)
+# on-time in seconds to Effort in hours
+       # Need to remove seine hauls and NAs
+str(silver.coc$On.Time..s.)
+silver.coc$On.Time..s.[silver.coc$On.Time..s. == ""] <- NA
+silver.coc$On.Time..s.[silver.coc$On.Time..s. == "453/488"] <- "941"
+silver.coc$On.Time..s.<-as.numeric(as.character(silver.coc$On.Time..s.))
+silver.coc$Effort<-silver.coc$On.Time..s./3600
+
+
+
+# now to paste date, then lake then run
+silver.coc$DR<-factor(paste(silver.coc$Date,silver.coc$Site.Transect))
+
+# Now to divide the count of captured fish by the mean effort per DLR
+coc.cpue<-aggregate(Effort~DR, data = silver.coc, mean, na.action=NULL)
+silver.coc$dummy<-1
+coc.n<-aggregate(dummy~DR, data = silver.coc, sum)
+coc.cpue$n<-coc.n$dummy
+coc.cpue$cpue<-coc.cpue$n/coc.cpue$Effort
+coc.cpue<-coc.cpue[!is.na(coc.cpue$cpue),]
+
+june.coc.cpue<-coc.cpue[c(12:44),]
+groupwiseMean(cpue~1,
+              data=june.coc.cpue,
+              conf = 0.95)
+
+```
+

@@ -3,6 +3,8 @@ title: "Harvest Data Summary"
 author: "Martin A. Simonson"
 date: "December 4, 2017"
 output: pdf_document
+editor_options: 
+  chunk_output_type: console
 ---
 ```{r,include=FALSE}
 packages<-function(x, repos="http://cran.r-project.org", ...){
@@ -53,7 +55,6 @@ This is an attempt to collect harvest data from different Iowa DNR district offi
 As of 12/4/2017 I have 6 lakes of data (nothing for s. twin lake)
 
 ```{r,include=F}
-setwd("C:/Users/M_Sim/OneDrive/IOWA/Iowa State University/CarpR/")
 df<-read.csv("SpiritHarvest.csv",header=T) # load data 
 
 
@@ -67,6 +68,8 @@ df$Year<-as.factor(df$Year)
 To standardize these systems and make comparisons between lakes more meaningful, I need to scale the harvest (lbs.) by the size of each lake (acres). Then I can plot historical harvest in terms of lbs/acre and look at plots side by side.
 
 ```{r,}
+df<-read.csv("SpiritHarvest.csv",header=T) # load data 
+df$Year<-as.factor(df$Year)
 head(df)
 ########################################################
 df<-df[df$Lake == "Center Lake" |
@@ -84,7 +87,7 @@ df$Acres[df$Lake == "North Twin Lake"] <- 463
 df$Acres[df$Lake == "Silver Lake (Dickinson)"] <- 1066
 df$Acres[df$Lake == "Storm Lake"] <- 3140
 
-df$Total.Harvest<-(df$Carp+df$Buffalo+df$Drum)/df$Acres
+df$Total.Harvest.byAcre<-(df$Carp+df$Buffalo+df$Drum)/df$Acres
 
 df$Buffalo<-df$Buffalo/df$Acres
 df$Drum<-df$Drum/df$Acres
@@ -92,7 +95,7 @@ df$Carp<-df$Carp/df$Acres
 df$Total.Rough.Fish<-df$Total.Rough.Fish/df$Acres
 
 summary(df)
-df<-df[,c(1,4,5:8)]
+df<-df[,c(1,4,5,7)]
 ```
 
 
@@ -109,49 +112,11 @@ NorthTwin<-df[df$Lake == "North Twin Lake",]
 ```
 
 
-# Time to import some water quality data
-```{r,}
-WQ<-read.csv("C:/Users/M_Sim/OneDrive/IOWA/Iowa State University/CarpR/WaterQuality/130Lakes_IowaLakesDatabase.csv", header = TRUE)
-str(WQ)
-summary(WQ$Lake.ID)
-
-BlueWQ<-WQ[WQ$Lake.ID == 12,]
-CenterWQ<-WQ[WQ$Lake.ID == 19,]
-FiveIslandWQ<-WQ[WQ$Lake.ID == 36,]
-NTwinWQ<-WQ[WQ$Lake.ID == 90,]
-SilverWQ<-WQ[WQ$Lake.ID == 105,]
-StormWQ<-WQ[WQ$Lake.ID == 113,]
-
-# Need to average by year maybe...
-BlueWQ<-aggregate(BlueWQ, by=list(BlueWQ$Year), FUN=mean, na.rm = T)
-CenterWQ<-aggregate(CenterWQ, by=list(CenterWQ$Year), FUN=mean, na.rm = T)
-FiveIslandWQ<-aggregate(FiveIslandWQ, by=list(FiveIslandWQ$Year), FUN=mean, na.rm = T)
-NTwinWQ<-aggregate(NTwinWQ, by=list(NTwinWQ$Year), FUN=mean, na.rm = T)
-SilverWQ<-aggregate(SilverWQ, by=list(SilverWQ$Year), FUN=mean, na.rm = T)
-StormWQ<-aggregate(StormWQ, by=list(StormWQ$Year), FUN=mean, na.rm = T)
-
-
-```
-
-#Merge harvest and water quality data frames ---- maybe
-```{r,}
-Center<-merge(Center,CenterWQ,by="Year",all=T)
-# The problem with this is it drops values that aren't common between both datasets....
-
-
-
-
-
-
-
-```
-
-
 # Plotting
 
-I think the best option is to go lake by lake, and try to have the two species (and then total) for each Year
+I think the best option is to go lake by lake, and try to have the two species' harvest summed for each Year
   
-Then perhaps a final plot with all three lakes on them together, with all 3 variables (two spp. and total).
+Then perhaps a final plot with all three lakes on them together, with all 2 variables (two spp. and total).
 
 ```{r,}
 
@@ -169,11 +134,12 @@ CenterPlot<-ggplot(Center.m, aes(x=Year, y=value, fill=variable)) +
                 geom_bar(stat='identity', position = "dodge", colour="black") +
                 scale_fill_manual(values = wes_palette("Darjeeling2")) +
                 theme(legend.position = "bottom",legend.title = element_blank()) +
-                labs(title = "Center Lake Commercial Harvest",
+                labs(title = "Center Lake Commercial Harvest (Different Y-axis scale)",
                      y = "Harvest (lbs. per acre)")+
                 ylim(0,300)+
                 theme(axis.text.x=element_text(angle=-90)) +
-                geom_line(data=CenterWQ, aes(x=Year, y=CenterWQ[,26]))
+                theme(axis.text.y=element_text(colour="red")) +
+                theme(axis.title.y=element_text(colour="red"))
 
 #####################
 # 
@@ -304,4 +270,173 @@ ggplot(All.m, aes(x=Lake, y=value, fill=variable), ylab = "Harvest (lbs. per acr
 ```
 
 
+# Overall Harvest regardless of lake size
+
+
+```{r,}
+df<-read.csv("SpiritHarvest.csv",header=T) # load data 
+df$Year<-as.factor(df$Year)
+head(df)
+########################################################
+df<-df[df$Lake == "Center Lake" |
+       df$Lake == "Five Island Lake" |
+       df$Lake == "Silver Lake (Dickinson)" |
+       df$Lake == "Blue Lake" | 
+       df$Lake == "Storm Lake" |
+       df$Lake == "North Twin Lake",]
+########################################################
+head(df)
+
+summary(df)
+df<-df[,c(1,4,5,7)]
+```
+
+
+```{r,}
+# create individual data frames for each lake
+Center<-df[df$Lake == "Center Lake",]
+FiveIsland<-df[df$Lake == "Five Island Lake",]
+Silver<-df[df$Lake == "Silver Lake (Dickinson)",]
+Blue<-df[df$Lake == "Blue Lake",]
+Storm<-df[df$Lake == "Storm Lake",]
+NorthTwin<-df[df$Lake == "North Twin Lake",]
+
+
+```
+
+
+# Plotting
+
+I think the best option is to go lake by lake, and try to have the two speces for each Year
+
+This will be total harvest, not by lake size. This is to see the catch in recent years in regards to 2019 harvest contracts.
+
+```{r,}
+
+#####################
+# 
+#
+#    Center Lake
+#
+#
+#####################
+# Melt!
+Center.m<-melt(Center)
+# Harvest plot by year
+CenterPlot2<-ggplot(Center.m, aes(x=Year, y=value, fill=variable)) + 
+                geom_bar(stat='identity', position = "dodge", colour="black") +
+                scale_fill_manual(values = wes_palette("Royal1")) +
+                theme(legend.position = "bottom",legend.title = element_blank()) +
+                labs(title = "Center Lake Commercial Harvest",
+                     y = "Harvest (lbs.)")+
+                ylim(0,80000)+
+                theme(axis.text.x=element_text(angle=-90))
+
+#####################
+# 
+#
+#    Silver Lake
+#
+#
+#####################
+# Melt!
+Silver.m<-melt(Silver)
+# Harvest plot by year
+SilverPlot2<-ggplot(Silver.m, aes(x=Year, y=value, fill=variable)) + 
+                geom_bar(stat='identity', position = "dodge", colour="black") +
+                scale_fill_manual(values = wes_palette("Royal1")) +
+                theme(legend.position = "bottom",legend.title = element_blank()) +
+                labs(title = "Silver Lake Commercial Harvest",
+                     y = "Harvest (lbs.)")+
+                ylim(0,80000)+
+                theme(axis.text.x=element_text(angle=-90))
+
+#####################
+# 
+#
+#    5 Island Lake
+#
+#
+#####################
+# Melt!
+FiveIsland.m<-melt(FiveIsland)
+# Harvest plot by year
+FivePlot2<-ggplot(FiveIsland.m, aes(x=Year, y=value, fill=variable)) + 
+                geom_bar(stat='identity', position = "dodge", colour="black") +
+                scale_fill_manual(values = wes_palette("Royal1")) +
+                theme(legend.position = "bottom",legend.title = element_blank()) +
+                labs(title = "Five Island Lake Commercial Harvest",
+                     y = "Harvest (lbs.)")+
+                ylim(0,80000)+
+                theme(axis.text.x=element_text(angle=-90))
+
+
+#####################
+# 
+#
+#    Storm Lake
+#
+#
+#####################
+# Melt!
+Storm.m<-melt(Storm)
+# Harvest plot by year
+StormPlot2<-ggplot(Storm.m, aes(x=Year, y=value, fill=variable)) + 
+                geom_bar(stat='identity', position = "dodge", colour="black") +
+                scale_fill_manual(values = wes_palette("Royal1")) +
+                theme(legend.position = "bottom",legend.title = element_blank()) +
+                labs(title = "Storm Lake Commercial Harvest",
+                     y = "Harvest (lbs.)")+
+                ylim(0,80000)+
+                theme(axis.text.x=element_text(angle=-90))
+
+#####################
+# 
+#
+#    Blue Lake
+#
+#
+#####################
+# Melt!
+Blue.m<-melt(Blue)
+# Harvest plot by year
+BluePlot2<-ggplot(Blue.m, aes(x=Year, y=value, fill=variable)) + 
+                geom_bar(stat='identity', position = "dodge", colour="black") +
+                scale_fill_manual(values = wes_palette("Royal1")) +
+                theme(legend.position = "bottom",legend.title = element_blank()) +
+                labs(title = "Blue Lake Commercial Harvest",
+                     y = "Harvest (lbs.)") +
+                ylim(0,80000)+
+                theme(axis.text.x=element_text(angle=-90))
+
+#####################
+# 
+#
+#    North Twin Lake
+#
+#
+#####################
+# Melt!
+NorthTwin.m<-melt(NorthTwin)
+# Harvest plot by year
+TwinPlot2<-ggplot(NorthTwin.m, aes(x=Year, y=value, fill=variable)) + 
+                geom_bar(stat='identity', position = "dodge", colour="black") +
+                scale_fill_manual(values = wes_palette("Royal1")) +
+                theme(legend.position = "bottom",legend.title = element_blank()) +
+                labs(title = "North Twin Lake Commercial Harvest",
+                     y = "Harvest (lbs.)")+
+                ylim(0,80000)+
+                theme(axis.text.x=element_text(angle=-90))
+
+grid.arrange(BluePlot2,CenterPlot2,FivePlot2,SilverPlot2,StormPlot2,TwinPlot2,
+             ncol=2,nrow=3)
+
+```
+
+
+# Then put both together: harvest per acre and overall harvest.
+```{r}
+grid.arrange(SilverPlot,SilverPlot2,StormPlot,StormPlot2,TwinPlot,TwinPlot2,
+             ncol=2,nrow=3)
+```
 
