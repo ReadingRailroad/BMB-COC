@@ -34,7 +34,7 @@ packages(nnet)
 #packages(multcomp)
 #packages(plyr)
 #packages(rv)
-#packages(arm)
+packages(arm)
 packages(lattice)
 packages(tikzDevice)
 #packages(GGally)
@@ -257,12 +257,12 @@ summary(data$Site.Transect)
 #
 
 summary(data$On.Time..s.)
-# check tag 18601 and 18677 tag -- time 453/488
+data$On.Time..s.
 # check tag 18499 and 19026: gear listed as seine but sites given std transect names, but also seine on that day 5/22/18 five island
 # check 7/26/2018  Silver lake transect 6 has NA for effort. (possibly from Jon Meerbeek scanned sheets?) Those are the only NAs left so can find and replace if needed
 
 # then all blanks (5423 of them) can become NAs because they come from either seines or fykes
-
+data$On.Time..s.<-as.numeric(data$On.Time..s.)
 
 
 
@@ -293,20 +293,351 @@ summary(data$Secchi..cm.)
 levels(data$Weather)
 # more arbitrary than anything. more or less useless
 
-
-
-
-
-
-# For loading into other data frames:
+##########
 #
-#          need to re-run after other edits above (such as including 2017 data)
+# Add year column for later comparisons
+data$Year<-factor("2018")
+# at this time 2018 data is entered and looking OK.
+
+
+
+
+
+# This code is to overwrite this file name already in directory
+# Should re-write this line later for 17 and 18 data in new file name
+#
 # write.csv(data, "COC_BIB_CMRData.csv")
-#
-#
+
 
 ```
 
+## Adding in 2017 data:
+Each of four lakes where fish were tagged in 2017 (Center, N&S Twin, Blue) have separate data files, if I'm not mistaken. Now that I have my personal PC back (12/10/2018) I am more familiar with the filing and where to get the best data files based on most updated and whatnot. 
+
+Feels good to be back.
+
+Got to load in 4 lakes of data,
+Change column formats to match df "data" in chunk above,
+append each to data frame,
+write new CSV with consolidated data in long format
+
+
+__Blue Lake. Because alphabet__
+```{r}
+# Also, this one is gonna suck. I didn't have much foresight when it came to using this data later :(
+blue.df <- read.csv("C:\\Users/M_Sim/OneDrive/IOWA/Iowa State University/CarpR/BlueLake/2017 BL Carp Tag Data.csv")
+str(blue.df)
+
+# Date format
+levels(blue.df$Date)
+blue.df$Date<-as.Date(blue.df$Date, format = "%m/%d/%Y")
+str(blue.df$Date)
+
+# Lake is good
+summary(blue.df$Lake)
+
+# Tag number: 
+summary(blue.df$TAG.NUMBER)
+blue.df$TAG.NUMBER[blue.df$TAG.NUMBER == ""] <- NA # set non-tagged fish to NA
+summary(blue.df$TAG.NUMBER)
+blue.df$TAG.NUMBER<-droplevels(blue.df$TAG.NUMBER)
+# already a factor and 7 recaps all year look OK
+
+# Species
+#
+summary(blue.df$Species)
+blue.df$Species<-as.character(blue.df$Species)
+blue.df$Species[blue.df$Species == "BLCR"] <- "BLC" # Black Crappie
+blue.df$Species[blue.df$Species == "BBH"] <- "BLB" # Black Bullhead
+blue.df$Species<-as.factor(blue.df$Species)
+blue.df$Species<-droplevels(blue.df$Species)
+summary(blue.df$Species) 
+
+
+# length
+summary(blue.df$Length..mm.)
+summary(blue.df$Length..mm.[blue.df$Species == "COC"])
+# looks good, except why are there more NAs when subset to only carp?
+# probably syntax stuff or that droplevels crap above.
+
+# Weight
+summary(blue.df$Weight..g.)
+summary(blue.df$Weight..g.[blue.df$Species== "COC"])
+# Looks OK (again most of these were checked last year)
+
+# recaps
+summary(blue.df$Recap)
+sum(!is.na(blue.df$Recap)) # well shoot missing 2 recaps
+# NopE! turns out miskeys for tags 560 and 561 
+# (supposed to be 590 and 591 respectively)
+
+
+# Tag Loss
+summary(blue.df$Tag.Loss)
+sum(!is.na(blue.df$Tag.Loss))
+
+# Skipping Notes and Gear. Not relevant to this dataset
+
+
+# Site/Transect
+summary(blue.df$Site.Transect)
+# so they had std runs 1-4 then just willy nilly the rest of the year up to trans39 + aging
+# 40 runs total.
+
+# skipping to On.Time..s.
+summary(blue.df$On.Time..s.)
+# seems OK after checking min and max
+
+# secchi and weather never measured.
+
+
+# remove 3 extra columns at end
+blue.df<-blue.df[,-c(22:24)]
+lapply(data,class)
+lapply(blue.df,class)
+
+# shoot homie. NA level generated for an invalid factor level. 
+# seems related to mis-matched classes of columns (e.g., numeric vs. integer)
+
+blue.df$Length..mm.<-as.numeric(blue.df$Length..mm.)
+blue.df$Weight..g.<-as.numeric(blue.df$Weight..g.)
+blue.df$Recap<-as.factor(blue.df$Recap)
+blue.df$Tag.Loss<-as.factor(blue.df$Tag.Loss)
+blue.df$On.Time..s.<-as.numeric(blue.df$On.Time..s.)
+blue.df$Water.Temp..C.<-as.numeric(blue.df$Water.Temp..C.)
+blue.df$Secchi..cm.<-as.numeric(blue.df$Secchi..cm.)
+blue.df$Weather<-as.factor(blue.df$Weather)
+blue.df$Year<-as.factor(blue.df$Year)
+
+data<-rbind(data,blue.df)
+```
+
+__Twin Lakes__
+```{r}
+twin.df <- read.csv("C:\\Users/M_Sim/OneDrive/IOWA/Iowa State University/CarpR/TwinLakes/2017 TwinLakes Tag Data.csv", header = TRUE)
+str(twin.df)
+twin.df$Date<-twin.df$ï..Date
+
+
+
+# Date format
+levels(twin.df$Date )
+twin.df$Date<-as.Date(twin.df$Date, format = "%m/%d/%Y")
+str(twin.df$Date)
+
+# Lake is good
+summary(twin.df$Lake)
+twin.df$Lake<-as.character(twin.df$Lake)
+twin.df$Lake[twin.df$Lake == "N Twin"] <- "N. Twin"
+twin.df$Lake[twin.df$Lake == "S Twin"] <- "S. Twin"
+twin.df$Lake<-as.factor(twin.df$Lake)
+twin.df$Lake<-droplevels(twin.df$Lake)
+summary(twin.df$Lake)
+
+# Tag number: 
+summary(twin.df$TAG.NUMBER)
+twin.df$TAG.NUMBER[twin.df$TAG.NUMBER == ""] <- NA # set non-tagged fish to NA
+summary(twin.df$TAG.NUMBER)
+#twin.df$TAG.NUMBER<-droplevels(twin.df$TAG.NUMBER)
+# already a factor and 7 recaps all year look OK
+
+# Species
+#
+summary(twin.df$Species)
+# no all-species samples in these lakes in 2017
+
+
+# length
+summary(twin.df$Length..mm.)
+summary(twin.df$Length..mm.[twin.df$Species == "COC"])
+summary(twin.df$Length..mm.[twin.df$Species == "BIB"])
+
+# Weight
+summary(twin.df$Weight..g.)
+summary(twin.df$Weight..g.[twin.df$Species== "COC"])
+summary(twin.df$Weight..g.[twin.df$Species== "BIB"])
+# Looks OK (again most of these were checked last year)
+
+# recaps
+summary(twin.df$Recap)
+twin.df$Recap<-as.character(twin.df$Recap)
+twin.df$Recap[twin.df$Recap == "R"] <- "1"
+twin.df$Recap<-as.factor(twin.df$Recap)
+twin.df$Recap<-droplevels(twin.df$Recap)
+sum(!is.na(twin.df$Recap)) 
+
+
+# Tag Loss
+summary(twin.df$Tag.Loss)
+sum(!is.na(twin.df$Tag.Loss)) # 3 2017 tag losses
+
+# Skipping Notes and Gear. Not relevant to this dataset
+
+
+# Site/Transect
+summary(twin.df$Site.Transect)
+# over 90 runs for both lakes. This is unique by each run regardless of lake. 
+# Since Black Hawk office compiled lake data I found it easier to make each run a new number
+# no standard transect runs nor all-species runs in the twin lakes 2017
+
+# skipping to On.Time..s.
+summary(twin.df$On.Time..s.)
+# seems OK after checking min and max
+
+# secchi and weather never measured.
+
+# year
+twin.df$Year <- "2017"
+
+# shoot homie. NA level generated for an invalid factor level. 
+# seems related to mis-matched classes of columns (e.g., numeric vs. integer)
+
+
+
+
+twin.df$Weight..g.<-as.numeric(twin.df$Weight..g.)
+twin.df$Tag.Loss<-as.factor(twin.df$Tag.Loss)
+twin.df$On.Time..s.<-as.numeric(twin.df$On.Time..s.)
+twin.df[,13]<-as.factor(twin.df[,13])
+twin.df[,14]<-as.factor(twin.df[,14])
+twin.df[,15]<-as.factor(twin.df[,15])
+twin.df[,16]<-as.factor(twin.df[,16])
+twin.df$Secchi..cm.<-as.numeric(twin.df$Secchi..cm.)
+twin.df$Weather<-as.factor(twin.df$Weather)
+twin.df$Year<-as.factor(twin.df$Year)
+
+twin.df<-twin.df[,-1]
+
+data<-rbind(data,twin.df)
+
+# dang that's some nice work. Up to 20k observations
+```
+
+__Center Lake!__
+Last one here. Got to add Spirit Lake data to this format for a truly compiled data collection of all carp and buffalo tagging data up to 12/11/2018.
+
+```{r}
+center.df <- read.csv("C:\\Users/M_Sim/OneDrive/IOWA/Iowa State University/CarpR/CenterLake/2017 CenterLake Tag Data.csv", header = TRUE)
+str(center.df)
+
+center.df$Date<-center.df$ï..Date
+
+
+
+# Date format
+levels(center.df$Date )
+center.df$Date<-as.Date(center.df$Date, format = "%m/%d/%Y")
+str(center.df$Date)
+
+# Lake is good
+summary(center.df$Lake)
+
+
+# Tag number: 
+summary(center.df$TAG.NUMBER)
+center.df$TAG.NUMBER[center.df$TAG.NUMBER == "."] <- NA # set non-tagged fish to NA
+summary(center.df$TAG.NUMBER)
+
+
+# Species
+#
+summary(center.df$Species)
+center.df$Species<-as.character(center.df$Species)
+center.df$Species[center.df$Species == "CAP"] <-"COC"
+center.df$Species<-as.factor(center.df$Species)
+summary(center.df$Species)
+# no all-species samples in these lakes in 2017
+
+
+# length
+# Yeah awesome spirit lake crew for entering "." in empty cells
+summary(center.df$Length..mm.)
+length(center.df$Length..mm.[center.df$Length..mm. == "."])
+center.df$Length..mm.[center.df$Length..mm. == "."]<- NA
+center.df$Length..mm.<-as.numeric(as.character(center.df$Length..mm.))
+summary(center.df$Length..mm.[center.df$Species == "COC"])
+summary(center.df$Length..mm.[center.df$Species == "BIB"])
+
+# Weight
+summary(center.df$Weight..g.)
+length(center.df$Weight..g.[center.df$Weight..g. == "."])
+center.df$Weight..g.[center.df$Weight..g. == "."]<- NA
+center.df$Weight..g.<-as.numeric(as.character(center.df$Weight..g.))
+summary(center.df$Weight..g.[center.df$Species== "COC"])
+summary(center.df$Weight..g.[center.df$Species== "BIB"])
+# Looks OK (again most of these were checked last year)
+
+# recaps
+summary(center.df$Recap)
+center.df$Recap<-as.character(center.df$Recap)
+center.df$Recap[center.df$Recap == "."] <- NA
+center.df$Recap[center.df$Recap == ""] <- NA
+center.df$Recap<-as.factor(center.df$Recap)
+center.df$Recap<-droplevels(center.df$Recap)
+sum(!is.na(center.df$Recap)) 
+summary(center.df$Recap)
+
+
+# Tag Loss
+summary(center.df$Tag.Loss)
+sum(!is.na(center.df$Tag.Loss)) # 42 2017 tag losses
+
+# gear
+summary(center.df$Gear)
+summary(data$Gear)
+center.df$Gear<-as.character(center.df$Gear)
+center.df$Gear[center.df$Gear == "EF"]<- "Electroshocking"
+center.df$Gear[center.df$Gear == "CF Seine"]<- "Commercial Seine"
+center.df$Gear<-as.factor(center.df$Gear)
+summary(center.df$Gear)
+
+
+# Site/Transect
+summary(center.df$Site.Transect)
+# no standard transect runs nor all-species runs in center lake 2017
+
+# skipping to On.Time..s.
+summary(center.df$On.Time..s.)
+center.df$On.Time..s.<-as.character(center.df$On.Time..s.)
+center.df$On.Time..s.[center.df$On.Time..s. =="."] <- NA
+center.df$On.Time..s.<-as.numeric(center.df$On.Time..s.)
+summary(center.df$On.Time..s.)
+# seems OK after checking min and max
+
+# water temp
+summary(center.df$Water.Temp..C.)
+# all good and numeric
+
+# secchi
+center.df$Secchi..cm.<-as.numeric(as.character(center.df$Secchi..cm.))
+
+# weather is good
+
+# year
+center.df$Year<-as.factor(as.character(center.df$Year))
+
+# see where we are at:
+str(center.df)
+
+# correct classes of columns:
+center.df$Tag.Loss<-as.factor(as.character(center.df$Tag.Loss))
+center.df[,14]<-as.factor(center.df[,14])
+center.df[,16]<-as.factor(center.df[,16])
+
+# remove junky year column
+center.df<-center.df[,-1]
+
+data<-rbind(data,center.df)
+
+
+
+```
+
+Holy cow! As of 12/11/2018 this data frame is now 22k observations long. Time to celebrate with more data checking. for now let's write a new csv in a new chunk to have the 2017 and 2018 data separate from the other 2018 only data
+
+```{r}
+write.csv(data,"2018 and 2017 Compiled Data.csv")
+```
 
 
 
