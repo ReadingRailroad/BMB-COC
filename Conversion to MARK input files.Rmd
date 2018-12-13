@@ -1,0 +1,104 @@
+---
+title: "Conversion To RMark IMP"
+author: "Marty Simonson"
+date: "December 6, 2018"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Front Matter
+```{r,include=FALSE}
+rm(list=ls())
+
+
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
+
+#remove.packages(c("ggplot2", "data.table"))
+#install.packages('Rcpp', dependencies = TRUE)
+#install.packages('ggplot2', dependencies = TRUE)
+#install.packages('data.table', dependencies = TRUE)
+
+#packages(rcompanion)
+#packages(vegan)
+packages(ggplot2)
+packages(gridExtra)
+packages(reshape2)
+packages(FSA)
+packages(nnet)
+#packages(multcomp)
+#packages(plyr)
+#packages(rv)
+#packages(arm)
+packages(lattice)
+packages(tikzDevice)
+#packages(GGally)
+packages(wesanderson)
+#packages(DescTools)
+#packages(mvnormtest)
+#packages(HH)
+#packages(biotools)
+#packages(car)
+#packages(psych)
+#packages(GPArotation)
+packages(doBy)
+packages(dplyr)
+packages(RMark)
+```
+
+# Loading in the CSV
+```{r}
+# compiled data
+dframe<-read.csv("COC_BIB_CMRData.csv")
+head(dframe)
+#Setting new "detect" column used in the web resource I'm using.
+dframe$detect<-1
+str(dframe)
+###############
+#
+#   Well shoot. Looks like I should split up by lake first.
+#   I'll do blue (COC ONLY) first (play with MARK models below)
+#   then come back and finish splitting the lakes. 
+
+input.data<-subset(dframe, Lake == "Blue" & Species == "COC" & !is.na(dframe$TAG.NUMBER))
+
+
+#reshaping functions to pivot the data
+junk<-melt(input.data,id.var=c("TAG.NUMBER","Date"),
+           measure.vars="detect")
+y<-dcast(junk,TAG.NUMBER~Date)
+head(y)
+
+# collapse the capture history to single column
+#
+#function to read the matrix and create the capture history strings
+pasty<-function(x) {
+k<-ncol(x)
+n<-nrow(x)
+out<-array(dim=n)
+for (i in 1:n){
+y<-(x[i,]>0)*1
+out[i]<-paste(###,sep="")
+}
+return(out)
+}
+
+# capture history
+
+for (i in 1:n){
+  paste()
+}
+ch<-paste(y[,2],y[,3],sep="")
+
+
+
+
+
+```
+
