@@ -35,7 +35,7 @@ packages(nnet)
 #packages(multcomp)
 #packages(plyr)
 #packages(rv)
-#packages(arm)
+packages(arm)
 packages(lattice)
 packages(tikzDevice)
 #packages(GGally)
@@ -50,12 +50,13 @@ packages(wesanderson)
 packages(doBy)
 packages(dplyr)
 packages(RMark)
+packages(tidyr)
 ```
 
 # Loading in the CSV
 ```{r}
 # compiled data
-dframe<-read.csv("COC_BIB_CMRData.csv")
+dframe<-read.csv("2018 and 2017 Compiled Data.csv")
 head(dframe)
 #Setting new "detect" column used in the web resource I'm using.
 dframe$detect<-1
@@ -65,7 +66,11 @@ str(dframe)
 #   Well shoot. Looks like I should split up by lake first.
 #   I'll do blue (COC ONLY) first (play with MARK models below)
 #   then come back and finish splitting the lakes. 
+```
 
+
+# Blue Lake capture history
+```{r,}
 input.data<-subset(dframe, Lake == "Blue" & Species == "COC" & !is.na(dframe$TAG.NUMBER))
 
 
@@ -76,28 +81,32 @@ y<-dcast(junk,TAG.NUMBER~Date)
 head(y)
 
 # collapse the capture history to single column
-#
-#function to read the matrix and create the capture history strings
-pasty<-function(x) {
-k<-ncol(x)
-n<-nrow(x)
-out<-array(dim=n)
-for (i in 1:n){
-y<-(x[i,]>0)*1
-out[i]<-paste(###,sep="")
-}
-return(out)
-}
-
-# capture history
-
-for (i in 1:n){
-  paste()
-}
-ch<-paste(y[,2],y[,3],sep="")
+# capture history: using "unite" in dplyr
+# Want to make each tag a "comment" first:
+y$c<-"/*"
+y$d<-"*/"
+y$TAG.NUMBER<-paste(y$c,y$TAG.NUMBER,y$d,sep = " ")
+#nicely done. Now to unite the capture histories
+blue.ch<-unite(y,"ch", 2:41, sep = "",remove=T)
+blue.ch<-blue.ch[,-c(3:4)]
+#blue.ch$freq<-1 --------- does not need to be included if all are 1
+# That looks like what we want!
+```
 
 
+# Blue Lake MARK Models
+OK. So here's some potential complications:
+- unequal time intervals and unequal samples between years (could collapst to month?)
+- further, we have no difference between 2017 and 2018 at the moment
+- so many carp with only one capture. Such is life.
+- this is gonna put lots of dbf and fpt files in my directory Need a new branch I think!
+```{r}
+str(blue.ch)
 
+# Process.data
+blue.proc<-process.data(blue.ch,model="CJS")
+# errors around 12 incorrect capture histories
+# example: tag 21856 is "000000000000000000000000000000002" or whatever
 
 
 ```
