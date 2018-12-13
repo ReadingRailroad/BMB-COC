@@ -45,7 +45,7 @@ packages(gridExtra)
 df <- read.csv("C:\\Users/M_Sim/OneDrive/IOWA/Iowa State University/CarpR/TwinLakes/TwinLakesLength2017.csv")
 
 summary(df)
-# Keeping units of data sheets, although I would prefer cm to inches
+# Keeping units of data sheets, although I would prefer mm to inches
 
 NT.B<-subset(df,df$Lake=="N Twin" & df$Species == "BIB")
 NT.C<-subset(df,df$Lake=="N Twin" & df$Species == "COC")
