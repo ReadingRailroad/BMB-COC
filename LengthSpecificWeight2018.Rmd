@@ -54,8 +54,7 @@ packages(dplyr)
 This document is to split off from the EDA and Data Summary file because that got too long after adding all these chunks. 
 
 The data frame to start with, however, does come from the EDA and Data Summary RMD file and we need to start at the end of Chunk 2, where all the columns are edited and corrected.
-
-# df = "data"
+- saved as "2018_COC_BIB_CMR_Data.csv"
 
 # length-specific biomass estimates
 subset lake first. 
@@ -63,6 +62,7 @@ subset lake first.
 
 ```{r,}
 #Lakes
+data<-read.csv("2018_COC_BIB_CMR_Data.csv", header = T)
 levels(data$Lake)
 Blue <- subset(data, Lake == "Blue")
 Center<-subset(data, Lake == "Center")
@@ -138,7 +138,7 @@ w8<-mean(Blue.coc.temp$Weight..g.)
 Blue.coc.temp<-subset(Blue.coc, Length..mm. >= 650 & Length..mm. < 700 & !is.na(Weight..g.))
 w9<-mean(Blue.coc.temp$Weight..g.)
 
-Blue.COC.50$mweight<-c(w2,w2,w3,w4,w5,w6,w7,w8,w9) # changed w1 to w2 for one fish below 300
+Blue.COC.50$mweight<-c(w2,w2,w3,w4,w5,w6,w7,w8,w8) # changed w1 to w2 for one fish below 300
 
 #######
 #
@@ -219,8 +219,8 @@ Center.COC.50 <- Center.coc %>%
 #       need 1 line of code to subset a new frame for each length bin, 
 #       then take mean weight.
 
-Center.coc.temp<-subset(Center.coc, Length..mm. >= 50 & Length..mm. < 100 & !is.na(Weight..g.))
-w1<-mean(Center.coc.temp$Weight..g.)
+#Center.coc.temp<-subset(Center.coc, Length..mm. >= 50 & Length..mm. < 100 & !is.na(Weight..g.))
+#w1<-mean(Center.coc.temp$Weight..g.)
 
 Center.coc.temp<-subset(Center.coc, Length..mm. >= 100 & Length..mm. < 150 & !is.na(Weight..g.))
 w2<-mean(Center.coc.temp$Weight..g.)
@@ -259,7 +259,7 @@ Center.coc.temp<-subset(Center.coc, Length..mm. >= 750 & Length..mm. < 800 & !is
 w13<-mean(Center.coc.temp$Weight..g.)
 
 
-Center.COC.50$mweight<-c(w5,w5,w5,w5,w5,w6,w7,w8,w9,w10,w11,w12,w13) #changed last two to w11 and first to w3 
+Center.COC.50$mweight<-c(w5,w5,w5,w5,w6,w7,w8,w9,w10,w11,w12,w13) #changed last two to w11 and first to w3 
 
 # Now Buffalo
 
@@ -652,8 +652,8 @@ NTwin.bib.50 <- NTwin.bib %>%
          cumfreq = cumsum(freq), cumpercent = cumsum(percent)) %>%
   ungroup()
 
-NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 50 & Length..mm. < 100 & !is.na(Weight..g.))
-w1<-mean(NTwin.bib.temp$Weight..g.)
+#NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 50 & Length..mm. < 100 & !is.na(Weight..g.))
+#w1<-mean(NTwin.bib.temp$Weight..g.)
 
 NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 100 & Length..mm. < 150 & !is.na(Weight..g.))
 w2<-mean(NTwin.bib.temp$Weight..g.)
@@ -698,7 +698,7 @@ NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 900 & Length..mm. < 950 & !is.n
 w15<-mean(NTwin.bib.temp$Weight..g.)
 
 
-NTwin.bib.50$mweight<-c(w2,w2,w3,w4,w5,w6,w7,w8,w9,w10,w11,w12,w13,w13,w13) #changed last two to w11 and first to w3 
+NTwin.bib.50$mweight<-c(w2,w3,w4,w5,w6,w7,w8,w9,w10,w11,w12,w13,w13,w13) #changed last two to w11 and first to w3 
 
 #######
 #
@@ -788,8 +788,8 @@ Silver.COC.50 <- Silver.coc %>%
 #       need 1 line of code to subset a new frame for each length bin, 
 #       then take mean weight.
 
-Silver.coc.temp<-subset(Silver.coc, Length..mm. >= 50 & Length..mm. < 100 & !is.na(Weight..g.))
-w1<-mean(Silver.coc.temp$Weight..g.)
+#Silver.coc.temp<-subset(Silver.coc, Length..mm. >= 50 & Length..mm. < 100 & !is.na(Weight..g.))
+#w1<-mean(Silver.coc.temp$Weight..g.)
 
 Silver.coc.temp<-subset(Silver.coc, Length..mm. >= 250 & Length..mm. < 300 & !is.na(Weight..g.))
 w2<-mean(Silver.coc.temp$Weight..g.)
@@ -833,7 +833,7 @@ w14<-mean(Silver.coc.temp$Weight..g.)
 Silver.coc.temp<-subset(Silver.coc, Length..mm. >= 900 & Length..mm. < 950 & !is.na(Weight..g.))
 w15<-mean(Silver.coc.temp$Weight..g.)
 
-Silver.COC.50$mweight<-c(w2,w2,w3,w3,w3,w8,w8,w8,w9,w10,w11,w12,w13,w14,w14)
+Silver.COC.50$mweight<-c(w2,w3,w3,w3,w8,w8,w8,w9,w10,w11,w12,w13,w14,w14)
 
 # Now Buffalo
 
@@ -1334,6 +1334,8 @@ All.biomass<-rbind(Blue.BM.Density,
                    Silver.BM.Density,
                    STwin.BM.Density,
                    Storm.BM.Density)
+write.csv(All.biomass,"2018_BiomassDensityEstimates.csv")
+
 
 
 ```
