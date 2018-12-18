@@ -3,6 +3,8 @@ title: "CPUE Plots"
 author: "Martin A. Simonson"
 date: "January 12, 2018"
 output: pdf_document
+editor_options: 
+  chunk_output_type: console
 ---
 ```{r,include=FALSE}
 packages<-function(x, repos="http://cran.r-project.org", ...){
@@ -457,4 +459,128 @@ boxplot(CarpBMD~Lake,data=DF)
 
 ```
 
+
+
+
+
+
+
+
+
+
+
+#####
+
+# Derek Ogle's Chapter 7: CPUE
+
+This file is from the Chapter7-FishR file on desktop's desktop (LOL)
+
+-packages and options:
+```{r}
+packages(FSA)
+packages(car)
+packages(Hmisc)
+packages(multcomp)
+
+options(width=90,continue=" ",show.signif.stars=F,
+        contrasts=c("contr.sum","contr.poly"))
+par(mar=c(3.5,3.5,1,1), mgp=c(2.1,0.4,0),tcl=-0.2)
+```
+
+
+-detections of changes in relative abundance with highly variable cpue data
+an example:
+
+```{r}
+year <- 0:14 # years for simulation
+N0 <- 10000 # initial population size
+A <- 0.95 # annual survival rate
+abund <- round(N0*A^year,0) # abundance from exponential decay model
+cpe <- round(abund/1000,1) # simulated cpe data
+cbind(year,abund) # for display only
+```
+
+now randocm cpue data
+
+```{r}
+me1 <- c(-0.10,-0.05,0.05,0.10)
+me1a <- sample(me1,length(cpe),replace=TRUE)
+cpe.me1 <- round(cpe+cpe*me1a,1)
+# 20 and 40 % error below
+me2 <- c(-0.4,-0.2,0.1,0.4)
+me2a <- sample(me2,length(cpe),replace=TRUE)
+cpe.me2 <- round(cpe+cpe*me2a,1)
+( d1 <- data.frame(year,abund,cpe,cpe.me1,cpe.me2) ) # for storage
+
+plot(cpe~year,data=d1,ylim=c(0,15),xlab="Year",ylab="CPE",type="l",lwd=2,col="black")
+points(d1$year,d1$cpe.me1,type="b",pch=19,lwd=1,col="blue")
+points(d1$year,d1$cpe.me2,type="b",pch=19,lwd=1,col="red")
+legend("topright",legend=c("Truth","5 or 10%","20 or 40%"),col=c("black","blue","red"),
+lwd=c(2,1,1),pch=c(NA,19,19))
+
+
+# simulation to do same as plot just above
+cpe.sim <- function(year,cpe,me1,me2=NULL) {
+  cpe1 <- cpe + cpe*sample(me1,length(cpe),replace=TRUE)
+  if (!is.null(me2)) cpe2 <- cpe + cpe*sample(me2,length(cpe),replace=TRUE)
+  max.y <- max(c(cpe,cpe1,cpe2))
+  plot(year,cpe,ylim=c(0,max.y),xlab="Year",ylab="CPE",type="l",lwd=2,col="black")
+  points(year,cpe1,type="b",pch=19,lwd=1,col="blue")
+  if (!is.null(me2)) points(year,cpe2,type="b",pch=19,lwd=1,col="red")
+  if (is.null(me2)) legend("topright",legend=c("Truth","CPE1"),col=c("black","blue"),lwd=c(2,1),pch=19)
+  else legend("topright",legend=c("Truth","CPE1","CPE2"),col=c("black","blue","red"),lwd=c(2,1,1),pch=19)
+}
+
+cpe.sim(d1$year,d1$cpe,me1,me2)
+```
+
+
+# new example with catfish
+```{r}
+d2 <- read.table("Box7_2.txt",header=TRUE)
+str(d2)
+
+
+# log transformation added to df in order to assess effects of data transformation
+d2$logcpe.A <- log10(d2$cpe.A+1) # CCF population in reservoir 1
+d2$logcpe.B <- log10(d2$cpe.B+1) # ccf population in reservoir 2
+str(d2)
+
+lapply(as.list(d2[,-1]),Summarize,digits=3)
+hist(d2$cpe.A,main="CPUE frequency in reservoir A")
+hist(d2$cpe.B,main="CPUE frequency in reservoir B")
+hist(d2$logcpe.A,main="log transformed cpue in reservoir A")
+hist(d2$logcpe.B,main="log transformed cpue in reservoir B")
+
+# Power calculations: saving mean and SD for log-transformed cpue in reservoir B
+( mn.B <- mean(d2$logcpe.B) )
+( sd.B <- sd(d2$logcpe.B) )
+
+# power test to detect 10% change in cpue
+power.t.test(n=NULL,delta=mn.B*0.10,power=0.9,sig.level=0.05,sd=sd.B,type="two.sample",
+              alt="one.sided")
+
+power.t.test(n=NULL,delta=mn.B*0.20,power=0.8,sig.level=0.10,sd=sd.B,type="two.sample",
+              alt="one.sided")
+
+
+```
+
+## he continues with habitat assessment and blocking. 
+for now I'm frustrated at what example turned into.
+walked around the builidng let's see who feels different.
+nah.
+
+```{r}
+perc.delta <- seq(0.05,0.25,0.01)
+deltas <- mn.B*perc.delta
+p1 <- sapply(deltas,power.t.test,n=NULL,power=0.9,sig.level=0.05,sd=sd.B,type="two.sample",
+              alt="one.sided")
+p1.n <- as.numeric(p1["n",])
+plot(p1.n~perc.delta,xlab="Proportion Population Decline",ylab="Sample Size",type="l",
+              ylim=c(0,max(p1.n)))
+
+
+
+```
 
