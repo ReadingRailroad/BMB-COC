@@ -91,12 +91,20 @@ blue.ch<-unite(y,"ch", 2:41, sep = "",remove=T)
 blue.ch<-blue.ch[,-c(3:4)]
 #blue.ch$freq<-1 --------- does not need to be included if all are 1
 # That looks like what we want!
+
+
+# looking for the 12 incorrect ch (error from data.proc below)
+
+
+
+
 ```
 
 
 # Blue Lake MARK Models
 OK. So here's some potential complications:
 - unequal time intervals and unequal samples between years (could collapst to month?)
+- DUPLICATE TAGS! 8901-9000 is still a problem that's unresolved.
 - further, we have no difference between 2017 and 2018 at the moment
 - so many carp with only one capture. Such is life.
 - this is gonna put lots of dbf and fpt files in my directory Need a new branch I think!
@@ -106,7 +114,58 @@ str(blue.ch)
 # Process.data
 blue.proc<-process.data(blue.ch,model="CJS")
 # errors around 12 incorrect capture histories
-# example: tag 21856 is "000000000000000000000000000000002" or whatever
+
+# OK here's the badness: this lake sucks because of the duplicate tags 
+# (or falsified data but I really really really doubt that's a thing)
+
+# Gonna have to take a step back and work on another lake
+
+```
+
+
+# Center Lake carp
+```{r}
+input.data<-subset(dframe, Lake == "Center" & Species == "COC" & !is.na(dframe$TAG.NUMBER))
+
+
+#reshaping functions to pivot the data
+junk<-melt(input.data,id.var=c("TAG.NUMBER","Date"),
+           measure.vars="detect")
+y<-dcast(junk,TAG.NUMBER~Date)
+head(y)
+y[is.na(y)]<-0
+# collapse the capture history to single column
+# capture history: using "unite" in dplyr
+# Want to make each tag a "comment" first:
+y$c<-"/*"
+y$d<-"*/"
+y$TAG.NUMBER<-paste(y$c,y$TAG.NUMBER,y$d,sep = " ")
+#nicely done. Now to unite the capture histories
+center.ch<-unite(y,"ch", 2:28, sep = "",remove=T)
+center.ch<-center.ch[,-c(3:4)]
+```
+
+
+# Center Lake MARK Models
+OK. So here's some potential complications:
+- unequal time intervals and unequal samples between years (could collapst to month?)
+- need to figure out appropriate model (CJS?)
+- all the assumptions!
+- also some double-tagged fish. How to handle?
+```{r}
+str(center.ch)
+
+# Process.data
+center.proc<-process.data(center.ch,model="CJS")
+center.ddl<-make.design.data(center.proc)
+names(center.ddl)
+summary(center.ddl$Phi)
+
+center.carp.1<-mark(center.ch) # dot model
+PIMS(center.carp.1,"Phi",simplified=F)
+# obviously need to consolidate the data to at least month if not more. 
+# give it some thought and come back
+
 
 
 ```

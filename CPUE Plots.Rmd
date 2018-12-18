@@ -148,13 +148,15 @@ I did what was asked, for now. That's all a person can really do.
 - collapse to averages (see below)
 - still need catch n for CPUE but without seine hauls but with age structures
 
-
+- CHANGING EVERYTHING BELOW TO INCORPORATE THE COMPILED DATA
+__And need to add all the 0 fish / effort transects__
+- as of 12/13/2018 I'll just ad the 0 fish 
 
 ```{r}
 
 # Create DF with CPUE, total biomass and biomass density (and 95% CIs) for each lake...
-setwd("C:/Users/M_Sim/OneDrive/IOWA/Iowa State University/CarpR/")
-df<-read.csv("July2018_ALW.csv",header=T) # load data 
+
+df<-read.csv("2018_COC_BIB_CMR_Data.csv",header=T) # load data 
 head(df)
 summary(df)
 
@@ -162,17 +164,13 @@ summary(df)
 #
 levels(df$Lake)
 #
-levels(df$Species)
-df$Species[df$Species == "BMB"]<-"BIB"
-df$Species[df$Species == "KOI"]<-"COC"
-#
-df$Weight.g[df$Weight.g == 0] <- NA
-df$Weight.g<-df$Weight.g/453.592 # converting to pounds
 
 
 ```
 
 creating the data frame necessary to plot
+
+__New 12-13-2018: importing "All.Biomass", the length-specific biomass and biomass density estimates from 2018. 
 ```{r,}
 
 # CarpBiomass - avg from google sheets age structures * population estimates for that lake
@@ -333,7 +331,7 @@ R2
 
 # Carp First
 carp<-ggplot(DF, aes(x=CarpBiomass, y=CarpCPUE)) +
-  xlim(0,500000)+ # increast of 100k
+  xlim(0,500000)+ # increase of 100k
   ylim(0,350)+ # more than double from 2017
   geom_point(size=4) +
   geom_errorbar(aes(ymax = CarpUL, ymin = CarpLL),width=5000) +

@@ -206,7 +206,7 @@ summary(dipper.phi.sex.p.Timeplussex,se=T)
 #
 ################################
 
-# design sata (design covariate) already outlined: linked to parameters in model (time, cohort, sex)
+# design data (design covariate) already outlined: linked to parameters in model (time, cohort, sex)
 # second type of covariates specify differences in individual animals
       # must be factor variable (typically small number of unique variables: M or F, Mirror or Leather)
       # value cannot change over time
