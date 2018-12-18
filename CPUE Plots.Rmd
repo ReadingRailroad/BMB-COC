@@ -160,7 +160,7 @@ df<-read.csv("2018_COC_BIB_CMR_Data.csv",header=T) # load data
 head(df)
 summary(df)
 
-#### Data corrections
+
 #
 levels(df$Lake)
 #
@@ -170,40 +170,31 @@ levels(df$Lake)
 
 creating the data frame necessary to plot
 
-__New 12-13-2018: importing "All.Biomass", the length-specific biomass and biomass density estimates from 2018. 
+__New 12-13-2018: importing "All.Biomass", the length-specific biomass and biomass density estimates from 2018__
 ```{r,}
 
-# CarpBiomass - avg from google sheets age structures * population estimates for that lake
-coc.df<-subset(df,Species == "COC") # just carp
-BM<-aggregate(coc.df$Weight.g~coc.df$Lake, FUN=mean,na.action = na.omit) # average biomasses in g
-BM$CarpN <- c(70697,7136,28932,5281,11505,23833,13041) # est carp abundance for 7 lakes as of 8/7/2018
-BM$CarpBiomass<-BM$`coc.df$Weight.g`*BM$CarpN # estimated carp biomass in pounds
-
-
-# BuffBiomass - avg biomass from google sheets * total fish caught to date
-bib.df<-subset(df,Species == "BIB") # just buffalo
-BM2<-aggregate(bib.df$Weight.g~bib.df$Lake, FUN=mean,na.action=na.omit)
-BM2$BuffN<- c(3386,4455,65180,13923,35214,13041)
-BM$BuffN<- c(NA,3386,4455,65180,13923,35214,13041)
-BM$BuffBiomass <- c(NA,BM2$`bib.df$Weight.g`*BM2$BuffN) # estimated buffalo biomass in pounds
-
-# Lake Areas
-BM$LakeArea[BM$'coc.df$Lake' == "Blue"] <- 275
-BM$LakeArea[BM$'coc.df$Lake' == "Center"] <- 220
-BM$LakeArea[BM$'coc.df$Lake' == "Five Island"] <- 973
-BM$LakeArea[BM$'coc.df$Lake' == "Silver"] <- 1066
-BM$LakeArea[BM$'coc.df$Lake' == "Storm"] <- 3140
-BM$LakeArea[BM$'coc.df$Lake' == "S Twin"] <- 555
-BM$LakeArea[BM$'coc.df$Lake' == "N Twin"] <- 463
-
-
-# CarpDensity - biomass (avg poumds * n) per acre of lake
-# BuffDensity - biomass (avg pounds * n) per acre of each lake
-BM$CarpDensity<-BM$CarpBiomass/BM$LakeArea
-BM$BuffDensity<-BM$BuffBiomass/BM$LakeArea
+all.bm<-read.csv("2018_BiomassDensityEstimates.csv")
 
 # CarpCPUE - n fish per hour electrofishing
-#
+# think i need to melt and cast here, let's try for just carp
+
+coc.df<-subset(df, Species == "COC")
+coc.df.melt<-melt(coc.df, id = c("Lake","Date","Site.Transect"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 summary(coc.df)
 # on-time in seconds to Effort in hours
 coc.df$Effort<-coc.df$On.Time..s./3600
