@@ -12275,7 +12275,7 @@ Date,Lake,TAG NUMBER,Species,Length (mm),Weight (g),Recap,Tag Loss,Fin Clipped,N
 6/9/2018,Silver,24232,COC,753,,,,L Pectoral,,Electroshocking,6,Silver Trans. 6,Silver Trans. 6,Silver Trans. 6,Silver Trans. 6,811,24.2,,
 6/9/2018,Silver,24233,COC,619,,,,L Pectoral,,Electroshocking,6,Silver Trans. 6,Silver Trans. 6,Silver Trans. 6,Silver Trans. 6,811,24.2,,
 6/9/2018,Silver,24234,COC,689,,,,L Pectoral,,Electroshocking,6,Silver Trans. 6,Silver Trans. 6,Silver Trans. 6,Silver Trans. 6,811,24.2,,
-6/11/2018,Center,4776,COC,414,,1,,R Pelvic,2017 Recap tagged in opercle. Re-clipper R Pelvic,Electroshocking,1,Center Trans. 1,Center Trans. 1,Center Trans. 1,Center Trans. 1,449,23.6,,Overcast and Windy
+6/11/2018,Center,4776,COC,414,,1,,R Pelvic,2017 Recap tagged in opercle. Re-clipper R Pelvic,Electroshocking,Bonus 1,Center Trans. 1,Center Trans. 1,Center Trans. 1,Center Trans. 1,449,23.6,,Overcast and Windy
 6/11/2018,Center,16349,COC,534,,1,,R Pectoral,2018 Recap,Electroshocking,5,,,,,762,23.6,,Overcast and wind
 6/11/2018,Center,16698,COC,668,,1,,R Pectoral,2018 Recap,Electroshocking,5,,,,,762,23.6,,Overcast and wind
 6/11/2018,Center,21129,BIB,460,,1,,L Pectoral,2018 recap,Electroshocking,1,,,,,817,23.6,,Overcast and wind
@@ -12295,8 +12295,8 @@ Date,Lake,TAG NUMBER,Species,Length (mm),Weight (g),Recap,Tag Loss,Fin Clipped,N
 6/11/2018,Center,22217,COC,565,,,,L Pectoral,,Electroshocking,5,,,,,762,23.6,,Overcast and wind
 6/11/2018,Center,22218,COC,588,,,,L Pectoral,,Electroshocking,5,,,,,762,23.6,,Overcast and wind
 6/11/2018,Center,22219,COC,561,,,,L Pectoral,,Electroshocking,5,,,,,762,23.6,,Overcast and wind
-6/11/2018,Center,22220,COC,415,,,,L Pectoral,,Electroshocking,1,Center Trans. 1,Center Trans. 1,Center Trans. 1,Center Trans. 1,449,23.6,,Overcast and Windy
-6/11/2018,Center,22221,COC,557,,,,L Pectoral,,Electroshocking,1,Center Trans. 1,Center Trans. 1,Center Trans. 1,Center Trans. 1,449,23.6,,Overcast and Windy
+6/11/2018,Center,22220,COC,415,,,,L Pectoral,,Electroshocking,Bonus 1,Center Trans. 1,Center Trans. 1,Center Trans. 1,Center Trans. 1,449,23.6,,Overcast and Windy
+6/11/2018,Center,22221,COC,557,,,,L Pectoral,,Electroshocking,Bonus 1,Center Trans. 1,Center Trans. 1,Center Trans. 1,Center Trans. 1,449,23.6,,Overcast and Windy
 6/12/2018,Five Island,18039,COC,543,,,,L Pectoral,2018 recap,Electroshocking,3,43 7.276,94 40.542,43 7.222,94 40.844,1688,26.2,,
 6/12/2018,Five Island,18353,COC,565,,,,L Pectoral,2018 recap,Electroshocking,3,43 7.276,94 40.542,43 7.222,94 40.844,1688,26.2,,
 6/12/2018,Five Island,19834,COC,645,,1,,L Pectoral,2018 recap,Electroshocking,4,43 8.141,94 40.285,,,1769,26.2,,
@@ -12695,112 +12695,112 @@ Date,Lake,TAG NUMBER,Species,Length (mm),Weight (g),Recap,Tag Loss,Fin Clipped,N
 6/14/2018,Silver (Dickinson),24037,BIB,663,,,,L Pectoral,,Electroshocking,3,,,,,2100,22.8,,"partly cloudy	sse	20-30"
 6/14/2018,Silver (Dickinson),24040,BIB,780,,,,L Pectoral,,Electroshocking,3,,,,,2100,22.8,,"partly cloudy	sse	20-30"
 6/14/2018,Silver (Dickinson),NA,CAP,716,,,,L Pectoral,"jumped out, no tag",Electroshocking,1,,,,,900,22.8,,"partly cloudy	sse	20-30"
-6/18/2018,N. Twin,1401,COC,391,,R,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,5111,COC,526,,R,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,13905,COC,371,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,13906,COC,396,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,13907,COC,368,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,13908,COC,366,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,13909,COC,333,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,13910,COC,452,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,13911,COC,396,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,13912,COC,373,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,13913,COC,389,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,13914,COC,389,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,13915,COC,384,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,13916,COC,424,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,13917,COC,343,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,13918,COC,399,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,13919,COC,404,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,13920,COC,376,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,13921,COC,378,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16082,COC,396,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16801,COC,394,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16803,COC,488,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16804,COC,381,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16805,COC,378,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16806,COC,391,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16807,COC,371,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16808,COC,384,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16809,COC,404,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16810,COC,381,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16811,COC,363,,,,R Pectoral,,Electroshocking,,384630,4701505,364789 4702182,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16812,COC,389,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16813,COC,422,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16814,COC,358,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16815,COC,353,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16816,COC,353,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16817,COC,386,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16818,COC,384,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16819,COC,371,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16820,COC,376,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16821,COC,371,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16822,COC,384,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16823,COC,353,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16824,COC,434,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16825,COC,389,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16826,COC,371,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16827,COC,366,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16828,COC,406,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16829,COC,353,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16830,COC,399,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16831,COC,485,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16832,COC,391,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16833,COC,353,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16834,COC,345,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16835,COC,419,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16836,COC,376,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16837,COC,358,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16838,COC,371,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16839,COC,485,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16840,COC,447,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16841,COC,406,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16842,COC,432,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16843,COC,472,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16844,COC,381,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16845,COC,373,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16846,COC,404,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16847,COC,363,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16848,COC,366,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16849,COC,378,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16850,COC,345,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16851,COC,343,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16852,COC,422,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16853,COC,381,,,,R Pectoral,,Electroshocking,,364743,4702198,365089 4702682 ,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16854,COC,381,,,,R Pectoral,,Electroshocking,,363777,4701758,364375 4701353,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16855,COC,361,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16856,COC,353,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16857,COC,419,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16858,COC,351,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16859,COC,338,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16860,COC,384,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16861,COC,371,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16862,COC,318,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16863,COC,353,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16864,COC,361,,,,R Pectoral,,Electroshocking,,363811,4701702,363330 4701888,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16876,COC,399,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16877,COC,366,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16878,BIB,455,1532,,,R Pectoral,spine taken env# 16878,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16879,COC,399,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16880,COC,556,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16881,COC,378,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16883,COC,419,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16884,COC,358,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16885,COC,452,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16886,COC,345,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16887,COC,373,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16888,COC,429,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16889,COC,556,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16890,COC,384,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16891,COC,505,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16892,COC,406,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16893,COC,378,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16894,COC,434,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16895,COC,417,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16896,COC,361,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16897,COC,442,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16899,COC,361,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
-6/18/2018,N. Twin,16900,COC,376,,,,R Pectoral,,Electroshocking,,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,1401,COC,391,,R,,R Pectoral,,Electroshocking,3,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,5111,COC,526,,R,,R Pectoral,,Electroshocking,3,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,13905,COC,371,,,,R Pectoral,,Electroshocking,1,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,13906,COC,396,,,,R Pectoral,,Electroshocking,1,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,13907,COC,368,,,,R Pectoral,,Electroshocking,1,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,13908,COC,366,,,,R Pectoral,,Electroshocking,1,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,13909,COC,333,,,,R Pectoral,,Electroshocking,1,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,13910,COC,452,,,,R Pectoral,,Electroshocking,1,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,13911,COC,396,,,,R Pectoral,,Electroshocking,1,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,13912,COC,373,,,,R Pectoral,,Electroshocking,1,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,13913,COC,389,,,,R Pectoral,,Electroshocking,1,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,13914,COC,389,,,,R Pectoral,,Electroshocking,1,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,13915,COC,384,,,,R Pectoral,,Electroshocking,1,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,13916,COC,424,,,,R Pectoral,,Electroshocking,1,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,13917,COC,343,,,,R Pectoral,,Electroshocking,1,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,13918,COC,399,,,,R Pectoral,,Electroshocking,1,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,13919,COC,404,,,,R Pectoral,,Electroshocking,1,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,13920,COC,376,,,,R Pectoral,,Electroshocking,1,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,13921,COC,378,,,,R Pectoral,,Electroshocking,1,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16082,COC,396,,,,R Pectoral,,Electroshocking,1,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16801,COC,394,,,,R Pectoral,,Electroshocking,1,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16803,COC,488,,,,R Pectoral,,Electroshocking,1,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16804,COC,381,,,,R Pectoral,,Electroshocking,1,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16805,COC,378,,,,R Pectoral,,Electroshocking,1,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16806,COC,391,,,,R Pectoral,,Electroshocking,1,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16807,COC,371,,,,R Pectoral,,Electroshocking,1,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16808,COC,384,,,,R Pectoral,,Electroshocking,1,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16809,COC,404,,,,R Pectoral,,Electroshocking,1,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16810,COC,381,,,,R Pectoral,,Electroshocking,1,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16811,COC,363,,,,R Pectoral,,Electroshocking,4,384630,4701505,364789 4702182,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16812,COC,389,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16813,COC,422,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16814,COC,358,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16815,COC,353,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16816,COC,353,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16817,COC,386,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16818,COC,384,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16819,COC,371,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16820,COC,376,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16821,COC,371,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16822,COC,384,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16823,COC,353,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16824,COC,434,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16825,COC,389,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16826,COC,371,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16827,COC,366,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16828,COC,406,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16829,COC,353,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16830,COC,399,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16831,COC,485,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16832,COC,391,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16833,COC,353,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16834,COC,345,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16835,COC,419,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16836,COC,376,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16837,COC,358,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16838,COC,371,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16839,COC,485,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16840,COC,447,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16841,COC,406,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16842,COC,432,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16843,COC,472,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16844,COC,381,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16845,COC,373,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16846,COC,404,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16847,COC,363,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16848,COC,366,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16849,COC,378,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16850,COC,345,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16851,COC,343,,,,R Pectoral,,Electroshocking,3,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16852,COC,422,,,,R Pectoral,,Electroshocking,3,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16853,COC,381,,,,R Pectoral,,Electroshocking,3,364743,4702198,365089 4702682 ,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16854,COC,381,,,,R Pectoral,,Electroshocking,1,363777,4701758,364375 4701353,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16855,COC,361,,,,R Pectoral,,Electroshocking,2,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16856,COC,353,,,,R Pectoral,,Electroshocking,2,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16857,COC,419,,,,R Pectoral,,Electroshocking,2,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16858,COC,351,,,,R Pectoral,,Electroshocking,2,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16859,COC,338,,,,R Pectoral,,Electroshocking,2,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16860,COC,384,,,,R Pectoral,,Electroshocking,2,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16861,COC,371,,,,R Pectoral,,Electroshocking,2,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16862,COC,318,,,,R Pectoral,,Electroshocking,2,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16863,COC,353,,,,R Pectoral,,Electroshocking,2,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16864,COC,361,,,,R Pectoral,,Electroshocking,2,363811,4701702,363330 4701888,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16876,COC,399,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16877,COC,366,,,,R Pectoral,,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16878,BIB,455,1532,,,R Pectoral,spine taken env# 16878,Electroshocking,5,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16879,COC,399,,,,R Pectoral,,Electroshocking,3,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16880,COC,556,,,,R Pectoral,,Electroshocking,3,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16881,COC,378,,,,R Pectoral,,Electroshocking,3,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16883,COC,419,,,,R Pectoral,,Electroshocking,3,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16884,COC,358,,,,R Pectoral,,Electroshocking,3,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16885,COC,452,,,,R Pectoral,,Electroshocking,3,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16886,COC,345,,,,R Pectoral,,Electroshocking,3,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16887,COC,373,,,,R Pectoral,,Electroshocking,3,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16888,COC,429,,,,R Pectoral,,Electroshocking,3,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16889,COC,556,,,,R Pectoral,,Electroshocking,3,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16890,COC,384,,,,R Pectoral,,Electroshocking,3,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16891,COC,505,,,,R Pectoral,,Electroshocking,3,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16892,COC,406,,,,R Pectoral,,Electroshocking,3,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16893,COC,378,,,,R Pectoral,,Electroshocking,3,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16894,COC,434,,,,R Pectoral,,Electroshocking,3,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16895,COC,417,,,,R Pectoral,,Electroshocking,3,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16896,COC,361,,,,R Pectoral,,Electroshocking,3,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16897,COC,442,,,,R Pectoral,,Electroshocking,3,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16899,COC,361,,,,R Pectoral,,Electroshocking,3,,,,,900,26.7,,sunny E Wind 5mph
+6/18/2018,N. Twin,16900,COC,376,,,,R Pectoral,,Electroshocking,3,,,,,900,26.7,,sunny E Wind 5mph
 6/18/2018,Silver,24019,COC,674,,1,,L Pectoral,2018 recap,Electroshocking,1,43 27.107,95 19.985,43 26.470,95 21.135,8798,25.1,,Cloudy and rainy
 6/18/2018,Silver,24208,COC,699,,,,L Pectoral,,Electroshocking,1,43 27.107,95 19.985,43 26.470,95 21.135,8798,25.1,,Cloudy and rainy
 6/18/2018,Silver,24209,COC,682,,,,L Pectoral,,Electroshocking,1,43 27.107,95 19.985,43 26.470,95 21.135,8798,25.1,,Cloudy and rainy
@@ -12871,41 +12871,41 @@ Date,Lake,TAG NUMBER,Species,Length (mm),Weight (g),Recap,Tag Loss,Fin Clipped,N
 6/19/2018,Center,21211,COC,563,,,,L Pectoral,,Electroshocking,5,Center Trans. 5,Center Trans. 5,Center Trans. 5,Center Trans. 5,896,25.1,,
 6/19/2018,Center,21212,COC,565,,,,L Pectoral,,Electroshocking,5,Center Trans. 5,Center Trans. 5,Center Trans. 5,Center Trans. 5,896,25.1,,
 6/19/2018,Center,21213,COC,689,,,,L Pectoral,Female-mirror,Electroshocking,5,Center Trans. 5,Center Trans. 5,Center Trans. 5,Center Trans. 5,896,25.1,,
-6/19/2018,Center,Env160,COC,575,2248,,,,,Electroshocking,1+2,,,,,NA,,,
-6/19/2018,Center,Env161,COC,531,1647,,,,,Electroshocking,1+3,,,,,NA,,,
-6/19/2018,Center,Env162,COC,523,2438,,,,,Electroshocking,1+4,,,,,NA,,,
-6/19/2018,Center,Env163,COC,612,2814,,,,,Electroshocking,1+5,,,,,NA,,,
-6/19/2018,Center,Env164,COC,655,3864,,,,,Electroshocking,1+6,,,,,NA,,,
-6/19/2018,Center,Env165,COC,545,2003,,,,,Electroshocking,1+7,,,,,NA,,,
-6/19/2018,Center,Env166,COC,518,2108,,,,,Electroshocking,1+8,,,,,NA,,,
+6/19/2018,Center,Env160,COC,575,2248,,,,,Electroshocking,1,Center Trans. 1,Center Trans. 1,Center Trans. 1,Center Trans. 1,1263,25.1,,
+6/19/2018,Center,Env161,COC,531,1647,,,,,Electroshocking,1,Center Trans. 1,Center Trans. 1,Center Trans. 1,Center Trans. 1,1263,25.1,,
+6/19/2018,Center,Env162,COC,523,2438,,,,,Electroshocking,1,Center Trans. 1,Center Trans. 1,Center Trans. 1,Center Trans. 1,1263,25.1,,
+6/19/2018,Center,Env163,COC,612,2814,,,,,Electroshocking,2,Center Trans. 2,Center Trans. 2,Center Trans. 2,Center Trans. 2,1236,25.1,,
+6/19/2018,Center,Env164,COC,655,3864,,,,,Electroshocking,2,Center Trans. 2,Center Trans. 2,Center Trans. 2,Center Trans. 2,1236,25.1,,
+6/19/2018,Center,Env165,COC,545,2003,,,,,Electroshocking,2,Center Trans. 2,Center Trans. 2,Center Trans. 2,Center Trans. 2,1236,25.1,,
+6/19/2018,Center,Env166,COC,518,2108,,,,,Electroshocking,2,Center Trans. 2,Center Trans. 2,Center Trans. 2,Center Trans. 2,1236,25.1,,
 6/22/2018,Five Island,18076,COC,543,,1,,L Pectoral,2018 recap,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
 6/22/2018,Five Island,19351,COC,549,,1,,L Pectoral,2018 recap,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,19375,BIB,702,,,,L Pectoral,2018 recap,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,19375,BIB,702,,,,L Pectoral,2018 recap,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
 6/22/2018,Five Island,19379,COC,616,,1,,L Pectoral,"2018 recap, male",Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,20501,COC,596,,,,L Pectoral,,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,20502,BIB,716,,,,L Pectoral,,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,20503,BIB,670,,,,L Pectoral,,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,20504,BIB,645,,,,L Pectoral,,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,20505,BIB,685,,,,L Pectoral,,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,20506,BIB,611,,,,L Pectoral,,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,20507,BIB,557,,,,L Pectoral,,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,20508,COC,650,,,,L Pectoral,,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,20509,COC,626,,,,L Pectoral,Male,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,20510,BIB,622,,,,L Pectoral,,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,20511,COC,621,,,,L Pectoral,,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,20512,COC,599,,,,L Pectoral,"2018 recap, fumbled w/o tag",Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,20513,COC,700,,,,L Pectoral,,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,20514,COC,631,,,,L Pectoral,,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,20515,COC,526,,,,L Pectoral,,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,20516,COC,640,,,,L Pectoral,Female,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,20517,COC,640,,,,L Pectoral,Male,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,20518,COC,596,,,,L Pectoral,,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,20519,COC,544,,,,L Pectoral,Male,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,20520,COC,561,,,,L Pectoral,"Male, cracked opercle",Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,20521,COC,653,,,,L Pectoral,Male,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,20522,COC,623,,,,L Pectoral,Male,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,20523,COC,621,,,,L Pectoral,Male,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,20524,COC,602,,,,L Pectoral,,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,20501,COC,596,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,20502,BIB,716,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,20503,BIB,670,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,20504,BIB,645,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,20505,BIB,685,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,20506,BIB,611,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,20507,BIB,557,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,20508,COC,650,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,20509,COC,626,,,,L Pectoral,Male,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,20510,BIB,622,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,20511,COC,621,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,20512,COC,599,,,,L Pectoral,"2018 recap, fumbled w/o tag",Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,20513,COC,700,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,20514,COC,631,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,20515,COC,526,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,20516,COC,640,,,,L Pectoral,Female,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,20517,COC,640,,,,L Pectoral,Male,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,20518,COC,596,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,20519,COC,544,,,,L Pectoral,Male,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,20520,COC,561,,,,L Pectoral,"Male, cracked opercle",Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,20521,COC,653,,,,L Pectoral,Male,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,20522,COC,623,,,,L Pectoral,Male,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,20523,COC,621,,,,L Pectoral,Male,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,20524,COC,602,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
 6/22/2018,Five Island,21214,COC,668,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
 6/22/2018,Five Island,21215,COC,577,,,,L Pectoral,Male,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
 6/22/2018,Five Island,21216,BIB,465,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
@@ -12971,27 +12971,27 @@ Date,Lake,TAG NUMBER,Species,Length (mm),Weight (g),Recap,Tag Loss,Fin Clipped,N
 6/22/2018,Five Island,21277,COC,600,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
 6/22/2018,Five Island,21278,COC,556,,,,L Pectoral,Male,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
 6/22/2018,Five Island,21279,COC,600,,,,L Pectoral,Male,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,21280,COC,657,,,,L Pectoral,,Electroshocking,2,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,21281,COC,665,,,,L Pectoral,,Electroshocking,2,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,21282,COC,632,,,,L Pectoral,Male,Electroshocking,2,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,21283,COC,580,,,,L Pectoral,Male,Electroshocking,2,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,21284,COC,310,,,,L Pectoral,Small,Electroshocking,2,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,21285,COC,689,,,,L Pectoral,,Electroshocking,2,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,21286,COC,613,,,,L Pectoral,Male,Electroshocking,2,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,21287,COC,629,,,,L Pectoral,,Electroshocking,2,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,21288,COC,579,,,,L Pectoral,,Electroshocking,2,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,21289,BIB,666,,,,L Pectoral,,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,21290,BIB,606,,,,L Pectoral,,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,21291,BIB,607,,,,L Pectoral,,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,21292,BIB,642,,,,L Pectoral,,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,21293,BIB,637,,,,L Pectoral,,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,21294,BIB,590,,,,L Pectoral,,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,21295,BIB,615,,,,L Pectoral,,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,21296,BIB,651,,,,L Pectoral,,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,21297,BIB,557,,,,L Pectoral,,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,21298,BIB,583,,,,L Pectoral,,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,21299,BIB,550,,,,L Pectoral,,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
-6/22/2018,Five Island,21300,BIB,592,,,,L Pectoral,,Electroshocking,3,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,21280,COC,657,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,21281,COC,665,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,21282,COC,632,,,,L Pectoral,Male,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,21283,COC,580,,,,L Pectoral,Male,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,21284,COC,310,,,,L Pectoral,Small,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,21285,COC,689,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,21286,COC,613,,,,L Pectoral,Male,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,21287,COC,629,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,21288,COC,579,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,21289,BIB,666,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,21290,BIB,606,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,21291,BIB,607,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,21292,BIB,642,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,21293,BIB,637,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,21294,BIB,590,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,21295,BIB,615,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,21296,BIB,651,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,21297,BIB,557,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,21298,BIB,583,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,21299,BIB,550,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
+6/22/2018,Five Island,21300,BIB,592,,,,L Pectoral,,Electroshocking,1,43 9.795,94 38.688,43 9.892,94 39.165,8803,22,,"Partly cloudy, 70F"
 6/26/2018,Silver,Env109,COC,761,6949,,,,Aging fish,Electroshocking,Bonus 1,43 26.406,95 21.269,43 27.010,95 20.525,5925,21.3,,after heavy rain partly cloudy 65F
 6/26/2018,Silver,Env110,COC,764,5643,,,,Aging fish,Electroshocking,Bonus 1,43 26.406,95 21.269,43 27.010,95 20.525,5925,21.3,,after heavy rain partly cloudy 65F
 6/26/2018,Silver,Env111,COC,689,4339,,,,Aging fish,Electroshocking,Bonus 1,43 26.406,95 21.269,43 27.010,95 20.525,5925,21.3,,after heavy rain partly cloudy 65F
@@ -13388,15 +13388,15 @@ Date,Lake,TAG NUMBER,Species,Length (mm),Weight (g),Recap,Tag Loss,Fin Clipped,N
 7/5/2018,N. Twin,12698,BIB,505,2331,,,R Pectoral,,Electroshocking,2,,,,,900,26.4,,overcast NW wind 10 mph
 7/5/2018,N. Twin,12699,COC,363,653,,,R Pectoral,,Electroshocking,2,,,,,900,26.4,,overcast NW wind 10 mph
 7/5/2018,N. Twin,12700,COC,447,1048,,,R Pectoral,,Electroshocking,2,,,,,900,26.4,,overcast NW wind 10 mph
-7/9/2018,N. Twin,12638,BIB,470,,,,R Pectoral,,Electroshocking,2,,,,,900,,,sunny wind 5-10mph
-7/9/2018,N. Twin,12639,COC,538,,,,R Pectoral,,Electroshocking,4,365992,4705303,366099 4705728,,900,,,sunny wind 5-10mph
-7/9/2018,N. Twin,12640,COC,485,,,,R Pectoral,,Electroshocking,4,,,,,900,,,sunny wind 5-10mph
-7/9/2018,N. Twin,12649,COC,500,,,,R Pectoral,,Electroshocking,2,366554,4705283,366380 4704875,,900,,,sunny wind 5-10mph
-7/9/2018,N. Twin,12650,COC,582,,,,R Pectoral,,Electroshocking,2,,,,,900,,,sunny wind 5-10mph
-7/9/2018,N. Twin,13943,COC,500,,,,R Pectoral,,Electroshocking,4,,,,,900,,,sunny wind 5-10mph
-7/9/2018,N. Twin,15977,COC,561,,,,R Pectoral,,Electroshocking,1,365047,4704045,365047 4704045,,900,,,sunny wind 5-10mph
-7/9/2018,N. Twin,15978,BIB,671,,,,R Pectoral,,Electroshocking,1,,,,,900,,,sunny wind 5-10mph
-7/9/2018,N. Twin,16634,COC,569,,,,R Pectoral,,Electroshocking,4,,,,,900,,,sunny wind 5-10mph
+7/9/2018,N. Twin,12638,BIB,470,,,,R Pectoral,,Electroshocking,5,,,,,900,,,sunny wind 5-10mph
+7/9/2018,N. Twin,12639,COC,538,,,,R Pectoral,,Electroshocking,3,365992,4705303,366099 4705728,,900,,,sunny wind 5-10mph
+7/9/2018,N. Twin,12640,COC,485,,,,R Pectoral,,Electroshocking,3,,,,,900,,,sunny wind 5-10mph
+7/9/2018,N. Twin,12649,COC,500,,,,R Pectoral,,Electroshocking,5,366554,4705283,366380 4704875,,900,,,sunny wind 5-10mph
+7/9/2018,N. Twin,12650,COC,582,,,,R Pectoral,,Electroshocking,5,,,,,900,,,sunny wind 5-10mph
+7/9/2018,N. Twin,13943,COC,500,,,,R Pectoral,,Electroshocking,3,,,,,900,,,sunny wind 5-10mph
+7/9/2018,N. Twin,15977,COC,561,,,,R Pectoral,,Electroshocking,2,365047,4704045,365047 4704045,,900,,,sunny wind 5-10mph
+7/9/2018,N. Twin,15978,BIB,671,,,,R Pectoral,,Electroshocking,2,,,,,900,,,sunny wind 5-10mph
+7/9/2018,N. Twin,16634,COC,569,,,,R Pectoral,,Electroshocking,3,,,,,900,,,sunny wind 5-10mph
 7/10/2018,Storm,Env1,COC,512,1388,,,,Aging fish,Electroshocking,ALL + MM samples,42 37.682,95 13.894,42 36.702,95 11.512,11473,28.3,,Sunny and hot (80F) few clouds. Farily windy as Matt Mork broke a e-fishing boom in waves
 7/10/2018,Storm,Env10,COC,469,1160,,,,Aging fish,Electroshocking,ALL + MM samples,42 37.682,95 13.894,42 36.702,95 11.512,11473,28.3,,Sunny and hot (80F) few clouds. Farily windy as Matt Mork broke a e-fishing boom in waves
 7/10/2018,Storm,Env100,COC,558,2587,,,,Aging fish,Electroshocking,ALL + MM samples,42 37.682,95 13.894,42 36.702,95 11.512,11473,28.3,,Sunny and hot (80F) few clouds. Farily windy as Matt Mork broke a e-fishing boom in waves
@@ -16862,3 +16862,71 @@ Date,Lake,TAG NUMBER,Species,Length (mm),Weight (g),Recap,Tag Loss,Fin Clipped,N
 11/8/2018,S Twin,29065,BIB,395,,,,R Pectoral,Both opercles undergrown,Electroshocking,4,,,,,972,2.4,,overcast calm 32F snow
 11/8/2018,S Twin,29066,COC,476,,,,R Pectoral,,Electroshocking,4,,,,,972,2.4,,overcast calm 32F snow
 11/8/2018,S Twin,29067,BIB,456,,,,R Pectoral,,Electroshocking,4,,,,,972,2.4,,overcast calm 32F snow
+6/28/2018,Center,Env 167,COC,582,2366,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 168,COC,590,2254,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 169,COC,578,2736,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 170,COC,773,6723,,,Dorsal,Female,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 171,COC,599,2360,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 172,COC,523,1750,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 173,COC,698,5829,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 174,COC,653,5591,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 175,COC,622,2621,,,Dorsal,Female,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 176,COC,464,1192,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 177,COC,554,2801,,,Dorsal,Scoliosis,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 178,COC,685,4481,1,1,Dorsal,2017 tag loss,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 179,COC,596,4923,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 180,COC,552,1834,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 181,COC,550,1992,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 182,COC,491,1597,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 183,COC,656,4382,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 184,COC,537,2041,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 185,COC,501,1572,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 186,COC,547,2060,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 187,COC,502,1989,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 188,COC,500,1523,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 189,COC,661,3084,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 190,COC,606,2712,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 191,COC,616,2964,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 192,COC,563,2478,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 193,COC,558,2087,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 194,COC,664,3607,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 195,COC,627,2704,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 196,COC,660,4281,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 197,COC,413,1071,,,Dorsal,Female,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 198,COC,627,3071,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 199,COC,620,2531,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 200,COC,640,3116,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 201,COC,623,2744,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 202,COC,453,825,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 203,COC,590,3557,,,Dorsal,Female,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 204,COC,465,1315,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 205,COC,671,4375,1,1,Dorsal,2017 tag loss female,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 206,COC,670,3609,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 207,COC,683,3613,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 208,COC,627,2858,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 209,COC,659,3433,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 210,COC,686,5144,,,Dorsal,Female,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 211,COC,703,4171,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 212,COC,423,1073,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 213,COC,499,1639,,,Dorsal,,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 214,COC,628,3336,,,Dorsal,Female,Electroshocking,1,,,,,5631,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 215,COC,654,4209,,,Dorsal,Female,Electroshocking,2,,,,,2147,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 216,COC,695,3979,,,Dorsal,,Electroshocking,2,,,,,2147,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 217,COC,570,1580,1,1,Dorsal,2017 tag loss,Electroshocking,2,,,,,2147,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 218,COC,643,3248,,,Dorsal,,Electroshocking,2,,,,,2147,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 219,COC,557,1441,,,Dorsal,Male,Electroshocking,2,,,,,2147,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 220,COC,671,3630,,,Dorsal,,Electroshocking,2,,,,,2147,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 221,COC,537,2276,,,Dorsal,Female,Electroshocking,2,,,,,2147,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 222,COC,490,1666,,,Dorsal,Mirror,Electroshocking,2,,,,,2147,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 223,COC,455,1332,,,Dorsal,,Electroshocking,2,,,,,2147,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 224,COC,466,1270,,,Dorsal,,Electroshocking,2,,,,,2147,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 225,COC,569,1907,1,1,Dorsal,2017 tag loss Female,Electroshocking,2,,,,,2147,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 226,COC,583,2882,,,Dorsal,,Electroshocking,2,,,,,2147,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 227,COC,295,271,,,Dorsal,,Electroshocking,2,,,,,2147,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 228,COC,552,1820,,,Dorsal,,Electroshocking,2,,,,,2147,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 229,COC,523,1829,,,Dorsal,,Electroshocking,2,,,,,2147,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 230,COC,310,390,,,Dorsal,,Electroshocking,2,,,,,2147,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 231,COC,266,196,,,Dorsal,,Electroshocking,2,,,,,2147,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 232,COC,497,1655,,,Dorsal,Male,Electroshocking,2,,,,,2147,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 233,COC,477,1374,,,Dorsal,,Electroshocking,2,,,,,2147,25.3,,cloudy sprinkles windy
+6/28/2018,Center,Env 234,COC,545,2469,,,Dorsal,Female,Electroshocking,2,,,,,2147,25.3,,cloudy sprinkles windy

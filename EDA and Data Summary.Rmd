@@ -250,29 +250,6 @@ data$Site.Transect[data$Site.Transect == "Bonus 1 (bridge)"] <- "Bridge"
 data$Site.Transect<-droplevels(data$Site.Transect)
 summary(data$Site.Transect)
 
-########################################################################
-#
-#       Found 12-18-2018
-#       6/18/18 N Twin transects without transect #
-data$Site.Transect[data$TAG.NUMBER == 13905|13921|13920|13919|13918|13917|13916|13915|13914|13913|13912|13911|
-                                       13906|13907|13908|13909|13910|16801|16082|16803|16804|16805|16806|16807|
-                                       16808|16809|16810|16854&
-                     data$Date == "2015-06-18"] <- "1"
-data$Site.Transect[data$TAG.NUMBER == 16855|16856|16857|16858|16859|16860|16861|16862|16863|16864&
-                     data$Date == "2015-06-18"] <- "2"
-data$Site.Transect[data$TAG.NUMBER == 16879|16880|16881|16883|16884|16885|16886|16887|16888|16889|16890|16891|
-                                      16892|16893|16894|16895|16896|16897|16899|16900|16851|16852|16853|5111|1401 &
-                     data$Date == "2015-06-18"] <- "3"
-data$Site.Transect[data$TAG.NUMBER == 16811&
-                     data$Date == "2015-06-18"] <-"4"
-data$Site.Transect[data$TAG.NUMBER == 16812|16813|16814|16815|16816|16817|16818|16819|16820|16821|16822|16823|
-                                      16824|16825|16826|16827|16828|16829|16830|16831|16832|16833|16834|16835|
-                                      16836|16837|16838|16839|16840|16841|16842|16843|16844|16845|16846|16847|
-                                      16848|16849|16850|16876|16877|16878 &
-                     data$Date == "2015-06-18"] <-"5"
-############################################################################
-
-
 ################
 #
 # On.Time..s.
@@ -347,7 +324,7 @@ write new CSV with consolidated data in long format
 __Blue Lake. Because alphabet__
 ```{r}
 # Also, this one is gonna suck. I didn't have much foresight when it came to using this data later :(
-blue.df <- read.csv("C:\\Users/M_Sim/OneDrive/IOWA/Iowa State University/CarpR/BlueLake/2017 BL Carp Tag Data.csv")
+blue.df <- read.csv("2017 BL Carp Tag Data.csv")
 str(blue.df)
 
 # Date format
@@ -436,7 +413,7 @@ data<-rbind(data,blue.df)
 
 __Twin Lakes__
 ```{r}
-twin.df <- read.csv("C:\\Users/M_Sim/OneDrive/IOWA/Iowa State University/CarpR/TwinLakes/2017 TwinLakes Tag Data.csv", header = TRUE)
+twin.df <- read.csv("2017 TwinLakes Tag Data.csv", header = TRUE)
 str(twin.df)
 twin.df$Date<-twin.df$ï..Date
 
@@ -539,7 +516,7 @@ __Center Lake!__
 Last one here. Got to add Spirit Lake data to this format for a truly compiled data collection of all carp and buffalo tagging data up to 12/11/2018.
 
 ```{r}
-center.df <- read.csv("C:\\Users/M_Sim/OneDrive/IOWA/Iowa State University/CarpR/CenterLake/2017 CenterLake Tag Data.csv", header = TRUE)
+center.df <- read.csv("2017 CenterLake Tag Data.csv", header = TRUE)
 str(center.df)
 
 center.df$Date<-center.df$ï..Date

@@ -174,36 +174,6 @@ str(denframe)
 
 ```
 
-creating the data frame necessary to plot
-
-<<<<<<< HEAD
-__New 12-13-2018: importing "All.Biomass", the length-specific biomass and biomass density estimates from 2018__
-```{r,}
-
-all.bm<-read.csv("2018_BiomassDensityEstimates.csv")
-
-# CarpCPUE - n fish per hour electrofishing
-# think i need to melt and cast here, let's try for just carp
-
-coc.df<-subset(df, Species == "COC")
-coc.df.melt<-melt(coc.df, id = c("Lake","Date","Site.Transect"))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-summary(coc.df)
-=======
 - biomass and density data frame
 -- with schnabel pop estimates from december 2018
 ```{r,}
@@ -229,7 +199,6 @@ coc.df<-subset(coc.df, Gear == "Electroshocking")   # just e-fishing
 coc.df<-subset(coc.df, !is.na(coc.df$On.Time..s.))  # only runs with recorded effort
 coc.df$On.Time..s.<-as.numeric(coc.df$On.Time..s.)
 str(coc.df)
->>>>>>> cf323e8be194eb2cc159ed13594c256f372f38e4
 # on-time in seconds to Effort in hours
 coc.df$Effort<-coc.df$On.Time..s./3600
 
@@ -324,11 +293,291 @@ levels(droplevels(STCheck$DLR))
 StormCheck<-subset(bib.cpue, Lake == "Storm")
 levels(droplevels(StormCheck$DLR))
 
+##########################################################################################
+#
+#           Blue Lake is good. Not worrying about the 1 buffalo
+#
+#           Five Island Lake additions:
+#                         At least 1 carp per transect somehow
+#                         44 runs without a buffalo though. 44/78 runs. Shite!
+
+
+a<-c("5 Island","2018-05-23 5 Island 2", 928/3600, 0, 0)
+b<-c("5 Island","2018-05-23 5 Island 3", 1298/3600, 0, 0)
+c<-c("5 Island","2018-05-23 5 Island 4", 904/3600, 0, 0)
+d<-c("5 Island","2018-05-23 5 Island 5", 905/3600, 0, 0)
+e<-c("5 Island","2018-05-23 5 Island 6", 965/3600, 0, 0)
+f<-c("5 Island","2018-05-23 5 Island 7", 1126/3600, 0, 0)
+g<-c("5 Island","2018-05-23 5 Island 8", 961/3600, 0, 0)
+h<-c("5 Island","2018-05-23 5 Island 9", 1130/3600, 0, 0)
+
+i<-c("5 Island","2018-06-06 5 Island 3", 1021/3600, 0, 0)
+j<-c("5 Island","2018-06-06 5 Island 5", 1051/3600, 0, 0)
+
+k<-c("5 Island","2018-06-12 5 Island 4", 1769/3600,0,0)
+
+l<-c("5 Island","2018-06-28 5 Island 1", 1669/3600,0,0)
+m<-c("5 Island","2018-06-28 5 Island 3", 1807/3600,0,0)
+n<-c("5 Island","2018-06-28 5 Island 4", 1850/3600,0,0)
+
+o<-c("5 Island","2018-07-12 5 Island 1", 963/3600,0,0)
+p<-c("5 Island","2018-07-12 5 Island 3", 909/3600,0,0)
+q<-c("5 Island","2018-07-12 5 Island 4", 910/3600,0,0)
+r<-c("5 Island","2018-07-12 5 Island 5", 969/3600,0,0)
+s<-c("5 Island","2018-07-12 5 Island Bonus 1", 1331/3600,0,0)
+t<-c("5 Island","2018-07-12 5 Island Bonus 2", 1159/3600,0,0)
+u<-c("5 Island","2018-07-12 5 Island Bonus 3", 581/3600,0,0)
+v<-c("5 Island","2018-07-12 5 Island Bonus 4", 1074/3600,0,0)
+
+w<-c("5 Island","2018-07-20 5 Island Bonus 1", 3866/3600,0,0)
+x<-c("5 Island","2018-07-20 5 Island 2", 1161/3600,0,0)
+y<-c("5 Island","2018-07-20 5 Island 3", 1142/3600,0,0)
+z<-c("5 Island","2018-07-20 5 Island 4", 1389/3600,0,0)
+aa<-c("5 Island","2018-07-20 5 Island 5", 1306/3600,0,0)
+bb<-c("5 Island","2018-07-20 5 Island Bonus 4", 1588/3600,0,0)
+
+cc<-c("5 Island","2018-07-25 5 Island 1", 3579/3600,0,0)
+dd<-c("5 Island","2018-07-25 5 Island 3", 3485/3600,0,0)
+
+ee<-c("5 Island","2018-08-01 5 Island 2", 1025/3600,0,0)
+ff<-c("5 Island","2018-08-01 5 Island 3", 1291/3600,0,0)
+gg<-c("5 Island","2018-08-01 5 Island 4", 1162/3600,0,0)
+hh<-c("5 Island","2018-08-01 5 Island Bonus 1", 4320/3600,0,0)
+
+ii<-c("5 Island","2018-08-15 5 Island 1", 1678/3600,0,0)
+jj<-c("5 Island","2018-08-15 5 Island 2", 1889/3600,0,0)
+kk<-c("5 Island","2018-08-15 5 Island 3", 1899/3600,0,0)
+ll<-c("5 Island","2018-08-15 5 Island 5", 1378/3600,0,0)
+
+mm<-c("5 Island","2018-09-09 5 Island 3", 901/3600,0,0)
+nn<-c("5 Island","2018-09-09 5 Island 4", 1060/3600,0,0)
+oo<-c("5 Island","2018-09-09 5 Island 5", 1021/3600,0,0)
+
+pp<-c("5 Island","2018-10-06 5 Island 4", 1053/3600,0,0)
+qq<-c("5 Island","2018-10-06 5 Island 5", 939/3600,0,0)
+
+add.on<-data.frame(t(data.frame(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,
+                           aa,bb,cc,dd,ee,ff,gg,hh,ii,jj,kk,ll,mm,nn,oo,pp,qq)),
+                   stringsAsFactors = F)
+names(add.on)<-c("Lake","DLR","Effort","n","cpue")
+add.on$n<-as.numeric(add.on$n)
+add.on$cpue<-as.numeric(add.on$cpue)
+add.on$Effort<-as.numeric(add.on$Effort)
+add.on$Lake<-as.factor(add.on$Lake)
+add.on$DLR<-as.factor(add.on$DLR)
+str(add.on)
+bib.cpue<-rbind(bib.cpue,add.on)
+#####################        AWESOME        ######################
+
+##################################
+#
+# Center Lake
+#       25 added to bib
+#       13 added to coc
+#
+a<-c("Center","2018-05-25 Center 2",931/3600,0,0)
+b<-c("Center","2018-05-25 Center 3",900/3600,0,0)
+c<-c("Center","2018-05-25 Center 4",909/3600,0,0)
+d<-c("Center","2018-05-25 Center 5",939/3600,0,0)
+
+e<-c("Center","2018-05-31 Center 3",798/3600,0,0)
+f<-c("Center","2018-05-31 Center 4",1432/3600,0,0)
+
+g<-c("Center","2018-06-04 Center 2",1041/3600,0,0)
+h<-c("Center","2018-06-04 Center 3",893/3600,0,0)
+i<-c("Center","2018-06-04 Center 4",659/3600,0,0)
+j<-c("Center","2018-06-04 Center 5",913/3600,0,0)
+
+k<-c("Center","2018-06-11 Center 2",1010/3600,0,0)
+l<-c("Center","2018-06-11 Center 3",672/3600,0,0)
+m<-c("Center","2018-06-11 Center 4",599/3600,0,0)
+n<-c("Center","2018-06-11 Center 5",762/3600,0,0)
+o<-c("Center","2018-06-11 Center Bonus 1",449/3600,0,0)
+
+p<-c("Center","2018-06-19 Center 4",645/3600,0,0)
+q<-c("Center","2018-06-19 Center 5",896/3600,0,0)
+
+r<-c("Center","2018-07-19 Center 4",770/3600,0,0)
+s<-c("Center","2018-07-19 Center 5",971/3600,0,0)
+
+t<-c("Center","2018-07-30 Center 1",2218/3600,0,0)
+u<-c("Center","2018-07-30 Center 5",772/3600,0,0)
+
+v<-c("Center","2018-08-02 Center 1",1003/3600,0,0)
+w<-c("Center","2018-08-02 Center 3",872/3600,0,0)
+x<-c("Center","2018-08-02 Center 4",870/3600,0,0)
+y<-c("Center","2018-08-02 Center 5",919/3600,0,0)
+
+add.on<-data.frame(t(data.frame(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y)),
+                   stringsAsFactors = F)
+names(add.on)<-c("Lake","DLR","Effort","n","cpue")
+add.on$n<-as.numeric(add.on$n)
+add.on$cpue<-as.numeric(add.on$cpue)
+add.on$Effort<-as.numeric(add.on$Effort)
+add.on$Lake<-as.factor(add.on$Lake)
+add.on$DLR<-as.factor(add.on$DLR)
+str(add.on)
+bib.cpue<-rbind(bib.cpue,add.on)
+# Now Carp!
+a<-c("Center","2018-05-17 Center 2",917/3600,0,0)
+b<-c("Center","2018-05-17 Center 3",893/3600,0,0)
+c<-c("Center","2018-05-17 Center 5",932/3600,0,0)
+
+d<-c("Center","2018-05-25 Center 1",925/3600,0,0)
+e<-c("Center","2018-05-25 Center 2",931/3600,0,0)
+
+f<-c("Center","2018-05-31 Center 4",1432/3600,7,7/(1432/3600))
+
+g<-c("Center","2018-07-19 Center 2",848/3600,0,0)
+
+h<-c("Center","2018-08-02 Center 1",1003/3600,0,0)
+i<-c("Center","2018-08-02 Center 4",870/3600,0,0)
+
+j<-c("Center","2018-09-08 Center 2",885/3600,0,0)
+k<-c("Center","2018-09-08 Center 4",778/3600,0,0)
+
+l<-c("Center","2018-10-05 Center 2",849/3600,0,0)
+m<-c("Center","2018-10-05 Center 4",549/3600,0,0)
+
+add.on<-data.frame(t(data.frame(a,b,c,d,e,f,g,h,i,j,k,l,m)),
+                   stringsAsFactors = F)
+names(add.on)<-c("Lake","DLR","Effort","n","cpue")
+add.on$n<-as.numeric(add.on$n)
+add.on$cpue<-as.numeric(add.on$cpue)
+add.on$Effort<-as.numeric(add.on$Effort)
+add.on$Lake<-as.factor(add.on$Lake)
+add.on$DLR<-as.factor(add.on$DLR)
+str(add.on)
+coc.cpue<-rbind(coc.cpue,add.on)
+####################################      AWESOME     ##########################
 
 
 
+##############
+# North Twin 
+#
+#       42 buffalo
+#       16 carp
+#
+a<-c("N. Twin","2018-05-15 N. Twin 1",900/3600,0,0)
+b<-c("N. Twin","2018-05-15 N. Twin 2",900/3600,0,0)
+
+c<-c("N. Twin","2018-05-18 N. Twin 3",900/3600,0,0)
+
+d<-c("N. Twin","2018-06-06 N. Twin 2",900/3600,0,0)
+
+e<-c("N. Twin","2018-06-18 N. Twin 1",900/3600,0,0)
+f<-c("N. Twin","2018-06-18 N. Twin 2",900/3600,0,0)
+g<-c("N. Twin","2018-06-18 N. Twin 3",900/3600,0,0)
+h<-c("N. Twin","2018-06-18 N. Twin 4",900/3600,0,0)
+
+i<-c("N. Twin","2018-07-03 N. Twin 1",900/3600,0,0)
+j<-c("N. Twin","2018-07-03 N. Twin 2",900/3600,0,0)
+k<-c("N. Twin","2018-07-03 N. Twin 3",900/3600,0,0)
+
+l<-c("N. Twin","2018-07-05 N. Twin 1",900/3600,0,0)
+m<-c("N. Twin","2018-07-05 N. Twin 3",900/3600,0,0)
+
+o<-c("N. Twin","2018-07-09 N. Twin 1",900/3600,0,0)
+p<-c("N. Twin","2018-07-09 N. Twin 3",900/3600,0,0)
+
+q<-c("N. Twin","2018-07-13 N. Twin 1",900/3600,0,0)
+r<-c("N. Twin","2018-07-13 N. Twin 2",900/3600,0,0)
+s<-c("N. Twin","2018-07-13 N. Twin 3",900/3600,0,0)
+t<-c("N. Twin","2018-07-13 N. Twin 4",900/3600,0,0)
+
+u<-c("N. Twin","2018-07-16 N. Twin 1",1667/3600,0,0)
+
+v<-c("N. Twin","2018-08-01 N. Twin 2",900/3600,0,0)
+w<-c("N. Twin","2018-08-01 N. Twin 3",900/3600,0,0)
+
+x<-c("N. Twin","2018-08-06 N. Twin 1",900/3600,0,0)
+y<-c("N. Twin","2018-08-06 N. Twin 2",900/3600,0,0)
+z<-c("N. Twin","2018-08-06 N. Twin 3",900/3600,0,0)
+
+aa<-c("N. Twin","2018-08-03 N. Twin 1",900/3600,0,0)
+bb<-c("N. Twin","2018-08-03 N. Twin 2",900/3600,0,0)
+cc<-c("N. Twin","2018-08-03 N. Twin 3",900/3600,0,0)
+dd<-c("N. Twin","2018-08-03 N. Twin 4",900/3600,0,0)
+
+ee<-c("N. Twin","2018-08-07 N. Twin 1",900/3600,0,0)
+ff<-c("N. Twin","2018-08-07 N. Twin 2",900/3600,0,0)
+gg<-c("N. Twin","2018-08-07 N. Twin 3",900/3600,0,0)
+hh<-c("N. Twin","2018-08-07 N. Twin 4",900/3600,0,0)
+
+ii<-c("N. Twin","2018-08-14 N. Twin 1",1202/3600,0,0)
+jj<-c("N. Twin","2018-08-14 N. Twin 2",1200/3600,0,0)
+kk<-c("N. Twin","2018-08-14 N. Twin 3",1200/3600,0,0)
+
+ll<-c("N. Twin","2018-08-17 N. Twin 2",1363/3600,0,0)
+
+mm<-c("N. Twin","2018-08-15 N. Twin 1",1202/3600,0,0)
+nn<-c("N. Twin","2018-08-15 N. Twin 2",1389/3600,0,0)
+oo<-c("N. Twin","2018-08-15 N. Twin 3",1206/3600,0,0)
+pp<-c("N. Twin","2018-08-15 N. Twin 4",1200/3600,0,0)
+
+qq<-c("N. Twin","2018-11-01 N. Twin 1",905/3600,0,0)
+
+add.on<-data.frame(t(data.frame(a,b,c,d,e,f,g,h,i,j,k,l,m,o,p,q,r,s,t,u,v,w,x,y,z,
+                           aa,bb,cc,dd,ee,ff,gg,hh,ii,jj,kk,ll,mm,nn,oo,pp,qq)),
+                   stringsAsFactors = F)
+names(add.on)<-c("Lake","DLR","Effort","n","cpue")
+add.on$n<-as.numeric(add.on$n)
+add.on$cpue<-as.numeric(add.on$cpue)
+add.on$Effort<-as.numeric(add.on$Effort)
+add.on$Lake<-as.factor(add.on$Lake)
+add.on$DLR<-as.factor(add.on$DLR)
+str(add.on)
+bib.cpue<-rbind(bib.cpue,add.on)
+
+# COC now
+a<-c("N. Twin","2018-05-18 N. Twin 1",900/3600,0,0)
+
+b<-c("N. Twin","2018-07-09 N. Twin 1",900/3600,0,0)
+
+c<-c("N. Twin","2018-07-16 N. Twin 3",1224/3600,0,0)
+
+d<-c("N. Twin","2018-07-25 N. Twin 1",1204/3600,0,0)
+e<-c("N. Twin","2018-07-25 N. Twin 2",1207/3600,0,0)
+
+f<-c("N. Twin","2018-07-31 N. Twin 2",1560/3600,0,0)
+
+g<-c("N. Twin","2018-08-06 N. Twin 5",900/3600,0,0)
+
+h<-c("N. Twin","2018-08-09 N. Twin 1",1471/3600,0,0)
+i<-c("N. Twin","2018-08-09 N. Twin 4",1200/3600,0,0)
+
+j<-c("N. Twin","2018-10-10 N. Twin 3",900/3600,0,0)
+
+k<-c("N. Twin","2018-10-12 N. Twin 1",900/3600,0,0)
+l<-c("N. Twin","2018-10-12 N. Twin 2",900/3600,0,0)
+m<-c("N. Twin","2018-10-12 N. Twin 5",900/3600,0,0)
+
+n<-c("N. Twin","2018-11-01 N. Twin 2",849/3600,0,0)
+o<-c("N. Twin","2018-11-01 N. Twin Bonus 2",1552/3600,0,0)
+p<-c("N. Twin","2018-11-01 N. Twin Bonus 3",1085/3600,0,0)
+
+add.on<-data.frame(t(data.frame(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p)),
+                   stringsAsFactors = F)
+names(add.on)<-c("Lake","DLR","Effort","n","cpue")
+add.on$n<-as.numeric(add.on$n)
+add.on$cpue<-as.numeric(add.on$cpue)
+add.on$Effort<-as.numeric(add.on$Effort)
+add.on$Lake<-as.factor(add.on$Lake)
+add.on$DLR<-as.factor(add.on$DLR)
+str(add.on)
+coc.cpue<-rbind(coc.cpue,add.on)
 
 
+
+###################################
+# Silver Lake
+#
+#
+#
+#
+#
+#
 
 ```
 
