@@ -101,10 +101,10 @@ BlueLF.2018<-ggplot(blue.coc, aes(x=Length..mm., fill=Species))+
                 scale_y_continuous(limits = c(0,700))+
                 labs(title = "Blue Lake Carp Length-Frequency",
                       x = "Length (mm)",
-                      y = "Frequency") +
+                      y = "Frequency (Note larger y-axis)") +
                 theme_classic()
 BlueLF.2018
-# 281-290 and 291-300 have no observations, this explains the error code (only one obs at 273)
+
 
 ```
 
@@ -130,7 +130,7 @@ summary(center.bib$Length..mm.)
 centerLF.c.2018<-ggplot(center.coc, aes(x=Length..mm., fill=Species))+
                 geom_histogram(binwidth=10,colour="black",position="dodge", fill = "burlywood4")+
                 coord_cartesian(xlim = c(0,1000))+
-                scale_y_continuous(limits = c(0,50))+
+                scale_y_continuous(limits = c(0,200))+
                 labs(title = "Center Lake Carp Length-Frequency",
                       x = "Length (mm)",
                       y = "Frequency") +
@@ -140,7 +140,7 @@ centerLF.c.2018
 centerLF.b.2018<-ggplot(center.bib, aes(x=Length..mm., fill = Species))+
                   geom_histogram(binwidth = 10, colour = "black", position = "dodge", fill = "cornflowerblue")+
                   coord_cartesian(xlim = c(0,1000))+
-                  scale_y_continuous(limits = c(0,50))+
+                  scale_y_continuous(limits = c(0,200))+
                   labs(title = "Center Lake Buffalo Length-Frequency",
                       x = "Length (mm)",
                       y = "Frequency") +
@@ -212,7 +212,7 @@ summary(NTwin.bib$Length..mm.)
 NTwinLF.c.2018<-ggplot(NTwin.coc, aes(x=Length..mm., fill=Species))+
                 geom_histogram(binwidth=10,colour="black",position="dodge", fill = "burlywood4")+
                 coord_cartesian(xlim = c(0,1000))+
-                scale_y_continuous(limits = c(0,100))+
+                scale_y_continuous(limits = c(0,200))+
                 labs(title = "North Twin Lake Carp Length-Frequency",
                       x = "Length (mm)",
                       y = "Frequency") +
@@ -222,7 +222,7 @@ NTwinLF.c.2018
 NTwinLF.b.2018<-ggplot(NTwin.bib, aes(x=Length..mm., fill = Species))+
                   geom_histogram(binwidth = 10, colour = "black", position = "dodge", fill = "cornflowerblue")+
                   coord_cartesian(xlim = c(0,1000))+
-                  scale_y_continuous(limits = c(0,100))+
+                  scale_y_continuous(limits = c(0,200))+
                   labs(title = "North Twin Lake Buffalo Length-Frequency",
                       x = "Length (mm)",
                       y = "Frequency") +
@@ -253,7 +253,7 @@ summary(Silver.bib$Length..mm.)
 SilverLF.c.2018<-ggplot(Silver.coc, aes(x=Length..mm., fill=Species))+
                 geom_histogram(binwidth=10,colour="black",position="dodge", fill = "burlywood4")+
                 coord_cartesian(xlim = c(0,1000))+
-                scale_y_continuous(limits = c(0,100))+
+                scale_y_continuous(limits = c(0,200))+
                 labs(title = "Silver Lake Carp Length-Frequency",
                       x = "Length (mm)",
                       y = "Frequency") +
@@ -263,7 +263,7 @@ SilverLF.c.2018
 SilverLF.b.2018<-ggplot(Silver.bib, aes(x=Length..mm., fill = Species))+
                   geom_histogram(binwidth = 10, colour = "black", position = "dodge", fill = "cornflowerblue")+
                   coord_cartesian(xlim = c(0,1000))+
-                  scale_y_continuous(limits = c(0,100))+
+                  scale_y_continuous(limits = c(0,200))+
                   labs(title = "Silver Lake Buffalo Length-Frequency",
                       x = "Length (mm)",
                       y = "Frequency") +
@@ -335,7 +335,7 @@ summary(Storm.bib$Length..mm.)
 StormLF.c.2018<-ggplot(Storm.coc, aes(x=Length..mm., fill=Species))+
                 geom_histogram(binwidth=10,colour="black",position="dodge", fill = "burlywood4")+
                 coord_cartesian(xlim = c(0,1000))+
-                scale_y_continuous(limits = c(0,150))+
+                scale_y_continuous(limits = c(0,200))+
                 labs(title = "Storm Lake Carp Length-Frequency",
                       x = "Length (mm)",
                       y = "Frequency") +
@@ -345,7 +345,7 @@ StormLF.c.2018
 StormLF.b.2018<-ggplot(Storm.bib, aes(x=Length..mm., fill = Species))+
                   geom_histogram(binwidth = 10, colour = "black", position = "dodge", fill = "cornflowerblue")+
                   coord_cartesian(xlim = c(0,1000))+
-                  scale_y_continuous(limits = c(0,150))+
+                  scale_y_continuous(limits = c(0,200))+
                   labs(title = "Storm Lake Buffalo Length-Frequency",
                       x = "Length (mm)",
                       y = "Frequency") +
@@ -353,3 +353,17 @@ StormLF.b.2018<-ggplot(Storm.bib, aes(x=Length..mm., fill = Species))+
 StormLF.b.2018
 
 ```
+
+# now arrange the objects in a meaningful way
+
+```{r}
+# Carp
+grid.arrange(centerLF.c.2018, centerLF.b.2018, 
+             FiveIslandLF.c.2018, FiveIslandLF.b.2018,
+             NTwinLF.c.2018, NTwinLF.b.2018,
+             SilverLF.c.2018, SilverLF.b.2018,
+             STwinLF.c.2018, STwinLF.b.2018,
+             StormLF.c.2018, StormLF.b.2018,
+             nrow=7,ncol=2)
+```
+

@@ -178,7 +178,7 @@ str(denframe)
 -- with schnabel pop estimates from december 2018
 ```{r,}
 
-# CarpBiomass - avg from google sheets age structures * population estimates for that lake
+# CarpBiomass - avg from 2018 length specific biomass density estimates (IN POUNDS)
 BM<-denframe
 colnames(BM)[1] <- "Lake"
 
@@ -187,6 +187,8 @@ BM$CarpN <- c(72140,6466,25798,3816,9755,20661,9251) # est carp abundance for 7 
 
 # Buff pop estimates
 BM$BuffN<- c(NA,3530,2300,18776,12486,34278,13724)
+
+
 ```
 
 - CPUE data frame
@@ -207,6 +209,7 @@ coc.df$Effort<-coc.df$On.Time..s./3600
 #
 bib.df<-subset(df,Species == "BIB")                 # just Buff
 bib.df<-subset(bib.df, Gear == "Electroshocking")   # just e-fishing
+bib.df<-subset(bib.df, Lake != "Blue")              # removing the one buff caught at blue this year 
 bib.df<-subset(bib.df, !is.na(bib.df$On.Time..s.))  # only runs with recorded effort
 bib.df$On.Time..s.<-as.numeric(bib.df$On.Time..s.)
 str(bib.df)
@@ -408,6 +411,7 @@ w<-c("Center","2018-08-02 Center 3",872/3600,0,0)
 x<-c("Center","2018-08-02 Center 4",870/3600,0,0)
 y<-c("Center","2018-08-02 Center 5",919/3600,0,0)
 
+
 add.on<-data.frame(t(data.frame(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y)),
                    stringsAsFactors = F)
 names(add.on)<-c("Lake","DLR","Effort","n","cpue")
@@ -454,7 +458,7 @@ coc.cpue<-rbind(coc.cpue,add.on)
 
 
 ##############
-# North Twin            NEED TO CHANGE THESE!
+# North Twin           
 #
 #       42 buffalo
 #       16 carp
@@ -466,60 +470,28 @@ c<-c("N. Twin","2018-05-18 N. Twin 3",900/3600,0,0)
 
 d<-c("N. Twin","2018-06-06 N. Twin 2",900/3600,0,0)
 
-e<-c("N. Twin","2018-06-18 N. Twin 1",900/3600,0,0)
-f<-c("N. Twin","2018-06-18 N. Twin 2",900/3600,0,0)
-g<-c("N. Twin","2018-06-18 N. Twin 3",900/3600,0,0)
-h<-c("N. Twin","2018-06-18 N. Twin 4",900/3600,0,0)
 
-i<-c("N. Twin","2018-07-03 N. Twin 1",900/3600,0,0)
-j<-c("N. Twin","2018-07-03 N. Twin 2",900/3600,0,0)
-k<-c("N. Twin","2018-07-03 N. Twin 3",900/3600,0,0)
 
-l<-c("N. Twin","2018-07-05 N. Twin 1",900/3600,0,0)
-m<-c("N. Twin","2018-07-05 N. Twin 3",900/3600,0,0)
+e<-c("N. Twin","2018-07-03 N. Twin 1",900/3600,0,0)
+f<-c("N. Twin","2018-07-03 N. Twin 2",900/3600,0,0)
+g<-c("N. Twin","2018-07-03 N. Twin 3",900/3600,0,0)
 
-o<-c("N. Twin","2018-07-09 N. Twin 1",900/3600,0,0)
-p<-c("N. Twin","2018-07-09 N. Twin 3",900/3600,0,0)
+h<-c("N. Twin","2018-07-09 N. Twin 1",900/3600,0,0)
+i<-c("N. Twin","2018-07-09 N. Twin 3",900/3600,0,0)
 
-q<-c("N. Twin","2018-07-13 N. Twin 1",900/3600,0,0)
-r<-c("N. Twin","2018-07-13 N. Twin 2",900/3600,0,0)
-s<-c("N. Twin","2018-07-13 N. Twin 3",900/3600,0,0)
-t<-c("N. Twin","2018-07-13 N. Twin 4",900/3600,0,0)
+j<-c("N. Twin","2018-07-16 N. Twin 1",1667/3600,0,0)
 
-u<-c("N. Twin","2018-07-16 N. Twin 1",1667/3600,0,0)
+k<-c("N. Twin","2018-08-01 N. Twin 2",900/3600,0,0)
+l<-c("N. Twin","2018-08-01 N. Twin 3",900/3600,0,0)
 
-v<-c("N. Twin","2018-08-01 N. Twin 2",900/3600,0,0)
-w<-c("N. Twin","2018-08-01 N. Twin 3",900/3600,0,0)
+m<-c("N. Twin","2018-08-06 N. Twin 1",900/3600,0,0)
+n<-c("N. Twin","2018-08-06 N. Twin 2",900/3600,0,0)
+o<-c("N. Twin","2018-08-06 N. Twin 3",900/3600,0,0)
 
-x<-c("N. Twin","2018-08-06 N. Twin 1",900/3600,0,0)
-y<-c("N. Twin","2018-08-06 N. Twin 2",900/3600,0,0)
-z<-c("N. Twin","2018-08-06 N. Twin 3",900/3600,0,0)
 
-aa<-c("N. Twin","2018-08-03 N. Twin 1",900/3600,0,0)
-bb<-c("N. Twin","2018-08-03 N. Twin 2",900/3600,0,0)
-cc<-c("N. Twin","2018-08-03 N. Twin 3",900/3600,0,0)
-dd<-c("N. Twin","2018-08-03 N. Twin 4",900/3600,0,0)
+p<-c("N. Twin","2018-11-01 N. Twin 1",905/3600,0,0)
 
-ee<-c("N. Twin","2018-08-07 N. Twin 1",900/3600,0,0)
-ff<-c("N. Twin","2018-08-07 N. Twin 2",900/3600,0,0)
-gg<-c("N. Twin","2018-08-07 N. Twin 3",900/3600,0,0)
-hh<-c("N. Twin","2018-08-07 N. Twin 4",900/3600,0,0)
-
-ii<-c("N. Twin","2018-08-14 N. Twin 1",1202/3600,0,0)
-jj<-c("N. Twin","2018-08-14 N. Twin 2",1200/3600,0,0)
-kk<-c("N. Twin","2018-08-14 N. Twin 3",1200/3600,0,0)
-
-ll<-c("N. Twin","2018-08-17 N. Twin 2",1363/3600,0,0)
-
-mm<-c("N. Twin","2018-08-15 N. Twin 1",1202/3600,0,0)
-nn<-c("N. Twin","2018-08-15 N. Twin 2",1389/3600,0,0)
-oo<-c("N. Twin","2018-08-15 N. Twin 3",1206/3600,0,0)
-pp<-c("N. Twin","2018-08-15 N. Twin 4",1200/3600,0,0)
-
-qq<-c("N. Twin","2018-11-01 N. Twin 1",905/3600,0,0)
-
-add.on<-data.frame(t(data.frame(a,b,c,d,e,f,g,h,i,j,k,l,m,o,p,q,r,s,t,u,v,w,x,y,z,
-                           aa,bb,cc,dd,ee,ff,gg,hh,ii,jj,kk,ll,mm,nn,oo,pp,qq)),
+add.on<-data.frame(t(data.frame(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p)),
                    stringsAsFactors = F)
 names(add.on)<-c("Lake","DLR","Effort","n","cpue")
 add.on$n<-as.numeric(add.on$n)
@@ -537,27 +509,24 @@ b<-c("N. Twin","2018-07-09 N. Twin 1",900/3600,0,0)
 
 c<-c("N. Twin","2018-07-16 N. Twin 3",1224/3600,0,0)
 
-d<-c("N. Twin","2018-07-25 N. Twin 1",1204/3600,0,0)
-e<-c("N. Twin","2018-07-25 N. Twin 2",1207/3600,0,0)
 
-f<-c("N. Twin","2018-07-31 N. Twin 2",1560/3600,0,0)
 
-g<-c("N. Twin","2018-08-06 N. Twin 5",900/3600,0,0)
+d<-c("N. Twin","2018-07-31 N. Twin 2",1560/3600,0,0)
 
-h<-c("N. Twin","2018-08-09 N. Twin 1",1471/3600,0,0)
-i<-c("N. Twin","2018-08-09 N. Twin 4",1200/3600,0,0)
+e<-c("N. Twin","2018-08-06 N. Twin 5",900/3600,0,0)
 
-j<-c("N. Twin","2018-10-10 N. Twin 3",900/3600,0,0)
 
-k<-c("N. Twin","2018-10-12 N. Twin 1",900/3600,0,0)
-l<-c("N. Twin","2018-10-12 N. Twin 2",900/3600,0,0)
-m<-c("N. Twin","2018-10-12 N. Twin 5",900/3600,0,0)
+f<-c("N. Twin","2018-10-10 N. Twin 3",900/3600,0,0)
 
-n<-c("N. Twin","2018-11-01 N. Twin 2",849/3600,0,0)
-o<-c("N. Twin","2018-11-01 N. Twin Bonus 2",1552/3600,0,0)
-p<-c("N. Twin","2018-11-01 N. Twin Bonus 3",1085/3600,0,0)
+g<-c("N. Twin","2018-10-12 N. Twin 1",900/3600,0,0)
+h<-c("N. Twin","2018-10-12 N. Twin 2",900/3600,0,0)
+i<-c("N. Twin","2018-10-12 N. Twin 5",900/3600,0,0)
 
-add.on<-data.frame(t(data.frame(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p)),
+j<-c("N. Twin","2018-11-01 N. Twin 2",849/3600,0,0)
+k<-c("N. Twin","2018-11-01 N. Twin Bonus 2",1552/3600,0,0)
+l<-c("N. Twin","2018-11-01 N. Twin Bonus 3",1085/3600,0,0)
+
+add.on<-data.frame(t(data.frame(a,b,c,d,e,f,g,h,i,j,k,l)),
                    stringsAsFactors = F)
 names(add.on)<-c("Lake","DLR","Effort","n","cpue")
 add.on$n<-as.numeric(add.on$n)
@@ -664,13 +633,219 @@ bib.cpue<-rbind(bib.cpue,add.on)
 #################################
 #
 #         South Twin
+# buff
+a<-c("S. Twin","2018-05-21 S. Twin 2",900/3600,0,0)
+
+b<-c("S. Twin","2018-06-05 S. Twin 1",900/3600,0,0)
+c<-c("S. Twin","2018-06-05 S. Twin 3",900/3600,0,0)
+d<-c("S. Twin","2018-06-05 S. Twin 4",900/3600,0,0)
+
+e<-c("S. Twin","2018-06-18 S. Twin 1",900/3600,0,0)
+f<-c("S. Twin","2018-06-18 S. Twin 2",900/3600,0,0)
+g<-c("S. Twin","2018-06-18 S. Twin 3",900/3600,0,0)
+h<-c("S. Twin","2018-06-18 S. Twin 4",900/3600,0,0)
+
+l<-c("S. Twin","2018-07-05 S. Twin 1",900/3600,0,0)
+m<-c("S. Twin","2018-07-05 S. Twin 3",900/3600,0,0)
+
+q<-c("S. Twin","2018-07-13 S. Twin 1",900/3600,0,0)
+r<-c("S. Twin","2018-07-13 S. Twin 2",900/3600,0,0)
+s<-c("S. Twin","2018-07-13 S. Twin 3",900/3600,0,0)
+t<-c("S. Twin","2018-07-13 S. Twin 4",900/3600,0,0)
+
+u<-c("S. Twin","2018-08-31 S. Twin 2",900/3600,0,0)
+
+v<-c("S. Twin","2018-09-04 S. Twin 1",900/3600,0,0)
+w<-c("S. Twin","2018-09-04 S. Twin 4",900/3600,0,0)
+
+x<-c("S. Twin","2018-08-03 S. Twin 1",900/3600,0,0)
+y<-c("S. Twin","2018-08-03 S. Twin 2",900/3600,0,0)
+z<-c("S. Twin","2018-08-03 S. Twin 3",900/3600,0,0)
+aa<-c("S. Twin","2018-08-03 S. Twin 4",900/3600,0,0)
+
+bb<-c("S. Twin","2018-08-07 S. Twin 1",900/3600,0,0)
+cc<-c("S. Twin","2018-08-07 S. Twin 2",900/3600,0,0)
+dd<-c("S. Twin","2018-08-07 S. Twin 3",900/3600,0,0)
+ee<-c("S. Twin","2018-08-07 S. Twin 4",900/3600,0,0)
+
+ff<-c("S. Twin","2018-08-14 S. Twin 1",1202/3600,0,0)
+gg<-c("S. Twin","2018-08-14 S. Twin 2",1200/3600,0,0)
+hh<-c("S. Twin","2018-08-14 S. Twin 3",1200/3600,0,0)
+
+ii<-c("S. Twin","2018-08-17 S. Twin 2",1363/3600,0,0)
+
+jj<-c("S. Twin","2018-08-15 S. Twin 1",1202/3600,0,0)
+kk<-c("S. Twin","2018-08-15 S. Twin 2",1389/3600,0,0)
+ll<-c("S. Twin","2018-08-15 S. Twin 3",1206/3600,0,0)
+mm<-c("S. Twin","2018-08-15 S. Twin 4",1200/3600,0,0)
+
+add.on<-data.frame(t(data.frame(a,b,c,d,e,f,g,h,l,m,q,r,s,t,u,v,w,x,y,z,
+                           aa,bb,cc,dd,ee,ff,gg,hh,ii,jj,kk,ll,mm)),
+                   stringsAsFactors = F)
+names(add.on)<-c("Lake","DLR","Effort","n","cpue")
+add.on$n<-as.numeric(add.on$n)
+add.on$cpue<-as.numeric(add.on$cpue)
+add.on$Effort<-as.numeric(add.on$Effort)
+add.on$Lake<-as.factor(add.on$Lake)
+add.on$DLR<-as.factor(add.on$DLR)
+str(add.on)
+bib.cpue<-rbind(bib.cpue,add.on)
 
 
+# carp now
+a<-c("S. Twin","2018-07-25 S. Twin 1",1204/3600,0,0)
+b<-c("S. Twin","2018-07-25 S. Twin 2",1207/3600,0,0)
+c<-c("S. Twin","2018-08-09 S. Twin 1",1471/3600,0,0)
+d<-c("S. Twin","2018-08-09 S. Twin 4",1200/3600,0,0)
+e<-c("S. Twin","2018-10-11 S. Twin 4",900/3600,0,0)
+
+add.on<-data.frame(t(data.frame(a,b,c,d,e)),
+                   stringsAsFactors = F)
+names(add.on)<-c("Lake","DLR","Effort","n","cpue")
+add.on$n<-as.numeric(add.on$n)
+add.on$cpue<-as.numeric(add.on$cpue)
+add.on$Effort<-as.numeric(add.on$Effort)
+add.on$Lake<-as.factor(add.on$Lake)
+add.on$DLR<-as.factor(add.on$DLR)
+str(add.on)
+coc.cpue<-rbind(coc.cpue,add.on)
+
+
+##########################################################
+#
+#
+#         STORM LAKE. THE FINAL FRONTIER
+#
+# 5 CARP
+
+a<-c("Storm","2018-08-03 Storm 5", 954/3600,0,0)
+b<-c("Storm","2018-08-03 Storm 7", 445/3600,0,0)
+c<-c("Storm","2018-08-08 Storm 1", 902/3600,0,0)
+d<-c("Storm","2018-08-08 Storm 5", 804/3600,0,0)
+e<-c("Storm","2018-10-05 Storm 5", 1623/3600,0,0)
+f<-c("Storm","2018-08-08 Storm 9", 804/3600,0,0)
+
+
+add.on<-data.frame(t(data.frame(a,b,c,d,e,f)),
+                   stringsAsFactors = F)
+names(add.on)<-c("Lake","DLR","Effort","n","cpue")
+add.on$n<-as.numeric(add.on$n)
+add.on$cpue<-as.numeric(add.on$cpue)
+add.on$Effort<-as.numeric(add.on$Effort)
+add.on$Lake<-as.factor(add.on$Lake)
+add.on$DLR<-as.factor(add.on$DLR)
+str(add.on)
+coc.cpue<-rbind(coc.cpue,add.on)
+
+# 60+ buffalo
+a<-c("Storm","2018-05-21 Storm 1", 910/3600,0,0)
+b<-c("Storm","2018-05-21 Storm 2", 903/3600,0,0)
+c<-c("Storm","2018-05-21 Storm 4", 928/3600,0,0)
+d<-c("Storm","2018-05-21 Storm 5", 925/3600,0,0)
+e<-c("Storm","2018-05-21 Storm 7", 901/3600,0,0)
+f<-c("Storm","2018-05-21 Storm 9", 903/3600,0,0)
+g<-c("Storm","2018-05-21 Storm Bonus 2", 984/3600,0,0)
+h<-c("Storm","2018-05-21 Storm Bonus 3", 1022/3600,0,0)
+
+i<-c("Storm","2018-06-07 Storm 1", 1205/3600,0,0)
+j<-c("Storm","2018-06-07 Storm 2", 955/3600,0,0)
+k<-c("Storm","2018-06-07 Storm 4", 863/3600,0,0)
+
+
+rrr<-c("Storm","2018-06-08 Storm 1", 901/3600,0,0)
+l<-c("Storm","2018-06-08 Storm 2", 944/3600,0,0)
+m<-c("Storm","2018-06-08 Storm 4", 914/3600,0,0)
+n<-c("Storm","2018-06-08 Storm 5", 1579/3600,0,0)
+o<-c("Storm","2018-06-08 Storm 9", 1107/3600,0,0)
+p<-c("Storm","2018-06-08 Storm 10", 969/3600,0,0)
+q<-c("Storm","2018-06-08 Storm 11", 441/3600,0,0)
+
+r<-c("Storm","2018-06-13 Storm 2", 1418/3600,0,0)
+
+s<-c("Storm","2018-06-27 Storm 1", 918/3600,0,0)
+t<-c("Storm","2018-06-27 Storm 2", 1009/3600,0,0)
+u<-c("Storm","2018-06-27 Storm 4", 1151/3600,0,0)
+v<-c("Storm","2018-06-27 Storm 8", 998/3600,0,0)
+w<-c("Storm","2018-06-27 Storm 9", 948/3600,0,0)
+x<-c("Storm","2018-06-27 Storm 10", 1279/3600,0,0)
+
+y<-c("Storm","2018-07-16 Storm 1", 948/3600,0,0)
+z<-c("Storm","2018-07-16 Storm 2", 944/3600,0,0)
+aa<-c("Storm","2018-07-16 Storm 4", 959/3600,0,0)
+bb<-c("Storm","2018-07-16 Storm 5", 1089/3600,0,0)
+cc<-c("Storm","2018-07-16 Storm 9", 891/3600,0,0)
+dd<-c("Storm","2018-07-16 Storm Bonus", 3418/3600,0,0)
+
+ee<-c("Storm","2018-07-17 Storm 3", 1952/3600,0,0)
+ff<-c("Storm","2018-07-17 Storm 4", 1484/3600,0,0)
+gg<-c("Storm","2018-07-17 Storm 5", 3079/3600,0,0)
+hh<-c("Storm","2018-07-17 Storm 6", 852/3600,0,0)
+
+ii<-c("Storm","2018-07-24 Storm 1", 2491/3600,0,0)
+jj<-c("Storm","2018-07-24 Storm 2", 1510/3600,0,0)
+kk<-c("Storm","2018-07-24 Storm 3", 3818/3600,0,0)
+ll<-c("Storm","2018-07-24 Storm 4", 1729/3600,0,0)
+mm<-c("Storm","2018-07-24 Storm 5", 1648/3600,0,0)
+
+nn<-c("Storm","2018-07-31 Storm 1", 3555/3600,0,0)
+oo<-c("Storm","2018-07-31 Storm 2", 3225/3600,0,0)
+pp<-c("Storm","2018-07-31 Storm 3", 3671/3600,0,0)
+qq<-c("Storm","2018-07-31 Storm 4", 3717/3600,0,0)
+rr<-c("Storm","2018-07-31 Storm 5", 1648/3600,0,0)
+
+ss<-c("Storm","2018-08-03 Storm 5", 954/3600,0,0)
+tt<-c("Storm","2018-08-03 Storm 7", 445/3600,0,0)
+uu<-c("Storm","2018-08-03 Storm 4", 955/3600,0,0)
+vv<-c("Storm","2018-08-03 Storm 9", 822/3600,0,0)
+ww<-c("Storm","2018-08-03 Storm 2", 914/3600,0,0)
+
+xx<-c("Storm","2018-08-08 Storm 9", 804/3600,0,0)
+yy<-c("Storm","2018-08-08 Storm 7", 999/3600,0,0)
+zz<-c("Storm","2018-08-08 Storm 1", 804/3600,0,0)
+aaa<-c("Storm","2018-08-08 Storm 2", 948/3600,0,0)
+bbb<-c("Storm","2018-08-08 Storm 4", 889/3600,0,0)
+ccc<-c("Storm","2018-08-08 Storm 5", 956/3600,0,0)
+ddd<-c("Storm","2018-08-08 Storm Bonus 1", 933/3600,0,0)
+
+eee<-c("Storm","2018-08-14 Storm 2", 2649/3600,0,0)
+fff<-c("Storm","2018-08-14 Storm 3", 1847/3600,0,0)
+ggg<-c("Storm","2018-08-14 Storm 4", 1552/3600,0,0)
+
+hhh<-c("Storm","2018-09-09 Storm 1", 903/3600,0,0)
+iii<-c("Storm","2018-09-09 Storm 4", 866/3600,0,0)
+jjj<-c("Storm","2018-09-09 Storm 5", 1040/3600,0,0)
+kkk<-c("Storm","2018-09-09 Storm 9", 902/3600,0,0)
+
+lll<-c("Storm","2018-10-05 Storm 1", 945/3600,0,0)
+mmm<-c("Storm","2018-10-05 Storm 2", 828/3600,0,0)
+nnn<-c("Storm","2018-10-05 Storm 4", 867/3600,0,0)
+ooo<-c("Storm","2018-10-05 Storm 5", 1623/3600,0,0)
+ppp<-c("Storm","2018-10-05 Storm 7", 1230/3600,0,0)
+qqq<-c("Storm","2018-10-05 Storm 9", 944/3600,0,0)
+
+add.on<-data.frame(t(data.frame(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,
+                           aa,bb,cc,dd,ee,ff,gg,hh,ii,jj,kk,ll,mm,nn,oo,pp,qq,rr,ss,tt,uu,vv,ww,xx,yy,zz,
+                           aaa,bbb,ccc,ddd,eee,fff,ggg,hhh,iii,jjj,kkk,lll,mmm,nnn,ooo,ppp,qqq,rrr)),
+                   stringsAsFactors = F)
+names(add.on)<-c("Lake","DLR","Effort","n","cpue")
+add.on$n<-as.numeric(add.on$n)
+add.on$cpue<-as.numeric(add.on$cpue)
+add.on$Effort<-as.numeric(add.on$Effort)
+add.on$Lake<-as.factor(add.on$Lake)
+add.on$DLR<-as.factor(add.on$DLR)
+str(add.on)
+bib.cpue<-rbind(bib.cpue,add.on)
+
+
+######
+# checking the data frames
+
+setdiff(coc.cpue$DLR,bib.cpue$DLR) # entries in coc not in bib (BLUE lake)
+setdiff(bib.cpue$DLR,coc.cpue$DLR) # entries in bib not in coc 
+
+################ ALLLL DONNNNEEEE  ##########################
 
 ```
-
-
-
 
 
 
@@ -708,27 +883,6 @@ BIB.CPUE.95ci<-groupwiseMean(cpue ~ Lake,
               conf = 0.95,
               digits = 3)
 
-# CarpBM.LL - lower bound for x axis
-# CarpBM.UL - upper bound for x axis
-coc.BM<-coc.df[!is.na(coc.df$Weight.g),]
-coc.BM.95ci<-groupwiseMean(Weight.g ~ Lake,
-              data = coc.BM,
-              conf = 0.95,
-              digits = 3)
-CarpBM.LL<-BM$CarpN*coc.BM.95ci$Trad.lower
-CarpBM.UL<-BM$CarpN*coc.BM.95ci$Trad.upper
-
-
-# BuffBM.LL - lower bound for x axis
-# BuffBM.UL - lower bound for x axis
-bib.BM<-bib.df[!is.na(bib.df$Weight.g),]
-bib.BM.95ci<-groupwiseMean(Weight.g ~ Lake,
-              data = bib.BM,
-              conf = 0.95,
-              digits = 3)
-BuffBM.LL<-c(3152,2960,44598,13923,34507,12380)*bib.BM.95ci$Trad.lower
-BuffBM.UL<-c(3152,2960,44598,13923,34507,12380)*bib.BM.95ci$Trad.upper
-
 
 ```
 
@@ -737,54 +891,57 @@ put that ish together
 
 ```{r,}
 
-Lakes<-c("Blue","Center","Five Island","N Twin","Silver","S Twin","Storm")
+DF<-merge(BM,COC.CPUE.95ci)
+colnames(BIB.CPUE.95ci)<-c("Lake","B.CPUE.N","B.MeanCPUE","B.Conf.level","B.CPUE.LL","C.CPUE.LL")
+B<-c("Blue",NA,NA,NA,NA,NA)
+BIB.CPUE.95ci<-rbind(BIB.CPUE.95ci,B)
+DF<-merge(DF,BIB.CPUE.95ci)
 
-DF<-data.frame(Lakes,
-               BM$CarpBiomass,
-               BM$BuffBiomass,
-               CarpBM.LL,
-               CarpBM.UL,
-               c(NA,BuffBM.LL),
-               c(NA,BuffBM.UL),
-               COC.CPUE.95ci$Mean,
-               c(NA,BIB.CPUE.95ci$Mean),
-               COC.CPUE.95ci$Trad.lower,
-               COC.CPUE.95ci$Trad.upper,
-               c(NA,BIB.CPUE.95ci$Trad.lower),
-               c(NA,BIB.CPUE.95ci$Trad.upper),
-               BM$CarpDensity,
-               BM$BuffDensity
-               )
 
-colnames(DF)<-c("Lake","CarpBiomass","BuffBiomass","CarpBM.LL","CarpBM.UL","BuffBM.LL","BuffBM.UL","CarpCPUE","BuffCPUE","CarpLL","CarpUL","BuffLL","BuffUL","CarpDensity","BuffDensity")
-
+colnames(DF)<-c("Lake","CarpBM.LL","CarpBiomass","CarpBM.UL","CarpDensity.LL","CarpDensity","CarpDensity.UL",
+                "BuffBM.LL","BuffBiomass","BuffBM.UL","BuffDensity.LL","BuffDensity","BuffDensity.UL","CarpN","BuffN",
+                "C.CPUE.N","C.MeanCPUE","C.Conf.level","C.CPUE.LL","C.CPUE.UL",
+                "B.CPUE.N","B.MeanCPUE","B.Conf.level","B.CPUE.LL","B.CPUE.UL")
+DF$B.CPUE.N<-as.numeric(DF$B.CPUE.N)
+DF$B.MeanCPUE<-as.numeric(DF$B.MeanCPUE)
+DF$B.Conf.level<-as.numeric(DF$B.Conf.level)
+DF$B.CPUE.LL<-as.numeric(DF$B.CPUE.LL)
+DF$B.CPUE.UL<-as.numeric(DF$B.CPUE.UL)
 summary(DF)
+
+DF$BuffBM.LL[DF$BuffBM.LL <= 0 ]<-0
+DF$BuffDensity.LL[DF$BuffDensity.LL <=0]<-0
+
 ```
 
-Pat yourself on the back! we are in business. Now to build the plot
+Pat yourself on the back! we are in business. Now to build A plot
 
 # X axis: Biomass in pounds
 # Y axis: CPUE: #fish/hour
+
+__Same as 2017 annual report here:__
+
+- in next chunk will switch to biomass density
 
 ```{r}
 
 # visualize how CPUE changes as a function of biomass....
 
-mod<-lm(CarpCPUE ~ CarpBiomass, data = DF)
+mod<-lm(C.MeanCPUE ~ CarpBiomass, data = DF)
 summary(mod)
 R2<-format(summary(mod)$r.squared,digits=3)
 R2
 
 
 # Carp First
-carp<-ggplot(DF, aes(x=CarpBiomass, y=CarpCPUE)) +
-  xlim(0,500000)+ # increase of 100k
-  ylim(0,350)+ # more than double from 2017
+carp<-ggplot(DF, aes(x=CarpBiomass, y=C.MeanCPUE)) +
+  xlim(0,300000)+ # increase of 100k
+  ylim(0,250)+ # more than double from 2017
   geom_point(size=4) +
-  geom_errorbar(aes(ymax = CarpUL, ymin = CarpLL),width=5000) +
+  geom_errorbar(aes(ymax = C.CPUE.UL, ymin = C.CPUE.LL),width=5000) +
   geom_errorbarh(aes(xmax= CarpBM.UL, xmin = CarpBM.LL),height=5) +
-  annotate("text",x=c(175000,60000,200000,10000,40000,300000,75000,15000,15000),y=c(250,10,40,25,80,40,60,180,160), 
-           label = c("Blue","Center","Five Island","N Twin","Silver","Twin","Storm","R^2 = 0.016","p = 0.014")) +
+  annotate("text",x=c(135000,30000,200000,8000,37000,100000,60000,15000,15000),y=c(200,8,30,25,45,25,30,180,160), 
+           label = c("Blue","Center","Five Island","N Twin","Silver","S Twin","Storm","R^2 = 0.238","p = 0.267")) +
   labs(title = "2018 Common Carp Biomass and CPUE",
        x = "Estimated Common Carp Biomass (lbs.)",
        y = "Catch per Unit Effort (fish/hour)") +
@@ -796,19 +953,19 @@ carp<-ggplot(DF, aes(x=CarpBiomass, y=CarpCPUE)) +
 
 # Buffalo Second
 
-mod2<-lm(BuffCPUE ~ BuffBiomass, data = DF)
+mod2<-lm(B.MeanCPUE ~ BuffBiomass, data = DF)
 summary(mod2)
 R22<-format(summary(mod2)$r.squared,digits=3)
 R22
 
-buff<-ggplot(DF, aes(x=BuffBiomass, y=BuffCPUE)) +
-  xlim(0,500000)+ # double from 2017
-  ylim(0,150)+ # Same as 2018
+buff<-ggplot(DF, aes(x=BuffBiomass, y=B.MeanCPUE)) +
+  xlim(0,300000)+ 
+  ylim(0,50)+ 
   geom_point(size=4) +
-  geom_errorbar(aes(ymax = BuffUL, ymin = BuffLL),width=5000) +
+  geom_errorbar(aes(ymax = B.CPUE.UL, ymin = B.CPUE.LL),width=5000) +
   geom_errorbarh(aes(xmax=BuffBM.UL, xmin = BuffBM.LL),height=5) +
-  annotate("text",x=c(25000,25000,460000,75000,275000,190000,20000,20000),y=c(32,5,20,35,35,11,140,130), 
-           label = c("Center","Five Island","N Twin","Silver","S Twin","Storm","R^2 = 0.079","p = 0.867")) +
+  annotate("text",x=c(18000,19000,186000,152000,103000,148000,20000,20000),y=c(22,1,18,22,33,3,40,35), 
+           label = c("Center","Five Island","N Twin","Silver","S Twin","Storm","R^2 = 0.00009","p = 0.985")) +
   labs(title = "2018 Bigmouth Buffalo Biomass and CPUE",
        x = "Estimated Bigmouth Buffalo Biomass (lbs.)",
        y = "Catch per Unit Effort (fish/hour)") +
@@ -833,23 +990,23 @@ New plot for prairie lakes conference:
 
 # visualize how CPUE changes as a function of biomass....
 
-mod<-lm(CarpCPUE ~ CarpDensity, data = DF)
+mod<-lm(C.MeanCPUE ~ CarpDensity, data = DF)
 summary(mod)
 R2<-format(summary(mod)$r.squared,digits=3)
 R2
 
 
 # Carp First
-carp<-ggplot(DF, aes(x=CarpDensity, y=CarpCPUE)) +
-  xlim(0,600)+ # 
+carp<-ggplot(DF, aes(x=CarpDensity, y=C.MeanCPUE)) +
+  xlim(0,650)+ # 
   ylim(0,300)+ # 
   geom_point(size=4) +
-  geom_errorbar(aes(ymax = CarpUL, ymin = CarpLL),width=5000) +
-  geom_errorbarh(aes(xmax= CarpBM.UL, xmin = CarpBM.LL),height=5) +
-  annotate("text",x=c(550,275,290,10,60,180,60,250,250),y=c(260,15,40,25,80,25,55,180,160), 
-           label = c("Blue","Center","Five Island","N Twin","Silver","S Twin","Storm","R^2 = 0.591","p = 0.043")) +
+  geom_errorbar(aes(ymax = C.CPUE.UL, ymin = C.CPUE.LL),width=50000) +
+  geom_errorbarh(aes(xmax= CarpDensity.UL, xmin = CarpDensity.LL),height=8) +
+  annotate("text",x=c(520,184,187,67,96,61,11,250,250),y=c(220,5,40,8,70,30,50,180,160), 
+           label = c("Blue","Center","Five Island","N Twin","S Twin","Silver","Storm","R^2 = 0.812","p = 0.006")) +
   labs(title = "2018 Common Carp Density and CPUE",
-       x = "Estimated Common Carp Density (fish/acre)",
+       x = "Estimated Common Carp Density (lbs./acre)",
        y = "Catch per Unit Effort (fish/hour)") +
   theme_bw() + 
   theme(panel.border = element_blank(), panel.grid.major = element_blank(),
@@ -859,21 +1016,21 @@ carp<-ggplot(DF, aes(x=CarpDensity, y=CarpCPUE)) +
 
 # Buffalo Second
 
-mod2<-lm(BuffCPUE ~ BuffDensity, data = DF)
+mod2<-lm(B.MeanCPUE ~ BuffDensity, data = DF)
 summary(mod2)
 R22<-format(summary(mod2)$r.squared,digits=3)
 R22
 
-buff<-ggplot(DF, aes(x=BuffDensity, y=BuffCPUE)) +
-  xlim(0,1500)+ # double from 2017
-  ylim(0,300)+ # Same as 2018
+buff<-ggplot(DF, aes(x=BuffDensity, y=B.MeanCPUE)) +
+  xlim(0,650)+ 
+  ylim(0,50)+ 
   geom_point(size=4) +
-  geom_errorbar(aes(ymax = BuffUL, ymin = BuffLL),width=5000) +
-  geom_errorbarh(aes(xmax=BuffBM.UL, xmin = BuffBM.LL),height=5) +
-  annotate("text",x=c(0,200,1400,150,350,175,500,500),y=c(32,10,20,35,35,0,140,130), 
-           label = c("Center","Five Island","N Twin","Silver","S Twin","Storm","R^2 = 0.026","p = 0.762")) +
+  geom_errorbar(aes(ymax = B.CPUE.UL, ymin = B.CPUE.LL),width=5000) +
+  geom_errorbarh(aes(xmax=BuffDensity.UL, xmin = BuffDensity.LL),height=3) +
+  annotate("text",x=c(20,59,412,130,225,55,20,20),y=c(8,13,7,22,15,0,40,37), 
+           label = c("Five Island","Center","N Twin","S Twin","Silver","Storm","R^2 = 0.086","p = 0.573")) +
   labs(title = "2018 Bigmouth Buffalo Density and CPUE",
-       x = "Estimated Bigmouth Buffalo Density (fish/acre)",
+       x = "Estimated Bigmouth Buffalo Density (lbs./acre)",
        y = "Catch per Unit Effort (fish/hour)") +
   theme_bw() + 
   theme(panel.border = element_blank(), panel.grid.major = element_blank(),
@@ -883,24 +1040,60 @@ buff<-ggplot(DF, aes(x=BuffDensity, y=BuffCPUE)) +
 # Problems here: when I remove the 0s from Blue Lake Buffalo, the regression is negative
 # And the plot certainly doesn't look linear
 
-grid.arrange(carp,buff,nrow=1,ncol=2)
+grid.arrange(carp,buff,nrow=2,ncol=1)
 
 ```
 
-# New plot of biomass density on y axis and lakes on x axis
+# New plot of CPUE on y axis and date on x axis
 
 ```{r,}
-DF$CarpBMD<-DF$CarpBiomass/BM$LakeArea
-summary(DF$CarpBMD)
-DF$CarpBM.LL.BMD
+# Overall with all lakes
+# Carp
+blue.cpue<-droplevels(subset(coc.cpue, Lake == "Blue"))
+plot(cpue~DLR, data = blue.cpue)
 
-DF$BuffBMD<-DF$BuffBiomass/BM$LakeArea
-summary(DF$BuffBMD)
+center.cpue<-droplevels(subset(coc.cpue, Lake == "Center"))
+plot(cpue~DLR, data = center.cpue)
 
-boxplot(CarpBMD~Lake,data=DF)
+FI.cpue<-droplevels(subset(coc.cpue, Lake == "5 Island"))
+plot(cpue~DLR, data = FI.cpue)
+
+NT.cpue<-droplevels(subset(coc.cpue, Lake == "N. Twin"))
+plot(cpue~DLR, data = NT.cpue)
+
+Silver.cpue<-droplevels(subset(coc.cpue, Lake == "Silver"))
+plot(cpue~DLR, data = Silver.cpue)
+
+ST.cpue<-droplevels(subset(coc.cpue, Lake == "S. Twin"))
+plot(cpue~DLR, data = ST.cpue)
+
+Storm.cpue<-droplevels(subset(coc.cpue, Lake == "Storm"))
+plot(cpue~DLR, data = Storm.cpue)
 
 
 
+
+# Buff
+center.cpue<-droplevels(subset(bib.cpue, Lake == "Center"))
+plot(cpue~DLR, data = center.cpue)
+
+FI.cpue<-droplevels(subset(bib.cpue, Lake == "5 Island"))
+plot(cpue~DLR, data = FI.cpue)
+
+NT.cpue<-droplevels(subset(bib.cpue, Lake == "N. Twin"))
+plot(cpue~DLR, data = NT.cpue)
+
+Silver.cpue<-droplevels(subset(bib.cpue, Lake == "Silver"))
+plot(cpue~DLR, data = Silver.cpue)
+
+ST.cpue<-droplevels(subset(bib.cpue, Lake == "S. Twin"))
+plot(cpue~DLR, data = ST.cpue)
+
+Storm.cpue<-droplevels(subset(bib.cpue, Lake == "Storm"))
+plot(cpue~DLR, data = Storm.cpue)
+
+
+# DLR column is not in chronological order :*(
 
 ```
 

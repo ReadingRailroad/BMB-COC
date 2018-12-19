@@ -593,8 +593,7 @@ NTwin.COC.50 <- NTwin.coc %>%
 #       need 1 line of code to subset a new frame for each length bin, 
 #       then take mean weight.
 
-NTwin.coc.temp<-subset(NTwin.coc, Length..mm. >= 300 & Length..mm. < 350 & !is.na(Weight..g.))
-w4<-mean(NTwin.coc.temp$Weight..g.)
+
 
 NTwin.coc.temp<-subset(NTwin.coc, Length..mm. >= 350 & Length..mm. < 400 & !is.na(Weight..g.))
 w5<-mean(NTwin.coc.temp$Weight..g.)
@@ -629,7 +628,7 @@ w14<-mean(NTwin.coc.temp$Weight..g.)
 NTwin.coc.temp<-subset(NTwin.coc, Length..mm. >= 850 & Length..mm. < 900 & !is.na(Weight..g.))
 w15<-mean(NTwin.coc.temp$Weight..g.)
 
-NTwin.COC.50$mweight<-c(w4,w5,w6,w7,w8,w9,w10,w11,w12,w13,w14,w15)
+NTwin.COC.50$mweight<-c(w6,w6,w7,w8,w9,w10,w11,w12,w13,w14,w15)
 
 # Now Buffalo
 
@@ -698,7 +697,7 @@ NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 900 & Length..mm. < 950 & !is.n
 w15<-mean(NTwin.bib.temp$Weight..g.)
 
 
-NTwin.bib.50$mweight<-c(w2,w3,w4,w5,w6,w7,w8,w9,w10,w11,w12,w13,w13,w13) #changed last two to w11 and first to w3 
+NTwin.bib.50$mweight<-c(w2,w3,w5,w5,w6,w7,w8,w9,w10,w11,w12,w13,w13,w13) #changed last two to w11 and first to w3 
 
 #######
 #
@@ -1011,16 +1010,16 @@ w7<-mean(STwin.coc.temp$Weight..g.)
 STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 600 & Length..mm. < 650 & !is.na(Weight..g.))
 w8<-mean(STwin.coc.temp$Weight..g.)
 
-#STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 650 & Length..mm. < 700 & !is.na(Weight..g.))
-#w10<-mean(STwin.coc.temp$Weight..g.)
+STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 650 & Length..mm. < 700 & !is.na(Weight..g.))
+w10<-mean(STwin.coc.temp$Weight..g.)
 
 STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 700 & Length..mm. < 750 & !is.na(Weight..g.))
 w9<-mean(STwin.coc.temp$Weight..g.)
 
 STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 750 & Length..mm. < 800 & !is.na(Weight..g.))
-w10<-mean(STwin.coc.temp$Weight..g.)
+w11<-mean(STwin.coc.temp$Weight..g.)
 
-STwin.COC.50$mweight<-c(w1,w2,w3,w4,w5,w6,w6,w9,w9,w9)
+STwin.COC.50$mweight<-c(w1,w2,w3,w4,w5,w6,w6,w6,w9,w9,w9)
 
 # Now Buffalo
 
@@ -1077,7 +1076,7 @@ STwin.bib.temp<-subset(STwin.bib, Length..mm. >= 750 & Length..mm. < 800 & !is.n
 w10<-mean(STwin.bib.temp$Weight..g.)
 
 
-STwin.bib.50$mweight<-c(w2,w2,w3,w4,w5,w6,w7,w7,w7,w7) 
+STwin.bib.50$mweight<-c(w2,w2,w3,w4,w5,w6,w7,w8,w8,w8) 
 
 #######
 #
