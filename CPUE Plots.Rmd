@@ -454,7 +454,7 @@ coc.cpue<-rbind(coc.cpue,add.on)
 
 
 ##############
-# North Twin 
+# North Twin            NEED TO CHANGE THESE!
 #
 #       42 buffalo
 #       16 carp
@@ -572,12 +572,100 @@ coc.cpue<-rbind(coc.cpue,add.on)
 
 ###################################
 # Silver Lake
+#       50 bib additions
+#       8 carp additions
 #
+a<-c("Silver","2018-05-15 Silver 1",1871/3600,0,0)
+b<-c("Silver","2018-05-18 Silver 5",927/3600,0,0)
+c<-c("Silver","2018-07-11 Silver 6",996/3600,0,0)
+d<-c("Silver","2018-07-18 Silver 3",1052/3600,0,0)
+e<-c("Silver","2018-07-18 Silver 5",899/3600,0,0)
+f<-c("Silver","2018-08-02 Silver 1",1116/3600,0,0)
+g<-c("Silver","2018-10-05 Silver 5",549/3600,0,0)
+h<-c("Silver","2018-10-05 Silver 6",804/3600,0,0)
+
+add.on<-data.frame(t(data.frame(a,b,c,d,e,f,g,h)),
+                   stringsAsFactors = F)
+names(add.on)<-c("Lake","DLR","Effort","n","cpue")
+add.on$n<-as.numeric(add.on$n)
+add.on$cpue<-as.numeric(add.on$cpue)
+add.on$Effort<-as.numeric(add.on$Effort)
+add.on$Lake<-as.factor(add.on$Lake)
+add.on$DLR<-as.factor(add.on$DLR)
+str(add.on)
+coc.cpue<-rbind(coc.cpue,add.on)
+
+
+# now 50 buffalo
+a<-c("Silver","2018-05-24 Silver 6",894/3600,0,0)
+b<-c("Silver","2018-06-01 Silver 8",1218/3600,0,0)
+c<-c("Silver","2018-06-04 Silver 1",901/3600,0,0)
+d<-c("Silver","2018-06-04 Silver 2",914/3600,0,0)
+e<-c("Silver","2018-06-08 Silver 2",1560/3600,0,0)
+f<-c("Silver","2018-06-08 Silver 3",720/3600,0,0)
+g<-c("Silver","2018-06-09 Silver 1",1012/3600,0,0)
+h<-c("Silver","2018-06-12 Silver 1",2171/3600,0,0)
+i<-c("Silver","2018-06-12 Silver 3",2790/3600,0,0)
+j<-c("Silver","2018-06-14 Silver 1",900/3600,0,0)
+k<-c("Silver","2018-06-26 Silver Bonus 3",3348/3600,0,0)
+l<-c("Silver","2018-06-26 Silver Bonus 4",2217/3600,0,0)
+m<-c("Silver","2018-07-11 Silver 3",710/3600,0,0)
+n<-c("Silver","2018-07-11 Silver 5",1124/3600,0,0)
+o<-c("Silver","2018-07-11 Silver Bonus",1510/3600,0,0)
+p<-c("Silver","2018-07-18 Silver 2",2568/3600,0,0)
+q<-c("Silver","2018-07-18 Silver 5",899/3600,0,0)
+r<-c("Silver","2018-07-26 Silver 1",2294/3600,0,0)
+s<-c("Silver","2018-07-26 Silver 2",4085/3600,0,0)
+t<-c("Silver","2018-07-26 Silver 3",1910/3600,0,0)
+u<-c("Silver","2018-07-26 Silver 4",2295/3600,0,0)
+v<-c("Silver","2018-07-26 Silver 5",2408/3600,0,0)
+w<-c("Silver","2018-07-26 Silver 7",3006/3600,0,0)
+x<-c("Silver","2018-08-02 Silver 1",1116/3600,0,0)
+y<-c("Silver","2018-08-02 Silver 2",1307/3600,0,0)
+z<-c("Silver","2018-08-02 Silver 3",1121/3600,0,0)
+
+aa<-c("Silver","2018-08-02 Silver 4",854/3600,0,0)
+bb<-c("Silver","2018-08-02 Silver 5",1202/3600,0,0)
+cc<-c("Silver","2018-08-02 Silver 6",923/3600,0,0)
+dd<-c("Silver","2018-08-06 Silver 1",997/3600,0,0)
+ee<-c("Silver","2018-08-06 Silver 2",1173/3600,0,0)
+ff<-c("Silver","2018-08-06 Silver 3",1004/3600,0,0)
+gg<-c("Silver","2018-08-06 Silver 4",688/3600,0,0)
+hh<-c("Silver","2018-08-06 Silver 5",952/3600,0,0)
+ii<-c("Silver","2018-08-06 Silver 6",810/3600,0,0)
+jj<-c("Silver","2018-08-13 Silver 1",1866/3600,0,0)
+kk<-c("Silver","2018-08-13 Silver 4",1760/3600,0,0)
+ll<-c("Silver","2018-08-13 Silver 5",633/3600,0,0)
+mm<-c("Silver","2018-09-08 Silver 1",1156/3600,0,0)
+nn<-c("Silver","2018-09-08 Silver 2",1261/3600,0,0)
+oo<-c("Silver","2018-09-08 Silver 3",1110/3600,0,0)
+pp<-c("Silver","2018-09-08 Silver 5",1181/3600,0,0)
+qq<-c("Silver","2018-09-08 Silver 6",961/3600,0,0)
+rr<-c("Silver","2018-09-08 Silver Bridge",554/3600,0,0)
+ss<-c("Silver","2018-10-05 Silver 2",964/3600,0,0)
+tt<-c("Silver","2018-10-05 Silver 3",1208/3600,0,0)
+uu<-c("Silver","2018-10-05 Silver 4",890/3600,0,0)
+vv<-c("Silver","2018-10-05 Silver 5",594/3600,0,0)
+ww<-c("Silver","2018-10-05 Silver 6",804/3600,0,0)
+xx<-c("Silver","2018-10-05 Silver 1",1132/3600,0,0)
+
+add.on<-data.frame(t(data.frame(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,
+                           aa,bb,cc,dd,ee,ff,gg,hh,ii,jj,kk,ll,mm,nn,oo,pp,qq,rr,ss,tt,uu,vv,ww,xx)),
+                   stringsAsFactors = F)
+names(add.on)<-c("Lake","DLR","Effort","n","cpue")
+add.on$n<-as.numeric(add.on$n)
+add.on$cpue<-as.numeric(add.on$cpue)
+add.on$Effort<-as.numeric(add.on$Effort)
+add.on$Lake<-as.factor(add.on$Lake)
+add.on$DLR<-as.factor(add.on$DLR)
+str(add.on)
+bib.cpue<-rbind(bib.cpue,add.on)
+
+#################################
 #
-#
-#
-#
-#
+#         South Twin
+
+
 
 ```
 
