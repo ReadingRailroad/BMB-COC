@@ -55,6 +55,9 @@ packages(dplyr)
 # Load in data and summarize, look for glaring errors:
 ```{r}
 data<-read.csv("2018_Data_compiled.csv",header=T)
+# data includes seine, electrofishing, and fyke nets
+#           includes all species data from spring std runs (may) and fall fyke netting (sept)
+#           some bigly data here, boys.
 headtail(data)
 
 str(data)
@@ -92,13 +95,19 @@ data$TAG.NUMBER<-droplevels(data$TAG.NUMBER)
 
 # Species
 levels(data$Species) #KOI could be an issue, as with BMB and CAP for abbreviations
+summary(data$Species)
 data$TAG.NUMBER[data$Species == "KOI"]
 data$Lake[data$Species == "KOI"]
 data$Species[data$Species == "KOI"] <- "COC"
 data$Species[data$Species == "CAP"] <- "COC"
 data$Species[data$Species == "BMB"] <- "BIB"
+data$Species[data$Species == "YLP"] <- "YEP"
 data$Species[data$Species == "YL Bass"] <- "YLB"
 #data$Lake[data$Species == "YLB"]
+data$Species[data$Species == "painted turtle"] <- "Painted turtle"
+data$Species[data$Species == "Spottail Shiner"] <- "Spottail shiner"
+
+data$Species[data$Species == "Northern Pike"] <- "NOP"
 data$Species<-droplevels(data$Species)
 summary(data$Species)
 # Confirm the abbreviations: Yellow Bullhead = YEB; Yellow Bass = YLB
@@ -637,6 +646,59 @@ Holy cow! As of 12/11/2018 this data frame is now 22k observations long. Time to
 ```{r}
 write.csv(data,"2018 and 2017 Compiled Data.csv")
 ```
+
+
+
+# DNR Permit data
+- df of total catches by gear for each species in each lake
+- ending up with 7 rows and many columns
+
+```{r}
+datframe<-read.csv("2018 and 2017 Compiled Data.csv", header = T)
+str(datframe)
+
+# seine gear
+levels(datframe$Gear)
+datframe$detect<-1
+seine<-droplevels(subset(datframe, Gear == "Commercial Seine"))
+junk<-melt(seine, id.var = c("TAG.NUMBER","Lake"),
+           measure.vars = "detect")
+seine2<-dcast(junk,TAG.NUMBER~Lake)
+
+
+
+
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
