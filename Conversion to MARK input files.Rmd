@@ -123,17 +123,29 @@ blue.proc<-process.data(blue.ch,model="CJS")
 ```
 
 
-# Center Lake carp
+# Center Lake carp: 2018 only
 ```{r}
-input.data<-subset(dframe, Lake == "Center" & Species == "COC" & !is.na(dframe$TAG.NUMBER))
+input.data<-subset(dframe, Lake == "Center" & Species == "COC" & !is.na(dframe$TAG.NUMBER) & Year == "2018")
+
+input.data$Month<-strftime(input.data$Date, "%m")
+head(input.data$Month)
 
 
 #reshaping functions to pivot the data
-junk<-melt(input.data,id.var=c("TAG.NUMBER","Date"),
+junk<-melt(input.data,id.var=c("TAG.NUMBER","Month"),
            measure.vars="detect")
-y<-dcast(junk,TAG.NUMBER~Date)
+y<-dcast(junk,TAG.NUMBER~Month)
 head(y)
 y[is.na(y)]<-0
+# after consolidating to month there are some fish with 2 captures per month so need to correct those
+
+y$`05`[y$`05` >= 2] <- 1
+y$`06`[y$`06` >= 2] <- 1
+y$`07`[y$`07` >= 2] <- 1
+y$`08`[y$`08` >= 2] <- 1
+y$`09`[y$`09` >= 2] <- 1
+y$`10`[y$`10` >= 2] <- 1
+
 # collapse the capture history to single column
 # capture history: using "unite" in dplyr
 # Want to make each tag a "comment" first:
@@ -141,14 +153,18 @@ y$c<-"/*"
 y$d<-"*/"
 y$TAG.NUMBER<-paste(y$c,y$TAG.NUMBER,y$d,sep = " ")
 #nicely done. Now to unite the capture histories
-center.ch<-unite(y,"ch", 2:28, sep = "",remove=T)
-center.ch<-center.ch[,-c(3:4)]
+center.ch<-unite(y,"ch", 2:7, sep = "",remove=T)
+center.ch<-center.ch[-c(509:603),-c(3:4)] # removing "envelope" fish - dissected not tagged. and comment columns removal.
+
+
+
+
 ```
 
 
 # Center Lake MARK Models
 OK. So here's some potential complications:
-- unequal time intervals and unequal samples between years (could collapst to month?)
+- unequal time intervals and unequal samples between years (could collapse to month?)
 - need to figure out appropriate model (CJS?)
 - all the assumptions!
 - also some double-tagged fish. How to handle?
@@ -157,16 +173,93 @@ str(center.ch)
 
 # Process.data
 center.proc<-process.data(center.ch,model="CJS")
+str(center.proc)
+
+
+
 center.ddl<-make.design.data(center.proc)
 names(center.ddl)
 summary(center.ddl$Phi)
 
 center.carp.1<-mark(center.ch) # dot model
 PIMS(center.carp.1,"Phi",simplified=F)
-# obviously need to consolidate the data to at least month if not more. 
-# give it some thought and come back
 
+# Other model structures:
+phi.0<-list(formula=~1)
+phi.1<-list(formula=~time)
+phi.2<-list(formula=~Time)
+p.1<-list(formula=~1)
+p.2<-list(formula=~time)
+
+# Running other models
+#
+#   See if Phi-dot and phi-dot match above
+#             Phi = 0.20586
+#             p = 0.0698
+
+center.m.1<-mark(center.proc, center.ddl, model.parameters=list(Phi=phi.0,p=p.1))
+# dot model matches
+
+# Phi time and p dot
+center.m.2<-mark(center.proc,center.ddl,model.parameters=list(Phi=phi.1,p=p.1))
+
+# Phi time trend and p dot
+center.m.3<-mark(center.proc,center.ddl,model.parameters=list(Phi=phi.2,p=p.1))
+
+# phi time and p time
+center.m.4<-mark(center.proc,center.ddl,model.parameters = list (Phi=phi.1,p=p.2))
+
+# phi dot and p time
+center.m.5<-mark(center.proc,center.ddl,model.parameters = list (Phi=phi.0,p=p.2))
+
+# phi Time trend and p time
+center.m.6<-mark(center.proc,center.ddl,model.parameters = list (Phi=phi.2,p=p.2))
+
+center.model.results<-collect.models()
+center.model.results
 
 
 ```
 
+
+# Center Lake: Carp and Buffalo
+- need to separate months by year. Probs combined column
+- and trying to run for both buffalo and carp together (as groups). 
+```{r}
+input.data<-subset(dframe, Lake == "Center" & !is.na(dframe$TAG.NUMBER))
+
+input.data$MonthYear<-strftime(input.data$Date, "%m %Y")
+head(input.data$MonthYear)
+levels(input.data$MonthYear)
+
+
+
+#reshaping functions to pivot the data
+junk<-melt(input.data,id.var=c("TAG.NUMBER","MonthYear"),
+           measure.vars="detect")
+y<-dcast(junk,TAG.NUMBER~MonthYear)
+head(y)
+y[is.na(y)]<-0
+# after consolidating to month there are some fish with 2 captures per month so need to correct those
+
+y$`05`[y$`05` >= 2] <- 1
+y$`06`[y$`06` >= 2] <- 1
+y$`07`[y$`07` >= 2] <- 1
+y$`08`[y$`08` >= 2] <- 1
+y$`09`[y$`09` >= 2] <- 1
+y$`10`[y$`10` >= 2] <- 1
+
+# collapse the capture history to single column
+# capture history: using "unite" in dplyr
+# Want to make each tag a "comment" first:
+y$c<-"/*"
+y$d<-"*/"
+y$TAG.NUMBER<-paste(y$c,y$TAG.NUMBER,y$d,sep = " ")
+#nicely done. Now to unite the capture histories
+center.ch<-unite(y,"ch", 2:7, sep = "",remove=T)
+center.ch<-center.ch[-c(509:603),-c(3:4)] # removing "envelope" fish - dissected not tagged. and comment columns removal.
+
+
+
+
+```
