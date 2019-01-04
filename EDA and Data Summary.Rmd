@@ -54,7 +54,7 @@ packages(dplyr)
 
 # Load in data and summarize, look for glaring errors:
 ```{r}
-data<-read.csv("2018_Data_compiled.csv",header=T)
+data<-read.csv("2018_Data_compiled_2.0.csv",header=T)
 # data includes seine, electrofishing, and fyke nets
 #           includes all species data from spring std runs (may) and fall fyke netting (sept)
 #           some bigly data here, boys.
@@ -83,6 +83,7 @@ data$Lake[data$Lake == "Five Island"] <- "5 Island"
 data$Lake[data$Lake == "N Twin"] <- "N. Twin"
 data$Lake[data$Lake == "S Twin"] <- "S. Twin"
 data$Lake<-droplevels(data$Lake)
+summary(data$Lake)
 
 # TAG.NUMBER - Already a factor
 summary(data$TAG.NUMBER)
@@ -96,32 +97,42 @@ data$TAG.NUMBER<-droplevels(data$TAG.NUMBER)
 # Species
 levels(data$Species) #KOI could be an issue, as with BMB and CAP for abbreviations
 summary(data$Species)
-data$TAG.NUMBER[data$Species == "KOI"]
-data$Lake[data$Species == "KOI"]
+summary(data$Lake[data$Species == "KOI"])
+data$Species<-as.character(data$Species)
 data$Species[data$Species == "KOI"] <- "COC"
 data$Species[data$Species == "CAP"] <- "COC"
 data$Species[data$Species == "BMB"] <- "BIB"
 data$Species[data$Species == "YLP"] <- "YEP"
 data$Species[data$Species == "YL Bass"] <- "YLB"
+data$Species[data$Species == "YBH"] <- "YEB"
+data$Species[data$Species == "GZS"] <- "GIS"
 #data$Lake[data$Species == "YLB"]
 data$Species[data$Species == "painted turtle"] <- "Painted turtle"
 data$Species[data$Species == "Spottail Shiner"] <- "Spottail shiner"
-
+data$Species[data$Species == "White Sucker"] <- "WHS"
 data$Species[data$Species == "Northern Pike"] <- "NOP"
-data$Species<-droplevels(data$Species)
+data$Species[data$Species == "Shortnose Gar"] <- "SNG"
+data$Species[data$Species == "GSFxBLG"] <- "BLGxGSF"
+data$Species<-as.factor(data$Species)
 summary(data$Species)
 # Confirm the abbreviations: Yellow Bullhead = YEB; Yellow Bass = YLB
+#       Confirmed 1/3/2019
+
+
 
 # Length..mm.
 str(data$Length..mm.)
-data$Length..mm.[data$Length..mm. ==""] <- NA
-data$Length..mm.<-droplevels(data$Length..mm.)
 summary(data$Length..mm.)
-data$Length..mm.<-as.numeric(as.character(data$Length..mm.))
-str(data$Length..mm.)
-summary(data$Length..mm.) 
+data$Length..mm.[data$Length..mm. ==""] <- NA
 
-# seems legit! only 46 missing values. 
+data$Length..mm.<-droplevels(data$Length..mm.)
+data$Length..mm.<-as.numeric(as.character(data$Length..mm.))
+
+summary(data$Length..mm.)
+
+# seems legit! 1,210 missing values.
+# Update 1/3/2019 we've added many many bached fish from the fyke nets. mostly yoy white bass
+
 # Min 26mm is YLB in 5I; Max is 958 buffalo in Storm
 # Don't forget to put the character command within the numeric!
 
@@ -131,7 +142,7 @@ summary(data$Length..mm.)
 summary(data$Weight..g.[data$Species == "COC"]) # Max is good (24.5 lb carp in Silver), minimum is also silver (11 inch fish .5 lbs)
 summary(data$Weight..g.[data$Species == "BIB"]) # Maximum is good (30.6 lb buffalo in Storm) minimum is non-tagged voucher fish from N twin.
 summary(data$Weight..g.)
-# Minimum is 10 (BLG in Blue)
+# Minimum is 1... many small YOY fish
 data$Weight..g.<-round(data$Weight..g.) # set to just grams
 
 #######
@@ -185,7 +196,12 @@ data$Tag.Loss[data$Tag.Loss == "2018"] <- "1"
 data$Tag.Loss<-factor(data$Tag.Loss)
 summary(data$Tag.Loss)
 # 56 tags lost including both years. 
+
+########################################################
 #### Need to check for comments in each of 56 tags lost!
+########################################################
+
+
 
 ############
 #
@@ -265,13 +281,16 @@ summary(data$Site.Transect)
 #
 
 summary(data$On.Time..s.)
-data$On.Time..s.
-# check tag 18499 and 19026: gear listed as seine but sites given std transect names, but also seine on that day 5/22/18 five island
+str(data$On.Time..s.)
+# check tag 18499 and 19026: gear listed as seine but sites given std transect names, but also seine on that day 5/22/18 five island --- checked and has already been corrected 1/4/2018
+
 # check 7/26/2018  Silver lake transect 6 has NA for effort. (possibly from Jon Meerbeek scanned sheets?) Those are the only NAs left so can find and replace if needed
 
-# then all blanks (5423 of them) can become NAs because they come from either seines or fykes
-data$On.Time..s.<-as.numeric(data$On.Time..s.)
 
+
+# then all blanks (9961 of them) can become NAs because they come from either seines or fykes
+data$On.Time..s.<-as.numeric(data$On.Time..s.)
+summary(data$On.Time..s.)
 
 
 
@@ -518,7 +537,7 @@ twin.df<-twin.df[,-1]
 
 data<-rbind(data,twin.df)
 
-# dang that's some nice work. Up to 20k observations
+# dang that's some nice work. Up to 25k observations
 ```
 
 __Center Lake!__
@@ -641,7 +660,7 @@ data<-rbind(data,center.df)
 
 ```
 
-Holy cow! As of 12/11/2018 this data frame is now 22k observations long. Time to celebrate with more data checking. for now let's write a new csv in a new chunk to have the 2017 and 2018 data separate from the other 2018 only data
+Holy cow! As of 12/11/2018 (1/4/2019) this data frame is now 26,615 observations long. Time to celebrate with more data checking. for now let's write a new csv in a new chunk to have the 2017 and 2018 data separate from the other 2018 only data
 
 ```{r}
 write.csv(data,"2018 and 2017 Compiled Data.csv")
@@ -654,23 +673,51 @@ write.csv(data,"2018 and 2017 Compiled Data.csv")
 - ending up with 7 rows and many columns
 
 ```{r}
-datframe<-read.csv("2018 and 2017 Compiled Data.csv", header = T)
+datframe<-read.csv("2018_COC_BIB_CMR_Data.csv", header = T)
 str(datframe)
 
-# seine gear
-levels(datframe$Gear)
+
+
+# Lakes
+levels(datframe$Lake)
 datframe$detect<-1
-seine<-droplevels(subset(datframe, Gear == "Commercial Seine"))
-junk<-melt(seine, id.var = c("TAG.NUMBER","Lake"),
+junk<-melt(datframe, id.var = c("Species","Lake"),
            measure.vars = "detect")
-seine2<-dcast(junk,TAG.NUMBER~Lake)
+LakeTotals<-dcast(junk,Species~Lake)
+# this is good for overall total catch, HOWEVER:
+#   For DNR permit (and probably subsequent IACUC) 
+#   I need to split by released alive and euthanized
 
 
 
+levels(datframe$Notes)
+length(datframe$Species[datframe$Notes == "euthanized"])
+datframe$Notes[datframe$Notes == "Aging Fish" |
+                 datframe$Notes == "Aging Fish " |
+                 datframe$Notes == "Aging Fish - 2017 Tag Loss" |
+                 datframe$Notes == "Aging Fish - 2017 Tag Loss Female" |
+                 datframe$Notes == "Aging Fish - Female" |
+                 datframe$Notes == "Aging Fish - Male" |
+                 datframe$Notes == "Aging Fish - Mirror" |
+                 datframe$Notes == "Aging Fish - Scoliosis" |
+                 datframe$Notes == "Aging Fish 2017 Tag Loss Female"] <- "euthanized"
+datframe$Notes<-droplevels(datframe$Notes)
+levels(datframe$Notes)
+length(datframe$Species[datframe$Notes == "euthanized"])
 
+# Released Alive 2018
+Alive<-subset(datframe, Notes != "euthanized")
+A.melt<-melt(Alive, id.var = c("Species","Lake"),
+              measure.vars = "detect")
+AliveTotal<-dcast(A.melt,Species~Lake)
+write.csv(AliveTotal, "2018 Catch - Released.csv")
 
-
-
+# Euthanized 2018
+Euth<-subset(datframe, Notes == "euthanized")
+E.melt<-melt(Euth, id.var = c("Species","Lake"),
+             measure.vars = "detect")
+EuthTotal<-dcast(E.melt, Species~Lake)
+write.csv(EuthTotal, "2018 Catch - Euthanized.csv")
 
 ```
 

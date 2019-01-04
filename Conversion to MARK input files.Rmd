@@ -51,6 +51,12 @@ packages(doBy)
 packages(dplyr)
 packages(RMark)
 packages(tidyr)
+
+
+
+cleanup(ask=T)
+list.files()
+
 ```
 
 # Loading in the CSV
