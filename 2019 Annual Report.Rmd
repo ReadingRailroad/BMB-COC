@@ -1,0 +1,138 @@
+---
+title: "2019 Annual Report"
+author: "Martin A. Simonson"
+date: "January 6, 2019"
+output: word_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r,include=FALSE}
+rm(list=ls())
+
+
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
+
+#remove.packages(c("ggplot2", "data.table"))
+#install.packages('Rcpp', dependencies = TRUE)
+#install.packages('ggplot2', dependencies = TRUE)
+#install.packages('data.table', dependencies = TRUE)
+
+#packages(rcompanion)
+#packages(vegan)
+packages(ggplot2)
+packages(gridExtra)
+packages(reshape2)
+packages(FSA)
+packages(nnet)
+#packages(multcomp)
+#packages(plyr)
+#packages(rv)
+packages(arm)
+packages(lattice)
+packages(tikzDevice)
+#packages(GGally)
+packages(wesanderson)
+#packages(DescTools)
+#packages(mvnormtest)
+#packages(HH)
+#packages(biotools)
+#packages(car)
+#packages(psych)
+#packages(GPArotation)
+packages(doBy)
+packages(dplyr)
+```
+
+# DNR Permit data
+- df of total catches by gear for each species in each lake
+- ending up with 7 rows and many columns
+
+```{r, include = F}
+datframe<-read.csv("2018_COC_BIB_CMR_Data.csv", header = T)
+str(datframe)
+
+
+
+# Lakes
+levels(datframe$Lake)
+datframe$detect<-1
+junk<-melt(datframe, id.var = c("Species","Lake"),
+           measure.vars = "detect")
+LakeTotals<-dcast(junk,Species~Lake)
+# this is good for overall total catch, HOWEVER:
+#   For DNR permit (and probably subsequent IACUC) 
+#   I need to split by released alive and euthanized
+
+
+
+levels(datframe$Notes)
+length(datframe$Species[datframe$Notes == "euthanized"])
+datframe$Notes[datframe$Notes == "Aging Fish" |
+                 datframe$Notes == "Aging Fish " |
+                 datframe$Notes == "Aging Fish - 2017 Tag Loss" |
+                 datframe$Notes == "Aging Fish - 2017 Tag Loss Female" |
+                 datframe$Notes == "Aging Fish - Female" |
+                 datframe$Notes == "Aging Fish - Male" |
+                 datframe$Notes == "Aging Fish - Mirror" |
+                 datframe$Notes == "Aging Fish - Scoliosis" |
+                 datframe$Notes == "Aging Fish 2017 Tag Loss Female"] <- "euthanized"
+datframe$Notes<-droplevels(datframe$Notes)
+levels(datframe$Notes)
+length(datframe$Species[datframe$Notes == "euthanized"])
+
+# Released Alive 2018
+Alive<-subset(datframe, Notes != "euthanized")
+A.melt<-melt(Alive, id.var = c("Species","Lake"),
+              measure.vars = "detect")
+AliveTotal<-dcast(A.melt,Species~Lake)
+write.csv(AliveTotal, "2018 Catch - Released.csv")
+
+# Euthanized 2018
+Euth<-subset(datframe, Notes == "euthanized")
+E.melt<-melt(Euth, id.var = c("Species","Lake"),
+             measure.vars = "detect")
+EuthTotal<-dcast(E.melt, Species~Lake)
+write.csv(EuthTotal, "2018 Catch - Euthanized.csv")
+
+```
+
+
+```{r}
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
