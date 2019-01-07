@@ -750,6 +750,19 @@ NTwin.BM.Density<-data.frame(cbind(C.L.BM,C.BM,C.U.BM,C.L.BMDensity,C.BMDensity,
 
 ```
 
+# Hypothetical junk to see what biomass estimates would be if we had more recaps
+```{r}
+
+NTwin.bib.50$BMest<-NTwin.bib.50$percent * NTwin.bib.50$mweight * 13500 # multiply fraction, mean weight, pop. est
+B.BM<-sum(NTwin.bib.50$BMest/453.592)
+
+
+```
+
+
+
+
+
 #Silver
 ```{r,}
 
