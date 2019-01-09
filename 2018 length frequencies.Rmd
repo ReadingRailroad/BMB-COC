@@ -62,7 +62,7 @@ Much of this code will be absorbed from [[ LengthFrequencies.R ]] where I starte
 # 1.) Overall length frequency distributions of carp and buffalo in each of the lakes
 ```{r}
 #reading in data
-dframe<-read.csv("COC_BIB_CMRData.csv")
+dframe<-read.csv("2018_COC_BIB_CMR_Data.csv")
 dframe<-dframe[,-1]
 
 
@@ -364,6 +364,7 @@ grid.arrange(centerLF.c.2018, centerLF.b.2018,
              SilverLF.c.2018, SilverLF.b.2018,
              STwinLF.c.2018, STwinLF.b.2018,
              StormLF.c.2018, StormLF.b.2018,
+             BlueLF.2018,
              nrow=7,ncol=2)
 ```
 

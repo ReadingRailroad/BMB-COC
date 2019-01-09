@@ -52,8 +52,7 @@ packages(dplyr)
 ```
 
 # DNR Permit data
-- df of total catches by gear for each species in each lake
-- ending up with 7 rows and many columns
+
 
 ```{r, include = F}
 datframe<-read.csv("2018_COC_BIB_CMR_Data.csv", header = T)
@@ -73,6 +72,8 @@ LakeTotals<-dcast(junk,Species~Lake)
 
 
 
+
+
 levels(datframe$Notes)
 length(datframe$Species[datframe$Notes == "euthanized"])
 datframe$Notes[datframe$Notes == "Aging Fish" |
@@ -88,25 +89,395 @@ datframe$Notes<-droplevels(datframe$Notes)
 levels(datframe$Notes)
 length(datframe$Species[datframe$Notes == "euthanized"])
 
-# Released Alive 2018
+# Released Alive 2018 
 Alive<-subset(datframe, Notes != "euthanized")
 A.melt<-melt(Alive, id.var = c("Species","Lake"),
               measure.vars = "detect")
 AliveTotal<-dcast(A.melt,Species~Lake)
-write.csv(AliveTotal, "2018 Catch - Released.csv")
+write.csv(AliveTotal, "2018 Catch-Released.csv")
 
 # Euthanized 2018
 Euth<-subset(datframe, Notes == "euthanized")
 E.melt<-melt(Euth, id.var = c("Species","Lake"),
              measure.vars = "detect")
 EuthTotal<-dcast(E.melt, Species~Lake)
-write.csv(EuthTotal, "2018 Catch - Euthanized.csv")
+write.csv(EuthTotal, "2018 Catch-Euthanized.csv")
 
 ```
 
 
-```{r}
+# Annual Report Table and meeting Plots: Total Catches, then split by gear
+- df of total catches by gear for each species in each lake (Table)
+            - ending up with many rows and a column for each lake.
+- stacked barplot is in order
 
+
+
+```{r,}
+##########################################################################
+# 2018 catch
+catch.melt<-melt(datframe, id.var = c("Species","Lake"),
+              measure.vars = "detect")
+TotalCatch<-dcast(catch.melt,Species~Lake)
+#write.csv(TotalCatch, "2018 Catch by gear.csv")
+
+#########################################################################
+# 2018 Carp and Buffalo Catch split by gear
+
+gear.melt<-melt(datframe, id.var = c("Species","Lake","Gear"),
+              measure.vars = "detect")
+GearCatch<-dcast(gear.melt,Lake + Gear~Species)
+GearCatch<-GearCatch[,c(1,2,4,10)]
+
+# Buffalo
+GearPlot.Buff<-ggplot(GearCatch, aes(x=Lake, y = BIB, fill = Gear))+
+                geom_bar(stat="identity",colour="black") +
+                scale_fill_manual(values = wes_palette("Royal1")) +
+                scale_y_continuous(limits = c(0,5000)) +
+                labs(title = "2018 Total Bigmouth Buffalo Catch By Gear",
+                 x="Lake",
+                 y="Bigmouth Buffalo Catch") +
+                theme_classic()
+
+# Carp
+GearPlot.Carp<-ggplot(GearCatch, aes(x=Lake, y = COC, fill = Gear))+
+                geom_bar(stat="identity",colour="black") +
+                scale_fill_manual(values = wes_palette("Chevalier1")) +
+                scale_y_continuous(limits = c(0,5000)) +
+                labs(title = "2018 Total Common Carp Catch By Gear",
+                 x="Lake",
+                 y="Common Carp Catch") +
+                theme_classic()
+
+grid.arrange(GearPlot.Buff,
+             GearPlot.Carp,
+             nrow=2,
+             ncol=1)
+
+```
+
+# 2018 Length Frequencies
+- Reading in data
+- splitting up the lakes
+
+__Problem__: have to switch these to inches probably
+```{r,}
+#reading in data
+dframe<-read.csv("2018_COC_BIB_CMR_Data.csv")
+dframe<-dframe[,-1]
+
+# splitting data frame by Lakes
+levels(dframe$Lake)
+Blue <- subset(dframe, Lake == "Blue")
+Center<-subset(dframe, Lake == "Center")
+FiveIsland<-subset(dframe, Lake == "5 Island")
+NTwin<-subset(dframe, Lake == "N. Twin")
+Silver<-subset(dframe, Lake == "Silver")
+STwin<-subset(dframe, Lake == "S. Twin")
+Storm<-subset(dframe, Lake == "Storm")
+
+```
+
+## Blue Lake
+```{r}
+# No extreme need to split species (one BIB in dataset) but I'll do it anyway
+blue.coc<-subset(Blue, Species == "COC" & !is.na(Length..mm.))
+
+summary(blue.coc$Length..mm.)
+length(!is.na(blue.coc$Length..mm.))
+
+# Length Frequency Histograms
+# 2017
+
+
+
+
+
+
+#2018
+BlueLF.2018<-ggplot(blue.coc, aes(x=Length..mm., fill=Species))+
+                geom_histogram(binwidth=10,colour="black",position="dodge", fill = "burlywood4")+
+                coord_cartesian(xlim = c(0,1000))+
+                scale_y_continuous(limits = c(0,700))+
+                labs(title = "Blue Lake Carp Length-Frequency",
+                      x = "Length (mm)",
+                      y = "Frequency (Note larger y-axis)") +
+                theme_classic()
+BlueLF.2018
+
+
+```
+
+## Center Lake
+```{r}
+# Subsetting species
+#                             Carp
+center.coc<-subset(Center, Species == "COC" & !is.na(Length..mm.))
+summary(center.coc$Length..mm.)
+#                             Buffalo
+center.bib<-subset(Center, Species == "BIB" & !is.na(Length..mm.))
+summary(center.bib$Length..mm.)
+
+# Length Frequency Histograms
+# 2017
+
+
+
+
+
+
+#2018
+centerLF.c.2018<-ggplot(center.coc, aes(x=Length..mm., fill=Species))+
+                geom_histogram(binwidth=10,colour="black",position="dodge", fill = "burlywood4")+
+                coord_cartesian(xlim = c(0,1000))+
+                scale_y_continuous(limits = c(0,200))+
+                labs(title = "Center Lake Carp Length-Frequency",
+                      x = "Length (mm)",
+                      y = "Frequency") +
+                theme_classic()
+centerLF.c.2018
+
+centerLF.b.2018<-ggplot(center.bib, aes(x=Length..mm., fill = Species))+
+                  geom_histogram(binwidth = 10, colour = "black", position = "dodge", fill = "cornflowerblue")+
+                  coord_cartesian(xlim = c(0,1000))+
+                  scale_y_continuous(limits = c(0,200))+
+                  labs(title = "Center Lake Buffalo Length-Frequency",
+                      x = "Length (mm)",
+                      y = "Frequency") +
+                  theme_classic()
+centerLF.b.2018
+
+```
+
+## Five Island Lake
+```{r}
+# Subsetting species
+#                             Carp
+FiveIsland.coc<-subset(FiveIsland, Species == "COC" & !is.na(Length..mm.))
+summary(FiveIsland.coc$Length..mm.)
+#                             Buffalo
+FiveIsland.bib<-subset(FiveIsland, Species == "BIB" & !is.na(Length..mm.))
+summary(FiveIsland.bib$Length..mm.)
+
+# Length Frequency Histograms
+# 2017
+
+
+
+
+
+
+#2018
+FiveIslandLF.c.2018<-ggplot(FiveIsland.coc, aes(x=Length..mm., fill=Species))+
+                geom_histogram(binwidth=10,colour="black",position="dodge", fill = "burlywood4")+
+                coord_cartesian(xlim = c(0,1000))+
+                scale_y_continuous(limits = c(0,200))+
+                labs(title = "Five Island Lake Carp Length-Frequency",
+                      x = "Length (mm)",
+                      y = "Frequency") +
+                theme_classic()
+FiveIslandLF.c.2018
+
+FiveIslandLF.b.2018<-ggplot(FiveIsland.bib, aes(x=Length..mm., fill = Species))+
+                  geom_histogram(binwidth = 10, colour = "black", position = "dodge", fill = "cornflowerblue")+
+                  coord_cartesian(xlim = c(0,1000))+
+                  scale_y_continuous(limits = c(0,200))+
+                  labs(title = "Five Island Lake Buffalo Length-Frequency",
+                      x = "Length (mm)",
+                      y = "Frequency") +
+                  theme_classic()
+FiveIslandLF.b.2018
+
+```
+
+## North Twin Lake
+```{r}
+# Subsetting species
+#                             Carp
+NTwin.coc<-subset(NTwin, Species == "COC" & !is.na(Length..mm.))
+summary(NTwin.coc$Length..mm.)
+#                             Buffalo
+NTwin.bib<-subset(NTwin, Species == "BIB" & !is.na(Length..mm.))
+summary(NTwin.bib$Length..mm.)
+
+# Length Frequency Histograms
+# 2017
+
+
+
+
+
+
+#2018
+NTwinLF.c.2018<-ggplot(NTwin.coc, aes(x=Length..mm., fill=Species))+
+                geom_histogram(binwidth=10,colour="black",position="dodge", fill = "burlywood4")+
+                coord_cartesian(xlim = c(0,1000))+
+                scale_y_continuous(limits = c(0,200))+
+                labs(title = "North Twin Lake Carp Length-Frequency",
+                      x = "Length (mm)",
+                      y = "Frequency") +
+                theme_classic()
+NTwinLF.c.2018
+
+NTwinLF.b.2018<-ggplot(NTwin.bib, aes(x=Length..mm., fill = Species))+
+                  geom_histogram(binwidth = 10, colour = "black", position = "dodge", fill = "cornflowerblue")+
+                  coord_cartesian(xlim = c(0,1000))+
+                  scale_y_continuous(limits = c(0,200))+
+                  labs(title = "North Twin Lake Buffalo Length-Frequency",
+                      x = "Length (mm)",
+                      y = "Frequency") +
+                  theme_classic()
+NTwinLF.b.2018
+
+```
+
+## Silver Lake
+```{r}
+# Subsetting species
+#                             Carp
+Silver.coc<-subset(Silver, Species == "COC" & !is.na(Length..mm.))
+summary(Silver.coc$Length..mm.)
+#                             Buffalo
+Silver.bib<-subset(Silver, Species == "BIB" & !is.na(Length..mm.))
+summary(Silver.bib$Length..mm.)
+
+# Length Frequency Histograms
+# 2017
+
+
+
+
+
+
+#2018
+SilverLF.c.2018<-ggplot(Silver.coc, aes(x=Length..mm., fill=Species))+
+                geom_histogram(binwidth=10,colour="black",position="dodge", fill = "burlywood4")+
+                coord_cartesian(xlim = c(0,1000))+
+                scale_y_continuous(limits = c(0,200))+
+                labs(title = "Silver Lake Carp Length-Frequency",
+                      x = "Length (mm)",
+                      y = "Frequency") +
+                theme_classic()
+SilverLF.c.2018
+
+SilverLF.b.2018<-ggplot(Silver.bib, aes(x=Length..mm., fill = Species))+
+                  geom_histogram(binwidth = 10, colour = "black", position = "dodge", fill = "cornflowerblue")+
+                  coord_cartesian(xlim = c(0,1000))+
+                  scale_y_continuous(limits = c(0,200))+
+                  labs(title = "Silver Lake Buffalo Length-Frequency",
+                      x = "Length (mm)",
+                      y = "Frequency") +
+                  theme_classic()
+SilverLF.b.2018
+
+```
+
+## South Twin Lake
+```{r}
+# Subsetting species
+#                             Carp
+STwin.coc<-subset(STwin, Species == "COC" & !is.na(Length..mm.))
+summary(STwin.coc$Length..mm.)
+#                             Buffalo
+STwin.bib<-subset(STwin, Species == "BIB" & !is.na(Length..mm.))
+summary(STwin.bib$Length..mm.)
+
+# Length Frequency Histograms
+# 2017
+
+
+
+
+
+
+#2018
+STwinLF.c.2018<-ggplot(STwin.coc, aes(x=Length..mm., fill=Species))+
+                geom_histogram(binwidth=10,colour="black",position="dodge", fill = "burlywood4")+
+                coord_cartesian(xlim = c(0,1000))+
+                scale_y_continuous(limits = c(0,200))+
+                labs(title = "South Twin Lake Carp Length-Frequency",
+                      x = "Length (mm)",
+                      y = "Frequency") +
+                theme_classic()
+STwinLF.c.2018
+
+STwinLF.b.2018<-ggplot(STwin.bib, aes(x=Length..mm., fill = Species))+
+                  geom_histogram(binwidth = 10, colour = "black", position = "dodge", fill = "cornflowerblue")+
+                  coord_cartesian(xlim = c(0,1000))+
+                  scale_y_continuous(limits = c(0,200))+
+                  labs(title = "South Twin Lake Buffalo Length-Frequency",
+                      x = "Length (mm)",
+                      y = "Frequency") +
+                  theme_classic()
+STwinLF.b.2018
+
+```
+
+## Storm Lake
+```{r}
+# Subsetting species
+#                             Carp
+Storm.coc<-subset(Storm, Species == "COC" & !is.na(Length..mm.))
+summary(Storm.coc$Length..mm.)
+#                             Buffalo
+Storm.bib<-subset(Storm, Species == "BIB" & !is.na(Length..mm.))
+summary(Storm.bib$Length..mm.)
+
+# Length Frequency Histograms
+# 2017
+
+
+
+
+
+
+#2018
+StormLF.c.2018<-ggplot(Storm.coc, aes(x=Length..mm., fill=Species))+
+                geom_histogram(binwidth=10,colour="black",position="dodge", fill = "burlywood4")+
+                coord_cartesian(xlim = c(0,1000))+
+                scale_y_continuous(limits = c(0,200))+
+                labs(title = "Storm Lake Carp Length-Frequency",
+                      x = "Length (mm)",
+                      y = "Frequency") +
+                theme_classic()
+StormLF.c.2018
+
+StormLF.b.2018<-ggplot(Storm.bib, aes(x=Length..mm., fill = Species))+
+                  geom_histogram(binwidth = 10, colour = "black", position = "dodge", fill = "cornflowerblue")+
+                  coord_cartesian(xlim = c(0,1000))+
+                  scale_y_continuous(limits = c(0,200))+
+                  labs(title = "Storm Lake Buffalo Length-Frequency",
+                      x = "Length (mm)",
+                      y = "Frequency") +
+                  theme_classic()
+StormLF.b.2018
+
+```
+
+## now arrange the objects in a meaningful way
+```{r}
+# Carp
+grid.arrange(centerLF.c.2018, centerLF.b.2018, 
+             FiveIslandLF.c.2018, FiveIslandLF.b.2018,
+             NTwinLF.c.2018, NTwinLF.b.2018,
+             SilverLF.c.2018, SilverLF.b.2018,
+             STwinLF.c.2018, STwinLF.b.2018,
+             StormLF.c.2018, StormLF.b.2018,
+             BlueLF.2018,
+             nrow=7,ncol=2)
+```
+
+# Harvest
+
+```{r}
+harvest<-read.csv("Harvest_2018_Only.csv")
+str(harvest)
+levels(harvest$Lake)
+
+harvest<-subset(harvest, Lake == "Center" |
+                         Lake == "Five Island Lake" |
+                         Lake == "Silver Lake (Dickinson)" )
+harvest.melt<-melt(harvest, id.vars = c("Lake","Species"))
 
 ```
 
