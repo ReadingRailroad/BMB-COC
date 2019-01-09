@@ -1,0 +1,783 @@
+---
+title: "Biomass & Density"
+author: "Marty Simonson"
+date: "December 3, 2018"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r,include=FALSE}
+rm(list=ls())
+# Front Matter
+
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
+
+#remove.packages(c("ggplot2", "data.table"))
+#install.packages('Rcpp', dependencies = TRUE)
+#install.packages('ggplot2', dependencies = TRUE)
+#install.packages('data.table', dependencies = TRUE)
+
+#packages(rcompanion)
+#packages(vegan)
+packages(ggplot2)
+packages(gridExtra)
+packages(reshape2)
+packages(FSA)
+packages(nnet)
+#packages(multcomp)
+#packages(plyr)
+#packages(rv)
+#packages(arm)
+packages(lattice)
+packages(tikzDevice)
+#packages(GGally)
+packages(wesanderson)
+#packages(DescTools)
+#packages(mvnormtest)
+#packages(HH)
+#packages(biotools)
+#packages(car)
+#packages(psych)
+#packages(GPArotation)
+packages(doBy)
+packages(dplyr)
+```
+
+This document is to complete the _[hopefully]_ more accurate method of estimating total biomass by length-specific average weights multiplied by the fraction of the population in that weight category times the abundance estimate, including 95% lower and upper bounds of the abundance estimate
+
+Need to create a data frame to match the 2018 method with 14 columns:
+- Lake (alphabetical)
+- C.L.BM (carp lower biomass in pounds not as it is currently in grams)
+- C. BM (carp biomass estimate pounds)
+- C.U.BM (carp upper biomass estimate pounds)
+- C.L.BMDensity (guess what? carp lower biomass density in pounds per acre)
+- C.BMDensity (carp biomass density estimate lbs./acre)
+- C.U.BMDensity (carp biomass density lbs./acre)
+- B.L.BM (buffalo biomass density lower bound pounds)
+- B.BM (buffalo biomass estimate pounds)
+- B.U.BM (buffalo biomass estimate upper bound pounds)
+- B.L.BMDensity (buffalo biomass density lower bound in pounds per acre)
+- B.BMDensity (buffalo biomass density estimate lbs./acre)
+- B.U.BMDensity (buffalo biomass density estimate upper bound pounds per acre)
+- Year (factor 2017)
+
+
+# length-specific biomass estimates
+subset lake first. 
+
+
+```{r,}
+#Lakes
+data<-read.csv("2018 and 2017 Compiled Data.csv", header = T)
+levels(data$Lake)
+Blue <- subset(data, Lake == "Blue")
+Center<-subset(data, Lake == "Center")
+FiveIsland<-subset(data, Lake == "5 Island")
+NTwin<-subset(data, Lake == "N. Twin")
+Silver<-subset(data, Lake == "Silver")
+STwin<-subset(data, Lake == "S. Twin")
+Storm<-subset(data,Lake == "Storm")
+
+
+```
+
+then subset with just COC and BIB, drop NAs, create length bins, and bin-specific averange weights.
+
+# Blue
+```{r,}
+###########################
+#
+# Blue Lake 2017 only
+#
+# Carp:
+Blue.coc<-subset(Blue, Species =="COC" &
+                       Year == "2017")
+Blue.coc<-subset(Blue.coc, !is.na(Blue.coc$Length..mm.))
+
+#Buffalo not needed for Blue
+
+#25mm bins
+Blue.COC.25 <- Blue.coc %>%
+  add_count(Species) %>%
+  rename(Species_count = n) %>%
+  group_by(Species, Species_count, gr=cut(Length..mm., breaks = seq(0,1000,by=25))) %>%
+  summarise(n = n()) %>%
+  mutate(freq=n, percent = ((n/Species_count)*100),
+         cumfreq = cumsum(freq), cumpercent = cumsum(percent)) %>%
+  ungroup()
+#50mm bins
+Blue.COC.50 <- Blue.coc %>%
+  add_count(Species) %>%
+  rename(Species_count = n) %>%
+  group_by(Species, Species_count, gr=cut(Length..mm., breaks = seq(0,1000,by=50))) %>%
+  summarise(n = n()) %>%
+  mutate(freq=n, percent = ((n/Species_count)*100),
+         cumfreq = cumsum(freq), cumpercent = cumsum(percent)) %>%
+  ungroup()
+# so now we have percent frequency in 25/50mm (1-2") bins. Need to calculate average weight for those bins.
+# I forsee my method taking too long but it's all I can think of right now:
+#       to reduce repitition, let's go with the 50mm (2") bins first.
+#       need 1 line of code to subset a new frame for each length bin, 
+#       then take mean weight.
+
+Blue.coc.temp<-subset(Blue.coc, Length..mm. >= 200 & Length..mm. < 250 & !is.na(Weight..g.))
+w1<-mean(Blue.coc.temp$Weight..g.)
+
+Blue.coc.temp<-subset(Blue.coc, Length..mm. >= 250 & Length..mm. < 300 & !is.na(Weight..g.))
+w2<-mean(Blue.coc.temp$Weight..g.)
+
+Blue.coc.temp<-subset(Blue.coc, Length..mm. >= 300 & Length..mm. < 350 & !is.na(Weight..g.))
+w3<-mean(Blue.coc.temp$Weight..g.)
+
+Blue.coc.temp<-subset(Blue.coc, Length..mm. >= 350 & Length..mm. < 400 & !is.na(Weight..g.))
+w4<-mean(Blue.coc.temp$Weight..g.)
+
+Blue.coc.temp<-subset(Blue.coc, Length..mm. >= 400 & Length..mm. < 450 & !is.na(Weight..g.))
+w5<-mean(Blue.coc.temp$Weight..g.)
+
+Blue.coc.temp<-subset(Blue.coc, Length..mm. >= 450 & Length..mm. < 500 & !is.na(Weight..g.))
+w6<-mean(Blue.coc.temp$Weight..g.)
+
+Blue.coc.temp<-subset(Blue.coc, Length..mm. >= 500 & Length..mm. < 550 & !is.na(Weight..g.))
+w7<-mean(Blue.coc.temp$Weight..g.)
+
+Blue.coc.temp<-subset(Blue.coc, Length..mm. >= 550 & Length..mm. < 600 & !is.na(Weight..g.))
+w8<-mean(Blue.coc.temp$Weight..g.)
+
+Blue.coc.temp<-subset(Blue.coc, Length..mm. >= 600 & Length..mm. < 650 & !is.na(Weight..g.))
+w9<-mean(Blue.coc.temp$Weight..g.)
+
+Blue.coc.temp<-subset(Blue.coc, Length..mm. >= 650 & Length..mm. < 700 & !is.na(Weight..g.))
+w10<-mean(Blue.coc.temp$Weight..g.)
+
+
+
+Blue.COC.50$mweight<-c(w1,w2,w3,w4,w5,w6,w7,w8,w9,w10) 
+
+#######
+#
+# Calculate the total weight through a sum of fractional weights
+# 
+# Blue Population Estimates: 31993- 60835 - 113049
+# Blue Lake area: 269 acres
+#
+# Convert to lbs
+# convert to density
+#
+# Should end up with a list of 12 blue lake values 2x(L.BM,BM,U.BM,L.BMDensity,BMDensity,U.BMDensity)
+
+Blue.COC.50$percent<-Blue.COC.50$percent/100 # percent to decimal
+
+Blue.COC.50$LowerBM<-Blue.COC.50$percent * Blue.COC.50$mweight * 31993 # multiply fraction, mean weight, lower pop.
+C.L.BM<-sum(Blue.COC.50$LowerBM/453.592)
+
+
+Blue.COC.50$BMest<-Blue.COC.50$percent * Blue.COC.50$mweight * 60835 # multiply fraction, mean weight, pop. est
+C.BM<-sum(Blue.COC.50$BMest/453.592)
+
+Blue.COC.50$UpperBM<-Blue.COC.50$percent * Blue.COC.50$mweight * 113049 # multiply fraction, mean weight, upper pop.
+C.U.BM<-sum(Blue.COC.50$UpperBM/453.592)
+
+C.L.BMDensity<-C.L.BM/269
+C.BMDensity<-C.BM/269
+C.U.BMDensity<-C.U.BM/269
+
+B.L.BM<-NA
+B.BM<-NA
+B.U.BM<-NA
+B.L.BMDensity<-NA
+B.BMDensity<-NA
+B.U.BMDensity<-NA
+
+
+Blue.BM.Density<-c(C.L.BM,C.BM,C.U.BM,C.L.BMDensity,C.BMDensity,C.U.BMDensity,
+                   B.L.BM,B.BM,B.U.BM,B.L.BMDensity,B.BMDensity,B.U.BMDensity)
+
+
+```
+
+#Center
+```{r,}
+
+###########################
+#
+# Center Lake 2017 only
+#
+# Carp:
+Center.coc<-subset(Center, Species =="COC" &
+                           Year == "2017") #                      check for mis-matches here!
+Center.coc<-subset(Center.coc, !is.na(Center.coc$Length..mm.)) 
+#Buffalo
+Center.bib<-subset(Center, Species =="BIB" &
+                           Year == "2017")
+Center.bib<-subset(Center.bib, !is.na(Center.bib$Length..mm.))
+#25mm bins
+Center.COC.25 <- Center.coc %>%
+  add_count(Species) %>%
+  rename(Species_count = n) %>%
+  group_by(Species, Species_count, gr=cut(Length..mm., breaks = seq(0,1000,by=25))) %>%
+  summarise(n = n()) %>%
+  mutate(freq=n, percent = ((n/Species_count)*100),
+         cumfreq = cumsum(freq), cumpercent = cumsum(percent)) %>%
+  ungroup()
+#50mm bins
+Center.COC.50 <- Center.coc %>%
+  add_count(Species) %>%
+  rename(Species_count = n) %>%
+  group_by(Species, Species_count, gr=cut(Length..mm., breaks = seq(0,1000,by=50))) %>%
+  summarise(n = n()) %>%
+  mutate(freq=n, percent = ((n/Species_count)*100),
+         cumfreq = cumsum(freq), cumpercent = cumsum(percent)) %>%
+  ungroup()
+# so now we have percent frequency in 25/50mm (1-2") bins. Need to calculate average weight for those bins.
+# I forsee my method taking too long but it's all I can think of right now:
+#       to reduce repitition, let's go with the 50mm (2") bins first.
+#       need 1 line of code to subset a new frame for each length bin, 
+#       then take mean weight.
+
+#Center.coc.temp<-subset(Center.coc, Length..mm. >= 50 & Length..mm. < 100 & !is.na(Weight..g.))
+#w1<-mean(Center.coc.temp$Weight..g.)
+
+Center.coc.temp<-subset(Center.coc, Length..mm. >= 100 & Length..mm. < 150 & !is.na(Weight..g.))
+w1<-mean(Center.coc.temp$Weight..g.)
+
+Center.coc.temp<-subset(Center.coc, Length..mm. >= 150 & Length..mm. < 200 & !is.na(Weight..g.))
+w2<-mean(Center.coc.temp$Weight..g.)
+
+Center.coc.temp<-subset(Center.coc, Length..mm. >= 200 & Length..mm. < 250 & !is.na(Weight..g.))
+w3<-mean(Center.coc.temp$Weight..g.)
+
+Center.coc.temp<-subset(Center.coc, Length..mm. >= 350 & Length..mm. < 400 & !is.na(Weight..g.))
+w4<-mean(Center.coc.temp$Weight..g.)
+
+Center.coc.temp<-subset(Center.coc, Length..mm. >= 400 & Length..mm. < 450 & !is.na(Weight..g.))
+w5<-mean(Center.coc.temp$Weight..g.)
+
+Center.coc.temp<-subset(Center.coc, Length..mm. >= 450 & Length..mm. < 500 & !is.na(Weight..g.))
+w6<-mean(Center.coc.temp$Weight..g.)
+
+Center.coc.temp<-subset(Center.coc, Length..mm. >= 500 & Length..mm. < 550 & !is.na(Weight..g.))
+w7<-mean(Center.coc.temp$Weight..g.)
+
+Center.coc.temp<-subset(Center.coc, Length..mm. >= 550 & Length..mm. < 600 & !is.na(Weight..g.))
+w8<-mean(Center.coc.temp$Weight..g.)
+
+Center.coc.temp<-subset(Center.coc, Length..mm. >= 600 & Length..mm. < 650 & !is.na(Weight..g.))
+w9<-mean(Center.coc.temp$Weight..g.)
+
+Center.coc.temp<-subset(Center.coc, Length..mm. >= 650 & Length..mm. < 700 & !is.na(Weight..g.))
+w10<-mean(Center.coc.temp$Weight..g.)
+
+Center.coc.temp<-subset(Center.coc, Length..mm. >= 700 & Length..mm. < 750 & !is.na(Weight..g.))
+w11<-mean(Center.coc.temp$Weight..g.)
+
+Center.coc.temp<-subset(Center.coc, Length..mm. >= 750 & Length..mm. < 800 & !is.na(Weight..g.))
+w12<-mean(Center.coc.temp$Weight..g.)
+
+Center.coc.temp<-subset(Center.coc, Length..mm. >= 800 & Length..mm. < 850 & !is.na(Weight..g.))
+w13<-mean(Center.coc.temp$Weight..g.)
+
+
+Center.COC.50$mweight<-c(w6,w6,w6,w6,w6,w6,w7,w8,w9,w10,w11,w12,w13) #changed last two to w11 and first to w3 
+
+# Now Buffalo
+
+#25mm bins
+Center.bib.25 <- Center.bib %>%
+  add_count(Species) %>%
+  rename(Species_count = n) %>%
+  group_by(Species, Species_count, gr=cut(Length..mm., breaks = seq(0,1000,by=25))) %>%
+  summarise(n = n()) %>%
+  mutate(freq=n, percent = ((n/Species_count)*100),
+         cumfreq = cumsum(freq), cumpercent = cumsum(percent)) %>%
+  ungroup()
+#50mm bins
+Center.bib.50 <- Center.bib %>%
+  add_count(Species) %>%
+  rename(Species_count = n) %>%
+  group_by(Species, Species_count, gr=cut(Length..mm., breaks = seq(0,1000,by=50))) %>%
+  summarise(n = n()) %>%
+  mutate(freq=n, percent = ((n/Species_count)*100),
+         cumfreq = cumsum(freq), cumpercent = cumsum(percent)) %>%
+  ungroup()
+
+Center.bib.temp<-subset(Center.bib, Length..mm. >= 350 & Length..mm. < 400 & !is.na(Weight..g.))
+w1<-mean(Center.bib.temp$Weight..g.)
+
+Center.bib.temp<-subset(Center.bib, Length..mm. >= 400 & Length..mm. < 450 & !is.na(Weight..g.))
+w2<-mean(Center.bib.temp$Weight..g.)
+
+Center.bib.temp<-subset(Center.bib, Length..mm. >= 450 & Length..mm. < 500 & !is.na(Weight..g.))
+w3<-mean(Center.bib.temp$Weight..g.)
+
+Center.bib.temp<-subset(Center.bib, Length..mm. >= 500 & Length..mm. < 550 & !is.na(Weight..g.))
+w4<-mean(Center.bib.temp$Weight..g.)
+
+Center.bib.temp<-subset(Center.bib, Length..mm. >= 550 & Length..mm. < 600 & !is.na(Weight..g.))
+w5<-mean(Center.bib.temp$Weight..g.)
+
+Center.bib.temp<-subset(Center.bib, Length..mm. >= 600 & Length..mm. < 650 & !is.na(Weight..g.))
+w6<-mean(Center.bib.temp$Weight..g.)
+
+Center.bib.temp<-subset(Center.bib, Length..mm. >= 650 & Length..mm. < 700 & !is.na(Weight..g.))
+w7<-mean(Center.bib.temp$Weight..g.)
+
+Center.bib.temp<-subset(Center.bib, Length..mm. >= 700 & Length..mm. < 750 & !is.na(Weight..g.))
+w8<-mean(Center.bib.temp$Weight..g.)
+
+Center.bib.temp<-subset(Center.bib, Length..mm. >= 750 & Length..mm. < 800 & !is.na(Weight..g.))
+w9<-mean(Center.bib.temp$Weight..g.)
+
+Center.bib.50$mweight<-c(w1,w2,w3,w4,w5,w6,w7,w8,w9)
+
+#######
+#
+# Calculate the total weight through a sum of fractional weights
+# 
+# Center Carp Population Estimates: 6769 - 8675 - 11578
+# Center Buff Population Estimates: 11243 - 12999 - 15463
+# Center Lake area: 220 acres
+#
+# Convert to lbs
+# convert to density
+#
+# Should end up with a list of 6 (six) blue lake values (L.BM,BM,U.BM,L.BMDensity,BMDensity,U.BMDensity)
+
+Center.COC.50$percent<-Center.COC.50$percent/100 # percent to decimal
+
+Center.COC.50$LowerBM<-Center.COC.50$percent * Center.COC.50$mweight * 6769 # multiply fraction, mean weight, lower pop.
+C.L.BM<-sum(Center.COC.50$LowerBM/453.592)
+
+Center.COC.50$BMest<-Center.COC.50$percent * Center.COC.50$mweight * 8675 # multiply fraction, mean weight, pop. est
+C.BM<-sum(Center.COC.50$BMest/453.592)
+
+Center.COC.50$UpperBM<-Center.COC.50$percent * Center.COC.50$mweight * 11578# multiply fraction, mean weight, upper pop.
+C.U.BM<-sum(Center.COC.50$UpperBM/453.592)
+
+C.L.BMDensity<-C.L.BM/220
+C.BMDensity<-C.BM/220
+C.U.BMDensity<-C.U.BM/220
+
+# now buffalo
+Center.bib.50$percent<-Center.bib.50$percent/100
+Center.bib.50$LowerBM<-Center.bib.50$percent * Center.bib.50$mweight * 11243 # multiply fraction, mean weight, lower pop.
+B.L.BM<-sum(Center.bib.50$LowerBM/453.592)
+
+Center.bib.50$BMest<-Center.bib.50$percent * Center.bib.50$mweight * 12999 # multiply fraction, mean weight, pop. est
+B.BM<-sum(Center.bib.50$BMest/453.592)
+
+Center.bib.50$UpperBM<-Center.bib.50$percent * Center.bib.50$mweight * 15463 # multiply fraction, mean weight, upper pop.
+B.U.BM<-sum(Center.bib.50$UpperBM/453.592)
+
+B.L.BMDensity<-B.L.BM/220
+B.BMDensity<-B.BM/220
+B.U.BMDensity<-B.U.BM/220
+
+
+
+Center.BM.Density<-c(C.L.BM,C.BM,C.U.BM,C.L.BMDensity,C.BMDensity,C.U.BMDensity,
+                   B.L.BM,B.BM,B.U.BM,B.L.BMDensity,B.BMDensity,B.U.BMDensity)
+
+
+
+```
+
+# North Twin
+```{r,}
+
+###########################
+#
+# NTwin Lake
+#
+# Carp:
+NTwin.coc<-subset(NTwin, Species =="COC" &
+                         Year == "2017")
+NTwin.coc<-subset(NTwin.coc, !is.na(NTwin.coc$Length..mm.))
+#Buffalo
+NTwin.bib<-subset(NTwin, Species =="BIB" &
+                         Year == "2017")
+NTwin.bib<-subset(NTwin.bib, !is.na(NTwin.bib$Length..mm.))
+#25mm bins
+NTwin.COC.25 <- NTwin.coc %>%
+  add_count(Species) %>%
+  rename(Species_count = n) %>%
+  group_by(Species, Species_count, gr=cut(Length..mm., breaks = seq(0,1000,by=25))) %>%
+  summarise(n = n()) %>%
+  mutate(freq=n, percent = ((n/Species_count)*100),
+         cumfreq = cumsum(freq), cumpercent = cumsum(percent)) %>%
+  ungroup()
+#50mm bins
+NTwin.COC.50 <- NTwin.coc %>%
+  add_count(Species) %>%
+  rename(Species_count = n) %>%
+  group_by(Species, Species_count, gr=cut(Length..mm., breaks = seq(0,1000,by=50))) %>%
+  summarise(n = n()) %>%
+  mutate(freq=n, percent = ((n/Species_count)*100),
+         cumfreq = cumsum(freq), cumpercent = cumsum(percent)) %>%
+  ungroup()
+# so now we have percent frequency in 25/50mm (1-2") bins. Need to calculate average weight for those bins.
+# I forsee my method taking too long but it's all I can think of right now:
+#       to reduce repitition, let's go with the 50mm (2") bins first.
+#       need 1 line of code to subset a new frame for each length bin, 
+#       then take mean weight.
+
+NTwin.coc.temp<-subset(NTwin.coc, Length..mm. >= 200 & Length..mm. < 250 & !is.na(Weight..g.))
+w1<-mean(NTwin.coc.temp$Weight..g.)
+
+NTwin.coc.temp<-subset(NTwin.coc, Length..mm. >= 250 & Length..mm. < 300 & !is.na(Weight..g.))
+w2<-mean(NTwin.coc.temp$Weight..g.)
+
+NTwin.coc.temp<-subset(NTwin.coc, Length..mm. >= 300 & Length..mm. < 350 & !is.na(Weight..g.))
+w3<-mean(NTwin.coc.temp$Weight..g.)
+
+NTwin.coc.temp<-subset(NTwin.coc, Length..mm. >= 350 & Length..mm. < 400 & !is.na(Weight..g.))
+w4<-mean(NTwin.coc.temp$Weight..g.)
+
+NTwin.coc.temp<-subset(NTwin.coc, Length..mm. >= 400 & Length..mm. < 450 & !is.na(Weight..g.))
+w6<-mean(NTwin.coc.temp$Weight..g.)
+
+NTwin.coc.temp<-subset(NTwin.coc, Length..mm. >= 450 & Length..mm. < 500 & !is.na(Weight..g.))
+w7<-mean(NTwin.coc.temp$Weight..g.)
+
+NTwin.coc.temp<-subset(NTwin.coc, Length..mm. >= 500 & Length..mm. < 550 & !is.na(Weight..g.))
+w8<-mean(NTwin.coc.temp$Weight..g.)
+
+NTwin.coc.temp<-subset(NTwin.coc, Length..mm. >= 550 & Length..mm. < 600 & !is.na(Weight..g.))
+w9<-mean(NTwin.coc.temp$Weight..g.)
+
+NTwin.coc.temp<-subset(NTwin.coc, Length..mm. >= 600 & Length..mm. < 650 & !is.na(Weight..g.))
+w10<-mean(NTwin.coc.temp$Weight..g.)
+
+NTwin.coc.temp<-subset(NTwin.coc, Length..mm. >= 650 & Length..mm. < 700 & !is.na(Weight..g.))
+w11<-mean(NTwin.coc.temp$Weight..g.)
+
+NTwin.coc.temp<-subset(NTwin.coc, Length..mm. >= 700 & Length..mm. < 750 & !is.na(Weight..g.))
+w12<-mean(NTwin.coc.temp$Weight..g.)
+
+NTwin.coc.temp<-subset(NTwin.coc, Length..mm. >= 750 & Length..mm. < 800 & !is.na(Weight..g.))
+w13<-mean(NTwin.coc.temp$Weight..g.)
+
+NTwin.coc.temp<-subset(NTwin.coc, Length..mm. >= 800 & Length..mm. < 850 & !is.na(Weight..g.))
+w14<-mean(NTwin.coc.temp$Weight..g.)
+
+
+NTwin.COC.50$mweight<-c(w1,w2,w3,w4,w6,w7,w8,w9,w10,w11,w12,w13,w14)
+
+# Now Buffalo
+
+#25mm bins
+NTwin.bib.25 <- NTwin.bib %>%
+  add_count(Species) %>%
+  rename(Species_count = n) %>%
+  group_by(Species, Species_count, gr=cut(Length..mm., breaks = seq(0,1000,by=25))) %>%
+  summarise(n = n()) %>%
+  mutate(freq=n, percent = ((n/Species_count)*100),
+         cumfreq = cumsum(freq), cumpercent = cumsum(percent)) %>%
+  ungroup()
+#50mm bins
+NTwin.bib.50 <- NTwin.bib %>%
+  add_count(Species) %>%
+  rename(Species_count = n) %>%
+  group_by(Species, Species_count, gr=cut(Length..mm., breaks = seq(0,1000,by=50))) %>%
+  summarise(n = n()) %>%
+  mutate(freq=n, percent = ((n/Species_count)*100),
+         cumfreq = cumsum(freq), cumpercent = cumsum(percent)) %>%
+  ungroup()
+
+#NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 50 & Length..mm. < 100 & !is.na(Weight..g.))
+#w1<-mean(NTwin.bib.temp$Weight..g.)
+
+
+
+NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 300 & Length..mm. < 350 & !is.na(Weight..g.))
+w1<-mean(NTwin.bib.temp$Weight..g.)
+
+NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 350 & Length..mm. < 400 & !is.na(Weight..g.))
+w2<-mean(NTwin.bib.temp$Weight..g.)
+
+NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 400 & Length..mm. < 450 & !is.na(Weight..g.))
+w3<-mean(NTwin.bib.temp$Weight..g.)
+
+NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 450 & Length..mm. < 500 & !is.na(Weight..g.))
+w4<-mean(NTwin.bib.temp$Weight..g.)
+
+NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 500 & Length..mm. < 550 & !is.na(Weight..g.))
+w5<-mean(NTwin.bib.temp$Weight..g.)
+
+NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 550 & Length..mm. < 600 & !is.na(Weight..g.))
+w6<-mean(NTwin.bib.temp$Weight..g.)
+
+NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 600 & Length..mm. < 650 & !is.na(Weight..g.))
+w7<-mean(NTwin.bib.temp$Weight..g.)
+
+NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 650 & Length..mm. < 700 & !is.na(Weight..g.))
+w8<-mean(NTwin.bib.temp$Weight..g.)
+
+NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 700 & Length..mm. < 750 & !is.na(Weight..g.))
+w9<-mean(NTwin.bib.temp$Weight..g.)
+
+NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 750 & Length..mm. < 800 & !is.na(Weight..g.))
+w10<-mean(NTwin.bib.temp$Weight..g.)
+
+NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 800 & Length..mm. < 850 & !is.na(Weight..g.))
+w11<-mean(NTwin.bib.temp$Weight..g.)
+
+NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 850 & Length..mm. < 900 & !is.na(Weight..g.))
+w12<-mean(NTwin.bib.temp$Weight..g.)
+
+
+NTwin.bib.50$mweight<-c(w2,w2,w3,w4,w5,w6,w7,w8,w9,w10,w11,w11) #changed last two to w11 and first to w3 
+
+#######
+#
+# Calculate the total weight through a sum of fractional weights
+# 
+# NTwin Carp Population Estimates: 1231 - 2057 - 3898
+# NTwin Buff Population Estimates: 7276- 12963 - 23038
+# NTwin Lake area: 453 acres
+#
+# Convert to lbs
+# convert to density
+#
+# Should end up with a list of 6 (six) blue lake values (L.BM,BM,U.BM,L.BMDensity,BMDensity,U.BMDensity)
+
+NTwin.COC.50$percent<-NTwin.COC.50$percent/100 # percent to decimal
+
+NTwin.COC.50$LowerBM<-NTwin.COC.50$percent * NTwin.COC.50$mweight * 1231# multiply fraction, mean weight, lower pop.
+C.L.BM<-sum(NTwin.COC.50$LowerBM/453.592)
+
+
+NTwin.COC.50$BMest<-NTwin.COC.50$percent * NTwin.COC.50$mweight * 2057 # multiply fraction, mean weight, pop. est
+C.BM<-sum(NTwin.COC.50$BMest/453.592)
+
+NTwin.COC.50$UpperBM<-NTwin.COC.50$percent * NTwin.COC.50$mweight * 3898 # multiply fraction, mean weight, upper pop.
+C.U.BM<-sum(NTwin.COC.50$UpperBM/453.592)
+
+C.L.BMDensity<-C.L.BM/453
+C.BMDensity<-C.BM/453
+C.U.BMDensity<-C.U.BM/453
+
+# now buffalo
+NTwin.bib.50$percent<-NTwin.bib.50$percent/100
+NTwin.bib.50$LowerBM<-NTwin.bib.50$percent * NTwin.bib.50$mweight * 7276 # multiply fraction, mean weight, lower pop.
+B.L.BM<-sum(NTwin.bib.50$LowerBM/453.592)
+
+NTwin.bib.50$BMest<-NTwin.bib.50$percent * NTwin.bib.50$mweight * 12963 # multiply fraction, mean weight, pop. est
+B.BM<-sum(NTwin.bib.50$BMest/453.592)
+
+NTwin.bib.50$UpperBM<-NTwin.bib.50$percent * NTwin.bib.50$mweight * 23038 # multiply fraction, mean weight, upper pop.
+B.U.BM<-sum(NTwin.bib.50$UpperBM/453.592)
+
+B.L.BMDensity<-B.L.BM/453
+B.BMDensity<-B.BM/453
+B.U.BMDensity<-B.U.BM/453
+
+
+
+NTwin.BM.Density<-data.frame(cbind(C.L.BM,C.BM,C.U.BM,C.L.BMDensity,C.BMDensity,C.U.BMDensity,
+                   B.L.BM,B.BM,B.U.BM,B.L.BMDensity,B.BMDensity,B.U.BMDensity))
+
+```
+
+#South Twin
+```{r,}
+
+###########################
+#
+# STwin Lake
+#
+# Carp:
+STwin.coc<-subset(STwin, Species =="COC" &
+                         Year == "2017" )
+STwin.coc<-subset(STwin.coc, !is.na(STwin.coc$Length..mm.))
+#Buffalo
+STwin.bib<-subset(STwin, Species =="BIB" &
+                         Year == "2017")
+STwin.bib<-subset(STwin.bib, !is.na(STwin.bib$Length..mm.))
+#25mm bins
+STwin.COC.25 <- STwin.coc %>%
+  add_count(Species) %>%
+  rename(Species_count = n) %>%
+  group_by(Species, Species_count, gr=cut(Length..mm., breaks = seq(0,1000,by=25))) %>%
+  summarise(n = n()) %>%
+  mutate(freq=n, percent = ((n/Species_count)*100),
+         cumfreq = cumsum(freq), cumpercent = cumsum(percent)) %>%
+  ungroup()
+#50mm bins
+STwin.COC.50 <- STwin.coc %>%
+  add_count(Species) %>%
+  rename(Species_count = n) %>%
+  group_by(Species, Species_count, gr=cut(Length..mm., breaks = seq(0,1000,by=50))) %>%
+  summarise(n = n()) %>%
+  mutate(freq=n, percent = ((n/Species_count)*100),
+         cumfreq = cumsum(freq), cumpercent = cumsum(percent)) %>%
+  ungroup()
+# so now we have percent frequency in 25/50mm (1-2") bins. Need to calculate average weight for those bins.
+# I forsee my method taking too long but it's all I can think of right now:
+#       to reduce repitition, let's go with the 50mm (2") bins first.
+#       need 1 line of code to subset a new frame for each length bin, 
+#       then take mean weight.
+
+#STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 50 & Length..mm. < 100 & !is.na(Weight..g.))
+#w1<-mean(STwin.coc.temp$Weight..g.)
+
+STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 250 & Length..mm. < 300 & !is.na(Weight..g.))
+w1<-mean(STwin.coc.temp$Weight..g.)
+
+STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 300 & Length..mm. < 350 & !is.na(Weight..g.))
+w2<-mean(STwin.coc.temp$Weight..g.)
+
+STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 350 & Length..mm. < 400 & !is.na(Weight..g.))
+w3<-mean(STwin.coc.temp$Weight..g.)
+
+STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 400 & Length..mm. < 450 & !is.na(Weight..g.))
+w4<-mean(STwin.coc.temp$Weight..g.)
+
+STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 450 & Length..mm. < 500 & !is.na(Weight..g.))
+w5<-mean(STwin.coc.temp$Weight..g.)
+
+STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 500 & Length..mm. < 550 & !is.na(Weight..g.))
+w6<-mean(STwin.coc.temp$Weight..g.)
+
+STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 550 & Length..mm. < 600 & !is.na(Weight..g.))
+w7<-mean(STwin.coc.temp$Weight..g.)
+
+STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 600 & Length..mm. < 650 & !is.na(Weight..g.))
+w8<-mean(STwin.coc.temp$Weight..g.)
+
+STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 650 & Length..mm. < 700 & !is.na(Weight..g.))
+w9<-mean(STwin.coc.temp$Weight..g.)
+
+STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 700 & Length..mm. < 750 & !is.na(Weight..g.))
+w10<-mean(STwin.coc.temp$Weight..g.)
+
+
+STwin.COC.50$mweight<-c(w2,w2,w3,w4,w5,w6,w7,w8,w9,w9)
+
+# Now Buffalo
+
+#25mm bins
+STwin.bib.25 <- STwin.bib %>%
+  add_count(Species) %>%
+  rename(Species_count = n) %>%
+  group_by(Species, Species_count, gr=cut(Length..mm., breaks = seq(0,1000,by=25))) %>%
+  summarise(n = n()) %>%
+  mutate(freq=n, percent = ((n/Species_count)*100),
+         cumfreq = cumsum(freq), cumpercent = cumsum(percent)) %>%
+  ungroup()
+#50mm bins
+STwin.bib.50 <- STwin.bib %>%
+  add_count(Species) %>%
+  rename(Species_count = n) %>%
+  group_by(Species, Species_count, gr=cut(Length..mm., breaks = seq(0,1000,by=50))) %>%
+  summarise(n = n()) %>%
+  mutate(freq=n, percent = ((n/Species_count)*100),
+         cumfreq = cumsum(freq), cumpercent = cumsum(percent)) %>%
+  ungroup()
+
+#STwin.bib.temp<-subset(STwin.bib, Length..mm. >= 250 & Length..mm. < 300 & !is.na(Weight..g.))
+#w1<-mean(STwin.bib.temp$Weight..g.)
+
+STwin.bib.temp<-subset(STwin.bib, Length..mm. >= 300 & Length..mm. < 350 & !is.na(Weight..g.))
+w1<-mean(STwin.bib.temp$Weight..g.)
+
+STwin.bib.temp<-subset(STwin.bib, Length..mm. >= 350 & Length..mm. < 400 & !is.na(Weight..g.))
+w2<-mean(STwin.bib.temp$Weight..g.)
+
+STwin.bib.temp<-subset(STwin.bib, Length..mm. >= 400 & Length..mm. < 450 & !is.na(Weight..g.))
+w3<-mean(STwin.bib.temp$Weight..g.)
+
+STwin.bib.temp<-subset(STwin.bib, Length..mm. >= 450 & Length..mm. < 500 & !is.na(Weight..g.))
+w4<-mean(STwin.bib.temp$Weight..g.)
+
+STwin.bib.temp<-subset(STwin.bib, Length..mm. >= 500 & Length..mm. < 550 & !is.na(Weight..g.))
+w5<-mean(STwin.bib.temp$Weight..g.)
+
+STwin.bib.temp<-subset(STwin.bib, Length..mm. >= 550 & Length..mm. < 600 & !is.na(Weight..g.))
+w6<-mean(STwin.bib.temp$Weight..g.)
+
+STwin.bib.temp<-subset(STwin.bib, Length..mm. >= 600 & Length..mm. < 650 & !is.na(Weight..g.))
+w7<-mean(STwin.bib.temp$Weight..g.)
+
+STwin.bib.temp<-subset(STwin.bib, Length..mm. >= 650 & Length..mm. < 700 & !is.na(Weight..g.))
+w8<-mean(STwin.bib.temp$Weight..g.)
+
+STwin.bib.temp<-subset(STwin.bib, Length..mm. >= 700 & Length..mm. < 750 & !is.na(Weight..g.))
+w9<-mean(STwin.bib.temp$Weight..g.)
+
+
+STwin.bib.50$mweight<-c(w1,w2,w3,w4,w5,w6,w7,w9,w9) 
+
+#######
+#
+# Calculate the total weight through a sum of fractional weights
+# 
+# STwin Carp Population Estimates: 12227 - 23204 - 41883
+# STwin Buff Population Estimates: 5535 - 6895 - 8748
+# STwin Lake area: 600 acres
+#
+# Convert to lbs
+# convert to density
+#
+# Should end up with a list of 6 (six) blue lake values (L.BM,BM,U.BM,L.BMDensity,BMDensity,U.BMDensity)
+
+STwin.COC.50$percent<-STwin.COC.50$percent/100 # percent to decimal
+
+STwin.COC.50$LowerBM<-STwin.COC.50$percent * STwin.COC.50$mweight * 12227 # multiply fraction, mean weight, lower pop.
+C.L.BM<-sum(STwin.COC.50$LowerBM/453.592)
+
+
+STwin.COC.50$BMest<-STwin.COC.50$percent * STwin.COC.50$mweight * 23204 # multiply fraction, mean weight, pop. est
+C.BM<-sum(STwin.COC.50$BMest/453.592)
+
+STwin.COC.50$UpperBM<-STwin.COC.50$percent * STwin.COC.50$mweight * 41883 # multiply fraction, mean weight, upper pop.
+C.U.BM<-sum(STwin.COC.50$UpperBM/453.592)
+
+C.L.BMDensity<-C.L.BM/600
+C.BMDensity<-C.BM/600
+C.U.BMDensity<-C.U.BM/600
+
+# now buffalo
+STwin.bib.50$percent<-STwin.bib.50$percent/100
+STwin.bib.50$LowerBM<-STwin.bib.50$percent * STwin.bib.50$mweight * 5535 # multiply fraction, mean weight, lower pop.
+B.L.BM<-sum(STwin.bib.50$LowerBM/453.592)
+
+STwin.bib.50$BMest<-STwin.bib.50$percent * STwin.bib.50$mweight * 6895 # multiply fraction, mean weight, pop. est
+B.BM<-sum(STwin.bib.50$BMest/453.592)
+
+STwin.bib.50$UpperBM<-STwin.bib.50$percent * STwin.bib.50$mweight * 8748 # multiply fraction, mean weight, upper pop.
+B.U.BM<-sum(STwin.bib.50$UpperBM/453.592)
+
+B.L.BMDensity<-B.L.BM/600
+B.BMDensity<-B.BM/600
+B.U.BMDensity<-B.U.BM/600
+
+
+
+STwin.BM.Density<-data.frame(cbind(C.L.BM,C.BM,C.U.BM,C.L.BMDensity,C.BMDensity,C.U.BMDensity,
+                   B.L.BM,B.BM,B.U.BM,B.L.BMDensity,B.BMDensity,B.U.BMDensity))
+```
+
+# Bring it all together for total biomass and biomass density
+
+```{r,}
+# Rbind each of the 7 lists of twelve (data frames)
+
+All.biomass<-rbind(Blue.BM.Density,
+                   Center.BM.Density,
+                   NTwin.BM.Density,
+                   STwin.BM.Density)
+
+write.csv(All.biomass,"2017_BiomassDensityEstimates.csv")
+
+dat<-read.csv("2017_BiomassDensityEstimates.csv")
+dat
+```

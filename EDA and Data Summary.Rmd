@@ -384,8 +384,7 @@ summary(blue.df$Species)
 # length
 summary(blue.df$Length..mm.)
 summary(blue.df$Length..mm.[blue.df$Species == "COC"])
-# looks good, except why are there more NAs when subset to only carp?
-# probably syntax stuff or that droplevels crap above.
+# looks good
 
 # Weight
 summary(blue.df$Weight..g.)
@@ -404,7 +403,7 @@ summary(blue.df$Tag.Loss)
 sum(!is.na(blue.df$Tag.Loss))
 
 # Skipping Notes and Gear. Not relevant to this dataset
-
+summary(blue.df$Gear)
 
 # Site/Transect
 summary(blue.df$Site.Transect)
@@ -419,7 +418,6 @@ summary(blue.df$On.Time..s.)
 
 
 # remove 3 extra columns at end
-blue.df<-blue.df[,-c(22:24)]
 lapply(data,class)
 lapply(blue.df,class)
 
@@ -434,7 +432,7 @@ blue.df$On.Time..s.<-as.numeric(blue.df$On.Time..s.)
 blue.df$Water.Temp..C.<-as.numeric(blue.df$Water.Temp..C.)
 blue.df$Secchi..cm.<-as.numeric(blue.df$Secchi..cm.)
 blue.df$Weather<-as.factor(blue.df$Weather)
-blue.df$Year<-as.factor(blue.df$Year)
+blue.df$Year<-as.factor("2017")
 
 data<-rbind(data,blue.df)
 ```

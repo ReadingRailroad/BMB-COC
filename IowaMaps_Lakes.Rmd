@@ -1,0 +1,109 @@
+---
+title: "Iowa Maps and Lakes"
+author: "Martin A. Simonson"
+date: "October 18, 2017"
+output: pdf_document
+---
+```{r,include=FALSE}
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
+
+packages(vegan)
+packages(ggplot2)
+packages(reshape2)
+packages(nnet)
+packages(multcomp)
+packages(plyr)
+packages(rv)
+packages(arm)
+packages(lattice)
+packages(tikzDevice)
+packages(GGally)
+packages(wesanderson)
+packages(DescTools)
+packages(mvnormtest)
+packages(HH)
+packages(biotools)
+packages(car)
+packages(GISTools)
+packages(maps)
+packages(mapproj)
+
+```
+
+# Iowa state map
+
+```{r}
+# blank state of Iowa
+map('state','iowa',fill=T,col="grey95",mar=c(0,1,1.1,1))
+# now add cities
+data(us.cities)
+# just Ames
+map.cities(us.cities,country='IA',minpop=57680,maxpop=57690)
+# Just Des Moines
+map.cities(us.cities,country='IA',capitals=2,cex=1,pch=8)
+# Add a scale
+x<-(-95.4)
+y<-(41.1)
+map.scale(x,y,ratio=F,cex=1)
+# Add a north arrow
+x<-(-96.2)
+y<-(41)
+north.arrow(x,y,len=0.1,lab="N",col='black')
+# To add the study lakes, I first need to create a df with the lat, long, and labels
+setwd('C:/Users/M_Sim/OneDrive/IOWA/Iowa State University/CarpR/')
+coords<-read.csv('LakeCoords.csv',header=T)
+# Adding the points to the map with labels I hope
+points(coords$Long,
+       coords$Lat,
+       pch=19,col='blue',cex=1)
+text(coords$Long,
+     coords$Lat,
+     labels = coords$Name,
+     pos=c(2,4,4,2,4,4,4),col='black',cex=0.85)
+# Adding a title
+title(main="Carp & Buffalo Mgmt. Lakes")
+```
+
+
+
+
+```{r}
+# Iowa counties: can't really add cities to these
+map('county','iowa',fill=TRUE,col='gray90')
+        #could be used with wes anderson colors :)
+
+# not sure if this lakes argument applies to Iowa
+map(database = 'lakes',add=TRUE,fill=TRUE,col='white',boundary='black')
+
+
+```
+
+# attempt using ggplot2
+
+```{r}
+usa<-map_data('usa')
+ggplot()+geom_polygon(data=usa,aes(x=long,y=lat,group=group))+coord_fixed(1.3)
+
+states<-map_data('state')
+ggplot(data = states) + 
+  geom_polygon(aes(x = long, y = lat, fill = region, group = group), color = "white") + 
+  coord_fixed(1.3) +
+  guides(fill=FALSE)  # do this to leave off the color legend
+
+# IOWA --- example was from california 
+ca_df <- subset(states, region == "iowa")
+ca_base <- ggplot(data = ca_df, mapping = aes(x = long, y = lat, group = group)) + 
+  coord_fixed(1.3) + 
+  geom_polygon(color = "black", fill = "gray")
+ca_base
+
+
+
+
+```

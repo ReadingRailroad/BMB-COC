@@ -49,6 +49,7 @@ packages(wesanderson)
 #packages(GPArotation)
 packages(doBy)
 packages(dplyr)
+packages(tidyr)
 ```
 
 # DNR Permit data
@@ -467,27 +468,213 @@ grid.arrange(centerLF.c.2018, centerLF.b.2018,
              nrow=7,ncol=2)
 ```
 
-# Harvest
+# 2018 Harvest
+- condense data frame
+- plot lakes on x axis, total harvest in lbs on y axis, species as paired bars
+- plot lakes on x axis, removal rate in lbs/acre on y axis, species as paired bars
+
 
 ```{r}
 harvest<-read.csv("Harvest_2018_Only.csv")
 str(harvest)
+harvest<-harvest[,-c(2,3,4)]
 levels(harvest$Lake)
+harvest$Pounds<-as.numeric(as.character(harvest$Pounds))
 
-harvest<-subset(harvest, Lake == "Center" |
+#Drop lakes
+harvest<-droplevels(subset(harvest, Lake == "Center Lake" |
                          Lake == "Five Island Lake" |
-                         Lake == "Silver Lake (Dickinson)" )
-harvest.melt<-melt(harvest, id.vars = c("Lake","Species"))
+                         Lake == "Silver Lake (Dickinson)" ))
+
+#drop freshwater drum
+harvest<-droplevels(subset(harvest, Species == "CAP"|
+                                    Species == "BMB"))
+
+# correct the species names for later plotting
+harvest$Species<-as.character(harvest$Species)
+harvest$Species[harvest$Species == "CAP"] <- "Common Carp"
+harvest$Species[harvest$Species == "BMB"] <- "Bigmouth Buffalo"
+harvest$Species<-factor(harvest$Species)
+
+# add acrage
+harvest$Acres[harvest$Lake == "Center Lake"] <- 220
+harvest$Acres[harvest$Lake == "Five Island Lake"] <- 973
+harvest$Acres[harvest$Lake == "Silver Lake (Dickinson)"] <- 1066
+
+# add column for pounds removed per acre
+harvest$Removal<-harvest$Pounds/harvest$Acres
+
+
+```
+
+```{r}
+#########################################
+#
+#       Plot 1: total harvest
+#
+#########################################
+# melt and cast to sum harvest for entire year
+harvest.melt<-melt(harvest, id.vars = c("Lake","Species"),
+                   measure.vars = "Pounds")
+
+tot.harvest<-ggplot(harvest.melt, aes(x = Lake, y = value, fill = Species)) +
+              geom_bar(stat="identity", position = "dodge", colour = "black") +
+              scale_fill_manual(values = wes_palette("Moonrise2")) +
+              theme_bw()+
+              theme(legend.position = "bottom", legend.title = element_blank()) +
+              labs (title = "2018 Total Commercial Harvest", 
+                    y = "Harvest (lbs.)")
+
+
+#########################################
+#
+#       Plot 2: standardized harvest by pounds
+#
+#########################################
+# melt and cast to sum harvest for entire year
+harvest.melt<-melt(harvest, id.vars = c("Lake","Species"),
+                   measure.vars = "Removal")
+
+std.harvest<-ggplot(harvest.melt, aes(x = Lake, y = value, fill = Species)) +
+              geom_bar(stat="identity", position = "dodge", colour = "black") +
+              scale_fill_manual(values = wes_palette("Moonrise2")) +
+              theme_bw()+
+              theme(legend.position = "bottom", legend.title = element_blank()) +
+              labs (title = "2018 Harvest - Standardized", 
+                    y = "Removal Rate (lbs. / Acre)")
+
+grid.arrange(tot.harvest,
+             std.harvest,
+             nrow = 1,
+             ncol = 2)
 
 ```
 
 
+# Changes in biomass and biomass density following harvest in center lake
+
+my plan a couple hours ago was to have a four panel plot: 
+
+Within each panel is Center, N&S Twin Lakes
+Within each lake is year
+
+data for each panel is:
+TOPLEFT: COC TOTAL BIOMASS
+TOPRIGHT: BIB TOTAL BIOMASS
+BOTTOMLEFT: COC BIOMASS DENSITY
+BOTTOMRIGHT: BIB BIOMASS DENSITY
+
+__because you're a masochist, do all four and see if there's a meaningful difference__
+
+current idea is to take the code from the cpue plots. figure out how to categorize x values and fill with year
+
+```{r}
+# gonna need biomass df for both years with confidence intervals
+# basically paired boxplots without the boxes?
+daf<-read.csv("2018_BiomassDensityEstimates.csv")
+daf
+daf[,1]<-c("Blue","Center","Five Island","N. Twin","Silver","S. Twin","Storm")
+daf$Year<-factor("2018")
+
+dat<-read.csv("2017_BiomassDensityEstimates.csv")
+dat
+dat[,1]<-c("Blue","Center","N. Twin","S. Twin")
+dat$Year<-factor("2017")
+
+data<-rbind(dat,daf)
+data<-subset(data, X == "Center" |
+                   X == "N. Twin"|
+                   X == "S. Twin")
 
 
+```
 
 
+split by species, melt, and plot!
+
+```{r}
+
+c.data<-data[,c(1:7,14)]
+b.data<-data[,c(1,8:14)]
+
+#Carp total biomass plot
+coc.bm<-ggplot(c.data, aes(x= Year, y = C.BM, ymin=C.L.BM, ymax=C.U.BM))+
+                geom_point(size=4)+
+                geom_linerange(size = 0.5) +
+                facet_wrap(~X,scales = "free_x")+
+                theme_bw()+
+                labs (title = "Carp Total Biomass 2017-2018", 
+                    y = "Biomass Estimate (lbs.)")
+coc.bm
+
+# Buf total biomass plot
+bib.bm<-ggplot(b.data, aes(x= Year, y = B.BM, ymin=B.L.BM, ymax=B.U.BM))+
+                geom_point(size=4)+
+                geom_linerange(size = 0.5) +
+                facet_wrap(~X,scales = "free_x")+
+                theme_bw()+
+                labs (title = "Buffalo Total Biomass 2017-2018", 
+                    y = "Biomass Estimate (lbs.)")
+bib.bm
+
+#Carp bm density plot
+coc.bmD<-ggplot(c.data, aes(x= Year, y = C.BMDensity, ymin=C.L.BMDensity, ymax=C.U.BMDensity))+
+                geom_point(size=4)+
+                geom_linerange(size = 0.5) +
+                facet_wrap(~X,scales = "free_x")+
+                theme_bw()+
+                labs (title = "Carp Biomass Density 2017-2018", 
+                    y = "Estimated Biomass Density (lbs. / acre)")
+coc.bmD
+
+# Buf total biomass plot
+bib.bmD<-ggplot(b.data, aes(x= Year, y = B.BMDensity, ymin=B.L.BMDensity, ymax=B.U.BMDensity))+
+                geom_point(size=4)+
+                geom_linerange(size = 0.5) +
+                facet_wrap(~X,scales = "free_x")+
+                theme_bw()+
+                labs (title = "Buffalo Biomass Density 2017-2018", 
+                    y = "Estimated Biomass Density (lbs. / acre)")
+bib.bmD
+
+grid.arrange(coc.bm,
+             bib.bm,
+             coc.bmD,
+             bib.bmD,
+             ncol = 2,
+             nrow = 2)
+
+```
 
 
+# Plot of species diversity
+- side by side plot, number of species on y axis lake on x axis and filled with EF vs. fyke in a stacked barplot
+
+```{r}
+diversity<-read.csv("2018_COC_BIB_CMR_Data.csv", header = T)
+
+summary(diversity$Gear)
+diversity<-droplevels(subset(diversity, Gear == "Fyke" |
+                             Gear == "Electroshocking"))
+
+p1.data<-data.frame(with(diversity, tapply(Species, list(Lake, Gear), FUN = function(x) length(unique(x)))))
+p1.data$Lake<-c("5 Island","Blue","Center","N.Twin","S. Twin","Silver","Storm")
+m1.d.melt<-melt(p1.data)
+theme_set(theme_bw())
+p1 <- ggplot(m1.d.melt, aes(x=Lake, y = value, fill = variable))+
+            geom_bar(stat="identity", position = "dodge", colour = "black") +
+              scale_fill_manual(values = wes_palette("Moonrise2")) +
+            theme_bw()+
+             theme(legend.position = "bottom", legend.title = element_blank()) +
+              labs (title = "Species Richness", 
+                    y = "Number of Species")
+  
+p1
+
+
+```
+
+# Water Quality?
 
 
 
