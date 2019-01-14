@@ -160,12 +160,23 @@ grid.arrange(GearPlot.Buff,
 # 2018 Length Frequencies
 - Reading in data
 - splitting up the lakes
+- split by gear too and exclude fyke nets
+- delete unnecessary columns for LF (most of them)
 
 __Problem__: have to switch these to inches probably
 ```{r,}
 #reading in data
 dframe<-read.csv("2018_COC_BIB_CMR_Data.csv")
 dframe<-dframe[,-1]
+
+# removing fyke catches
+levels(dframe$Gear)
+dframe<-subset(dframe, Gear == "Electroshocking" |
+                       Gear == "Commercial Seine")
+
+# getting rid of unused columns
+str(dframe)
+dframe<-dframe[,-c(1,3,6:10,12:21)]
 
 # splitting data frame by Lakes
 levels(dframe$Lake)
@@ -213,11 +224,13 @@ BlueLF.2018
 ```{r}
 # Subsetting species
 #                             Carp
-center.coc<-subset(Center, Species == "COC" & !is.na(Length..mm.))
-summary(center.coc$Length..mm.)
+center.coc<-melt(subset(Center, Species == "COC" & !is.na(Length..mm.)))
+blah<-dcast(center.coc, Gear ~ variable,
+                        fun.aggregate = "identity")
+
 #                             Buffalo
-center.bib<-subset(Center, Species == "BIB" & !is.na(Length..mm.))
-summary(center.bib$Length..mm.)
+center.bib<-melt(subset(Center, Species == "BIB" & !is.na(Length..mm.)))
+
 
 # Length Frequency Histograms
 # 2017
@@ -226,10 +239,9 @@ summary(center.bib$Length..mm.)
 
 
 
-
 #2018
-centerLF.c.2018<-ggplot(center.coc, aes(x=Length..mm., fill=Species))+
-                geom_histogram(binwidth=10,colour="black",position="dodge", fill = "burlywood4")+
+centerLF.c.2018<-ggplot(center.coc, aes(x=value,  fill=variable+Gear))+
+                geom_histogram(binwidth=10,colour="black", fill = "burlywood4")+
                 coord_cartesian(xlim = c(0,1000))+
                 scale_y_continuous(limits = c(0,200))+
                 labs(title = "Center Lake Carp Length-Frequency",
@@ -238,7 +250,7 @@ centerLF.c.2018<-ggplot(center.coc, aes(x=Length..mm., fill=Species))+
                 theme_classic()
 centerLF.c.2018
 
-centerLF.b.2018<-ggplot(center.bib, aes(x=Length..mm., fill = Species))+
+centerLF.b.2018<-ggplot(center.bib, aes(x=value, fill = variable))+
                   geom_histogram(binwidth = 10, colour = "black", position = "dodge", fill = "cornflowerblue")+
                   coord_cartesian(xlim = c(0,1000))+
                   scale_y_continuous(limits = c(0,200))+
