@@ -64,14 +64,18 @@ list.files()
 # compiled data
 dframe<-read.csv("2018 and 2017 Compiled Data.csv")
 head(dframe)
-#Setting new "detect" column used in the web resource I'm using.
+#Setting new "detect" column used in the web resource I'm using to create capture history
 dframe$detect<-1
 str(dframe)
 ###############
 #
 #   Well shoot. Looks like I should split up by lake first.
-#   I'll do blue (COC ONLY) first (play with MARK models below)
-#   then come back and finish splitting the lakes. 
+#   I'll do blue (COC ONLY) and Center (COC and BIB) first (play with MARK models below)
+#   then come back and edit models
+
+dframe$Date<-as.Date(dframe$Date, format = "%m/%d/%Y")
+str(dframe$Date)
+
 ```
 
 
@@ -131,10 +135,18 @@ blue.proc<-process.data(blue.ch,model="CJS")
 
 # Center Lake carp: 2018 only
 ```{r}
-input.data<-subset(dframe, Lake == "Center" & Species == "COC" & !is.na(dframe$TAG.NUMBER) & Year == "2018")
+input.data<-subset(dframe, Lake == "Center" &                  # Lake
+                           Species == "COC" &                  # Species
+                           !is.na(dframe$TAG.NUMBER) &         # must have a tag number
+                           Year == "2018" &                    # within a year
+                           Notes != "Aging Fish" &             # remove euthanized 1
+                           Fin.Clipped != "Dorsal")            # remove euthanized 2
+# check tag numbers
+levels(droplevels(input.data$TAG.NUMBER))
+summary(input.data$TAG.NUMBER)
 
 input.data$Month<-strftime(input.data$Date, "%m")
-head(input.data$Month)
+levels(factor(input.data$Month))
 
 
 #reshaping functions to pivot the data
@@ -142,15 +154,16 @@ junk<-melt(input.data,id.var=c("TAG.NUMBER","Month"),
            measure.vars="detect")
 y<-dcast(junk,TAG.NUMBER~Month)
 head(y)
-y[is.na(y)]<-0
+
+#y[is.na(y)]<-0
 # after consolidating to month there are some fish with 2 captures per month so need to correct those
 
 y$`05`[y$`05` >= 2] <- 1
-y$`06`[y$`06` >= 2] <- 1
-y$`07`[y$`07` >= 2] <- 1
-y$`08`[y$`08` >= 2] <- 1
-y$`09`[y$`09` >= 2] <- 1
-y$`10`[y$`10` >= 2] <- 1
+#y$`06`[y$`06` >= 2] <- 1
+#y$`07`[y$`07` >= 2] <- 1
+#y$`08`[y$`08` >= 2] <- 1
+#y$`09`[y$`09` >= 2] <- 1
+#y$`10`[y$`10` >= 2] <- 1
 
 # collapse the capture history to single column
 # capture history: using "unite" in dplyr
@@ -160,7 +173,7 @@ y$d<-"*/"
 y$TAG.NUMBER<-paste(y$c,y$TAG.NUMBER,y$d,sep = " ")
 #nicely done. Now to unite the capture histories
 center.ch<-unite(y,"ch", 2:7, sep = "",remove=T)
-center.ch<-center.ch[-c(509:603),-c(3:4)] # removing "envelope" fish - dissected not tagged. and comment columns removal.
+center.ch<-center.ch[,-c(3:4)] # comment columns removal.
 
 
 
@@ -232,7 +245,13 @@ center.model.results
 - need to separate months by year. Probs combined column
 - and trying to run for both buffalo and carp together (as groups). 
 ```{r}
-input.data<-subset(dframe, Lake == "Center" & !is.na(dframe$TAG.NUMBER))
+input.data<-subset(dframe, Lake == "Center" & 
+                           !is.na(dframe$TAG.NUMBER) &
+                           Notes != "Aging Fish" &             # remove euthanized 1
+                           Fin.Clipped != "Dorsal")            # remove euthanized 2      
+levels(droplevels(input.data$TAG.NUMBER))
+summary(input.data$TAG.NUMBER)
+
 
 input.data$MonthYear<-strftime(input.data$Date, "%m %Y")
 head(input.data$MonthYear)
