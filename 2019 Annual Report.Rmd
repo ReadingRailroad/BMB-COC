@@ -106,7 +106,7 @@ write.csv(EuthTotal, "2018 Catch-Euthanized.csv")
 
 ```
 
-
+##################################################################################
 # Annual Report Table and meeting Plots: Total Catches, then split by gear
 - df of total catches by gear for each species in each lake (Table)
             - ending up with many rows and a column for each lake.
@@ -157,6 +157,8 @@ grid.arrange(GearPlot.Buff,
 
 ```
 
+
+#######################################################################################
 # 2018 Length Frequencies
 - Reading in data
 - splitting up the lakes
@@ -188,8 +190,37 @@ Silver<-subset(dframe, Lake == "Silver")
 STwin<-subset(dframe, Lake == "S. Twin")
 Storm<-subset(dframe, Lake == "Storm")
 
+
 ```
 
+- trying to make a single plot with facet.grid
+```{r}
+# subsetting species
+df<-subset(dframe, !is.na(Length..mm.) & Species == "COC" |
+                   !is.na(Length..mm.) & Species == "BIB")
+df<-subset(df, Lake != "Blue")
+
+df.m<-melt(df)
+
+all.lakes.lf2018<-ggplot(df.m, aes(x=value, fill = Gear))+
+                         geom_histogram(binwidth = 10,
+                                        colour = "black",
+                                        position = "stack")+
+                         coord_cartesian(xlim = c(0,1000))+
+                         scale_y_continuous(limits = c(0,200))+
+                         facet_grid(vars(Species), vars(Lake))+
+                         theme_gray()+
+                         theme(legend.position = "bottom")+
+                         labs(title = "2018 Length Frequencies",
+                              x = "Length (mm)",
+                              y = "Frequency")
+
+all.lakes.lf2018
+```
+
+
+
+- separate plots below:
 ## Blue Lake
 ```{r}
 # No extreme need to split species (one BIB in dataset) but I'll do it anyway
@@ -210,13 +241,15 @@ BlueLF.2018<-ggplot(blue.coc, aes(x=value, fill=Gear))+
                 geom_histogram(binwidth=10,
                                colour="black",
                                position="stack",
-                               show.legend=F)+
+                               show.legend=F,
+                               fill = "#00BFC4")+
                 coord_cartesian(xlim = c(0,1000))+
                 scale_y_continuous(limits = c(0,700))+
                 labs(x = "",
                       y = "(Note larger y-axis)") +
                 theme_classic()+
-                annotate("text",x=750,y=600,label="Blue Lake Carp Length-Frequency")
+                theme(plot.margin = unit(c(0.2,0.2,0.2,0.2),"pt"))+
+                annotate("text",x=500,y=600,label="Blue Lake Carp")
 BlueLF.2018
 
 
@@ -247,12 +280,14 @@ centerLF.c.2018<-ggplot(center.c.m, aes(x=value,  fill=Gear))+
                 geom_histogram(binwidth=10, 
                                colour="black", 
                                position = "stack",
-                               show.legend = FALSE) +
-                coord_cartesian(xlim = c(0,1000))+
+                               show.legend = F) +
+                coord_cartesian(xlim = c(100,1000))+
                 scale_y_continuous(limits = c(0,200))+
                 labs(x="",y="")+
                 theme_classic()+
-                annotate("text",x=250, y = 100, label = "Center Lake Carp Length-Frequency")
+                theme(axis.text.x=element_blank(),
+                      plot.margin = unit(c(0.2,0.2,0.2,0.2),"pt"))+
+                annotate("text",x=250, y = 150, label = "Center Lake Carp")
 centerLF.c.2018
 #2018 Buffalo
 centerLF.b.2018<-ggplot(center.b.m, aes(x=value, fill = Gear))+
@@ -260,11 +295,11 @@ centerLF.b.2018<-ggplot(center.b.m, aes(x=value, fill = Gear))+
                                  colour = "black", 
                                  position = "stack", 
                                  show.legend = F)+
-                  coord_cartesian(xlim = c(0,1000))+
+                  coord_cartesian(xlim = c(100,1000))+
                   scale_y_continuous(limits = c(0,200))+
                   labs(x = "",y = "") +
                   theme_classic()+
-                  annotate("text", x= 250, y = 100, label = "Center Lake Buffalo Length-Frequency")
+                  annotate("text", x= 250, y = 150, label = "Center Lake Buffalo")
 centerLF.b.2018
 
 ```
@@ -517,6 +552,65 @@ grid.arrange(centerLF.c.2018,FiveIslandLF.c.2018,NTwinLF.c.2018,SilverLF.c.2018,
 ```
 
 
+#############################################################################
+# CPUE and Biomass Density
+
+Code here comes from CPUE plots with the source 2017 and 2018 plots.
+- note that 2017 used total biomass and not biomass density
+- 2018 uses density
+
+after January project update meeting:
+- come up with plot to compare this across months and across lakes
+- need to use facet.grid again with month variable
+- let's rock and roll!
+
+```{r}
+# front matter
+DF<-read.csv("2018BiomassCPUEtable.csv",header=T)
+str(DF)
+DF<-DF[,-1]
+```
+
+more specifically, let's say that I should
+(1) plot with month as discrete x variable and CPUE as y axis variable and 6-7 dots for each month. BONUS if I can add the variance. side by side for each species
+
+```{r}
+
+
+
+
+
+```
+
+(2) stacked plots with each month as a panel in one column, biomass density on x axis and CPUE in the multiple y-axes. side by side for each species first but also split by STD and Run-n-Gun within each species.  
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###################################################################################
 # 2018 Harvest
 - condense data frame
 - plot lakes on x axis, total harvest in lbs on y axis, species as paired bars
@@ -599,7 +693,7 @@ grid.arrange(tot.harvest,
 
 ```
 
-
+#################################################################################
 # Changes in biomass and biomass density following harvest in center lake
 
 my plan a couple hours ago was to have a four panel plot: 

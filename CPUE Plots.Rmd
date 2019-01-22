@@ -218,8 +218,9 @@ bib.df$Effort<-bib.df$On.Time..s./3600
 
 
 # now to paste date/lake/run
-coc.df$DLR<-factor(paste(coc.df$Date,coc.df$Lake,coc.df$Site.Transect))
-bib.df$DLR<-factor(paste(bib.df$Date,bib.df$Lake,bib.df$Site.Transect))
+
+coc.df$DLR<-factor(paste(coc.df$Date,coc.df$Lake,coc.df$Site.Transect, sep = ";"))
+bib.df$DLR<-factor(paste(bib.df$Date,bib.df$Lake,bib.df$Site.Transect, sep = ";"))
 
 
 
@@ -305,59 +306,59 @@ levels(droplevels(StormCheck$DLR))
 #                         44 runs without a buffalo though. 44/78 runs. Shite!
 
 
-a<-c("5 Island","2018-05-23 5 Island 2", 928/3600, 0, 0)
-b<-c("5 Island","2018-05-23 5 Island 3", 1298/3600, 0, 0)
-c<-c("5 Island","2018-05-23 5 Island 4", 904/3600, 0, 0)
-d<-c("5 Island","2018-05-23 5 Island 5", 905/3600, 0, 0)
-e<-c("5 Island","2018-05-23 5 Island 6", 965/3600, 0, 0)
-f<-c("5 Island","2018-05-23 5 Island 7", 1126/3600, 0, 0)
-g<-c("5 Island","2018-05-23 5 Island 8", 961/3600, 0, 0)
-h<-c("5 Island","2018-05-23 5 Island 9", 1130/3600, 0, 0)
+a<-c("5 Island","2018-05-23;5 Island;2", 928/3600, 0, 0)
+b<-c("5 Island","2018-05-23;5 Island;3", 1298/3600, 0, 0)
+c<-c("5 Island","2018-05-23;5 Island;4", 904/3600, 0, 0)
+d<-c("5 Island","2018-05-23;5 Island;5", 905/3600, 0, 0)
+e<-c("5 Island","2018-05-23;5 Island;6", 965/3600, 0, 0)
+f<-c("5 Island","2018-05-23;5 Island;7", 1126/3600, 0, 0)
+g<-c("5 Island","2018-05-23;5 Island;8", 961/3600, 0, 0)
+h<-c("5 Island","2018-05-23;5 Island;9", 1130/3600, 0, 0)
 
-i<-c("5 Island","2018-06-06 5 Island 3", 1021/3600, 0, 0)
-j<-c("5 Island","2018-06-06 5 Island 5", 1051/3600, 0, 0)
+i<-c("5 Island","2018-06-06;5 Island;3", 1021/3600, 0, 0)
+j<-c("5 Island","2018-06-06;5 Island;5", 1051/3600, 0, 0)
 
-k<-c("5 Island","2018-06-12 5 Island 4", 1769/3600,0,0)
+k<-c("5 Island","2018-06-12;5 Island;4", 1769/3600,0,0)
 
-l<-c("5 Island","2018-06-28 5 Island 1", 1669/3600,0,0)
-m<-c("5 Island","2018-06-28 5 Island 3", 1807/3600,0,0)
-n<-c("5 Island","2018-06-28 5 Island 4", 1850/3600,0,0)
+l<-c("5 Island","2018-06-28;5 Island;1", 1669/3600,0,0)
+m<-c("5 Island","2018-06-28;5 Island;3", 1807/3600,0,0)
+n<-c("5 Island","2018-06-28;5 Island;4", 1850/3600,0,0)
 
-o<-c("5 Island","2018-07-12 5 Island 1", 963/3600,0,0)
-p<-c("5 Island","2018-07-12 5 Island 3", 909/3600,0,0)
-q<-c("5 Island","2018-07-12 5 Island 4", 910/3600,0,0)
-r<-c("5 Island","2018-07-12 5 Island 5", 969/3600,0,0)
-s<-c("5 Island","2018-07-12 5 Island Bonus 1", 1331/3600,0,0)
-t<-c("5 Island","2018-07-12 5 Island Bonus 2", 1159/3600,0,0)
-u<-c("5 Island","2018-07-12 5 Island Bonus 3", 581/3600,0,0)
-v<-c("5 Island","2018-07-12 5 Island Bonus 4", 1074/3600,0,0)
+o<-c("5 Island","2018-07-12;5 Island;1", 963/3600,0,0)
+p<-c("5 Island","2018-07-12;5 Island;3", 909/3600,0,0)
+q<-c("5 Island","2018-07-12;5 Island;4", 910/3600,0,0)
+r<-c("5 Island","2018-07-12;5 Island;5", 969/3600,0,0)
+s<-c("5 Island","2018-07-12;5 Island;Bonus 1", 1331/3600,0,0)
+t<-c("5 Island","2018-07-12;5 Island;Bonus 2", 1159/3600,0,0)
+u<-c("5 Island","2018-07-12;5 Island;Bonus 3", 581/3600,0,0)
+v<-c("5 Island","2018-07-12;5 Island;Bonus 4", 1074/3600,0,0)
 
-w<-c("5 Island","2018-07-20 5 Island Bonus 1", 3866/3600,0,0)
-x<-c("5 Island","2018-07-20 5 Island 2", 1161/3600,0,0)
-y<-c("5 Island","2018-07-20 5 Island 3", 1142/3600,0,0)
-z<-c("5 Island","2018-07-20 5 Island 4", 1389/3600,0,0)
-aa<-c("5 Island","2018-07-20 5 Island 5", 1306/3600,0,0)
-bb<-c("5 Island","2018-07-20 5 Island Bonus 4", 1588/3600,0,0)
+w<-c("5 Island","2018-07-20;5 Island;Bonus 1", 3866/3600,0,0)
+x<-c("5 Island","2018-07-20;5 Island;2", 1161/3600,0,0)
+y<-c("5 Island","2018-07-20;5 Island;3", 1142/3600,0,0)
+z<-c("5 Island","2018-07-20;5 Island;4", 1389/3600,0,0)
+aa<-c("5 Island","2018-07-20;5 Island;5", 1306/3600,0,0)
+bb<-c("5 Island","2018-07-20;5 Island;Bonus 4", 1588/3600,0,0)
 
-cc<-c("5 Island","2018-07-25 5 Island 1", 3579/3600,0,0)
-dd<-c("5 Island","2018-07-25 5 Island 3", 3485/3600,0,0)
+cc<-c("5 Island","2018-07-25;5 Island;1", 3579/3600,0,0)
+dd<-c("5 Island","2018-07-25;5 Island;3", 3485/3600,0,0)
 
-ee<-c("5 Island","2018-08-01 5 Island 2", 1025/3600,0,0)
-ff<-c("5 Island","2018-08-01 5 Island 3", 1291/3600,0,0)
-gg<-c("5 Island","2018-08-01 5 Island 4", 1162/3600,0,0)
-hh<-c("5 Island","2018-08-01 5 Island Bonus 1", 4320/3600,0,0)
+ee<-c("5 Island","2018-08-01;5 Island;2", 1025/3600,0,0)
+ff<-c("5 Island","2018-08-01;5 Island;3", 1291/3600,0,0)
+gg<-c("5 Island","2018-08-01;5 Island;4", 1162/3600,0,0)
+hh<-c("5 Island","2018-08-01;5 Island;Bonus 1", 4320/3600,0,0)
 
-ii<-c("5 Island","2018-08-15 5 Island 1", 1678/3600,0,0)
-jj<-c("5 Island","2018-08-15 5 Island 2", 1889/3600,0,0)
-kk<-c("5 Island","2018-08-15 5 Island 3", 1899/3600,0,0)
-ll<-c("5 Island","2018-08-15 5 Island 5", 1378/3600,0,0)
+ii<-c("5 Island","2018-08-15;5 Island;1", 1678/3600,0,0)
+jj<-c("5 Island","2018-08-15;5 Island;2", 1889/3600,0,0)
+kk<-c("5 Island","2018-08-15;5 Island;3", 1899/3600,0,0)
+ll<-c("5 Island","2018-08-15;5 Island;5", 1378/3600,0,0)
 
-mm<-c("5 Island","2018-09-09 5 Island 3", 901/3600,0,0)
-nn<-c("5 Island","2018-09-09 5 Island 4", 1060/3600,0,0)
-oo<-c("5 Island","2018-09-09 5 Island 5", 1021/3600,0,0)
+mm<-c("5 Island","2018-09-09;5 Island;3", 901/3600,0,0)
+nn<-c("5 Island","2018-09-09;5 Island;4", 1060/3600,0,0)
+oo<-c("5 Island","2018-09-09;5 Island;5", 1021/3600,0,0)
 
-pp<-c("5 Island","2018-10-06 5 Island 4", 1053/3600,0,0)
-qq<-c("5 Island","2018-10-06 5 Island 5", 939/3600,0,0)
+pp<-c("5 Island","2018-10-06;5 Island;4", 1053/3600,0,0)
+qq<-c("5 Island","2018-10-06;5 Island;5", 939/3600,0,0)
 
 add.on<-data.frame(t(data.frame(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,
                            aa,bb,cc,dd,ee,ff,gg,hh,ii,jj,kk,ll,mm,nn,oo,pp,qq)),
@@ -378,38 +379,38 @@ bib.cpue<-rbind(bib.cpue,add.on)
 #       25 added to bib
 #       13 added to coc
 #
-a<-c("Center","2018-05-25 Center 2",931/3600,0,0)
-b<-c("Center","2018-05-25 Center 3",900/3600,0,0)
-c<-c("Center","2018-05-25 Center 4",909/3600,0,0)
-d<-c("Center","2018-05-25 Center 5",939/3600,0,0)
+a<-c("Center","2018-05-25;Center;2",931/3600,0,0)
+b<-c("Center","2018-05-25;Center;3",900/3600,0,0)
+c<-c("Center","2018-05-25;Center;4",909/3600,0,0)
+d<-c("Center","2018-05-25;Center;5",939/3600,0,0)
 
-e<-c("Center","2018-05-31 Center 3",798/3600,0,0)
-f<-c("Center","2018-05-31 Center 4",1432/3600,0,0)
+e<-c("Center","2018-05-31;Center;3",798/3600,0,0)
+f<-c("Center","2018-05-31;Center;4",1432/3600,0,0)
 
-g<-c("Center","2018-06-04 Center 2",1041/3600,0,0)
-h<-c("Center","2018-06-04 Center 3",893/3600,0,0)
-i<-c("Center","2018-06-04 Center 4",659/3600,0,0)
-j<-c("Center","2018-06-04 Center 5",913/3600,0,0)
+g<-c("Center","2018-06-04;Center;2",1041/3600,0,0)
+h<-c("Center","2018-06-04;Center;3",893/3600,0,0)
+i<-c("Center","2018-06-04;Center;4",659/3600,0,0)
+j<-c("Center","2018-06-04;Center;5",913/3600,0,0)
 
-k<-c("Center","2018-06-11 Center 2",1010/3600,0,0)
-l<-c("Center","2018-06-11 Center 3",672/3600,0,0)
-m<-c("Center","2018-06-11 Center 4",599/3600,0,0)
-n<-c("Center","2018-06-11 Center 5",762/3600,0,0)
-o<-c("Center","2018-06-11 Center Bonus 1",449/3600,0,0)
+k<-c("Center","2018-06-11;Center;2",1010/3600,0,0)
+l<-c("Center","2018-06-11;Center;3",672/3600,0,0)
+m<-c("Center","2018-06-11;Center;4",599/3600,0,0)
+n<-c("Center","2018-06-11;Center;5",762/3600,0,0)
+o<-c("Center","2018-06-11;Center;Bonus 1",449/3600,0,0)
 
-p<-c("Center","2018-06-19 Center 4",645/3600,0,0)
-q<-c("Center","2018-06-19 Center 5",896/3600,0,0)
+p<-c("Center","2018-06-19;Center;4",645/3600,0,0)
+q<-c("Center","2018-06-19;Center;5",896/3600,0,0)
 
-r<-c("Center","2018-07-19 Center 4",770/3600,0,0)
-s<-c("Center","2018-07-19 Center 5",971/3600,0,0)
+r<-c("Center","2018-07-19;Center;4",770/3600,0,0)
+s<-c("Center","2018-07-19;Center;5",971/3600,0,0)
 
-t<-c("Center","2018-07-30 Center 1",2218/3600,0,0)
-u<-c("Center","2018-07-30 Center 5",772/3600,0,0)
+t<-c("Center","2018-07-30;Center;1",2218/3600,0,0)
+u<-c("Center","2018-07-30;Center;5",772/3600,0,0)
 
-v<-c("Center","2018-08-02 Center 1",1003/3600,0,0)
-w<-c("Center","2018-08-02 Center 3",872/3600,0,0)
-x<-c("Center","2018-08-02 Center 4",870/3600,0,0)
-y<-c("Center","2018-08-02 Center 5",919/3600,0,0)
+v<-c("Center","2018-08-02;Center;1",1003/3600,0,0)
+w<-c("Center","2018-08-02;Center;3",872/3600,0,0)
+x<-c("Center","2018-08-02;Center;4",870/3600,0,0)
+y<-c("Center","2018-08-02;Center;5",919/3600,0,0)
 
 
 add.on<-data.frame(t(data.frame(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y)),
@@ -423,25 +424,25 @@ add.on$DLR<-as.factor(add.on$DLR)
 str(add.on)
 bib.cpue<-rbind(bib.cpue,add.on)
 # Now Carp!
-a<-c("Center","2018-05-17 Center 2",917/3600,0,0)
-b<-c("Center","2018-05-17 Center 3",893/3600,0,0)
-c<-c("Center","2018-05-17 Center 5",932/3600,0,0)
+a<-c("Center","2018-05-17;Center;2",917/3600,0,0)
+b<-c("Center","2018-05-17;Center;3",893/3600,0,0)
+c<-c("Center","2018-05-17;Center;5",932/3600,0,0)
 
-d<-c("Center","2018-05-25 Center 1",925/3600,0,0)
-e<-c("Center","2018-05-25 Center 2",931/3600,0,0)
+d<-c("Center","2018-05-25;Center;1",925/3600,0,0)
+e<-c("Center","2018-05-25;Center;2",931/3600,0,0)
 
-f<-c("Center","2018-05-31 Center 4",1432/3600,7,7/(1432/3600))
+f<-c("Center","2018-05-31;Center;4",1432/3600,7,7/(1432/3600))
 
-g<-c("Center","2018-07-19 Center 2",848/3600,0,0)
+g<-c("Center","2018-07-19;Center;2",848/3600,0,0)
 
-h<-c("Center","2018-08-02 Center 1",1003/3600,0,0)
-i<-c("Center","2018-08-02 Center 4",870/3600,0,0)
+h<-c("Center","2018-08-02;Center;1",1003/3600,0,0)
+i<-c("Center","2018-08-02;Center;4",870/3600,0,0)
 
-j<-c("Center","2018-09-08 Center 2",885/3600,0,0)
-k<-c("Center","2018-09-08 Center 4",778/3600,0,0)
+j<-c("Center","2018-09-08;Center;2",885/3600,0,0)
+k<-c("Center","2018-09-08;Center;4",778/3600,0,0)
 
-l<-c("Center","2018-10-05 Center 2",849/3600,0,0)
-m<-c("Center","2018-10-05 Center 4",549/3600,0,0)
+l<-c("Center","2018-10-05;Center;2",849/3600,0,0)
+m<-c("Center","2018-10-05;Center;4",549/3600,0,0)
 
 add.on<-data.frame(t(data.frame(a,b,c,d,e,f,g,h,i,j,k,l,m)),
                    stringsAsFactors = F)
@@ -463,33 +464,33 @@ coc.cpue<-rbind(coc.cpue,add.on)
 #       42 buffalo
 #       16 carp
 #
-a<-c("N. Twin","2018-05-15 N. Twin 1",900/3600,0,0)
-b<-c("N. Twin","2018-05-15 N. Twin 2",900/3600,0,0)
+a<-c("N. Twin","2018-05-15;N. Twin;1",900/3600,0,0)
+b<-c("N. Twin","2018-05-15;N. Twin;2",900/3600,0,0)
 
-c<-c("N. Twin","2018-05-18 N. Twin 3",900/3600,0,0)
+c<-c("N. Twin","2018-05-18;N. Twin;3",900/3600,0,0)
 
-d<-c("N. Twin","2018-06-06 N. Twin 2",900/3600,0,0)
-
-
-
-e<-c("N. Twin","2018-07-03 N. Twin 1",900/3600,0,0)
-f<-c("N. Twin","2018-07-03 N. Twin 2",900/3600,0,0)
-g<-c("N. Twin","2018-07-03 N. Twin 3",900/3600,0,0)
-
-h<-c("N. Twin","2018-07-09 N. Twin 1",900/3600,0,0)
-i<-c("N. Twin","2018-07-09 N. Twin 3",900/3600,0,0)
-
-j<-c("N. Twin","2018-07-16 N. Twin 1",1667/3600,0,0)
-
-k<-c("N. Twin","2018-08-01 N. Twin 2",900/3600,0,0)
-l<-c("N. Twin","2018-08-01 N. Twin 3",900/3600,0,0)
-
-m<-c("N. Twin","2018-08-06 N. Twin 1",900/3600,0,0)
-n<-c("N. Twin","2018-08-06 N. Twin 2",900/3600,0,0)
-o<-c("N. Twin","2018-08-06 N. Twin 3",900/3600,0,0)
+d<-c("N. Twin","2018-06-06;N. Twin;2",900/3600,0,0)
 
 
-p<-c("N. Twin","2018-11-01 N. Twin 1",905/3600,0,0)
+
+e<-c("N. Twin","2018-07-03;N. Twin;1",900/3600,0,0)
+f<-c("N. Twin","2018-07-03;N. Twin;2",900/3600,0,0)
+g<-c("N. Twin","2018-07-03;N. Twin;3",900/3600,0,0)
+
+h<-c("N. Twin","2018-07-09;N. Twin;1",900/3600,0,0)
+i<-c("N. Twin","2018-07-09;N. Twin;3",900/3600,0,0)
+
+j<-c("N. Twin","2018-07-16;N. Twin;1",1667/3600,0,0)
+
+k<-c("N. Twin","2018-08-01;N. Twin;2",900/3600,0,0)
+l<-c("N. Twin","2018-08-01;N. Twin;3",900/3600,0,0)
+
+m<-c("N. Twin","2018-08-06;N. Twin;1",900/3600,0,0)
+n<-c("N. Twin","2018-08-06;N. Twin;2",900/3600,0,0)
+o<-c("N. Twin","2018-08-06;N. Twin;3",900/3600,0,0)
+
+
+p<-c("N. Twin","2018-11-01;N. Twin;1",905/3600,0,0)
 
 add.on<-data.frame(t(data.frame(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p)),
                    stringsAsFactors = F)
@@ -503,28 +504,25 @@ str(add.on)
 bib.cpue<-rbind(bib.cpue,add.on)
 
 # COC now
-a<-c("N. Twin","2018-05-18 N. Twin 1",900/3600,0,0)
+a<-c("N. Twin","2018-05-18;N. Twin;1",900/3600,0,0)
 
-b<-c("N. Twin","2018-07-09 N. Twin 1",900/3600,0,0)
+b<-c("N. Twin","2018-07-09;N. Twin;1",900/3600,0,0)
 
-c<-c("N. Twin","2018-07-16 N. Twin 3",1224/3600,0,0)
+c<-c("N. Twin","2018-07-16;N. Twin;3",1224/3600,0,0)
 
+d<-c("N. Twin","2018-07-31;N. Twin;2",1560/3600,0,0)
 
+e<-c("N. Twin","2018-08-06;N. Twin;5",900/3600,0,0)
 
-d<-c("N. Twin","2018-07-31 N. Twin 2",1560/3600,0,0)
+f<-c("N. Twin","2018-10-10;N. Twin;3",900/3600,0,0)
 
-e<-c("N. Twin","2018-08-06 N. Twin 5",900/3600,0,0)
+g<-c("N. Twin","2018-10-12;N. Twin;1",900/3600,0,0)
+h<-c("N. Twin","2018-10-12;N. Twin;2",900/3600,0,0)
+i<-c("N. Twin","2018-10-12;N. Twin;5",900/3600,0,0)
 
-
-f<-c("N. Twin","2018-10-10 N. Twin 3",900/3600,0,0)
-
-g<-c("N. Twin","2018-10-12 N. Twin 1",900/3600,0,0)
-h<-c("N. Twin","2018-10-12 N. Twin 2",900/3600,0,0)
-i<-c("N. Twin","2018-10-12 N. Twin 5",900/3600,0,0)
-
-j<-c("N. Twin","2018-11-01 N. Twin 2",849/3600,0,0)
-k<-c("N. Twin","2018-11-01 N. Twin Bonus 2",1552/3600,0,0)
-l<-c("N. Twin","2018-11-01 N. Twin Bonus 3",1085/3600,0,0)
+j<-c("N. Twin","2018-11-01;N. Twin;2",849/3600,0,0)
+k<-c("N. Twin","2018-11-01;N. Twin;Bonus 2",1552/3600,0,0)
+l<-c("N. Twin","2018-11-01;N. Twin;Bonus 3",1085/3600,0,0)
 
 add.on<-data.frame(t(data.frame(a,b,c,d,e,f,g,h,i,j,k,l)),
                    stringsAsFactors = F)
@@ -544,14 +542,14 @@ coc.cpue<-rbind(coc.cpue,add.on)
 #       50 bib additions
 #       8 carp additions
 #
-a<-c("Silver","2018-05-15 Silver 1",1871/3600,0,0)
-b<-c("Silver","2018-05-18 Silver 5",927/3600,0,0)
-c<-c("Silver","2018-07-11 Silver 6",996/3600,0,0)
-d<-c("Silver","2018-07-18 Silver 3",1052/3600,0,0)
-e<-c("Silver","2018-07-18 Silver 5",899/3600,0,0)
-f<-c("Silver","2018-08-02 Silver 1",1116/3600,0,0)
-g<-c("Silver","2018-10-05 Silver 5",549/3600,0,0)
-h<-c("Silver","2018-10-05 Silver 6",804/3600,0,0)
+a<-c("Silver","2018-05-15;Silver;1",1871/3600,0,0)
+b<-c("Silver","2018-05-18;Silver;5",927/3600,0,0)
+c<-c("Silver","2018-07-11;Silver;6",996/3600,0,0)
+d<-c("Silver","2018-07-18;Silver;3",1052/3600,0,0)
+e<-c("Silver","2018-07-18;Silver;5",899/3600,0,0)
+f<-c("Silver","2018-08-02;Silver;1",1116/3600,0,0)
+g<-c("Silver","2018-10-05;Silver;5",549/3600,0,0)
+h<-c("Silver","2018-10-05;Silver;6",804/3600,0,0)
 
 add.on<-data.frame(t(data.frame(a,b,c,d,e,f,g,h)),
                    stringsAsFactors = F)
@@ -566,57 +564,57 @@ coc.cpue<-rbind(coc.cpue,add.on)
 
 
 # now 50 buffalo
-a<-c("Silver","2018-05-24 Silver 6",894/3600,0,0)
-b<-c("Silver","2018-06-01 Silver 8",1218/3600,0,0)
-c<-c("Silver","2018-06-04 Silver 1",901/3600,0,0)
-d<-c("Silver","2018-06-04 Silver 2",914/3600,0,0)
-e<-c("Silver","2018-06-08 Silver 2",1560/3600,0,0)
-f<-c("Silver","2018-06-08 Silver 3",720/3600,0,0)
-g<-c("Silver","2018-06-09 Silver 1",1012/3600,0,0)
-h<-c("Silver","2018-06-12 Silver 1",2171/3600,0,0)
-i<-c("Silver","2018-06-12 Silver 3",2790/3600,0,0)
-j<-c("Silver","2018-06-14 Silver 1",900/3600,0,0)
-k<-c("Silver","2018-06-26 Silver Bonus 3",3348/3600,0,0)
-l<-c("Silver","2018-06-26 Silver Bonus 4",2217/3600,0,0)
-m<-c("Silver","2018-07-11 Silver 3",710/3600,0,0)
-n<-c("Silver","2018-07-11 Silver 5",1124/3600,0,0)
-o<-c("Silver","2018-07-11 Silver Bonus",1510/3600,0,0)
-p<-c("Silver","2018-07-18 Silver 2",2568/3600,0,0)
-q<-c("Silver","2018-07-18 Silver 5",899/3600,0,0)
-r<-c("Silver","2018-07-26 Silver 1",2294/3600,0,0)
-s<-c("Silver","2018-07-26 Silver 2",4085/3600,0,0)
-t<-c("Silver","2018-07-26 Silver 3",1910/3600,0,0)
-u<-c("Silver","2018-07-26 Silver 4",2295/3600,0,0)
-v<-c("Silver","2018-07-26 Silver 5",2408/3600,0,0)
-w<-c("Silver","2018-07-26 Silver 7",3006/3600,0,0)
-x<-c("Silver","2018-08-02 Silver 1",1116/3600,0,0)
-y<-c("Silver","2018-08-02 Silver 2",1307/3600,0,0)
-z<-c("Silver","2018-08-02 Silver 3",1121/3600,0,0)
+a<-c("Silver","2018-05-24;Silver;6",894/3600,0,0)
+b<-c("Silver","2018-06-01;Silver;8",1218/3600,0,0)
+c<-c("Silver","2018-06-04;Silver;1",901/3600,0,0)
+d<-c("Silver","2018-06-04;Silver;2",914/3600,0,0)
+e<-c("Silver","2018-06-08;Silver;2",1560/3600,0,0)
+f<-c("Silver","2018-06-08;Silver;3",720/3600,0,0)
+g<-c("Silver","2018-06-09;Silver;1",1012/3600,0,0)
+h<-c("Silver","2018-06-12;Silver;1",2171/3600,0,0)
+i<-c("Silver","2018-06-12;Silver;3",2790/3600,0,0)
+j<-c("Silver","2018-06-14;Silver;1",900/3600,0,0)
+k<-c("Silver","2018-06-26;Silver;Bonus 3",3348/3600,0,0)
+l<-c("Silver","2018-06-26;Silver;Bonus 4",2217/3600,0,0)
+m<-c("Silver","2018-07-11;Silver;3",710/3600,0,0)
+n<-c("Silver","2018-07-11;Silver;5",1124/3600,0,0)
+o<-c("Silver","2018-07-11;Silver;Bonus",1510/3600,0,0)
+p<-c("Silver","2018-07-18;Silver;2",2568/3600,0,0)
+q<-c("Silver","2018-07-18;Silver;5",899/3600,0,0)
+r<-c("Silver","2018-07-26;Silver;1",2294/3600,0,0)
+s<-c("Silver","2018-07-26;Silver;2",4085/3600,0,0)
+t<-c("Silver","2018-07-26;Silver;3",1910/3600,0,0)
+u<-c("Silver","2018-07-26;Silver;4",2295/3600,0,0)
+v<-c("Silver","2018-07-26;Silver;5",2408/3600,0,0)
+w<-c("Silver","2018-07-26;Silver;7",3006/3600,0,0)
+x<-c("Silver","2018-08-02;Silver;1",1116/3600,0,0)
+y<-c("Silver","2018-08-02;Silver;2",1307/3600,0,0)
+z<-c("Silver","2018-08-02;Silver;3",1121/3600,0,0)
 
-aa<-c("Silver","2018-08-02 Silver 4",854/3600,0,0)
-bb<-c("Silver","2018-08-02 Silver 5",1202/3600,0,0)
-cc<-c("Silver","2018-08-02 Silver 6",923/3600,0,0)
-dd<-c("Silver","2018-08-06 Silver 1",997/3600,0,0)
-ee<-c("Silver","2018-08-06 Silver 2",1173/3600,0,0)
-ff<-c("Silver","2018-08-06 Silver 3",1004/3600,0,0)
-gg<-c("Silver","2018-08-06 Silver 4",688/3600,0,0)
-hh<-c("Silver","2018-08-06 Silver 5",952/3600,0,0)
-ii<-c("Silver","2018-08-06 Silver 6",810/3600,0,0)
-jj<-c("Silver","2018-08-13 Silver 1",1866/3600,0,0)
-kk<-c("Silver","2018-08-13 Silver 4",1760/3600,0,0)
-ll<-c("Silver","2018-08-13 Silver 5",633/3600,0,0)
-mm<-c("Silver","2018-09-08 Silver 1",1156/3600,0,0)
-nn<-c("Silver","2018-09-08 Silver 2",1261/3600,0,0)
-oo<-c("Silver","2018-09-08 Silver 3",1110/3600,0,0)
-pp<-c("Silver","2018-09-08 Silver 5",1181/3600,0,0)
-qq<-c("Silver","2018-09-08 Silver 6",961/3600,0,0)
-rr<-c("Silver","2018-09-08 Silver Bridge",554/3600,0,0)
-ss<-c("Silver","2018-10-05 Silver 2",964/3600,0,0)
-tt<-c("Silver","2018-10-05 Silver 3",1208/3600,0,0)
-uu<-c("Silver","2018-10-05 Silver 4",890/3600,0,0)
-vv<-c("Silver","2018-10-05 Silver 5",594/3600,0,0)
-ww<-c("Silver","2018-10-05 Silver 6",804/3600,0,0)
-xx<-c("Silver","2018-10-05 Silver 1",1132/3600,0,0)
+aa<-c("Silver","2018-08-02;Silver;4",854/3600,0,0)
+bb<-c("Silver","2018-08-02;Silver;5",1202/3600,0,0)
+cc<-c("Silver","2018-08-02;Silver;6",923/3600,0,0)
+dd<-c("Silver","2018-08-06;Silver;1",997/3600,0,0)
+ee<-c("Silver","2018-08-06;Silver;2",1173/3600,0,0)
+ff<-c("Silver","2018-08-06;Silver;3",1004/3600,0,0)
+gg<-c("Silver","2018-08-06;Silver;4",688/3600,0,0)
+hh<-c("Silver","2018-08-06;Silver;5",952/3600,0,0)
+ii<-c("Silver","2018-08-06;Silver;6",810/3600,0,0)
+jj<-c("Silver","2018-08-13;Silver;1",1866/3600,0,0)
+kk<-c("Silver","2018-08-13;Silver;4",1760/3600,0,0)
+ll<-c("Silver","2018-08-13;Silver;5",633/3600,0,0)
+mm<-c("Silver","2018-09-08;Silver;1",1156/3600,0,0)
+nn<-c("Silver","2018-09-08;Silver;2",1261/3600,0,0)
+oo<-c("Silver","2018-09-08;Silver;3",1110/3600,0,0)
+pp<-c("Silver","2018-09-08;Silver;5",1181/3600,0,0)
+qq<-c("Silver","2018-09-08;Silver;6",961/3600,0,0)
+rr<-c("Silver","2018-09-08;Silver;Bridge",554/3600,0,0)
+ss<-c("Silver","2018-10-05;Silver;2",964/3600,0,0)
+tt<-c("Silver","2018-10-05;Silver;3",1208/3600,0,0)
+uu<-c("Silver","2018-10-05;Silver;4",890/3600,0,0)
+vv<-c("Silver","2018-10-05;Silver;5",594/3600,0,0)
+ww<-c("Silver","2018-10-05;Silver;6",804/3600,0,0)
+xx<-c("Silver","2018-10-05;Silver;1",1132/3600,0,0)
 
 add.on<-data.frame(t(data.frame(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,
                            aa,bb,cc,dd,ee,ff,gg,hh,ii,jj,kk,ll,mm,nn,oo,pp,qq,rr,ss,tt,uu,vv,ww,xx)),
@@ -634,50 +632,50 @@ bib.cpue<-rbind(bib.cpue,add.on)
 #
 #         South Twin
 # buff
-a<-c("S. Twin","2018-05-21 S. Twin 2",900/3600,0,0)
+a<-c("S. Twin","2018-05-21;S. Twin;2",900/3600,0,0)
 
-b<-c("S. Twin","2018-06-05 S. Twin 1",900/3600,0,0)
-c<-c("S. Twin","2018-06-05 S. Twin 3",900/3600,0,0)
-d<-c("S. Twin","2018-06-05 S. Twin 4",900/3600,0,0)
+b<-c("S. Twin","2018-06-05;S. Twin;1",900/3600,0,0)
+c<-c("S. Twin","2018-06-05;S. Twin;3",900/3600,0,0)
+d<-c("S. Twin","2018-06-05;S. Twin;4",900/3600,0,0)
 
-e<-c("S. Twin","2018-06-18 S. Twin 1",900/3600,0,0)
-f<-c("S. Twin","2018-06-18 S. Twin 2",900/3600,0,0)
-g<-c("S. Twin","2018-06-18 S. Twin 3",900/3600,0,0)
-h<-c("S. Twin","2018-06-18 S. Twin 4",900/3600,0,0)
+e<-c("S. Twin","2018-06-18;S. Twin;1",900/3600,0,0)
+f<-c("S. Twin","2018-06-18;S. Twin;2",900/3600,0,0)
+g<-c("S. Twin","2018-06-18;S. Twin;3",900/3600,0,0)
+h<-c("S. Twin","2018-06-18;S. Twin;4",900/3600,0,0)
 
-l<-c("S. Twin","2018-07-05 S. Twin 1",900/3600,0,0)
-m<-c("S. Twin","2018-07-05 S. Twin 3",900/3600,0,0)
+l<-c("S. Twin","2018-07-05;S. Twin;1",900/3600,0,0)
+m<-c("S. Twin","2018-07-05;S. Twin;3",900/3600,0,0)
 
-q<-c("S. Twin","2018-07-13 S. Twin 1",900/3600,0,0)
-r<-c("S. Twin","2018-07-13 S. Twin 2",900/3600,0,0)
-s<-c("S. Twin","2018-07-13 S. Twin 3",900/3600,0,0)
-t<-c("S. Twin","2018-07-13 S. Twin 4",900/3600,0,0)
+q<-c("S. Twin","2018-07-13;S. Twin;1",900/3600,0,0)
+r<-c("S. Twin","2018-07-13;S. Twin;2",900/3600,0,0)
+s<-c("S. Twin","2018-07-13;S. Twin;3",900/3600,0,0)
+t<-c("S. Twin","2018-07-13;S. Twin;4",900/3600,0,0)
 
-u<-c("S. Twin","2018-08-31 S. Twin 2",900/3600,0,0)
+u<-c("S. Twin","2018-08-31;S. Twin;2",900/3600,0,0)
 
-v<-c("S. Twin","2018-09-04 S. Twin 1",900/3600,0,0)
-w<-c("S. Twin","2018-09-04 S. Twin 4",900/3600,0,0)
+v<-c("S. Twin","2018-09-04;S. Twin;1",900/3600,0,0)
+w<-c("S. Twin","2018-09-04;S. Twin;4",900/3600,0,0)
 
-x<-c("S. Twin","2018-08-03 S. Twin 1",900/3600,0,0)
-y<-c("S. Twin","2018-08-03 S. Twin 2",900/3600,0,0)
-z<-c("S. Twin","2018-08-03 S. Twin 3",900/3600,0,0)
-aa<-c("S. Twin","2018-08-03 S. Twin 4",900/3600,0,0)
+x<-c("S. Twin","2018-08-03;S. Twin;1",900/3600,0,0)
+y<-c("S. Twin","2018-08-03;S. Twin;2",900/3600,0,0)
+z<-c("S. Twin","2018-08-03;S. Twin;3",900/3600,0,0)
+aa<-c("S. Twin","2018-08-03;S. Twin;4",900/3600,0,0)
 
-bb<-c("S. Twin","2018-08-07 S. Twin 1",900/3600,0,0)
-cc<-c("S. Twin","2018-08-07 S. Twin 2",900/3600,0,0)
-dd<-c("S. Twin","2018-08-07 S. Twin 3",900/3600,0,0)
-ee<-c("S. Twin","2018-08-07 S. Twin 4",900/3600,0,0)
+bb<-c("S. Twin","2018-08-07;S. Twin;1",900/3600,0,0)
+cc<-c("S. Twin","2018-08-07;S. Twin;2",900/3600,0,0)
+dd<-c("S. Twin","2018-08-07;S. Twin;3",900/3600,0,0)
+ee<-c("S. Twin","2018-08-07;S. Twin;4",900/3600,0,0)
 
-ff<-c("S. Twin","2018-08-14 S. Twin 1",1202/3600,0,0)
-gg<-c("S. Twin","2018-08-14 S. Twin 2",1200/3600,0,0)
-hh<-c("S. Twin","2018-08-14 S. Twin 3",1200/3600,0,0)
+ff<-c("S. Twin","2018-08-14;S. Twin;1",1202/3600,0,0)
+gg<-c("S. Twin","2018-08-14;S. Twin;2",1200/3600,0,0)
+hh<-c("S. Twin","2018-08-14;S. Twin;3",1200/3600,0,0)
 
-ii<-c("S. Twin","2018-08-17 S. Twin 2",1363/3600,0,0)
+ii<-c("S. Twin","2018-08-17;S. Twin;2",1363/3600,0,0)
 
-jj<-c("S. Twin","2018-08-15 S. Twin 1",1202/3600,0,0)
-kk<-c("S. Twin","2018-08-15 S. Twin 2",1389/3600,0,0)
-ll<-c("S. Twin","2018-08-15 S. Twin 3",1206/3600,0,0)
-mm<-c("S. Twin","2018-08-15 S. Twin 4",1200/3600,0,0)
+jj<-c("S. Twin","2018-08-15;S. Twin;1",1202/3600,0,0)
+kk<-c("S. Twin","2018-08-15;S. Twin;2",1389/3600,0,0)
+ll<-c("S. Twin","2018-08-15;S. Twin;3",1206/3600,0,0)
+mm<-c("S. Twin","2018-08-15;S. Twin;4",1200/3600,0,0)
 
 add.on<-data.frame(t(data.frame(a,b,c,d,e,f,g,h,l,m,q,r,s,t,u,v,w,x,y,z,
                            aa,bb,cc,dd,ee,ff,gg,hh,ii,jj,kk,ll,mm)),
@@ -693,11 +691,11 @@ bib.cpue<-rbind(bib.cpue,add.on)
 
 
 # carp now
-a<-c("S. Twin","2018-07-25 S. Twin 1",1204/3600,0,0)
-b<-c("S. Twin","2018-07-25 S. Twin 2",1207/3600,0,0)
-c<-c("S. Twin","2018-08-09 S. Twin 1",1471/3600,0,0)
-d<-c("S. Twin","2018-08-09 S. Twin 4",1200/3600,0,0)
-e<-c("S. Twin","2018-10-11 S. Twin 4",900/3600,0,0)
+a<-c("S. Twin","2018-07-25;S. Twin;1",1204/3600,0,0)
+b<-c("S. Twin","2018-07-25;S. Twin;2",1207/3600,0,0)
+c<-c("S. Twin","2018-08-09;S. Twin;1",1471/3600,0,0)
+d<-c("S. Twin","2018-08-09;S. Twin;4",1200/3600,0,0)
+e<-c("S. Twin","2018-10-11;S. Twin;4",900/3600,0,0)
 
 add.on<-data.frame(t(data.frame(a,b,c,d,e)),
                    stringsAsFactors = F)
@@ -718,12 +716,12 @@ coc.cpue<-rbind(coc.cpue,add.on)
 #
 # 5 CARP
 
-a<-c("Storm","2018-08-03 Storm 5", 954/3600,0,0)
-b<-c("Storm","2018-08-03 Storm 7", 445/3600,0,0)
-c<-c("Storm","2018-08-08 Storm 1", 902/3600,0,0)
-d<-c("Storm","2018-08-08 Storm 5", 804/3600,0,0)
-e<-c("Storm","2018-10-05 Storm 5", 1623/3600,0,0)
-f<-c("Storm","2018-08-08 Storm 9", 804/3600,0,0)
+a<-c("Storm","2018-08-03;Storm;5", 954/3600,0,0)
+b<-c("Storm","2018-08-03;Storm;7", 445/3600,0,0)
+c<-c("Storm","2018-08-08;Storm;1", 902/3600,0,0)
+d<-c("Storm","2018-08-08;Storm;5", 804/3600,0,0)
+e<-c("Storm","2018-10-05;Storm;5", 1623/3600,0,0)
+f<-c("Storm","2018-08-08;Storm;9", 804/3600,0,0)
 
 
 add.on<-data.frame(t(data.frame(a,b,c,d,e,f)),
@@ -738,90 +736,90 @@ str(add.on)
 coc.cpue<-rbind(coc.cpue,add.on)
 
 # 60+ buffalo
-a<-c("Storm","2018-05-21 Storm 1", 910/3600,0,0)
-b<-c("Storm","2018-05-21 Storm 2", 903/3600,0,0)
-c<-c("Storm","2018-05-21 Storm 4", 928/3600,0,0)
-d<-c("Storm","2018-05-21 Storm 5", 925/3600,0,0)
-e<-c("Storm","2018-05-21 Storm 7", 901/3600,0,0)
-f<-c("Storm","2018-05-21 Storm 9", 903/3600,0,0)
-g<-c("Storm","2018-05-21 Storm Bonus 2", 984/3600,0,0)
-h<-c("Storm","2018-05-21 Storm Bonus 3", 1022/3600,0,0)
+a<-c("Storm","2018-05-21;Storm;1", 910/3600,0,0)
+b<-c("Storm","2018-05-21;Storm;2", 903/3600,0,0)
+c<-c("Storm","2018-05-21;Storm;4", 928/3600,0,0)
+d<-c("Storm","2018-05-21;Storm;5", 925/3600,0,0)
+e<-c("Storm","2018-05-21;Storm;7", 901/3600,0,0)
+f<-c("Storm","2018-05-21;Storm;9", 903/3600,0,0)
+g<-c("Storm","2018-05-21;Storm;Bonus 2", 984/3600,0,0)
+h<-c("Storm","2018-05-21;Storm;Bonus 3", 1022/3600,0,0)
 
-i<-c("Storm","2018-06-07 Storm 1", 1205/3600,0,0)
-j<-c("Storm","2018-06-07 Storm 2", 955/3600,0,0)
-k<-c("Storm","2018-06-07 Storm 4", 863/3600,0,0)
+i<-c("Storm","2018-06-07;Storm;1", 1205/3600,0,0)
+j<-c("Storm","2018-06-07;Storm;2", 955/3600,0,0)
+k<-c("Storm","2018-06-07;Storm;4", 863/3600,0,0)
 
 
-rrr<-c("Storm","2018-06-08 Storm 1", 901/3600,0,0)
-l<-c("Storm","2018-06-08 Storm 2", 944/3600,0,0)
-m<-c("Storm","2018-06-08 Storm 4", 914/3600,0,0)
-n<-c("Storm","2018-06-08 Storm 5", 1579/3600,0,0)
-o<-c("Storm","2018-06-08 Storm 9", 1107/3600,0,0)
-p<-c("Storm","2018-06-08 Storm 10", 969/3600,0,0)
-q<-c("Storm","2018-06-08 Storm 11", 441/3600,0,0)
+rrr<-c("Storm","2018-06-08;Storm;1", 901/3600,0,0)
+l<-c("Storm","2018-06-08;Storm;2", 944/3600,0,0)
+m<-c("Storm","2018-06-08;Storm;4", 914/3600,0,0)
+n<-c("Storm","2018-06-08;Storm;5", 1579/3600,0,0)
+o<-c("Storm","2018-06-08;Storm;9", 1107/3600,0,0)
+p<-c("Storm","2018-06-08;Storm;10", 969/3600,0,0)
+q<-c("Storm","2018-06-08;Storm;11", 441/3600,0,0)
 
-r<-c("Storm","2018-06-13 Storm 2", 1418/3600,0,0)
+r<-c("Storm","2018-06-13;Storm;2", 1418/3600,0,0)
 
-s<-c("Storm","2018-06-27 Storm 1", 918/3600,0,0)
-t<-c("Storm","2018-06-27 Storm 2", 1009/3600,0,0)
-u<-c("Storm","2018-06-27 Storm 4", 1151/3600,0,0)
-v<-c("Storm","2018-06-27 Storm 8", 998/3600,0,0)
-w<-c("Storm","2018-06-27 Storm 9", 948/3600,0,0)
-x<-c("Storm","2018-06-27 Storm 10", 1279/3600,0,0)
+s<-c("Storm","2018-06-27;Storm;1", 918/3600,0,0)
+t<-c("Storm","2018-06-27;Storm;2", 1009/3600,0,0)
+u<-c("Storm","2018-06-27;Storm;4", 1151/3600,0,0)
+v<-c("Storm","2018-06-27;Storm;8", 998/3600,0,0)
+w<-c("Storm","2018-06-27;Storm;9", 948/3600,0,0)
+x<-c("Storm","2018-06-27;Storm;10", 1279/3600,0,0)
 
-y<-c("Storm","2018-07-16 Storm 1", 948/3600,0,0)
-z<-c("Storm","2018-07-16 Storm 2", 944/3600,0,0)
-aa<-c("Storm","2018-07-16 Storm 4", 959/3600,0,0)
-bb<-c("Storm","2018-07-16 Storm 5", 1089/3600,0,0)
-cc<-c("Storm","2018-07-16 Storm 9", 891/3600,0,0)
-dd<-c("Storm","2018-07-16 Storm Bonus", 3418/3600,0,0)
+y<-c("Storm","2018-07-16;Storm;1", 948/3600,0,0)
+z<-c("Storm","2018-07-16;Storm;2", 944/3600,0,0)
+aa<-c("Storm","2018-07-16;Storm;4", 959/3600,0,0)
+bb<-c("Storm","2018-07-16;Storm;5", 1089/3600,0,0)
+cc<-c("Storm","2018-07-16;Storm;9", 891/3600,0,0)
+dd<-c("Storm","2018-07-16;Storm;Bonus", 3418/3600,0,0)
 
-ee<-c("Storm","2018-07-17 Storm 3", 1952/3600,0,0)
-ff<-c("Storm","2018-07-17 Storm 4", 1484/3600,0,0)
-gg<-c("Storm","2018-07-17 Storm 5", 3079/3600,0,0)
-hh<-c("Storm","2018-07-17 Storm 6", 852/3600,0,0)
+ee<-c("Storm","2018-07-17;Storm;3", 1952/3600,0,0)
+ff<-c("Storm","2018-07-17;Storm;4", 1484/3600,0,0)
+gg<-c("Storm","2018-07-17;Storm;5", 3079/3600,0,0)
+hh<-c("Storm","2018-07-17;Storm;6", 852/3600,0,0)
 
-ii<-c("Storm","2018-07-24 Storm 1", 2491/3600,0,0)
-jj<-c("Storm","2018-07-24 Storm 2", 1510/3600,0,0)
-kk<-c("Storm","2018-07-24 Storm 3", 3818/3600,0,0)
-ll<-c("Storm","2018-07-24 Storm 4", 1729/3600,0,0)
-mm<-c("Storm","2018-07-24 Storm 5", 1648/3600,0,0)
+ii<-c("Storm","2018-07-24;Storm;1", 2491/3600,0,0)
+jj<-c("Storm","2018-07-24;Storm;2", 1510/3600,0,0)
+kk<-c("Storm","2018-07-24;Storm;3", 3818/3600,0,0)
+ll<-c("Storm","2018-07-24;Storm;4", 1729/3600,0,0)
+mm<-c("Storm","2018-07-24;Storm;5", 1648/3600,0,0)
 
-nn<-c("Storm","2018-07-31 Storm 1", 3555/3600,0,0)
-oo<-c("Storm","2018-07-31 Storm 2", 3225/3600,0,0)
-pp<-c("Storm","2018-07-31 Storm 3", 3671/3600,0,0)
-qq<-c("Storm","2018-07-31 Storm 4", 3717/3600,0,0)
-rr<-c("Storm","2018-07-31 Storm 5", 1648/3600,0,0)
+nn<-c("Storm","2018-07-31;Storm;1", 3555/3600,0,0)
+oo<-c("Storm","2018-07-31;Storm;2", 3225/3600,0,0)
+pp<-c("Storm","2018-07-31;Storm;3", 3671/3600,0,0)
+qq<-c("Storm","2018-07-31;Storm;4", 3717/3600,0,0)
+rr<-c("Storm","2018-07-31;Storm;5", 1648/3600,0,0)
 
-ss<-c("Storm","2018-08-03 Storm 5", 954/3600,0,0)
-tt<-c("Storm","2018-08-03 Storm 7", 445/3600,0,0)
-uu<-c("Storm","2018-08-03 Storm 4", 955/3600,0,0)
-vv<-c("Storm","2018-08-03 Storm 9", 822/3600,0,0)
-ww<-c("Storm","2018-08-03 Storm 2", 914/3600,0,0)
+ss<-c("Storm","2018-08-03;Storm;5", 954/3600,0,0)
+tt<-c("Storm","2018-08-03;Storm;7", 445/3600,0,0)
+uu<-c("Storm","2018-08-03;Storm;4", 955/3600,0,0)
+vv<-c("Storm","2018-08-03;Storm;9", 822/3600,0,0)
+ww<-c("Storm","2018-08-03;Storm;2", 914/3600,0,0)
 
-xx<-c("Storm","2018-08-08 Storm 9", 804/3600,0,0)
-yy<-c("Storm","2018-08-08 Storm 7", 999/3600,0,0)
-zz<-c("Storm","2018-08-08 Storm 1", 804/3600,0,0)
-aaa<-c("Storm","2018-08-08 Storm 2", 948/3600,0,0)
-bbb<-c("Storm","2018-08-08 Storm 4", 889/3600,0,0)
-ccc<-c("Storm","2018-08-08 Storm 5", 956/3600,0,0)
-ddd<-c("Storm","2018-08-08 Storm Bonus 1", 933/3600,0,0)
+xx<-c("Storm","2018-08-08;Storm;9", 804/3600,0,0)
+yy<-c("Storm","2018-08-08;Storm;7", 999/3600,0,0)
+zz<-c("Storm","2018-08-08;Storm;1", 804/3600,0,0)
+aaa<-c("Storm","2018-08-08;Storm;2", 948/3600,0,0)
+bbb<-c("Storm","2018-08-08;Storm;4", 889/3600,0,0)
+ccc<-c("Storm","2018-08-08;Storm;5", 956/3600,0,0)
+ddd<-c("Storm","2018-08-08;Storm;Bonus 1", 933/3600,0,0)
 
-eee<-c("Storm","2018-08-14 Storm 2", 2649/3600,0,0)
-fff<-c("Storm","2018-08-14 Storm 3", 1847/3600,0,0)
-ggg<-c("Storm","2018-08-14 Storm 4", 1552/3600,0,0)
+eee<-c("Storm","2018-08-14;Storm;2", 2649/3600,0,0)
+fff<-c("Storm","2018-08-14;Storm;3", 1847/3600,0,0)
+ggg<-c("Storm","2018-08-14;Storm;4", 1552/3600,0,0)
 
-hhh<-c("Storm","2018-09-09 Storm 1", 903/3600,0,0)
-iii<-c("Storm","2018-09-09 Storm 4", 866/3600,0,0)
-jjj<-c("Storm","2018-09-09 Storm 5", 1040/3600,0,0)
-kkk<-c("Storm","2018-09-09 Storm 9", 902/3600,0,0)
+hhh<-c("Storm","2018-09-09;Storm;1", 903/3600,0,0)
+iii<-c("Storm","2018-09-09;Storm;4", 866/3600,0,0)
+jjj<-c("Storm","2018-09-09;Storm;5", 1040/3600,0,0)
+kkk<-c("Storm","2018-09-09;Storm;9", 902/3600,0,0)
 
-lll<-c("Storm","2018-10-05 Storm 1", 945/3600,0,0)
-mmm<-c("Storm","2018-10-05 Storm 2", 828/3600,0,0)
-nnn<-c("Storm","2018-10-05 Storm 4", 867/3600,0,0)
-ooo<-c("Storm","2018-10-05 Storm 5", 1623/3600,0,0)
-ppp<-c("Storm","2018-10-05 Storm 7", 1230/3600,0,0)
-qqq<-c("Storm","2018-10-05 Storm 9", 944/3600,0,0)
+lll<-c("Storm","2018-10-05;Storm;1", 945/3600,0,0)
+mmm<-c("Storm","2018-10-05;Storm;2", 828/3600,0,0)
+nnn<-c("Storm","2018-10-05;Storm;4", 867/3600,0,0)
+ooo<-c("Storm","2018-10-05;Storm;5", 1623/3600,0,0)
+ppp<-c("Storm","2018-10-05;Storm;7", 1230/3600,0,0)
+qqq<-c("Storm","2018-10-05;Storm;9", 944/3600,0,0)
 
 add.on<-data.frame(t(data.frame(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,
                            aa,bb,cc,dd,ee,ff,gg,hh,ii,jj,kk,ll,mm,nn,oo,pp,qq,rr,ss,tt,uu,vv,ww,xx,yy,zz,
@@ -847,6 +845,15 @@ setdiff(bib.cpue$DLR,coc.cpue$DLR) # entries in bib not in coc
 
 ```
 
+```{r}
+#
+#   checking to see if I can split up DLR now
+coc.cpue$DLR<-as.character(coc.cpue$DLR)
+coc.cpue2<-data.frame(unlist(strsplit(coc.cpue$DLR,
+                    split = c("[-]","[-]","[;]",";"))))
+
+do.call(rbind,coc.cpue2)
+```
 
 
 
@@ -911,7 +918,7 @@ summary(DF)
 
 DF$BuffBM.LL[DF$BuffBM.LL <= 0 ]<-0
 DF$BuffDensity.LL[DF$BuffDensity.LL <=0]<-0
-
+#write.csv(DF,"2018BiomassCPUEtable.csv")
 ```
 
 Pat yourself on the back! we are in business. Now to build A plot
