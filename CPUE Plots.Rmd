@@ -849,10 +849,11 @@ setdiff(bib.cpue$DLR,coc.cpue$DLR) # entries in bib not in coc
 #
 #   checking to see if I can split up DLR now
 coc.cpue$DLR<-as.character(coc.cpue$DLR)
-coc.cpue2<-data.frame(unlist(strsplit(coc.cpue$DLR,
-                    split = c("[-]","[-]","[;]",";"))))
+coc.cpue2<-data.frame(do.call(rbind,strsplit(coc.cpue$DLR,
+                                      "\\-|\\-|\\;|\\;")))
+# need to adjust column names then we are in business
 
-do.call(rbind,coc.cpue2)
+coc.cpue2
 ```
 
 
