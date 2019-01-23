@@ -852,11 +852,32 @@ coc.cpue$DLR<-as.character(coc.cpue$DLR)
 coc.cpue2<-data.frame(do.call(rbind,strsplit(coc.cpue$DLR,
                                       "\\-|\\-|\\;|\\;")))
 # need to adjust column names then we are in business
-
+colnames(coc.cpue2)<-c("Year","Month","Day","Lake","Run")
 coc.cpue2
+
+
+# buffalo
+bib.cpue$DLR<-as.character(bib.cpue$DLR)
+bib.cpue2<-data.frame(do.call(rbind,strsplit(bib.cpue$DLR,
+                                      "\\-|\\-|\\;|\\;")))
+# need to adjust column names then we are in business
+colnames(bib.cpue2)<-c("Year","Month","Day","Lake","Run")
+
+# Join it up like Bob Marley
+final1<-data.frame(c(coc.cpue2,coc.cpue[,3:5]))
+final1$Species<-"COC"
+final2<-data.frame(c(bib.cpue2,bib.cpue[,3:5]))
+final2$Species<-"BIB"
+
+final<-rbind(final1,final2)
+
 ```
+- writing .csv at this point. 
+going to finish summary stats and plotting in 2019 annual report file
 
-
+```{r}
+write.csv(final, "2018 Raw CPUE Data.csv")
+```
 
 
 

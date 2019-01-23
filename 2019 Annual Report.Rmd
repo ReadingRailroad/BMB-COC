@@ -566,25 +566,84 @@ after January project update meeting:
 
 ```{r}
 # front matter
-DF<-read.csv("2018BiomassCPUEtable.csv",header=T)
+DF<-read.csv("2018 Raw CPUE Data.csv",header=T)
 str(DF)
 DF<-DF[,-1]
+DF[,1]<-as.factor(as.character(DF[,1]))
+DF[,2]<-as.factor(DF[,2])
+DF[,3]<-as.factor(as.character(DF[,3]))
+DF$n<-as.numeric(DF$n)
+
+summary(DF)
 ```
 
 more specifically, let's say that I should
 (1) plot with month as discrete x variable and CPUE as y axis variable and 6-7 dots for each month. BONUS if I can add the variance. side by side for each species
 
 ```{r}
+# 95% CI stats... 
+CI95<-groupwiseMean(cpue ~ Lake + Month + Species,
+                    data = DF,
+                    conf = 0.95,
+                    digits = 3)
+# results in lots of negative numbers for confidence interval, especially in late fall :(
+
+CI95.plot<-ggplot(CI95, aes(x=Month, y=Mean))+
+  geom_jitter(aes(colour = Species, shape = Species),
+              size=2, width = 0.2)+
+  theme_bw()+
+  theme(legend.position = c(.8,.8),
+        legend.title = element_text(size=12,face="bold"))
+CI95.plot
+
+CI95.boxplot<-ggplot(CI95, aes(x=Month, y=Mean))+
+  geom_boxplot(aes(colour = Species),
+              size=1)+
+  theme_bw()+
+  theme(legend.position = c(.8,.8),
+        legend.title = element_text(size=12,face="bold"))
+CI95.boxplot
+
+# split by lake, and using entire df for more accurate distribution
+
+DF.plot<-ggplot(DF, aes(x=Month, y=cpue))+
+  geom_boxplot(aes(colour = Species),
+              size=1)+
+  theme_bw()+
+  theme(legend.position = c(.9,.9),
+        legend.title = element_text(size=12,face="bold"))+
+    facet_grid(Lake ~ .)
 
 
+DF.plot
+
+# try again without blue
+DF2<-subset(DF, Lake != "Blue")
+
+DF2.plot<-ggplot(DF2, aes(x=Month, y=cpue))+
+  geom_boxplot(aes(colour = Species),
+              size=1)+
+  theme_bw()+
+  theme(legend.position = c(.9,.9),
+        legend.title = element_text(size=12,face="bold"))+
+    facet_grid(Lake ~ .)
 
 
-
+DF2.plot
 ```
+- come back to these. show mike and ask. 
 
-(2) stacked plots with each month as a panel in one column, biomass density on x axis and CPUE in the multiple y-axes. side by side for each species first but also split by STD and Run-n-Gun within each species.  
+
+
+
+(2) stacked plots with each month as a panel in one column, biomass density on x axis and CPUE in the multiple y-axes. side by side for each species first but maybe also split by STD and Run-n-Gun within each species.  
 
 ```{r}
+# step 1 add biomass density with density limits
+
+
+
+
 
 ```
 
