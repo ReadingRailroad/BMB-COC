@@ -50,6 +50,7 @@ packages(wesanderson)
 packages(doBy)
 packages(dplyr)
 packages(tidyr)
+packages(rcompanion)
 ```
 
 # DNR Permit data
@@ -631,6 +632,7 @@ DF2.plot<-ggplot(DF2, aes(x=Month, y=cpue))+
 
 DF2.plot
 ```
+
 - come back to these. show mike and ask. 
 
 
@@ -639,25 +641,162 @@ DF2.plot
 (2) stacked plots with each month as a panel in one column, biomass density on x axis and CPUE in the multiple y-axes. side by side for each species first but maybe also split by STD and Run-n-Gun within each species.  
 
 ```{r}
+# loading in data frame
+denframe<-read.csv("2018_BiomassDensityEstimates.csv",header=T)
+denframe[,1]<-factor(c("Blue","Center","5 Island","N. Twin","S. Twin","Silver","Storm"))
+head(denframe)
+str(denframe)
+
+# CarpBiomass - avg from 2018 length specific biomass density estimates (IN POUNDS)
+BM<-denframe
+colnames(BM)[1] <- "Lake"
+
+# adding carp
+BM$CarpN <- c(72140,6466,25798,3816,9755,20661,9251) # est carp abundance for 7 lakes as of 12/18/2018
+
+# Buff pop estimates
+BM$BuffN<- c(NA,3530,2300,18776,12486,34278,13724)
+
+
 # step 1 add biomass density with density limits
+# probably using Merge?
+head(BM)
+head(CI95)
+# meh I'll just subset rather than wrangle another function
+#                     lower biomass density limit - carp
+CI95$L.BMD[CI95$Lake == "Blue" &
+             CI95$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "Blue"]
+CI95$L.BMD[CI95$Lake == "5 Island" &
+             CI95$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "5 Island"]
+CI95$L.BMD[CI95$Lake == "Center" &
+             CI95$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "Center"]
+CI95$L.BMD[CI95$Lake == "N. Twin" &
+             CI95$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "N. Twin"]
+CI95$L.BMD[CI95$Lake == "Silver" &
+             CI95$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "Silver"]
+CI95$L.BMD[CI95$Lake == "S. Twin" &
+             CI95$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "S. Twin"]
+CI95$L.BMD[CI95$Lake == "Storm" &
+             CI95$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "Storm"]
+                                                     
+
+#                     biomass density estimate - carp
+CI95$BMD[CI95$Lake == "Blue" &
+             CI95$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "Blue"]
+CI95$BMD[CI95$Lake == "5 Island" &
+             CI95$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "5 Island"]
+CI95$BMD[CI95$Lake == "Center" &
+             CI95$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "Center"]
+CI95$BMD[CI95$Lake == "N. Twin" &
+             CI95$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "N. Twin"]
+CI95$BMD[CI95$Lake == "Silver" &
+             CI95$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "Silver"]
+CI95$BMD[CI95$Lake == "S. Twin" &
+             CI95$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "S. Twin"]
+CI95$BMD[CI95$Lake == "Storm" &
+             CI95$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "Storm"]
 
 
+#                     upper biomass density estimate - carp
+CI95$U.BMD[CI95$Lake == "Blue" &
+             CI95$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "Blue"]
+CI95$U.BMD[CI95$Lake == "5 Island" &
+             CI95$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "5 Island"]
+CI95$U.BMD[CI95$Lake == "Center" &
+             CI95$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "Center"]
+CI95$U.BMD[CI95$Lake == "N. Twin" &
+             CI95$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "N. Twin"]
+CI95$U.BMD[CI95$Lake == "Silver" &
+             CI95$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "Silver"]
+CI95$U.BMD[CI95$Lake == "S. Twin" &
+             CI95$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "S. Twin"]
+CI95$U.BMD[CI95$Lake == "Storm" &
+             CI95$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "Storm"]
+
+############################################################################
+#                     lower biomass density limit - BUFFALO
+CI95$L.BMD[CI95$Lake == "Blue" &
+             CI95$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "Blue"]
+CI95$L.BMD[CI95$Lake == "5 Island" &
+             CI95$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "5 Island"]
+CI95$L.BMD[CI95$Lake == "Center" &
+             CI95$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "Center"]
+CI95$L.BMD[CI95$Lake == "N. Twin" &
+             CI95$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "N. Twin"]
+CI95$L.BMD[CI95$Lake == "Silver" &
+             CI95$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "Silver"]
+CI95$L.BMD[CI95$Lake == "S. Twin" &
+             CI95$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "S. Twin"]
+CI95$L.BMD[CI95$Lake == "Storm" &
+             CI95$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "Storm"]
+                                                     
+
+#                     biomass density estimate - BUFFALO
+CI95$BMD[CI95$Lake == "Blue" &
+             CI95$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "Blue"]
+CI95$BMD[CI95$Lake == "5 Island" &
+             CI95$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "5 Island"]
+CI95$BMD[CI95$Lake == "Center" &
+             CI95$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "Center"]
+CI95$BMD[CI95$Lake == "N. Twin" &
+             CI95$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "N. Twin"]
+CI95$BMD[CI95$Lake == "Silver" &
+             CI95$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "Silver"]
+CI95$BMD[CI95$Lake == "S. Twin" &
+             CI95$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "S. Twin"]
+CI95$BMD[CI95$Lake == "Storm" &
+             CI95$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "Storm"]
 
 
+#                     upper biomass density estimate - BUFFALO
+CI95$U.BMD[CI95$Lake == "Blue" &
+             CI95$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "Blue"]
+CI95$U.BMD[CI95$Lake == "5 Island" &
+             CI95$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "5 Island"]
+CI95$U.BMD[CI95$Lake == "Center" &
+             CI95$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "Center"]
+CI95$U.BMD[CI95$Lake == "N. Twin" &
+             CI95$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "N. Twin"]
+CI95$U.BMD[CI95$Lake == "Silver" &
+             CI95$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "Silver"]
+CI95$U.BMD[CI95$Lake == "S. Twin" &
+             CI95$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "S. Twin"]
+CI95$U.BMD[CI95$Lake == "Storm" &
+             CI95$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "Storm"]
+
+############################################
+# Lake = Lake 
+# Month = month number
+# Species = binary
+# n = number of transects
+# mean = mean cpue for that month (# fish per hour)
+# conf.level = our alpha is 0.05
+# Trad.lower = lower ci for monthly cpue
+# Trad.upper = upper ci for monthly cpue
+# L.BMD = lower biomass density estimate
+# BMD = biomass density estimate in lbs per acre
+# U.BMD = upper biomass density estimate
+#############################################
 
 ```
 
+- plots
+-- x axis: biomass density in lbs/acre
+-- y axis: CPUE in fish/hour
+-- vertical panels: month
+
+dot for each lake in each month
+
+regressions may be pointless and cumbersome, ask MJW
+```{r}
+
+BMD.plot<-ggplot(CI95, aes(x=BMD,y=mean))+
+                  geom_point(size=2)+
+                  facet_grid(Lake~Species)
 
 
-
-
-
-
-
-
-
-
-
+BMD.plot
+```
 
 
 

@@ -880,8 +880,6 @@ write.csv(final, "2018 Raw CPUE Data.csv")
 ```
 
 
-
-
 ```{r,}
 # need a boxplot of CPUE for each lake apparently. Let's see:
 
