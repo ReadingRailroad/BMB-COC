@@ -1049,9 +1049,6 @@ p2
 
 
 
-
-
-
 #################################################################################
 # Changes in biomass and biomass density following harvest in center lake
 
@@ -1151,6 +1148,11 @@ grid.arrange(coc.bm,
 
 # Plot of species diversity
 - side by side plot, number of species on y axis lake on x axis and filled with EF vs. fyke in a stacked barplot
+
+- update 1-25-2019
+-- need to find some target species that we hypothesize will respond to harvest
+-- need to come up with some of those metrics (Wr, size structure, cpue, PSD, etc)
+-- 
 
 ```{r}
 diversity<-read.csv("2018_COC_BIB_CMR_Data.csv", header = T)
