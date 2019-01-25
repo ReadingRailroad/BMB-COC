@@ -807,25 +807,24 @@ BMD.plot
 # Without blue lake in may
 CI95.b<-CI95[-13,]
 BMD.plot2<-ggplot(CI95.b, aes(x=CI95.b[,10],y=CI95.b[,5]))+
-                  geom_point(aes(colour=Species, shape = c(0,1,2,3,4,7,8)),size=3)+
-                  scale_shape(solid=F)+
-                  facet_grid(Month~.)+
+                  geom_point(aes(shape = Lake),size=3)+
+                  scale_shape_manual(values = c(2,4,7,8,15,16,17))+
+                  facet_grid(Month~Species)+
                   labs( x = "Biomass Density (lbs./acre)",
                         y = "Mean Electrofishing CPUE (Fish/Hour)",
                         title = "Electrofishing CPUE vs. Biomass Density")+
-                  theme_bw()
+                  theme(panel.grid.major = element_blank(), 
+                       panel.grid.minor = element_blank(),
+                       panel.background = element_rect(fill="white",colour="grey50"), 
+                       axis.line = element_line(colour = "black"))
 
 
 BMD.plot2
 
 ```
 - decent at this point. 
-
-
-
-
-
-
+-- could change month numbers to three letter abbreviations
+change back from BW to have more fun
 
 
 
@@ -836,6 +835,11 @@ BMD.plot2
 - plot lakes on x axis, total harvest in lbs on y axis, species as paired bars
 - plot lakes on x axis, removal rate in lbs/acre on y axis, species as paired bars
 
+- these two plots were accepted at the annual report meeting Jan 2019 but:
+-- want to adjust harvests to follow season (Oct to May annually) and not split by calendar year
+-- I'm going to split these up so that we can have some idea of historical harvest on the lakes
+------- (2015 to 2018)
+-- then copy for standardized?
 
 ```{r}
 harvest<-read.csv("Harvest_2018_Only.csv")
@@ -869,6 +873,7 @@ harvest$Removal<-harvest$Pounds/harvest$Acres
 
 
 ```
+
 
 ```{r}
 #########################################
@@ -912,6 +917,140 @@ grid.arrange(tot.harvest,
              ncol = 2)
 
 ```
+
+#######################################################################
+Update to plots from Jan 2019 meeting
+```{r,}
+harvest<-read.csv("Harvest 2015 to 2018.csv")
+str(harvest)
+harvest<-harvest[,-c(2)]
+harvest$Year<-factor(harvest$Year)
+#harvest$Month<-factor(harvest$Month) - - - - - - - - - - - - maybe easier subsetting later
+harvest$Harvest<-as.numeric(as.character(harvest$Harvest))
+str(harvest)
+
+
+
+
+#Drop lakes
+levels(harvest$Lake)
+harvest<-droplevels(subset(harvest, Lake == "Center Lake" |
+                         Lake == "Five Island Lake" |
+                         Lake == "Silver Lake (Dickinson)" ))
+
+#drop freshwater drum
+harvest<-droplevels(subset(harvest, Species == "CAP"|
+                                    Species == "BMB"))
+
+# correct the species names for later plotting
+harvest$Species<-as.character(harvest$Species)
+harvest$Species[harvest$Species == "CAP"] <- "Common Carp"
+harvest$Species[harvest$Species == "BMB"] <- "Bigmouth Buffalo"
+harvest$Species<-factor(harvest$Species)
+
+# add acrage
+harvest$Acres[harvest$Lake == "Center Lake"] <- 220
+harvest$Acres[harvest$Lake == "Five Island Lake"] <- 973
+harvest$Acres[harvest$Lake == "Silver Lake (Dickinson)"] <- 1066
+
+# shorten silver lake name
+harvest$Lake<-as.character(harvest$Lake)
+harvest$Lake[harvest$Lake == "Silver Lake (Dickinson)"] <- "Silver Lake"
+harvest$Lake<-factor(harvest$Lake)
+
+
+# add column for pounds removed per acre
+harvest$Removal<-harvest$Harvest/harvest$Acres
+
+##################################
+# Lake: factor of lakes with harvest 2015 to 2018
+# Year: factor of year
+# Month: factor of months sampled (numeric) 
+# Harvest: total removal in pounds
+# Acres: lake area in acres
+# Removal: standardized rough fish removal in pounds per acre
+#################################
+```
+
+- need to adjust DF so that we have another column representing a season. 
+-- maybe like "15-16" could represent fall 15 and spring 16 harvest. Eh?
+```{r}
+# re-categorizing
+
+# Adding Season column to combine harvests across calendar years.
+summary(harvest$Month)
+harvest$Season[harvest$Year == "2014" &
+               harvest$Month >= 7 |
+               harvest$Year == "2015" &
+               harvest$Month <= 6]  <- "14-15"
+
+harvest$Season[harvest$Year == "2015" &
+               harvest$Month >= 7 |
+               harvest$Year == "2016" &
+               harvest$Month <= 6]  <- "15-16"
+
+harvest$Season[harvest$Year == "2016" &
+               harvest$Month >= 7 |
+               harvest$Year == "2017" &
+               harvest$Month <= 6]  <- "16-17"
+
+harvest$Season[harvest$Year == "2017" &
+               harvest$Month >= 7 |
+               harvest$Year == "2018" &
+               harvest$Month <= 6]  <- "17-18"
+
+harvest$Season[harvest$Year == "2018" &
+               harvest$Month >= 7 |
+               harvest$Year == "2019" &
+               harvest$Month <= 6]  <- "18-19"
+
+!is.na(harvest$Season)
+levels(harvest$Lake)
+```
+
+- Plot it! 
+-- Lakes (3) on x-axis
+-- lbs on y axis (lbs/acre on other y axis)
+-- Each season is a new bar for each lake
+-- perhaps stack based on Species??
+-- then again with Removal on y axis
+
+```{r}
+p1<-ggplot(harvest,aes(x=Season, y=Harvest, fill = Species))+
+           geom_bar(stat="identity",position="Dodge")+
+           facet_wrap(.~Lake)+
+           theme(panel.grid.major = element_blank(), 
+                panel.grid.minor = element_blank(),
+                panel.background = element_rect(fill="white",colour="grey50"), 
+                axis.line = element_line(colour = "black"),
+                legend.position = "bottom")+
+           labs(title = "Total Commercial Harvest 2015-2018",
+                x = "Harvest Season",
+                y = "Harvest (lbs)")
+           
+p1
+
+p2<-ggplot(harvest,aes(x=Season, y=Removal, fill = Species))+
+           geom_bar(stat="identity",position="Dodge")+
+           facet_wrap(.~Lake)+
+           theme(panel.grid.major = element_blank(), 
+                panel.grid.minor = element_blank(),
+                panel.background = element_rect(fill="white",colour="grey50"), 
+                axis.line = element_line(colour = "black"),
+                legend.position = "bottom",
+                legend.background = element_rect(colour="grey20"))+
+           labs(title = "Commercial Harvest Removal Rate 2015-2018",
+                x = "Harvest Season",
+                y = "Harvest Removal Rate (lbs/acre)")
+           
+p2
+```
+
+
+
+
+
+
 
 #################################################################################
 # Changes in biomass and biomass density following harvest in center lake
