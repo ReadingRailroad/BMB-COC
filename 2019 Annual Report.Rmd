@@ -643,7 +643,7 @@ DF2.plot
 ```{r}
 # loading in data frame
 denframe<-read.csv("2018_BiomassDensityEstimates.csv",header=T)
-denframe[,1]<-factor(c("Blue","Center","5 Island","N. Twin","S. Twin","Silver","Storm"))
+denframe[,1]<-factor(c("Blue","Center","5 Island","N. Twin","Silver","S. Twin","Storm"))
 head(denframe)
 str(denframe)
 
@@ -788,16 +788,38 @@ CI95$U.BMD[CI95$Lake == "Storm" &
 dot for each lake in each month
 
 regressions may be pointless and cumbersome, ask MJW
-```{r}
 
-BMD.plot<-ggplot(CI95, aes(x=BMD,y=mean))+
-                  geom_point(size=2)+
-                  facet_grid(Lake~Species)
+__removing only the blue lake may observation of cpue__ so we can have the other non-oulier months of blue lake sampling but a y-axis that tops out at 300 not 1000. 
+
+```{r}
+head(CI95)
+
+
+
+
+BMD.plot<-ggplot(CI95, aes(x=CI95[,10],y=CI95[,5]))+
+                  geom_point(aes(colour=Species, shape = Lake),size=2)+
+                  facet_grid(Month~.)
 
 
 BMD.plot
-```
 
+# Without blue lake in may
+CI95.b<-CI95[-13,]
+BMD.plot2<-ggplot(CI95.b, aes(x=CI95.b[,10],y=CI95.b[,5]))+
+                  geom_point(aes(colour=Species, shape = c(0,1,2,3,4,7,8)),size=3)+
+                  scale_shape(solid=F)+
+                  facet_grid(Month~.)+
+                  labs( x = "Biomass Density (lbs./acre)",
+                        y = "Mean Electrofishing CPUE (Fish/Hour)",
+                        title = "Electrofishing CPUE vs. Biomass Density")+
+                  theme_bw()
+
+
+BMD.plot2
+
+```
+- decent at this point. 
 
 
 

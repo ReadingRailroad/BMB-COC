@@ -84,7 +84,7 @@ then subset with just COC and BIB, drop NAs, create length bins, and bin-specifi
 # Carp:
 Blue.coc<-subset(Blue, Species =="COC")
 Blue.coc<-subset(Blue.coc, !is.na(Blue.coc$Length..mm.))
-
+summary(Blue.coc$Weight..g.)
 #Buffalo not needed for Blue
 
 #25mm bins
@@ -179,7 +179,7 @@ B.U.BMDensity<-NA
 Blue.BM.Density<-c(C.L.BM,C.BM,C.U.BM,C.L.BMDensity,C.BMDensity,C.U.BMDensity,
                    B.L.BM,B.BM,B.U.BM,B.L.BMDensity,B.BMDensity,B.U.BMDensity)
 
-
+Blue.BM.Density
 ```
 
 #Center
@@ -364,6 +364,7 @@ Center.BM.Density<-c(C.L.BM,C.BM,C.U.BM,C.L.BMDensity,C.BMDensity,C.U.BMDensity,
                    B.L.BM,B.BM,B.U.BM,B.L.BMDensity,B.BMDensity,B.U.BMDensity)
 
 
+Center.BM.Density
 
 ```
 
@@ -760,9 +761,6 @@ B.BM<-sum(NTwin.bib.50$BMest/453.592)
 ```
 
 
-
-
-
 #Silver
 ```{r,}
 
@@ -949,8 +947,8 @@ B.BM<-sum(Silver.bib.50$BMest/453.592)
 Silver.bib.50$UpperBM<-Silver.bib.50$percent * Silver.bib.50$mweight * 34068 # multiply fraction, mean weight, upper pop.
 B.U.BM<-sum(Silver.bib.50$UpperBM/453.592)
 
-B.L.BMDensity<-C.L.BM/1041
-B.BMDensity<-C.BM/1041
+B.L.BMDensity<-B.L.BM/1041
+B.BMDensity<-B.BM/1041
 B.U.BMDensity<-B.U.BM/1041
 
 
@@ -999,6 +997,12 @@ STwin.COC.50 <- STwin.coc %>%
 #STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 50 & Length..mm. < 100 & !is.na(Weight..g.))
 #w1<-mean(STwin.coc.temp$Weight..g.)
 
+STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 150 & Length..mm. < 200 & !is.na(Weight..g.))
+w00<-mean(STwin.coc.temp$Weight..g.)
+
+STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 200 & Length..mm. < 250 & !is.na(Weight..g.))
+w0<-mean(STwin.coc.temp$Weight..g.)
+
 STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 250 & Length..mm. < 300 & !is.na(Weight..g.))
 w1<-mean(STwin.coc.temp$Weight..g.)
 
@@ -1032,7 +1036,7 @@ w9<-mean(STwin.coc.temp$Weight..g.)
 STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 750 & Length..mm. < 800 & !is.na(Weight..g.))
 w11<-mean(STwin.coc.temp$Weight..g.)
 
-STwin.COC.50$mweight<-c(w1,w2,w3,w4,w5,w6,w6,w6,w9,w9,w9)
+STwin.COC.50$mweight<-c(w1,w1,w1,w2,w3,w4,w5,w6,w6,w6,w9,w9,w9)
 
 # Now Buffalo
 
