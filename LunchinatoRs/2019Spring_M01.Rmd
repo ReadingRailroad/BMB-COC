@@ -1,0 +1,24 @@
+---
+title: "RStudio Conference"
+author: "Marty Simonson"
+date: "January 25, 2019"
+output: pdf_document
+---
+
+# Tidyverse
+R for data science by hadley wickam
+
+_gt_ package for tables: really nice table function from github
+__gganimate__  for moving figures: animated plots (example on lunchinators github)
+__here__ for working directory things (why should I use the here package)
+__tidymodels__ loads family of packages (rsample, recipes, caret...) in the github repository (broom takes model output and makes it tidy)
+__rayshader__ package for elevation mapping
+
+
+## Nesting and mapping
+for adjusting tibbles within tibbles
+"map" is part of purrr
+            look for purrr cheatsheet
+            
+
+
