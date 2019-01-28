@@ -1061,6 +1061,68 @@ p2<-ggplot(harvest,aes(x=Season, y=Removal, fill = Species))+
 p2
 ```
 
+# Von Bertalanffy Growth Curves
+```{r}
+packages(FSAdata)
+packages(nlstools)
+data(Croaker2)
+crm<-Subset(Croaker2, sex == "M")
+
+# starting points, infinite length at age, and growth rate K
+svTypical<-vbStarts(tl~age,data=crm)
+unlist(svTypical)
+svTypical<-list(Linf=376,K=0.3,t0=-1.8)
+
+vbTypical <- tl~Linf*(1-exp(-K*(age-t0)))
+fitTypical <- nls(vbTypical,data=crm,start=svTypical)
+
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",main = "")
+overview(fitTypical)
+
+bootTypical <- nlsBoot(fitTypical,niter=200)
+ests <- data.frame(bootTypical$coefboot)
+pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(8-ests[,"t0"])))
+quantile(pv,c(0.025,0.975))
+
+
+
+# plot with CIs
+ages2plot<- 0:15
+fitPlot(fitTypical,xlab="Age",ylab = "Total Length (mm)",
+        xlim = range(ages2plot),main="")
+LCI<- UCI <- numeric(length(ages2plot))
+
+for (i in 1:length(ages2plot)) {
+  pv<-ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
+  LCI[i] <- quantile(pv,0.025)
+  UCI[i] <- quantile(pv,0,975)
+}
+
+lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+
+# plot with two CIs 90 and 95
+LCI <- UCI <- LPI <- UPI <- numeric(length(ages2plot))
+for (i in 1:length(ages2plot)) {
+    pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
+    LCI[i] <- quantile(pv,0.025)
+    UCI[i] <- quantile(pv,0.975)
+    LPI[i] <- quantile(pv-bootTypical$rse,0.025)
+    UPI[i] <- quantile(pv+bootTypical$rse,0.975)
+}
+lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+lines(UPI~ages2plot,type="l",col="red",lwd=2,lty=2)
+lines(LPI~ages2plot,type="l",col="red",lwd=2,lty=2)
+
+```
+
+- now I need to apply the above example code to my data
+- find most accurate age estimate file, read it in, and start a plot
+
+```{r}
+
+```
 
 
 
@@ -1167,7 +1229,11 @@ grid.arrange(coc.bm,
 - update 1-28-2019
 -- need to find some target species that we hypothesize will respond to harvest
 -- need to come up with some of those metrics (Wr, size structure, cpue, PSD, etc)
+<<<<<<< HEAD
 -- Decide what's most meaningful for annual report!
+=======
+-- Maybe just most common sportfish species (age structures collected)
+>>>>>>> 202a0ead5f86acadfda35ae8776eea551802ef7d
 
 ## Species Diversity
 ```{r}
