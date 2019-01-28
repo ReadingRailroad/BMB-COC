@@ -199,7 +199,7 @@ Storm<-subset(dframe, Lake == "Storm")
 # subsetting species
 df<-subset(dframe, !is.na(Length..mm.) & Species == "COC" |
                    !is.na(Length..mm.) & Species == "BIB")
-#df<-subset(df, Lake != "Blue")
+df<-subset(df, Lake != "Blue")
 
 df.m<-melt(df)
 
@@ -208,7 +208,7 @@ all.lakes.lf2018<-ggplot(df.m, aes(x=value, fill = Gear))+
                                         colour = "black",
                                         position = "stack")+
                          coord_cartesian(xlim = c(0,1000))+
-                         scale_y_continuous(limits = c(0,700))+
+                         scale_y_continuous(limits = c(0,200))+
                          facet_grid(vars(Species), vars(Lake))+
                          theme(panel.grid.major = element_blank(), 
                               panel.grid.minor = element_blank(),
@@ -216,7 +216,7 @@ all.lakes.lf2018<-ggplot(df.m, aes(x=value, fill = Gear))+
                               axis.line = element_line(colour = "black"),
                               legend.position = "bottom",
                               legend.background = element_rect(colour="grey20"))+
-                         labs(title = "2018 Length Frequencies",
+                         labs(title = "2018 Length Frequencies without blue lake",
                               x = "Length (mm)",
                               y = "Frequency")
 
@@ -1121,6 +1121,20 @@ lines(LPI~ages2plot,type="l",col="red",lwd=2,lty=2)
 - find most accurate age estimate file, read it in, and start a plot
 
 ```{r}
+# read in data
+
+
+
+# Subset by a lake
+
+
+# vbStarts and function variables
+
+
+
+# Plots
+
+
 
 ```
 
