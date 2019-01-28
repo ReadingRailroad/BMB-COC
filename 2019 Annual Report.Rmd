@@ -199,7 +199,7 @@ Storm<-subset(dframe, Lake == "Storm")
 # subsetting species
 df<-subset(dframe, !is.na(Length..mm.) & Species == "COC" |
                    !is.na(Length..mm.) & Species == "BIB")
-df<-subset(df, Lake != "Blue")
+#df<-subset(df, Lake != "Blue")
 
 df.m<-melt(df)
 
@@ -208,10 +208,14 @@ all.lakes.lf2018<-ggplot(df.m, aes(x=value, fill = Gear))+
                                         colour = "black",
                                         position = "stack")+
                          coord_cartesian(xlim = c(0,1000))+
-                         scale_y_continuous(limits = c(0,200))+
+                         scale_y_continuous(limits = c(0,700))+
                          facet_grid(vars(Species), vars(Lake))+
-                         theme_gray()+
-                         theme(legend.position = "bottom")+
+                         theme(panel.grid.major = element_blank(), 
+                              panel.grid.minor = element_blank(),
+                              panel.background = element_rect(fill="white",colour="grey50"), 
+                              axis.line = element_line(colour = "black"),
+                              legend.position = "bottom",
+                              legend.background = element_rect(colour="grey20"))+
                          labs(title = "2018 Length Frequencies",
                               x = "Length (mm)",
                               y = "Frequency")
@@ -576,6 +580,8 @@ DF[,3]<-as.factor(as.character(DF[,3]))
 DF$n<-as.numeric(DF$n)
 
 summary(DF)
+# removing the blue lake data point with 300 fish/hour
+
 ```
 
 more specifically, let's say that I should
@@ -589,7 +595,12 @@ CI95<-groupwiseMean(cpue ~ Lake + Month + Species,
                     digits = 3)
 # results in lots of negative numbers for confidence interval, especially in late fall :(
 
-CI95.plot<-ggplot(CI95, aes(x=Month, y=Mean))+
+# removing the blue lake data point with 300 fish/hour
+CI95.b<-CI95[-13,]
+
+
+
+CI95.plot<-ggplot(CI95.b, aes(x=Month, y=Mean))+
   geom_jitter(aes(colour = Species, shape = Species),
               size=2, width = 0.2)+
   theme_bw()+
@@ -597,7 +608,7 @@ CI95.plot<-ggplot(CI95, aes(x=Month, y=Mean))+
         legend.title = element_text(size=12,face="bold"))
 CI95.plot
 
-CI95.boxplot<-ggplot(CI95, aes(x=Month, y=Mean))+
+CI95.boxplot<-ggplot(CI95.b, aes(x=Month, y=Mean))+
   geom_boxplot(aes(colour = Species),
               size=1)+
   theme_bw()+
@@ -633,7 +644,7 @@ DF2.plot<-ggplot(DF2, aes(x=Month, y=cpue))+
 DF2.plot
 ```
 
-- come back to these. show mike and ask. 
+- come back to these. show MJW and ask. 
 
 
 
@@ -799,7 +810,11 @@ head(CI95)
 
 BMD.plot<-ggplot(CI95, aes(x=CI95[,10],y=CI95[,5]))+
                   geom_point(aes(colour=Species, shape = Lake),size=2)+
-                  facet_grid(Month~.)
+                  facet_grid(Month~.)+
+                  scale_shape_manual(values = c(2,4,7,8,15,16,17))+
+                  labs( x = "Biomass Density (lbs./acre)",
+                        y = "Mean Electrofishing CPUE (Fish/Hour)",
+                        title = "Electrofishing CPUE vs. Biomass Density")
 
 
 BMD.plot
@@ -1149,11 +1164,12 @@ grid.arrange(coc.bm,
 # Plot of species diversity
 - side by side plot, number of species on y axis lake on x axis and filled with EF vs. fyke in a stacked barplot
 
-- update 1-25-2019
+- update 1-28-2019
 -- need to find some target species that we hypothesize will respond to harvest
 -- need to come up with some of those metrics (Wr, size structure, cpue, PSD, etc)
--- 
+-- Decide what's most meaningful for annual report!
 
+## Species Diversity
 ```{r}
 diversity<-read.csv("2018_COC_BIB_CMR_Data.csv", header = T)
 
@@ -1161,7 +1177,12 @@ summary(diversity$Gear)
 diversity<-droplevels(subset(diversity, Gear == "Fyke" |
                              Gear == "Electroshocking"))
 
-p1.data<-data.frame(with(diversity, tapply(Species, list(Lake, Gear), FUN = function(x) length(unique(x)))))
+p1.data<-data.frame(with(diversity, 
+                         tapply(Species, 
+                                list(Lake, Gear), 
+                                FUN = function(x) 
+                                  length(unique(x)))))
+
 p1.data$Lake<-c("5 Island","Blue","Center","N.Twin","S. Twin","Silver","Storm")
 m1.d.melt<-melt(p1.data)
 theme_set(theme_bw())
@@ -1177,6 +1198,42 @@ p1
 
 
 ```
+
+## Split up by species
+
+- examine counts of species first, see what samples I have to work with.
+```{r}
+summary(diversity$Species[diversity$Gear == "Fyke"])
+# BLC and BLG and WHC
+# WAE
+# White Sucker
+
+summary(diversity$Species[diversity$Gear == "Electroshocking"])
+# WAE
+# LMB
+# CCF
+# BLC/BLGL/WHC
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Water Quality?
 
