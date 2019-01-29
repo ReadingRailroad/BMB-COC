@@ -38,6 +38,8 @@ packages(nnet)
 packages(arm)
 packages(lattice)
 packages(tikzDevice)
+packages(FSAdata)
+packages(nlstools)
 #packages(GGally)
 packages(wesanderson)
 #packages(DescTools)
@@ -51,7 +53,19 @@ packages(doBy)
 packages(dplyr)
 packages(tidyr)
 packages(rcompanion)
+
 ```
+
+# updating R
+```{r}
+# installing/loading the package:
+if(!require(installr)) {
+install.packages("installr"); require(installr)} #load / install+load installr
+ 
+# using the package:
+updateR() # this will start the updating process of your R installation.  It will check for newer versions, and if one is available, will guide you through the decisions you'd need to make.
+```
+
 
 # DNR Permit data
 
@@ -199,7 +213,7 @@ Storm<-subset(dframe, Lake == "Storm")
 # subsetting species
 df<-subset(dframe, !is.na(Length..mm.) & Species == "COC" |
                    !is.na(Length..mm.) & Species == "BIB")
-df<-subset(df, Lake != "Blue")
+#df<-subset(df, Lake != "Blue")
 
 df.m<-melt(df)
 
@@ -216,7 +230,7 @@ all.lakes.lf2018<-ggplot(df.m, aes(x=value, fill = Gear))+
                               axis.line = element_line(colour = "black"),
                               legend.position = "bottom",
                               legend.background = element_rect(colour="grey20"))+
-                         labs(title = "2018 Length Frequencies without blue lake",
+                         labs(title = "2018 Length Frequencies",
                               x = "Length (mm)",
                               y = "Frequency")
 
@@ -1063,8 +1077,7 @@ p2
 
 # Von Bertalanffy Growth Curves
 ```{r}
-packages(FSAdata)
-packages(nlstools)
+
 data(Croaker2)
 crm<-Subset(Croaker2, sex == "M")
 
@@ -1121,45 +1134,52 @@ lines(LPI~ages2plot,type="l",col="red",lwd=2,lty=2)
 - find most accurate age estimate file, read it in, and start a plot
 
 ```{r}
-<<<<<<< HEAD
+
+# FSAsim package
+if (!require('devtools')) install.packages('devtools'); require('devtools')
+devtools::install_github('droglenc/FSAsim')
+install.packages("tidyverse")
 # read in data
+age<-read.csv("2017_Age_Estimates.csv",header=T)
+summary(age)
+str(age)
 
 
-
-# Subset by a lake
-
+# Subset by species then lake
+b.carp <- droplevels(subset(age, Species == "COC" &
+                                 Lake == "Blue"))
+summary(b.carp)
+b.carp$tl<-b.carp$TL.mm
+b.carp$age<-b.carp$Otolith.MAS
 
 # vbStarts and function variables
+svTypical<-vbStarts(TL.mm~Otolith.MAS,data=b.carp)
+svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.carp)
+unlist(svTypical)
+svTypical<-list(Linf=596,K=0.0243,t0=-4.49032)
+
+
+# Equations
+vbTypical <- tl~Linf*(1-exp(-K*(age-t0)))
+fitTypical <- nls(vbTypical,data=b.carp,start=svTypical)
+
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",main = "")
+overview(fitTypical)
+
+bootTypical <- nlsBoot(fitTypical,niter=200)
+ests <- data.frame(bootTypical$coefboot)
+pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(8-ests[,"t0"])))
+quantile(pv,c(0.025,0.975))
+
+
+
 
 
 
 # Plots
 
 
-=======
-age<-read.csv("2017_Age_Estimates.csv",header=T)
-summary(age)
-str(age)
 
-
-
-
-# Need to compare both age estimates with each structure
-          # Spines
-ggplot(age, aes(x=OtolithAge, y=OtolithAge2, shape= Species))+geom_point(size=5)+
-  geom_abline(slope = 1, intercept = 0)+
-  ggtitle("Otolith Age Readings")
-          # Otoliths
-ggplot(age, aes(x=SpineAge, y=SpineAge2, shape= Species))+geom_point(size=5)+
-  geom_abline(slope = 1, intercept = 0)+
-  ggtitle("Spine Age Readings")
-
-
-# both lakes and both of the first age estimates
-ggplot(age, aes(x=AvgOtolith, y=AvgSpine, shape = Species, colour = Species))+geom_point(size=5)+
-  geom_abline(slope = 1, intercept = 0)+
-  ggtitle("Age Structure Comparisons")
-  
 
 # subset by species then separate by lake
         #carp
@@ -1208,7 +1228,7 @@ ggplot(age, aes(x=Otolith.Age, y=Weight..Kg., shape = Species))+geom_point(size=
 ggplot(age, aes(x=Spine.Age, y=Length..in., shape = Species))+geom_point(size=5)
 
 ggplot(age, aes(x=Spine.Age, y=Weight..Kg., shape = Species))+geom_point(size=5)
->>>>>>> 295a2fbe348dcbf4f07b81c60165d90661721b93
+
 
 ```
 
