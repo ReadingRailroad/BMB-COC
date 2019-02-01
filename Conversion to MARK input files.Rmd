@@ -54,8 +54,7 @@ packages(tidyr)
 
 
 
-cleanup(ask=T)
-list.files()
+
 
 ```
 
@@ -175,9 +174,6 @@ y$TAG.NUMBER<-paste(y$c,y$TAG.NUMBER,y$d,sep = " ")
 center.ch<-unite(y,"ch", 2:7, sep = "",remove=T)
 center.ch<-center.ch[,-c(3:4)] # comment columns removal.
 
-
-
-
 ```
 
 
@@ -201,14 +197,14 @@ names(center.ddl)
 summary(center.ddl$Phi)
 
 center.carp.1<-mark(center.ch) # dot model
-PIMS(center.carp.1,"Phi",simplified=F)
+PIMS(center.carp.1,"Phi",simplified=F) # pims for full time dependent model
 
 # Other model structures:
-phi.0<-list(formula=~1)
-phi.1<-list(formula=~time)
-phi.2<-list(formula=~Time)
-p.1<-list(formula=~1)
-p.2<-list(formula=~time)
+phi.0<-list(formula=~1) # dot model
+phi.1<-list(formula=~time) # time dependent
+phi.2<-list(formula=~Time) # Time trend
+p.1<-list(formula=~1) # dot model recapture rate
+p.2<-list(formula=~time) # time dependent recapture
 
 # Running other models
 #
@@ -249,30 +245,33 @@ input.data<-subset(dframe, Lake == "Center" &
                            !is.na(dframe$TAG.NUMBER) &
                            Notes != "Aging Fish" &             # remove euthanized 1
                            Fin.Clipped != "Dorsal")            # remove euthanized 2      
-levels(droplevels(input.data$TAG.NUMBER))
+input.data$TAG.NUMBER<-droplevels(input.data$TAG.NUMBER)
 summary(input.data$TAG.NUMBER)
+input.data$Species<-droplevels(input.data$Species)
+summary(input.data$Species)
 
-
-input.data$MonthYear<-strftime(input.data$Date, "%m %Y")
+input.data$MonthYear<-factor(strftime(input.data$Date, "%Y %m"))
 head(input.data$MonthYear)
 levels(input.data$MonthYear)
 
 
 
 #reshaping functions to pivot the data
-junk<-melt(input.data,id.var=c("TAG.NUMBER","MonthYear"),
+junk<-melt(input.data,id.var=c("TAG.NUMBER","MonthYear", "Species"),
            measure.vars="detect")
-y<-dcast(junk,TAG.NUMBER~MonthYear)
+y<-dcast(junk,TAG.NUMBER+Species~MonthYear)
 head(y)
-y[is.na(y)]<-0
+#y[is.na(y)]<-0
 # after consolidating to month there are some fish with 2 captures per month so need to correct those
 
-y$`05`[y$`05` >= 2] <- 1
-y$`06`[y$`06` >= 2] <- 1
-y$`07`[y$`07` >= 2] <- 1
-y$`08`[y$`08` >= 2] <- 1
-y$`09`[y$`09` >= 2] <- 1
-y$`10`[y$`10` >= 2] <- 1
+y$`2017 05`[y$`2017 05` >= 2] <- 1
+y$`2017 06`[y$`2017 06` >= 2] <- 1
+y$`2018 05`[y$`2018 05` >= 2] <- 1
+y$`2018 06`[y$`2018 06` >= 2] <- 1
+y$`2018 07`[y$`2018 07` >= 2] <- 1
+y$`2018 08`[y$`2018 08` >= 2] <- 1
+y$`2018 09`[y$`2018 09` >= 2] <- 1
+y$`2018 10`[y$`2018 10` >= 2] <- 1
 
 # collapse the capture history to single column
 # capture history: using "unite" in dplyr
@@ -281,10 +280,376 @@ y$c<-"/*"
 y$d<-"*/"
 y$TAG.NUMBER<-paste(y$c,y$TAG.NUMBER,y$d,sep = " ")
 #nicely done. Now to unite the capture histories
-center.ch<-unite(y,"ch", 2:7, sep = "",remove=T)
-center.ch<-center.ch[-c(509:603),-c(3:4)] # removing "envelope" fish - dissected not tagged. and comment columns removal.
+center.ch<-unite(y,"ch", 3:10, sep = "",remove=T)
+center.ch<-center.ch[,-c(4:5)] # comment columns removal.
 
+```
+
+
+# Center Lake COC&BIB MARK models 2017-2018 by month
+
+```{r}
+# SETTING UP PROCESS DATA AND DESIGN DATA
+str(center.ch)
+
+# Process.data
+center.proc<-process.data(center.ch,
+                          model="CJS",
+                          time.intervals = c(1,11,1,1,1,1,1),
+                          groups = "Species")
+str(center.proc)
+
+release.gof(center.proc) # why won't this work?
+
+center.ddl<-make.design.data(center.proc)
+names(center.ddl)
+summary(center.ddl$Phi)
+```
+
+```{r}
+
+
+# model structures:
+phi.0<-list(formula=~1) # dot model
+phi.1<-list(formula=~time) # time dependent
+phi.2<-list(formula=~Time) # Time trend
+phi.species<-list(formula=~Species)
+phi.species.t<-list(formula=~Species+time)
+p.1<-list(formula=~1) # dot model recapture rate
+p.2<-list(formula=~time) # time dependent recapture
+p.species<-list(formula=~Species)
+p.species.t<-list(formula=~Species+time)
+
+
+################################################################################
+# dot model with no variation between species
+center.m.1<-mark(center.proc, center.ddl, model.parameters=list(Phi=phi.0,p=p.1))
+
+################################################################################
+# Phi time and p dot with no variation between species
+center.m.2<-mark(center.proc,center.ddl,model.parameters=list(Phi=phi.1,p=p.1))
+
+# Phi species and p dot
+center.m.spp<-mark(center.proc,center.ddl,model.parameters=list(Phi=phi.species,p=p.1))
+
+# Phi species and time and p dot
+center.m.spp.t<-mark(center.proc,center.ddl,model.parameters=list(Phi=phi.species.t,p=p.1))
+
+# Phi time trend and p dot
+center.m.3<-mark(center.proc,center.ddl,model.parameters=list(Phi=phi.2,p=p.1))
+
+
+################################################################################
+# phi dot and p time with no species variation
+center.m.4<-mark(center.proc,center.ddl,model.parameters = list (Phi=phi.0,p=p.2))
+
+# phi time and p time with no species variation
+center.m.5<-mark(center.proc,center.ddl,model.parameters = list (Phi=phi.1,p=p.2))
+
+# phi Time trend and p time with no variation in species
+center.m.6<-mark(center.proc,center.ddl,model.parameters = list (Phi=phi.2,p=p.2))
+
+# phi dot and p species
+center.m.phiDot.pSpp<-mark(center.proc,center.ddl,model.parameters = list (Phi=phi.0,p=p.species))
+
+# phi time and p species
+center.m.phiDot.pSpp<-mark(center.proc,center.ddl,model.parameters = list (Phi=phi.1,p=p.species))
+
+# phi dot and p species + time
+center.m.phiDot.pSpp<-mark(center.proc,center.ddl,model.parameters = list (Phi=phi.0,p=p.species.t))
+
+# phi time and p species + time
+center.m.phiDot.pSpp<-mark(center.proc,center.ddl,model.parameters = list (Phi=phi.1,p=p.species.t))
+
+
+center.model.results<-collect.models()
+center.model.results
 
 
 
 ```
+
+
+# North Twin Lake: Carp and Buffalo
+- need to separate months by year. Probs combined column
+- and trying to run for both buffalo and carp together (as groups). 
+```{r}
+levels(dframe$Lake)
+input.data<-subset(dframe, Lake == "N. Twin" & 
+                           !is.na(dframe$TAG.NUMBER) &
+                           Notes != "Aging Fish" &             # remove euthanized 1
+                           Fin.Clipped != "Dorsal")            # remove euthanized 2   
+input.data<-subset(input.data, TAG.NUMBER != "no tag")
+levels(droplevels(input.data$TAG.NUMBER))
+input.data$TAG.NUMBER<-droplevels(input.data$TAG.NUMBER)
+summary(input.data$TAG.NUMBER)
+input.data$Species<-droplevels(input.data$Species)
+summary(input.data$Species)
+
+input.data$MonthYear<-factor(strftime(input.data$Date, "%Y %m"))
+head(input.data$MonthYear)
+levels(input.data$MonthYear)
+
+
+
+#reshaping functions to pivot the data
+junk<-melt(input.data,id.var=c("TAG.NUMBER","MonthYear", "Species"),
+           measure.vars="detect")
+y<-dcast(junk,TAG.NUMBER+Species~MonthYear)
+head(y)
+#y[is.na(y)]<-0
+# after consolidating to month there are some fish with 2 captures per month so need to correct those
+
+y$`2017 06`[y$`2017 06` >= 2] <- 1
+y$`2017 07`[y$`2017 07` >= 2] <- 1
+y$`2017 08`[y$`2017 08` >= 2] <- 1
+y$`2017 09`[y$`2017 09` >= 2] <- 1
+y$`2017 10`[y$`2017 10` >= 2] <- 1
+y$`2017 11`[y$`2017 11` >= 2] <- 1
+y$`2018 05`[y$`2018 05` >= 2] <- 1
+y$`2018 06`[y$`2018 06` >= 2] <- 1
+y$`2018 07`[y$`2018 07` >= 2] <- 1
+y$`2018 08`[y$`2018 08` >= 2] <- 1
+y$`2018 09`[y$`2018 09` >= 2] <- 1
+y$`2018 10`[y$`2018 10` >= 2] <- 1
+y$`2018 11`[y$`2018 11` >= 2] <- 1
+
+# collapse the capture history to single column
+# capture history: using "unite" in dplyr
+# Want to make each tag a "comment" first:
+y$c<-"/*"
+y$d<-"*/"
+y$TAG.NUMBER<-paste(y$c,y$TAG.NUMBER,y$d,sep = " ")
+#nicely done. Now to unite the capture histories
+Ntwin.ch<-unite(y,"ch", 3:15, sep = "",remove=T)
+Ntwin.ch<-Ntwin.ch[,-c(4:5)] # comment columns removal.
+
+```
+
+
+# North Twin Lake COC&BIB MARK models 2017-2018 by month
+
+```{r}
+# SETTING UP PROCESS DATA AND DESIGN DATA
+str(Ntwin.ch)
+
+# Process.data
+Ntwin.proc<-process.data(Ntwin.ch,
+                          model="CJS",
+                          time.intervals = c(1,1,1,1,1,6,1,1,1,1,1,1),
+                          groups = "Species")
+str(Ntwin.proc)
+
+release.gof(Ntwin.proc)
+
+Ntwin.ddl<-make.design.data(Ntwin.proc)
+names(Ntwin.ddl)
+summary(Ntwin.ddl$Phi)
+```
+
+```{r}
+
+
+# model structures:
+phi.0<-list(formula=~1) # dot model
+phi.1<-list(formula=~time) # time dependent
+phi.2<-list(formula=~Time) # Time trend
+phi.species<-list(formula=~Species)
+phi.species.t<-list(formula=~Species+time)
+p.1<-list(formula=~1) # dot model recapture rate
+p.2<-list(formula=~time) # time dependent recapture
+p.species<-list(formula=~Species)
+p.species.t<-list(formula=~Species+time)
+
+
+################################################################################
+# dot model with no variation between species
+Ntwin.m.1<-mark(Ntwin.proc, Ntwin.ddl, model.parameters=list(Phi=phi.0,p=p.1))
+
+################################################################################
+# Phi time and p dot with no variation between species
+Ntwin.m.2<-mark(Ntwin.proc,Ntwin.ddl,model.parameters=list(Phi=phi.1,p=p.1))
+
+# Phi species and p dot
+Ntwin.m.spp<-mark(Ntwin.proc,Ntwin.ddl,model.parameters=list(Phi=phi.species,p=p.1))
+
+# Phi species and time and p dot
+Ntwin.m.spp.t<-mark(Ntwin.proc,Ntwin.ddl,model.parameters=list(Phi=phi.species.t,p=p.1))
+
+# Phi time trend and p dot
+Ntwin.m.3<-mark(Ntwin.proc,Ntwin.ddl,model.parameters=list(Phi=phi.2,p=p.1))
+
+
+################################################################################
+# phi dot and p time with no species variation
+Ntwin.m.4<-mark(Ntwin.proc,Ntwin.ddl,model.parameters = list (Phi=phi.0,p=p.2))
+
+# phi time and p time with no species variation
+Ntwin.m.5<-mark(Ntwin.proc,Ntwin.ddl,model.parameters = list (Phi=phi.1,p=p.2))
+
+# phi Time trend and p time with no variation in species
+Ntwin.m.6<-mark(Ntwin.proc,Ntwin.ddl,model.parameters = list (Phi=phi.2,p=p.2))
+
+# phi dot and p species
+Ntwin.m.phiDot.pSpp<-mark(Ntwin.proc,Ntwin.ddl,model.parameters = list (Phi=phi.0,p=p.species))
+
+# phi time and p species
+Ntwin.m.phiDot.pSpp<-mark(Ntwin.proc,Ntwin.ddl,model.parameters = list (Phi=phi.1,p=p.species))
+
+# phi dot and p species + time
+Ntwin.m.phiDot.pSpp<-mark(Ntwin.proc,Ntwin.ddl,model.parameters = list (Phi=phi.0,p=p.species.t))
+
+# phi time and p species + time
+Ntwin.m.phiDot.pSpp<-mark(Ntwin.proc,Ntwin.ddl,model.parameters = list (Phi=phi.1,p=p.species.t))
+
+
+Ntwin.model.results<-collect.models()
+Ntwin.model.results
+
+
+Ntwin.m.6$results$lnl # code format to examine -2 log likelihood for models. Perhaps able to append it to model.results table with more code.
+```
+
+
+# South Twin Lake: Carp and Buffalo
+- need to separate months by year. Probs combined column
+- and trying to run for both buffalo and carp together (as groups). 
+```{r}
+levels(dframe$Lake)
+input.data<-subset(dframe, Lake == "S. Twin" & 
+                           !is.na(dframe$TAG.NUMBER) &
+                           Notes != "Aging Fish" &             # remove euthanized 1
+                           Fin.Clipped != "Dorsal")            # remove euthanized 2   
+input.data<-subset(input.data, TAG.NUMBER != "NO TAG" & TAG.NUMBER != "NO TAG PUT IN")
+levels(droplevels(input.data$TAG.NUMBER))
+input.data$TAG.NUMBER<-droplevels(input.data$TAG.NUMBER)
+summary(input.data$TAG.NUMBER)
+input.data$Species<-droplevels(input.data$Species)
+summary(input.data$Species)
+
+input.data$MonthYear<-factor(strftime(input.data$Date, "%Y %m"))
+head(input.data$MonthYear)
+levels(input.data$MonthYear)
+
+
+
+#reshaping functions to pivot the data
+junk<-melt(input.data,id.var=c("TAG.NUMBER","MonthYear", "Species"),
+           measure.vars="detect")
+y<-dcast(junk,TAG.NUMBER+Species~MonthYear)
+head(y)
+#y[is.na(y)]<-0
+# after consolidating to month there are some fish with 2 captures per month so need to correct those
+
+y$`2017 06`[y$`2017 06` >= 2] <- 1
+y$`2017 07`[y$`2017 07` >= 2] <- 1
+y$`2017 08`[y$`2017 08` >= 2] <- 1
+y$`2017 09`[y$`2017 09` >= 2] <- 1
+y$`2017 10`[y$`2017 10` >= 2] <- 1
+y$`2017 11`[y$`2017 11` >= 2] <- 1
+y$`2017 12`[y$`2017 12` >= 2] <- 1
+y$`2018 05`[y$`2018 05` >= 2] <- 1
+y$`2018 06`[y$`2018 06` >= 2] <- 1
+y$`2018 07`[y$`2018 07` >= 2] <- 1
+y$`2018 08`[y$`2018 08` >= 2] <- 1
+y$`2018 09`[y$`2018 09` >= 2] <- 1
+y$`2018 10`[y$`2018 10` >= 2] <- 1
+y$`2018 11`[y$`2018 11` >= 2] <- 1
+
+# collapse the capture history to single column
+# capture history: using "unite" in dplyr
+# Want to make each tag a "comment" first:
+y$c<-"/*"
+y$d<-"*/"
+y$TAG.NUMBER<-paste(y$c,y$TAG.NUMBER,y$d,sep = " ")
+#nicely done. Now to unite the capture histories
+Stwin.ch<-unite(y,"ch", 3:16, sep = "",remove=T)
+Stwin.ch<-Stwin.ch[,-c(4:5)] # comment columns removal.
+
+```
+
+
+# North Twin Lake COC&BIB MARK models 2017-2018 by month
+
+```{r}
+# SETTING UP PROCESS DATA AND DESIGN DATA
+str(Stwin.ch)
+
+# Process.data
+Stwin.proc<-process.data(Stwin.ch,
+                          model="CJS",
+                          time.intervals = c(1,1,1,1,1,1,5,1,1,1,1,1,1),
+                          groups = "Species")
+str(Stwin.proc)
+
+release.gof(Stwin.proc)
+
+Stwin.ddl<-make.design.data(Stwin.proc)
+names(Stwin.ddl)
+summary(Stwin.ddl$Phi)
+```
+
+```{r}
+
+
+# model structures:
+phi.0<-list(formula=~1) # dot model
+phi.1<-list(formula=~time) # time dependent
+phi.2<-list(formula=~Time) # Time trend
+phi.species<-list(formula=~Species)
+phi.species.t<-list(formula=~Species+time)
+p.1<-list(formula=~1) # dot model recapture rate
+p.2<-list(formula=~time) # time dependent recapture
+p.species<-list(formula=~Species)
+p.species.t<-list(formula=~Species+time)
+
+
+################################################################################
+# dot model with no variation between species
+Stwin.m.1<-mark(Stwin.proc, Stwin.ddl, model.parameters=list(Phi=phi.0,p=p.1))
+
+################################################################################
+# Phi time and p dot with no variation between species
+Stwin.m.2<-mark(Stwin.proc,Stwin.ddl,model.parameters=list(Phi=phi.1,p=p.1))
+
+# Phi species and p dot
+Stwin.m.spp<-mark(Stwin.proc,Stwin.ddl,model.parameters=list(Phi=phi.species,p=p.1))
+
+# Phi species and time and p dot
+Stwin.m.spp.t<-mark(Stwin.proc,Stwin.ddl,model.parameters=list(Phi=phi.species.t,p=p.1))
+
+# Phi time trend and p dot
+Stwin.m.3<-mark(Stwin.proc,Stwin.ddl,model.parameters=list(Phi=phi.2,p=p.1))
+
+
+################################################################################
+# phi dot and p time with no species variation
+Stwin.m.4<-mark(Stwin.proc,Stwin.ddl,model.parameters = list (Phi=phi.0,p=p.2))
+
+# phi time and p time with no species variation
+Stwin.m.5<-mark(Stwin.proc,Stwin.ddl,model.parameters = list (Phi=phi.1,p=p.2))
+
+# phi Time trend and p time with no variation in species
+Stwin.m.6<-mark(Stwin.proc,Stwin.ddl,model.parameters = list (Phi=phi.2,p=p.2))
+
+# phi dot and p species
+Stwin.m.phiDot.pSpp<-mark(Stwin.proc,Stwin.ddl,model.parameters = list (Phi=phi.0,p=p.species))
+
+# phi time and p species
+Stwin.m.phiDot.pSpp<-mark(Stwin.proc,Stwin.ddl,model.parameters = list (Phi=phi.1,p=p.species))
+
+# phi dot and p species + time
+Stwin.m.phiDot.pSpp<-mark(Stwin.proc,Stwin.ddl,model.parameters = list (Phi=phi.0,p=p.species.t))
+
+# phi time and p species + time
+Stwin.m.phiDot.pSpp<-mark(Stwin.proc,Stwin.ddl,model.parameters = list (Phi=phi.1,p=p.species.t))
+
+
+Stwin.model.results<-collect.models()
+Stwin.model.results
+
+
+Stwin.m.6$results$lnl # code format to examine -2 log likelihood for models. Perhaps able to append it to model.results table with more code.
+
+
+
