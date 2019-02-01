@@ -27,19 +27,19 @@ require(x,character.only=TRUE)
 
 #packages(rcompanion)
 #packages(vegan)
-packages(ggplot2)
-packages(gridExtra)
+#packages(ggplot2)
+#packages(gridExtra)
 packages(reshape2)
-packages(FSA)
-packages(nnet)
+#packages(FSA)
+#packages(nnet)
 #packages(multcomp)
 #packages(plyr)
 #packages(rv)
-packages(arm)
-packages(lattice)
-packages(tikzDevice)
+#packages(arm)
+#packages(lattice)
+#packages(tikzDevice)
 #packages(GGally)
-packages(wesanderson)
+#packages(wesanderson)
 #packages(DescTools)
 #packages(mvnormtest)
 #packages(HH)
@@ -47,7 +47,7 @@ packages(wesanderson)
 #packages(car)
 #packages(psych)
 #packages(GPArotation)
-packages(doBy)
+#packages(doBy)
 packages(dplyr)
 packages(RMark)
 packages(tidyr)
@@ -58,12 +58,17 @@ packages(tidyr)
 
 ```
 
+
+__Gonna branch into new file for running models, and change this file to terminate at the broadest capture history I can think of, it can always be adjusted. Old chunks of code prior to 1/31/2019 will be moved to bottom of this file. and to new CJS file.__ Robust design coming down the pipe.
+
+
 # Loading in the CSV
 ```{r}
 # compiled data
 dframe<-read.csv("2018 and 2017 Compiled Data.csv")
 head(dframe)
 #Setting new "detect" column used in the web resource I'm using to create capture history
+#       basically just turns into "yes this is observed" and later is summed in casted data frame
 dframe$detect<-1
 str(dframe)
 ###############
@@ -76,6 +81,103 @@ dframe$Date<-as.Date(dframe$Date, format = "%m/%d/%Y")
 str(dframe$Date)
 
 ```
+
+
+
+# One Capture History To Rule Them All
+- removing non-tagged species
+- removing euthanized carp and buff
+                  - *known fates: Storm, etc.*
+                  - *funky notation and double tags: consistency*
+                  - *duplicate 100 tags at Blue Lake 2018*
+- clean/groom the factors and their unused levels
+
+1.) consolidate relevant individual covariates & variables:
+          - Year
+          - Month
+          - MonthYear
+          - Day
+          - Lake
+          - TL
+          - Weight
+          - Notes (append to end)
+          - Gear
+          - Water Temp
+
+2.) Melt and cast to pivot table of capture history
+```{r}
+#Input data 
+input.data<-subset(dframe, !is.na(dframe$TAG.NUMBER) &         # non-coc/bib species won't have tags or envelope #
+                           Notes != "Aging Fish" &             # remove euthanized 1
+                           Fin.Clipped != "Dorsal")            # remove euthanized 2      
+input.data$TAG.NUMBER<-droplevels(input.data$TAG.NUMBER)       # remove all factor levels that dont have observation
+                                                               # check for any factors with envelope numbers (dead)
+summary(input.data$TAG.NUMBER)#                                  check fish with most obs/recaps
+input.data$Species<-droplevels(input.data$Species)#              remove all unused factor levels 
+summary(input.data$Species)#                                     raw # individuals, hopefully many recaps
+  
+input.data$Year<-factor(strftime(input.data$Date, "%Y"))#        new column of year
+input.data$Month<-factor(strftime(input.data$Date, "%m"))#        new column of month
+input.data$Day<-factor(strftime(input.data$Date, "%d"))#        new column of day
+input.data$YearMonth<-factor(strftime(input.data$Date, "%Y %m"))#        new column of year month
+head(input.data$YearMonth)
+levels(input.data$YearMonth)#                                     levels line up with samples
+
+
+
+#reshaping functions to pivot the data
+junk<-melt(input.data,id.var=c("TAG.NUMBER","Date","Year", "Month", "Day", "YearMonth", "Lake",
+                               "Total.Length..mm.","Weight..g.","Gear","Water.Temp..C.","Notes"),
+           measure.vars="detect")
+y<-dcast(junk,TAG.NUMBER+Species+Year+Month+Day+YearMonth+Lake+Total.Length..mm.+Weight..g.+Gear+Water.Temp..C.+Notes
+         ~Date)
+head(y)
+#y[is.na(y)]<-0                                   # not needed after defaulting to length, although some are 2
+
+
+
+# after consolidating to month there are some fish with 2 captures per month 
+# so need to correct those
+y$`2017 05`[y$`2017 05` >= 2] <- 1
+y$`2017 06`[y$`2017 06` >= 2] <- 1
+y$`2018 05`[y$`2018 05` >= 2] <- 1
+y$`2018 06`[y$`2018 06` >= 2] <- 1
+y$`2018 07`[y$`2018 07` >= 2] <- 1
+y$`2018 08`[y$`2018 08` >= 2] <- 1
+y$`2018 09`[y$`2018 09` >= 2] <- 1
+y$`2018 10`[y$`2018 10` >= 2] <- 1
+
+# collapse the capture history to single column
+# capture history: using "unite" in dplyr
+# Want to make each tag a "comment" first following MARK convention:
+y$c<-"/*"
+y$d<-"*/"
+y$TAG.NUMBER<-factor(paste(y$c,y$TAG.NUMBER,y$d,sep = " "))
+#nicely done. Now to unite the capture histories
+center.ch<-unite(y,"ch", 3:10, sep = "",remove=T)
+center.ch<-center.ch[,-c(4:5)] # comment columns removal.
+head(center.ch)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Blue Lake capture history
@@ -177,7 +279,7 @@ center.ch<-center.ch[,-c(3:4)] # comment columns removal.
 ```
 
 
-# Center Lake MARK Models
+## Center Lake MARK Models
 OK. So here's some potential complications:
 - unequal time intervals and unequal samples between years (could collapse to month?)
 - need to figure out appropriate model (CJS?)
@@ -237,22 +339,23 @@ center.model.results
 ```
 
 
-# Center Lake: Carp and Buffalo
+## Center Lake: Carp and Buffalo
 - need to separate months by year. Probs combined column
 - and trying to run for both buffalo and carp together (as groups). 
 ```{r}
 input.data<-subset(dframe, Lake == "Center" & 
-                           !is.na(dframe$TAG.NUMBER) &
+                           !is.na(dframe$TAG.NUMBER) &         # non-coc/bib species won't have tags or envelope #
                            Notes != "Aging Fish" &             # remove euthanized 1
                            Fin.Clipped != "Dorsal")            # remove euthanized 2      
-input.data$TAG.NUMBER<-droplevels(input.data$TAG.NUMBER)
-summary(input.data$TAG.NUMBER)
-input.data$Species<-droplevels(input.data$Species)
-summary(input.data$Species)
-
-input.data$MonthYear<-factor(strftime(input.data$Date, "%Y %m"))
+input.data$TAG.NUMBER<-droplevels(input.data$TAG.NUMBER)       # remove all factor levels that dont have observation
+                                                               # check for any factors with envelope numbers (dead)
+summary(input.data$TAG.NUMBER)#                                  check fish with most obs/recaps
+input.data$Species<-droplevels(input.data$Species)#              remove all unused factor levels 
+summary(input.data$Species)#                                     raw # individuals, hopefully many recaps
+  
+input.data$MonthYear<-factor(strftime(input.data$Date, "%Y %m"))# new column of month and year
 head(input.data$MonthYear)
-levels(input.data$MonthYear)
+levels(input.data$MonthYear)#                                     levels line up with samples
 
 
 
@@ -261,9 +364,12 @@ junk<-melt(input.data,id.var=c("TAG.NUMBER","MonthYear", "Species"),
            measure.vars="detect")
 y<-dcast(junk,TAG.NUMBER+Species~MonthYear)
 head(y)
-#y[is.na(y)]<-0
-# after consolidating to month there are some fish with 2 captures per month so need to correct those
+#y[is.na(y)]<-0                                   # not needed after defaulting to length, although some are 2
 
+
+
+# after consolidating to month there are some fish with 2 captures per month 
+# so need to correct those
 y$`2017 05`[y$`2017 05` >= 2] <- 1
 y$`2017 06`[y$`2017 06` >= 2] <- 1
 y$`2018 05`[y$`2018 05` >= 2] <- 1
@@ -275,50 +381,56 @@ y$`2018 10`[y$`2018 10` >= 2] <- 1
 
 # collapse the capture history to single column
 # capture history: using "unite" in dplyr
-# Want to make each tag a "comment" first:
+# Want to make each tag a "comment" first following MARK convention:
 y$c<-"/*"
 y$d<-"*/"
-y$TAG.NUMBER<-paste(y$c,y$TAG.NUMBER,y$d,sep = " ")
+y$TAG.NUMBER<-factor(paste(y$c,y$TAG.NUMBER,y$d,sep = " "))
 #nicely done. Now to unite the capture histories
 center.ch<-unite(y,"ch", 3:10, sep = "",remove=T)
 center.ch<-center.ch[,-c(4:5)] # comment columns removal.
-
+head(center.ch)
 ```
 
 
 # Center Lake COC&BIB MARK models 2017-2018 by month
-
+SETTING UP PROCESS DATA AND DESIGN DATA
 ```{r}
 # SETTING UP PROCESS DATA AND DESIGN DATA
 str(center.ch)
 
 # Process.data
-center.proc<-process.data(center.ch,
-                          model="CJS",
-                          time.intervals = c(1,11,1,1,1,1,1),
-                          groups = "Species")
+center.proc<-process.data(center.ch,#         the data frame
+                          model="CJS",#       cormack jolly seber paramaterization
+                          time.intervals = c(1,11,1,1,1,1,1),#    center only may-june 17 then begin may18
+                          groups = "Species")#  grouping by species
 str(center.proc)
 
-release.gof(center.proc) # why won't this work?
+release.gof(center.proc) # why won't this work? need to know goodness of fit.
 
-center.ddl<-make.design.data(center.proc)
+center.ddl<-make.design.data(center.proc) # makes design data that can be formed into PIMS
 names(center.ddl)
-summary(center.ddl$Phi)
+summary(center.ddl$Phi) # Let's estimate these
 ```
 
+Model structures:
+building up to the hypothesis that survival is species- and lake- and time-dependent. 
+
+__Shoot, from here it's getting too complicated. Gonna branch into new file for running models, and change this file to terminate at the broadest capture history I can think of, it can always be adjusted. 1/31/2019__
+
+
 ```{r}
-
-
 # model structures:
+#       Phi
 phi.0<-list(formula=~1) # dot model
 phi.1<-list(formula=~time) # time dependent
 phi.2<-list(formula=~Time) # Time trend
-phi.species<-list(formula=~Species)
-phi.species.t<-list(formula=~Species+time)
-p.1<-list(formula=~1) # dot model recapture rate
-p.2<-list(formula=~time) # time dependent recapture
-p.species<-list(formula=~Species)
-p.species.t<-list(formula=~Species+time)
+phi.species<-list(formula=~Species) # group by species
+phi.species.t<-list(formula=~Species+time) # species plus time
+#       p
+p.0<-list(formula=~1) # dot model recapture rate
+p.t<-list(formula=~time) # time dependent recapture
+p.species<-list(formula=~Species) # group by species
+p.species.t<-list(formula=~Species+time) # species and time
 
 
 ################################################################################
