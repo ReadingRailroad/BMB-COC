@@ -111,7 +111,7 @@ ch[length 8] is
       - winter 18-19
 
 This will be repeated for each species.
-                                
+## Carp
 ```{r}
 c.frame<-droplevels(subset(dframe, Species == "COC" &
                         !is.na(dframe$TAG.NUMBER) &
@@ -161,7 +161,21 @@ c.frame<-droplevels(subset(c.frame, TAG.NUMBER != "NO TAG"))
 c.frame<-droplevels(subset(c.frame, TAG.NUMBER != "no tag"))
 
 
+# correcting funky tag names
+c.frame$TAG.NUMBER<-as.character(c.frame$TAG.NUMBER)
+# "1330 and 1332" renamed to "1330" --- searched and no subsequent 1332 or 1330
+c.frame$TAG.NUMBER[c.frame$TAG.NUMBER == "1330 and 1332"]<- "1330"
+# "1333 and 1334" renamed to "1333" --- searched and no subsequent 1333 or 1334
+c.frame$TAG.NUMBER[c.frame$TAG.NUMBER == "1333 and 1334"]<- "1333"
+# "22133/4835" and "4835"
+c.frame$TAG.NUMBER[c.frame$TAG.NUMBER == "22133/4835"]<- "22133"
+c.frame$TAG.NUMBER[c.frame$TAG.NUMBER == "4835"]<- "22133"
+# back to factor
+c.frame$TAG.NUMBER<-as.factor(c.frame$TAG.NUMBER)
 
+
+
+##############################################33
 # time to melt and cast I think:
 junk<-melt(c.frame,id.var=c("TAG.NUMBER","Lake","Season"),
            measure.vars="detect")
@@ -170,6 +184,152 @@ head(y)
 y<-y[,c(1,4,6,2,8,5,7,3,9)] # reorder columns to desired sequential order
 z<-dcast(junk,TAG.NUMBER~Lake)
 head(z)
+
+
+# data frame of whether a lake has a sample or not in each season:
+c.samples<-dcast(junk,Lake~Season)
+
+
+
+# We have two data frames of 3,220 observations. Need to cbind
+yz<-cbind(y,z[,-1])
+head(yz)
+max(yz[,2:12])
+# Set any observations greater than 1 to 1
+yz$Sp17[yz$Sp17 >= 2]<-1
+yz$Su17[yz$Su17 >= 2]<-1
+yz$Fa17[yz$Fa17 >= 2]<-1
+yz$Wi17[yz$Wi17 >= 2]<-1
+
+yz$Sp18[yz$Sp18 >= 2]<-1
+yz$Su18[yz$Su18 >= 2]<-1
+yz$Fa18[yz$Fa18 >= 2]<-1
+yz$Wi18[yz$Wi18 >= 2]<-1
+
+yz$Center[yz$Center >= 2]<-1
+yz$`N. Twin`[yz$`N. Twin` >= 2]<-1
+yz$`S. Twin`[yz$`S. Twin` >= 2]<-1
+#
+max(yz[,2:12])
+#
+
+
+
+
+
+
+
+
+
+# In business. pasting capture history, pasting lakes. Then pasting both with a space
+# collapse the capture history to single column
+# capture history: using "unite" in dplyr
+# Want to make each tag a "comment" first following MARK convention:
+yz$c<-"/*"
+yz$d<-"*/"
+yz$TAG.NUMBER<-factor(paste(yz$c,yz$TAG.NUMBER,yz$d,sep = " "))
+#nicely done. Now to unite the capture histories
+yz<-unite(yz,"ch", 2:9, sep = "",remove=T) # capture history column
+yz<-unite(yz,"L:CNS", 3:5, sep = "",remove=T) # lake column, in Center North Twin South Twin Order
+yz<-yz[,-c(4:5)] # comment columns removal.
+head(yz)
+
+```
+
+__ Writing the .txt file to then manually re-save as .inp file for Program MARK __
+
+copy paste the following to the re-saved file for MARK, adjust as needed:
+
+/* Input file 2019-02-01 from Center, N, & S Twin Lakes between May 2017 and November 2018. */
+/* COMMON CARP data. First column is a commented tag number */
+/* ch: 8 events, binary split into 4 seasons in 2 years [Spr17, Sum17, ... , Fall18, Win18] */
+/* Spring Mar-May 3months; Summer Jun-Aug 3 months; Fall Oct-Sep 2 Months; Winter 4 remain. */
+/* Lake recorded as binary variable in alphabetical order: [Center, North Twin, South Twin] */
+
+```{r}
+write.table(yz, "CarpCJS.txt", sep = " ",
+            quote=F, col.names = F,row.names=F)
+```
+
+## Repeat for Buffalo
+```{r}
+b.frame<-droplevels(subset(dframe, Species == "BIB" &
+                        !is.na(dframe$TAG.NUMBER) &
+                        Notes != "Aging Fish" &             # remove euthanized 1
+                        Fin.Clipped != "Dorsal")) #           remove euthanized 2
+
+summary(b.frame) # verified only one species. 
+#                  min  length 122 mm, max 904mm
+
+
+# remove extraneous columns
+b.frame<-b.frame[,-c(1,5,8,9,10,12:22)]
+
+# condense to three lakes of interest for 2017-2018 comparisons
+b.frame<-droplevels(subset(b.frame, Lake == "Center" |
+                                    Lake == "N. Twin" |
+                                    Lake == "S. Twin"))
+# down to 6147 observations in three years across two lakes of one species.
+
+# need to create the column to combine month and year
+b.frame$YearMonth<-factor(strftime(b.frame$Date, "%Y %m"))
+levels(b.frame$YearMonth)
+length(levels(b.frame$YearMonth))
+
+# need to delineate year and seasons. the eight cols of capture history
+#           there are 15 month/year combinations across three lakes
+b.frame$Season[b.frame$YearMonth == "2017 05"] <- "Sp17" # spring 2017 one month
+b.frame$Season[b.frame$YearMonth == "2017 06" |
+               b.frame$YearMonth == "2017 07" |
+               b.frame$YearMonth == "2017 08"] <- "Su17" # Summer 2017 two months
+b.frame$Season[b.frame$YearMonth == "2017 09" |
+               b.frame$YearMonth == "2017 10"] <- "Fa17" # Fall 2017 two months
+b.frame$Season[b.frame$YearMonth == "2017 11" |
+               b.frame$YearMonth == "2017 12"] <- "Wi17" # Winter 2017 two months
+
+b.frame$Season[b.frame$YearMonth == "2018 05"] <- "Sp18" # Spring 2018 one month
+b.frame$Season[b.frame$YearMonth == "2018 06" |
+               b.frame$YearMonth == "2018 07" |
+               b.frame$YearMonth == "2018 08"] <- "Su18" # summer 2018 three months
+b.frame$Season[b.frame$YearMonth == "2018 09" |
+               b.frame$YearMonth == "2018 10"] <- "Fa18" # fall 2018 two months
+b.frame$Season[b.frame$YearMonth == "2018 11"] <- "Wi18" # winter 2017 one month
+# 15 year month combinations have been converted into seasons (8)
+
+# remove ONE fish labeled as "no tag" from n/s twin WINTER (DECEMBER) 2017
+b.frame<-droplevels(subset(b.frame, TAG.NUMBER != "NO TAG PUT IN"))
+
+
+# correcting funky tag names
+b.frame$TAG.NUMBER<-as.character(b.frame$TAG.NUMBER)
+# "1304 and 1305" renamed to "1304" --- searched and no subsequent 1304 or 1305
+b.frame$TAG.NUMBER[b.frame$TAG.NUMBER == "1304 and 1305"]<- "1304"
+# "1308 and 1309" renamed to "1308" --- searched and no subsequent 1308 or 1309
+b.frame$TAG.NUMBER[b.frame$TAG.NUMBER == "1308 and 1309"]<- "1308"
+# "21118/4314" and "4835"
+b.frame$TAG.NUMBER[b.frame$TAG.NUMBER == "21118/4314"]<- "21118"
+b.frame$TAG.NUMBER[b.frame$TAG.NUMBER == "4314"]<- "22133"
+# "21439/23741" was retagged with the 23741
+b.frame$TAG.NUMBER[b.frame$TAG.NUMBER == "21439/23741"]<- "21439"
+# back to factor
+b.frame$TAG.NUMBER<-as.factor(b.frame$TAG.NUMBER)
+
+
+
+##############################################33
+# time to melt and cast I think:
+junk<-melt(b.frame,id.var=c("TAG.NUMBER","Lake","Season"),
+           measure.vars="detect")
+y<-dcast(junk,TAG.NUMBER~Season)
+head(y)
+y<-y[,c(1,4,6,2,8,5,7,3,9)] # reorder columns to desired sequential order
+z<-dcast(junk,TAG.NUMBER~Lake)
+head(z)
+
+
+# data frame of whether a lake has a sample or not in each season:
+b.samples<-dcast(junk,Lake~Season)
+
 
 # We have two data frames of 3,220 observations. Need to cbind
 yz<-cbind(y,z[,-1])
@@ -212,15 +372,42 @@ __ Writing the .txt file to then manually re-save as .inp file for Program MARK 
 
 copy paste the following to the re-saved file for MARK, adjust as needed:
 
-/* Input file 2019-02-01 from Center, N, & S Twin Lakes between May 2017 and November 2018. */
-/* COMMON CARP data. First column is a commented tag number */
+/* Input file 2019-02-02 from Center, N, & S Twin Lakes between May 2017 and November 2018. */
+/* BIGMOUTH BUFFALO data. First column is a commented tag number */
 /* ch: 8 events, binary split into 4 seasons in 2 years [Spr17, Sum17, ... , Fall18, Win18] */
 /* Spring Mar-May 3months; Summer Jun-Aug 3 months; Fall Oct-Sep 2 Months; Winter 4 remain. */
 /* Lake recorded as binary variable in alphabetical order: [Center, North Twin, South Twin] */
 
 ```{r}
-write.table(yz, "CarpCJS.txt", sep = " ")
+write.table(yz, "BuffCJS.txt", sep = " ",
+            quote=F, col.names = F,row.names=F)
 ```
+
+
+## combining frames of samples in month for both spp
+```{r}
+
+checkingbothspecies<-rbind(c.samples,b.samples)
+# visually see that all the zeros line up for both species. back to just one
+
+yz<-c.samples
+yz<-yz[,c(1,4,6,2,8,5,7,3,9)] # setting desired order
+
+yz$Sp17[yz$Sp17 >= 2]<-1
+yz$Su17[yz$Su17 >= 2]<-1
+yz$Fa17[yz$Fa17 >= 2]<-1
+yz$Wi17[yz$Wi17 >= 2]<-1
+
+yz$Sp18[yz$Sp18 >= 2]<-1
+yz$Su18[yz$Su18 >= 2]<-1
+yz$Fa18[yz$Fa18 >= 2]<-1
+yz$Wi18[yz$Wi18 >= 2]<-1
+
+write.csv(yz,"CB_CJS_Samples.csv", row.names = F)
+```
+
+
+
 
 
 
@@ -270,10 +457,22 @@ levels(input.data$YearMonth)#                                     levels line up
 junk<-melt(input.data,id.var=c("TAG.NUMBER","Date","Year", "Month", "Day", "YearMonth", "Lake",
                                "Total.Length..mm.","Weight..g.","Gear","Water.Temp..C.","Notes"),
            measure.vars="detect")
+
+# casting the whole kit n caboodle
 y<-dcast(junk,TAG.NUMBER+Species+Year+Month+Day+YearMonth+Lake+Total.Length..mm.+Weight..g.+Gear+Water.Temp..C.+Notes
          ~Date)
 head(y)
-#y[is.na(y)]<-0                                   # not needed after defaulting to length, although some are 2
+#y[is.na(y)]<-0# not needed after defaulting to length, although some are 2
+
+#############################
+#
+#     Really need to write function/for() loop to change multiple counts to just 1
+#
+#############################
+
+# That way I can cast based on the question at hand and figure out the business.
+
+
 
 
 
