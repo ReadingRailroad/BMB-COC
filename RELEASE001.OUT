@@ -1,6 +1,10 @@
 
    Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  001
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  001
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
       Documentation for this program is available as Part 9 of the mongraph:
@@ -28,14 +32,22 @@
 
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  002
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  002
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
 
 
   INPUT --- proc title  Release-gof ;
 
+<<<<<<< HEAD
      Time in seconds for last procedure was 0.00
+=======
+     Time in seconds for last procedure was 0.02
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
 
  * *  WARNING  * *   Value of LOTS defaults to 1 
 
@@ -79,7 +91,11 @@
   INPUT ---       00100000  0 1  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  003
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  003
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -130,7 +146,11 @@
              The following capture history is a duplicate of number 1 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  004
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  004
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -181,7 +201,11 @@
   INPUT ---       00100000  0 1  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  005
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  005
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -232,7 +256,11 @@
              The following capture history is a duplicate of number 1 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  006
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  006
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -283,7 +311,11 @@
   INPUT ---       00100000  0 1  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  007
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  007
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -334,7 +366,11 @@
   INPUT ---       00100000  0 1  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  008
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  008
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -385,7 +421,11 @@
              The following capture history is a duplicate of number 1 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  009
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  009
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -436,7 +476,11 @@
   INPUT ---       00100000  0 1  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  010
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  010
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -487,7 +531,11 @@
              The following capture history is a duplicate of number 1 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  011
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  011
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -538,7 +586,11 @@
   INPUT ---       00100000  0 1  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  012
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  012
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -589,7 +641,11 @@
              The following capture history is a duplicate of number 1 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  013
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  013
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -640,7 +696,11 @@
   INPUT ---       00100000  1 0  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  014
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  014
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -691,7 +751,11 @@
              The following capture history is a duplicate of number 1 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  015
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  015
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -742,7 +806,11 @@
   INPUT ---       00100000  0 1  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  016
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  016
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -793,7 +861,11 @@
              The following capture history is a duplicate of number 1 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  017
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  017
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -844,7 +916,11 @@
              The following capture history is a duplicate of number 4 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  018
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  018
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -895,7 +971,11 @@
              The following capture history is a duplicate of number 5 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  019
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  019
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -946,7 +1026,11 @@
   INPUT ---       00001000  1 0  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  020
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  020
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -997,7 +1081,11 @@
              The following capture history is a duplicate of number 5 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  021
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  021
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -1048,7 +1136,11 @@
              The following capture history is a duplicate of number 4 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  022
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  022
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -1099,7 +1191,11 @@
   INPUT ---       00010000  1 0  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  023
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  023
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -1150,7 +1246,11 @@
   INPUT ---       00001000  1 0  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  024
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  024
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -1201,7 +1301,11 @@
              The following capture history is a duplicate of number 5 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  025
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  025
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -1252,7 +1356,11 @@
              The following capture history is a duplicate of number 1 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  026
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  026
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -1303,7 +1411,11 @@
   INPUT ---       00010000  0 1  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  027
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  027
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -1354,7 +1466,11 @@
              The following capture history is a duplicate of number 8 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  028
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  028
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -1405,7 +1521,11 @@
              The following capture history is a duplicate of number 1 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  029
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  029
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -1456,7 +1576,11 @@
   INPUT ---       00100000  0 1  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  030
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  030
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -1507,7 +1631,11 @@
              The following capture history is a duplicate of number 7 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  031
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  031
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -1558,7 +1686,11 @@
              The following capture history is a duplicate of number 7 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  032
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  032
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -1609,7 +1741,11 @@
   INPUT ---       00000010  1 0  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  033
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  033
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -1660,7 +1796,11 @@
              The following capture history is a duplicate of number 7 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  034
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  034
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -1711,7 +1851,11 @@
   INPUT ---       00000010  1 0  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  035
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  035
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -1762,7 +1906,11 @@
              The following capture history is a duplicate of number 7 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  036
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  036
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -1813,7 +1961,11 @@
              The following capture history is a duplicate of number 11 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  037
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  037
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -1864,7 +2016,11 @@
   INPUT ---       00000010  1 0  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  038
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  038
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -1915,7 +2071,11 @@
              The following capture history is a duplicate of number 7 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  039
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  039
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -1966,7 +2126,11 @@
              The following capture history is a duplicate of number 12 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  040
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  040
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -2017,7 +2181,11 @@
   INPUT ---       10000000  0 1  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  041
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  041
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -2068,7 +2236,11 @@
   INPUT ---       10000000  0 1  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  042
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  042
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -2119,7 +2291,11 @@
              The following capture history is a duplicate of number 12 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  043
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  043
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -2170,7 +2346,11 @@
              The following capture history is a duplicate of number 14 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  044
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  044
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -2221,7 +2401,11 @@
   INPUT ---       10000000  1 0  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  045
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  045
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -2272,7 +2456,11 @@
              The following capture history is a duplicate of number 12 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  046
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  046
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -2323,7 +2511,11 @@
   INPUT ---       01000000  1 0  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  047
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  047
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -2374,7 +2566,11 @@
              The following capture history is a duplicate of number 14 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  048
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  048
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -2425,7 +2621,11 @@
   INPUT ---       10000000  1 0  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  049
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  049
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -2476,7 +2676,11 @@
              The following capture history is a duplicate of number 12 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  050
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  050
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -2527,7 +2731,11 @@
   INPUT ---       10000000  1 0  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  051
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  051
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -2578,7 +2786,11 @@
              The following capture history is a duplicate of number 14 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  052
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  052
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -2629,7 +2841,11 @@
   INPUT ---       10000000  1 0  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  053
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  053
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -2680,7 +2896,11 @@
              The following capture history is a duplicate of number 14 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  054
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  054
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -2731,7 +2951,11 @@
   INPUT ---       01000000  0 1  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  055
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  055
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -2782,7 +3006,11 @@
              The following capture history is a duplicate of number 14 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  056
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  056
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -2833,7 +3061,11 @@
   INPUT ---       01000000  1 0  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  057
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  057
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -2884,7 +3116,11 @@
              The following capture history is a duplicate of number 14 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  058
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  058
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -2935,7 +3171,11 @@
   INPUT ---       01000000  1 0  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  059
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  059
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -2986,7 +3226,11 @@
              The following capture history is a duplicate of number 14 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  060
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  060
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -3037,7 +3281,11 @@
   INPUT ---       01000000  1 0  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  061
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  061
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -3088,7 +3336,11 @@
              The following capture history is a duplicate of number 14 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  062
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  062
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -3139,7 +3391,11 @@
   INPUT ---       01000000  1 0  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  063
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  063
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -3190,7 +3446,11 @@
              The following capture history is a duplicate of number 14 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  064
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  064
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -3241,7 +3501,11 @@
   INPUT ---       01000000  1 0  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  065
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  065
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -3292,7 +3556,11 @@
              The following capture history is a duplicate of number 14 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  066
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  066
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -3343,7 +3611,11 @@
   INPUT ---       01000000  1 0  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  067
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  067
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -3394,7 +3666,11 @@
              The following capture history is a duplicate of number 14 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  068
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  068
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -3445,7 +3721,11 @@
   INPUT ---       01000000  1 0  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  069
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  069
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -3496,7 +3776,11 @@
              The following capture history is a duplicate of number 14 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  070
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  070
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -3547,7 +3831,11 @@
   INPUT ---       01000000  1 0  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  071
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  071
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -3598,7 +3886,11 @@
              The following capture history is a duplicate of number 14 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  072
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  072
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -3649,7 +3941,11 @@
   INPUT ---       01000000  1 0  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  073
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  073
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -3700,7 +3996,11 @@
              The following capture history is a duplicate of number 14 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  074
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  074
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -3751,7 +4051,11 @@
   INPUT ---       01000000  1 0  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  075
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  075
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -3802,7 +4106,11 @@
              The following capture history is a duplicate of number 14 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  076
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  076
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -3853,7 +4161,11 @@
   INPUT ---       01000000  1 0  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  077
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  077
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -3904,7 +4216,11 @@
              The following capture history is a duplicate of number 14 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  078
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  078
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -3955,7 +4271,11 @@
   INPUT ---       01000000  1 0  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  079
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  079
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -4006,7 +4326,11 @@
              The following capture history is a duplicate of number 14 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  080
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  080
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -4057,7 +4381,11 @@
              The following capture history is a duplicate of number 14 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  081
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  081
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -4108,7 +4436,11 @@
              The following capture history is a duplicate of number 12 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  082
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  082
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -4159,7 +4491,11 @@
              The following capture history is a duplicate of number 13 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  083
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  083
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -4210,7 +4546,11 @@
   INPUT ---       10000000  1 0  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  084
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  084
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -4261,7 +4601,11 @@
              The following capture history is a duplicate of number 12 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  085
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  085
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -4312,7 +4656,11 @@
   INPUT ---       10000000  0 1  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  086
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  086
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -4363,7 +4711,11 @@
              The following capture history is a duplicate of number 14 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  087
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  087
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -4414,7 +4766,11 @@
   INPUT ---       01000000  0 1  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  088
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  088
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -4465,7 +4821,11 @@
              The following capture history is a duplicate of number 14 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  089
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  089
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -4516,7 +4876,11 @@
   INPUT ---       10000000  1 0  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  090
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  090
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -4567,7 +4931,11 @@
              The following capture history is a duplicate of number 13 above.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  091
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  091
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -4618,7 +4986,11 @@
   INPUT ---       10000000  1 0  ;
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  092
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  092
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -4658,7 +5030,11 @@
       Number of capture histories read was  17
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  093
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  093
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -4705,7 +5081,11 @@
       Data type is Scheme A Capture Histories.
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  094
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  094
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -4756,7 +5136,11 @@
                   TEST 2.C6: Test of rows 1-5 vs. row 6
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  095
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  095
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -4801,7 +5185,11 @@
                   TEST 2.C3: Test of rows 1-2 vs. row 3
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  096
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  096
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -4852,7 +5240,11 @@
                        Chi-square=0.0 (df=0) P=1.0000
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  097
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  097
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -4882,7 +5274,11 @@
       Chi-square=0.0000 (df=2) P=1.0000
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  098
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  098
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -4907,7 +5303,11 @@
           All Groups TEST 2    0.0000     2    1.0000
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  099
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  099
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -4958,7 +5358,11 @@
  |  Phi(7)p(8)     0.000000       0.000000       0.000000       0.000000     |
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  100
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  100
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -4994,7 +5398,11 @@
  +---------------------------------------------------------------------------+
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  101
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  101
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -5042,7 +5450,11 @@
  |  p(7)           1.000000       0.000000       1.000000       1.000000     |
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  102
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  102
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -5094,7 +5506,11 @@
  +---------------------------------------------------------------------------+
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  103
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  103
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -5141,7 +5557,11 @@
  |  p(6)         Unidentifiable Unidentifiable Unidentifiable Unidentifiable |
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  104
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  104
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -5193,7 +5613,11 @@
  +---------------------------------------------------------------------------+
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  105
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  105
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -5239,7 +5663,11 @@
  |  p(6)           0.000000       0.000000       0.000000       0.000000     |
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  106
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  106
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -5289,7 +5717,11 @@
  +---------------------------------------------------------------------------+
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  107
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  107
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -5339,7 +5771,11 @@
  |  Corr(Phi(5),Phi(6))          -0.703532                                   |
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  108
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  108
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -5384,7 +5820,11 @@
  +---------------------------------------------------------------------------+
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  109
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  109
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -5432,7 +5872,11 @@
  |  Corr(Phi(4),Phi(5))         Unidentifiable                               |
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  110
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  110
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -5475,7 +5919,11 @@
  +---------------------------------------------------------------------------+
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  111
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  111
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -5522,7 +5970,11 @@
  |  Corr(Phi(4),Phi(5))         Unidentifiable                               |
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  112
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  112
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -5565,7 +6017,11 @@
  +---------------------------------------------------------------------------+
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  113
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  113
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -5610,7 +6066,11 @@
  |  Corr(Phi(3),Phi(4))         Unidentifiable                               |
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  114
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  114
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -5651,7 +6111,11 @@
  +---------------------------------------------------------------------------+
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  115
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  115
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -5695,7 +6159,11 @@
  |  Corr(Phi(3),Phi(4))         Unidentifiable                               |
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  116
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  116
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -5736,7 +6204,11 @@
  +---------------------------------------------------------------------------+
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  117
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  117
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -5786,7 +6258,11 @@
  |  Corr(Phi(2),Phi(3))         Unidentifiable                               |
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  118
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  118
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -5835,7 +6311,11 @@
                Degrees of freedom lost to pooling and/or expected = 0 was  1
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  119
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  119
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -5887,7 +6367,11 @@
  |  Corr(1,2,Phi(1))            Unidentifiable                               |
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  120
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  120
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -5935,7 +6419,11 @@
  |  Corr(Phi(1),Phi(2))          -0.276133                                   |
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  121
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  121
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -5985,7 +6473,11 @@
  * *  WARNING  * *   One or more expected values were < 2.0. 
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  122
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  122
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -6036,7 +6528,11 @@
  +---------------------------------------------------------------------------+
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  123
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  123
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -6087,7 +6583,11 @@
  |  Corr(Phi(5),Phi(6))          -0.813619                                   |
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  124
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  124
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -6125,7 +6625,11 @@
               TEST 1        8.7143     8    0.3670
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+<<<<<<< HEAD
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  125
+=======
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  125
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -6150,10 +6654,17 @@
               H1Phi           14          -200.13781        428.27561
               H0              13          -200.53416        427.06831
 
+<<<<<<< HEAD
      Time in seconds for last procedure was 0.05
 
   Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
    Version 3.0(Win 95) Sep 1997         31-Jan-2019 12:56:26    Page  126
+=======
+     Time in seconds for last procedure was 0.08
+
+  Program RELEASE - Survival Rate Estimation with Capture-Recapture Data
+   Version 3.0(Win 95) Sep 1997         31-Jan-2019 19:27:16    Page  126
+>>>>>>> 98eac577991214fa227ee2b2befcf58ca89729f3
     Release-gof                                                                
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
