@@ -1,0 +1,272 @@
+
+   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(Win64) Vers. 8.1 Mar 2016    1-Feb-2019 12:21:39    Page  001
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+   This version was compiled by GCC version 5.3.0 using the options: 
+     -cpp -iprefix c:\tdm-gcc-64\gcc\bin\../lib/gcc/x86_64-w64-mingw32/5.3.0/ -D_MT
+     -U_REENTRANT -D IEEE -m64 -mtune=generic -march=x86-64 -mthreads -O2
+     -fimplicit-none -fbounds-check -funroll-loops -ftree-vectorize
+     -ffpe-summary=invalid,zero,overflow,underflow -fno-unsafe-math-optimizations
+     -frounding-math -fsignaling-nans -fopenmp.
+
+   This problem will use 7 of 8 possible threads.
+
+
+  INPUT --- proc title ;
+
+     CPU Time in seconds for last procedure was 0.00
+
+
+  INPUT --- proc chmatrix occasions= 14 groups= 2 etype= Live Nodes= 
+  INPUT --- 101 ICMeans NoHist hist= 90  ;
+
+  INPUT ---    time interval 1 1 1 1 1 1 5 1 1 1 1 1 1 ;
+
+  INPUT ---    glabel(1)=SpeciesBIB;
+
+  INPUT ---    glabel(2)=SpeciesCOC;
+
+   * *  WARNING  * *   At least a pair of the encounter histories are duplicates. 
+
+      Number of unique encounter histories read was 71.
+
+      Number of individual covariates read was 0.
+      Time interval lengths vary and/or not equal to 1.
+
+      Data type number is 1
+      Data type is Live Recaptures (CJS)                                                                               
+
+     CPU Time in seconds for last procedure was 0.00
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(Win64) Vers. 8.1 Mar 2016    1-Feb-2019 12:21:39    Page  002
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+
+
+  INPUT --- proc estimate link=Logit NOLOOP varest=2ndPart    ;
+
+
+  INPUT --- model={ Phi(~time)p(~1) };
+
+  INPUT ---    group=1 Phi    rows=13 cols=13 Triang ;
+  INPUT ---        1 2 3 4 5 6 7 8 9 10 11 12 13 ;
+  INPUT ---        2 3 4 5 6 7 8 9 10 11 12 13 ;
+  INPUT ---        3 4 5 6 7 8 9 10 11 12 13 ;
+  INPUT ---        4 5 6 7 8 9 10 11 12 13 ;
+  INPUT ---        5 6 7 8 9 10 11 12 13 ;
+  INPUT ---        6 7 8 9 10 11 12 13 ;
+  INPUT ---        7 8 9 10 11 12 13 ;
+  INPUT ---        8 9 10 11 12 13 ;
+  INPUT ---        9 10 11 12 13 ;
+  INPUT ---        10 11 12 13 ;
+  INPUT ---        11 12 13 ;
+  INPUT ---        12 13 ;
+  INPUT ---        13 ;
+
+  INPUT ---    group=2 Phi    rows=13 cols=13 Triang ;
+  INPUT ---        1 2 3 4 5 6 7 8 9 10 11 12 13 ;
+  INPUT ---        2 3 4 5 6 7 8 9 10 11 12 13 ;
+  INPUT ---        3 4 5 6 7 8 9 10 11 12 13 ;
+  INPUT ---        4 5 6 7 8 9 10 11 12 13 ;
+  INPUT ---        5 6 7 8 9 10 11 12 13 ;
+  INPUT ---        6 7 8 9 10 11 12 13 ;
+  INPUT ---        7 8 9 10 11 12 13 ;
+  INPUT ---        8 9 10 11 12 13 ;
+  INPUT ---        9 10 11 12 13 ;
+  INPUT ---        10 11 12 13 ;
+  INPUT ---        11 12 13 ;
+  INPUT ---        12 13 ;
+  INPUT ---        13 ;
+
+  INPUT ---    group=1 p    rows=13 cols=13 Triang ;
+  INPUT ---        14 14 14 14 14 14 14 14 14 14 14 14 14 ;
+  INPUT ---        14 14 14 14 14 14 14 14 14 14 14 14 ;
+  INPUT ---        14 14 14 14 14 14 14 14 14 14 14 ;
+  INPUT ---        14 14 14 14 14 14 14 14 14 14 ;
+  INPUT ---        14 14 14 14 14 14 14 14 14 ;
+  INPUT ---        14 14 14 14 14 14 14 14 ;
+  INPUT ---        14 14 14 14 14 14 14 ;
+  INPUT ---        14 14 14 14 14 14 ;
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(Win64) Vers. 8.1 Mar 2016    1-Feb-2019 12:21:39    Page  003
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+  INPUT ---        14 14 14 14 14 ;
+  INPUT ---        14 14 14 14 ;
+  INPUT ---        14 14 14 ;
+  INPUT ---        14 14 ;
+  INPUT ---        14 ;
+
+  INPUT ---    group=2 p    rows=13 cols=13 Triang ;
+  INPUT ---        14 14 14 14 14 14 14 14 14 14 14 14 14 ;
+  INPUT ---        14 14 14 14 14 14 14 14 14 14 14 14 ;
+  INPUT ---        14 14 14 14 14 14 14 14 14 14 14 ;
+  INPUT ---        14 14 14 14 14 14 14 14 14 14 ;
+  INPUT ---        14 14 14 14 14 14 14 14 14 ;
+  INPUT ---        14 14 14 14 14 14 14 14 ;
+  INPUT ---        14 14 14 14 14 14 14 ;
+  INPUT ---        14 14 14 14 14 14 ;
+  INPUT ---        14 14 14 14 14 ;
+  INPUT ---        14 14 14 14 ;
+  INPUT ---        14 14 14 ;
+  INPUT ---        14 14 ;
+  INPUT ---        14 ;
+
+  INPUT ---    design matrix constraints=14 covariates=14;
+  INPUT ---        1 0 0 0 0 0 0 0 0 0 0 0 0 0;
+  INPUT ---        1 1 0 0 0 0 0 0 0 0 0 0 0 0;
+  INPUT ---        1 0 1 0 0 0 0 0 0 0 0 0 0 0;
+  INPUT ---        1 0 0 1 0 0 0 0 0 0 0 0 0 0;
+  INPUT ---        1 0 0 0 1 0 0 0 0 0 0 0 0 0;
+  INPUT ---        1 0 0 0 0 1 0 0 0 0 0 0 0 0;
+  INPUT ---        1 0 0 0 0 0 1 0 0 0 0 0 0 0;
+  INPUT ---        1 0 0 0 0 0 0 1 0 0 0 0 0 0;
+  INPUT ---        1 0 0 0 0 0 0 0 1 0 0 0 0 0;
+  INPUT ---        1 0 0 0 0 0 0 0 0 1 0 0 0 0;
+  INPUT ---        1 0 0 0 0 0 0 0 0 0 1 0 0 0;
+  INPUT ---        1 0 0 0 0 0 0 0 0 0 0 1 0 0;
+  INPUT ---        1 0 0 0 0 0 0 0 0 0 0 0 1 0;
+  INPUT ---        0 0 0 0 0 0 0 0 0 0 0 0 0 1;
+  INPUT ---       blabel(1)=Phi:(Intercept);
+  INPUT ---       blabel(2)=Phi:time2;
+  INPUT ---       blabel(3)=Phi:time3;
+  INPUT ---       blabel(4)=Phi:time4;
+  INPUT ---       blabel(5)=Phi:time5;
+  INPUT ---       blabel(6)=Phi:time6;
+  INPUT ---       blabel(7)=Phi:time7;
+  INPUT ---       blabel(8)=Phi:time12;
+  INPUT ---       blabel(9)=Phi:time13;
+  INPUT ---       blabel(10)=Phi:time14;
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(Win64) Vers. 8.1 Mar 2016    1-Feb-2019 12:21:39    Page  004
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+  INPUT ---       blabel(11)=Phi:time15;
+  INPUT ---       blabel(12)=Phi:time16;
+  INPUT ---       blabel(13)=Phi:time17;
+  INPUT ---       blabel(14)=p:(Intercept);
+  INPUT ---       rlabel(1)=Phi gBIB c1 a0 t1;
+  INPUT ---       rlabel(2)=Phi gBIB c1 a1 t2;
+  INPUT ---       rlabel(3)=Phi gBIB c1 a2 t3;
+  INPUT ---       rlabel(4)=Phi gBIB c1 a3 t4;
+  INPUT ---       rlabel(5)=Phi gBIB c1 a4 t5;
+  INPUT ---       rlabel(6)=Phi gBIB c1 a5 t6;
+  INPUT ---       rlabel(7)=Phi gBIB c1 a6 t7;
+  INPUT ---       rlabel(8)=Phi gBIB c1 a11 t12;
+  INPUT ---       rlabel(9)=Phi gBIB c1 a12 t13;
+  INPUT ---       rlabel(10)=Phi gBIB c1 a13 t14;
+  INPUT ---       rlabel(11)=Phi gBIB c1 a14 t15;
+  INPUT ---       rlabel(12)=Phi gBIB c1 a15 t16;
+  INPUT ---       rlabel(13)=Phi gBIB c1 a16 t17;
+  INPUT ---       rlabel(14)=p gBIB c1 a1 t2;
+
+ Link Function Used is LOGIT        
+
+ Variance Estimation Procedure Used is 2ndPart 
+ -2logL(saturated) = 2040.5974     
+ Effective Sample Size = 4699
+
+ Number of function evaluations was 56 for 14 parameters.
+ Time for numerical optimization was 0.06 seconds.
+ -2logL { Phi(~time)p(~1) } = 2553.9335     
+ Penalty { Phi(~time)p(~1) } = -0.0000000    
+ Gradient { Phi(~time)p(~1) }:
+ -0.3273383E-03-0.2610219E-04-0.4557057E-04-0.1105299E-03 0.1954381E-05
+  0.1650344E-05 0.1418846E-05-0.5986666E-04-0.6495451E-04-0.5641392E-04
+ -0.5520065E-04 0.1047552E-05 0.1864866E-05-0.2701627E-03
+ S Vector { Phi(~time)p(~1) }:
+   316.1808      79.98250      17.26004      11.76066      3.605338    
+   2.158347     0.6080220     0.2949010     0.2224705E-01 0.1586918E-06
+  0.6793649E-07 0.4626334E-07 0.1391676E-07 0.2039092E-08
+ Time to compute number of parameters was 0.08 seconds.
+   Threshold =  0.3000000E-06     Condition index =  0.6449130E-11     New Threshold =  0.7629582E-08
+ New Guessimate of Estimated Parameters { Phi(~time)p(~1) } = 9          
+ Conditioned S Vector { Phi(~time)p(~1) }:
+   1.000000     0.2529644     0.5458913E-01 0.3719600E-01 0.1140277E-01
+  0.6826307E-02 0.1923020E-02 0.9326973E-03 0.7036180E-04 0.5019019E-09
+  0.2148659E-09 0.1463192E-09 0.4401520E-10 0.6449130E-11
+ Number of Estimated Parameters { Phi(~time)p(~1) } = 9          
+ DEVIANCE { Phi(~time)p(~1) } = 513.33602                     
+ DEVIANCE Degrees of Freedom { Phi(~time)p(~1) } = 53            
+ c-hat { Phi(~time)p(~1) } = 9.6855853                     
+ AIC { Phi(~time)p(~1) } = 2571.9335                  
+ AICc { Phi(~time)p(~1) } = 2571.9718                    
+ BIC { Phi(~time)p(~1) } = 2630.0294                    
+ Pearson Chisquare { Phi(~time)p(~1) } = 1040.8245                  
+ Possible Encounter Histories { Phi(~time)p(~1) } = 32764             
+ Pearson Chisquare df { Phi(~time)p(~1) } = 32729        
+ Pearson chat { Phi(~time)p(~1) } = 0.0318013                  
+ Sum(Observed/Expected) { Phi(~time)p(~1) } = 640.80205                  
+ Fletcher chat { Phi(~time)p(~1) } = 1.6259898                  
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(Win64) Vers. 8.1 Mar 2016    1-Feb-2019 12:21:39    Page  005
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+
+
+                     LOGIT Link Function Parameters of { Phi(~time)p(~1) }
+                                                              95% Confidence Interval
+ Parameter                    Beta         Standard Error      Lower           Upper
+ -------------------------  --------------  --------------  --------------  --------------
+    1:Phi:(Intercept)       -1.2227636      0.6672182       -2.5305113      0.0849841     
+    2:Phi:time2             0.7421808       0.9101508       -1.0417149      2.5260764     
+    3:Phi:time3             1.9936911       1.1934526       -0.3454760      4.3328581     
+    4:Phi:time4             2.2913979       1.2208940       -0.1015543      4.6843500     
+    5:Phi:time5             22.268099       0.0000000       22.268099       22.268099     
+    6:Phi:time6             26.554702       0.0000000       26.554702       26.554702     
+    7:Phi:time7             31.050497       0.0000000       31.050497       31.050497     
+    8:Phi:time12            -0.5192007      0.6989698       -1.8891815      0.8507802     
+    9:Phi:time13            1.8004050       0.8871888       0.0615150       3.5392951     
+   10:Phi:time14            4.6426349       6.6984018       -8.4862329      17.771503     
+   11:Phi:time15            0.6476160       0.7381893       -0.7992352      2.0944671     
+   12:Phi:time16            42.410469       0.0000000       42.410469       42.410469     
+   13:Phi:time17            23.384989       0.0000000       23.384989       23.384989     
+   14:p:(Intercept)         -3.2080879      0.0826549       -3.3700914      -3.0460843    
+
+
+                     Real Function Parameters of { Phi(~time)p(~1) }
+                                                               95% Confidence Interval
+  Parameter                  Estimate       Standard Error      Lower           Upper
+ --------------------------  --------------  --------------  --------------  --------------
+     1:Phi gBIB c1 a0 t1     0.2274505       0.1172414       0.0737467       0.5212332                           
+     2:Phi gBIB c1 a1 t2     0.3821145       0.1163867       0.1905003       0.6190687                           
+     3:Phi gBIB c1 a2 t3     0.6837215       0.2145935       0.2361164       0.9379610                           
+     4:Phi gBIB c1 a3 t4     0.7443371       0.1959718       0.2789272       0.9563557                           
+     5:Phi gBIB c1 a4 t5     1.0000000       0.0000000       1.0000000       1.0000000                           
+     6:Phi gBIB c1 a5 t6     1.0000000       0.0000000       1.0000000       1.0000000                           
+     7:Phi gBIB c1 a6 t7     1.0000000       0.0000000       1.0000000       1.0000000                           
+     8:Phi gBIB c1 a11 t12   0.1490636       0.0277113       0.1024621       0.2118573                           
+     9:Phi gBIB c1 a12 t13   0.6405245       0.1355778       0.3597501       0.8496338                           
+    10:Phi gBIB c1 a13 t14   0.9683198       0.2046436       0.6407996E-004  0.9999999                           
+    11:Phi gBIB c1 a14 t15   0.3600499       0.0744766       0.2299351       0.5145915                           
+    12:Phi gBIB c1 a15 t16   1.0000000       0.0000000       1.0000000       1.0000000                           
+    13:Phi gBIB c1 a16 t17   1.0000000       0.0000000       1.0000000       1.0000000                           
+    14:p gBIB c1 a1 t2       0.0388625       0.0030873       0.0332434       0.0453868                           
+
+ Attempted ordering of parameters by estimatibility:
+  14  1  8 11  9  2  3  4 10  6  5  7 12 13
+ Beta number 13 is a singular value.
+
+     CPU Time in seconds for last procedure was 0.14
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(Win64) Vers. 8.1 Mar 2016    1-Feb-2019 12:21:39    Page  006
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+
+
+  INPUT --- proc stop;
+
+     CPU Time in minutes for this job was 0.00
+
+     Time Start = 12:21:39.523   Time End = 12:21:39.804
+
+     Wall Clock Time in minutes for this job was 0.00
+
+
+          E X E C U T I O N   S U C C E S S F U L 
