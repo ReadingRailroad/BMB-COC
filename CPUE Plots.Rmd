@@ -74,6 +74,9 @@ DF2017<-data.frame(Lakes,CarpBiomass,BuffBiomass,CarpBM.LL,CarpBM.UL,BuffBM.LL,B
 
 summary(DF2017)
 
+
+
+
 ```
 
 Now to create 2 plots, with regression lines (YAY!)
@@ -874,6 +877,7 @@ going to finish summary stats and plotting in 2019 annual report file
 
 ```{r}
 write.csv(final, "2018 Raw CPUE Data.csv")
+
 ```
 
 

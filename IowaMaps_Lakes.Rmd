@@ -3,6 +3,8 @@ title: "Iowa Maps and Lakes"
 author: "Martin A. Simonson"
 date: "October 18, 2017"
 output: pdf_document
+editor_options: 
+  chunk_output_type: console
 ---
 ```{r,include=FALSE}
 packages<-function(x, repos="http://cran.r-project.org", ...){
@@ -56,9 +58,14 @@ x<-(-96.2)
 y<-(41)
 north.arrow(x,y,len=0.1,lab="N",col='black')
 # To add the study lakes, I first need to create a df with the lat, long, and labels
-setwd('C:/Users/M_Sim/OneDrive/IOWA/Iowa State University/CarpR/')
+
 coords<-read.csv('LakeCoords.csv',header=T)
 # Adding the points to the map with labels I hope
+
+# only these lakes for 2019 IA AFS talk
+# coords<-subset(coords, Name == "Center Lake" | Name == "S. Twin Lake" | Name == "N. Twin Lake")
+
+
 points(coords$Long,
        coords$Lat,
        pch=19,col='blue',cex=1)

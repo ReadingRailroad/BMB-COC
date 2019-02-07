@@ -515,6 +515,9 @@ Ntwin.m.6$results$lnl # code format to examine -2 log likelihood for models. Per
 - need to separate months by year. Probs combined column
 - and trying to run for both buffalo and carp together (as groups). 
 ```{r}
+
+
+
 levels(dframe$Lake)
 input.data<-subset(dframe, Lake == "S. Twin" & 
                            !is.na(dframe$TAG.NUMBER) &
@@ -653,3 +656,4 @@ Stwin.m.6$results$lnl # code format to examine -2 log likelihood for models. Per
 
 
 
+```
