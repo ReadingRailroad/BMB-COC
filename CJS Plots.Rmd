@@ -1,0 +1,133 @@
+---
+title: "CJS Plots"
+author: "Martin A. Simonson"
+date: "February 6, 2019"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# Front Matter
+```{r,include=FALSE}
+rm(list=ls())
+
+
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
+
+#remove.packages(c("ggplot2", "data.table"))
+#install.packages('Rcpp', dependencies = TRUE)
+#install.packages('ggplot2', dependencies = TRUE)
+#install.packages('data.table', dependencies = TRUE)
+
+#packages(rcompanion)
+#packages(vegan)
+packages(ggplot2)
+#packages(gridExtra)
+packages(reshape2)
+#packages(FSA)
+#packages(nnet)
+#packages(multcomp)
+#packages(plyr)
+#packages(rv)
+#packages(arm)
+#packages(lattice)
+#packages(tikzDevice)
+#packages(GGally)
+#packages(wesanderson)
+#packages(DescTools)
+#packages(mvnormtest)
+#packages(HH)
+#packages(biotools)
+#packages(car)
+#packages(psych)
+#packages(GPArotation)
+#packages(doBy)
+packages(dplyr)
+packages(RMark)
+packages(tidyr)
+```
+
+plotting the top two models for CJS survival and recapture estimates from carp and buffalo in three iowa lakes in 2017 and 2018.
+
+- Three lakes are grouped alphabetically, Center, N Twin, S Twin
+- carp and buffalo are completely separate MARK .dbf files so they need to be merged here
+- survival (Phi, S) is the first 21 parameters (7 for each lake)
+- recap rate (p) is second 21 parameters. These are completely group and time dependent, meaning each season's recap rate in each lake is it's own parameter.
+
+## The Plot:
+
+side-by-side boxplot, or using lattice to split Open vs. Winter
+- potential bargraph but those are whack sauce
+
+survival (phi) on y axis
+Open water (spring summer fall) vs. Winter
+grouped within that is Center vs Twins 
+
+duplicated for each species. Shown separately
+
+```{r}
+# load in data
+
+BuffSurv<-
+```
+
+```{r,}
+# Create DF with CPUE and 95% CI for each lake...
+
+Lakes<-c("Center","N+S Twin")
+Carp.S.open <- c(0.9364316,0.9364316)
+Carp.S.open.L<-c(0.886910,0.8886910)
+Carp.S.open.U<-c(0.9795353,0.9795353)
+
+Carp.S.winter <- c(0.5137947,0.9364316)
+Carp.S.winter.L<-c(0.0662681,0.8886910)
+Carp.S.winter.U<-c(0.9951693,0.9795353)
+
+Buff.S.open <- c(NA,81894,104513,26802)
+Buff.S.open.L<-c(NA,59.40,17.99,36.56)
+Buff.S.open.U<-c(NA,145.17,31.14,95.32)
+
+Buff.S.winter <- c(NA,327.6,225.7,48.3)
+Buff.S.winter.L<-c(63432,45202,5387,29180)
+Buff.S.winter.u<-c(224140,77317,17058,92395)
+
+Carp.DF<-data.frame(Lakes,Carp.S.open,Carp.S.open.L,Carp.S.open.U,
+                          Carp.S.winter,Carp.S.winter.L,Carp.S.winter.U)
+
+summary(Carp.DF)
+
+```
+
+Now to create 2 plots, 
+
+```{r,}
+Lakes<-c("Center","Center","Twins","Twins")
+Season<-c("Open","Winter","Open","Winter")
+Carp.S<-c(0.9364316, 0.5137947, 0.9364316, 0.9364316)
+Carp.S.L<-c(0.8886910,0.0662681, 0.8886910,0.8886910)
+Carp.S.U<-c(0.9795353, 0.9951693, 0.9795353, 0.9795353)
+Carp.DF<-data.frame(Lakes,Season,
+                    Carp.S,
+                    Carp.S.L,
+                    Carp.S.U)
+
+# Carp FIrst
+carp<-ggplot(Carp.DF, aes(x=Lakes, y=Carp.S)) +
+  geom_bar(stat="identity") +
+  geom_errorbar(aes(ymax = Carp.S.U, ymin = Carp.S.L)) +
+  labs(title = "Common Carp Survival in Open Water vs. Winter Seasons",
+       x = "Lake",
+       y = "Survival") +
+  theme_bw() +
+  facet_wrap(~Season)
+carp
+
+
+```
+

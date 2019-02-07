@@ -230,7 +230,8 @@ yz$d<-"*/"
 yz$TAG.NUMBER<-factor(paste(yz$c,yz$TAG.NUMBER,yz$d,sep = " "))
 #nicely done. Now to unite the capture histories
 yz<-unite(yz,"ch", 2:9, sep = "",remove=T) # capture history column
-yz<-unite(yz,"L:CNS", 3:5, sep = "",remove=T) # lake column, in Center North Twin South Twin Order
+yz<-unite(yz,"L:CNS", 3:5, sep = " ",remove=T) # lake column, in Center North Twin South Twin Order
+yz[,3]<-factor(paste(yz[,3],";", sep="")) # adding semicolon to end of lake column
 yz<-yz[,-c(4:5)] # comment columns removal.
 head(yz)
 
@@ -243,7 +244,7 @@ copy paste the following to the re-saved file for MARK, adjust as needed:
 /* Input file 2019-02-01 from Center, N, & S Twin Lakes between May 2017 and November 2018. */
 /* COMMON CARP data. First column is a commented tag number */
 /* ch: 8 events, binary split into 4 seasons in 2 years [Spr17, Sum17, ... , Fall18, Win18] */
-/* Spring Mar-May 3months; Summer Jun-Aug 3 months; Fall Oct-Sep 2 Months; Winter 4 remain. */
+/* Spring Mar-May 3months, Summer Jun-Aug 3 months, Fall Oct-Sep 2 Months, Winter 4 remain. */
 /* Lake recorded as binary variable in alphabetical order: [Center, North Twin, South Twin] */
 
 ```{r}
@@ -362,7 +363,8 @@ yz$d<-"*/"
 yz$TAG.NUMBER<-factor(paste(yz$c,yz$TAG.NUMBER,yz$d,sep = " "))
 #nicely done. Now to unite the capture histories
 yz<-unite(yz,"ch", 2:9, sep = "",remove=T) # capture history column
-yz<-unite(yz,"L:CNS", 3:5, sep = "",remove=T) # lake column, in Center North Twin South Twin Order
+yz<-unite(yz,"L:CNS", 3:5, sep = " ",remove=T) # lake column, in Center North Twin South Twin Order
+yz[,3]<-factor(paste(yz[,3],";", sep="")) # adding semicolon to end of lake column
 yz<-yz[,-c(4:5)] # comment columns removal.
 head(yz)
 
@@ -375,7 +377,7 @@ copy paste the following to the re-saved file for MARK, adjust as needed:
 /* Input file 2019-02-02 from Center, N, & S Twin Lakes between May 2017 and November 2018. */
 /* BIGMOUTH BUFFALO data. First column is a commented tag number */
 /* ch: 8 events, binary split into 4 seasons in 2 years [Spr17, Sum17, ... , Fall18, Win18] */
-/* Spring Mar-May 3months; Summer Jun-Aug 3 months; Fall Oct-Sep 2 Months; Winter 4 remain. */
+/* Spring Mar-May 3months, Summer Jun-Aug 3months, Fall Oct-Sep 2 Months, Winter 4 remain. */
 /* Lake recorded as binary variable in alphabetical order: [Center, North Twin, South Twin] */
 
 ```{r}
