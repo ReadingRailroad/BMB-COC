@@ -1283,35 +1283,42 @@ split by species, melt, and plot!
 c.data<-data[,c(1:7,14)]
 b.data<-data[,c(1,8:14)]
 
-#Carp total biomass plot
-coc.bm<-ggplot(c.data, aes(x= Year, y = C.BM, ymin=C.L.BM, ymax=C.U.BM))+
-                geom_point(size=4)+
-                geom_linerange(size = 0.5) +
-                facet_wrap(~X,scales = "free_x")+
+frame<-read.csv("junk.csv")
+frame$Year<-factor(frame$Year)
+str(frame)
+# total biomass plot
+bm<-ggplot(frame, aes(x= Year, y = BM, ymin=L.BM, ymax=U.BM))+
+                geom_point(size=4, aes(colour = Species, shape = Species))+
+                geom_errorbar(width = 0.2) +
+                facet_wrap(~Species+Lake)+
+                scale_y_continuous(labels = c("0","100,000","200,000","300,000"))+
                 theme_bw()+
-                labs (title = "Carp Total Biomass 2017-2018", 
+                labs (title = "Change in Total Biomass 2017-2018", 
                     y = "Biomass Estimate (lbs.)")
-coc.bm
+bm
 
 # Buf total biomass plot
-bib.bm<-ggplot(b.data, aes(x= Year, y = B.BM, ymin=B.L.BM, ymax=B.U.BM))+
-                geom_point(size=4)+
-                geom_linerange(size = 0.5) +
-                facet_wrap(~X,scales = "free_x")+
-                theme_bw()+
-                labs (title = "Buffalo Total Biomass 2017-2018", 
-                    y = "Biomass Estimate (lbs.)")
-bib.bm
+#bib.bm<-ggplot(b.data, aes(x= Year, y = B.BM, ymin=B.L.BM, ymax=B.U.BM))+
+#                geom_point(size=4)+
+#                ylim=c(0,300000)+
+#                geom_linerange(size = 0.5) +
+#                facet_wrap(~X,scales = "free_x")+
+#                theme_bw()+
+#                labs (title = "Buffalo Total Biomass 2017-2018", 
+#                    y = "Biomass Estimate (lbs.)")
+#bib.bm
 
 #Carp bm density plot
-coc.bmD<-ggplot(c.data, aes(x= Year, y = C.BMDensity, ymin=C.L.BMDensity, ymax=C.U.BMDensity))+
-                geom_point(size=4)+
-                geom_linerange(size = 0.5) +
-                facet_wrap(~X,scales = "free_x")+
+dodge<-position_dodge(width=0.2)
+bmD<-ggplot(frame, aes(x= Year, y = BMDensity, ymin=L.BMDensity, ymax=U.BMDensity))+
+                geom_point(size=4, aes(colour=Species,shape=Species))+
+                geom_errorbar(width = 0.2,
+                           position = dodge) +
+                facet_wrap(~Species+Lake)+
                 theme_bw()+
-                labs (title = "Carp Biomass Density 2017-2018", 
+                labs (title = "Change in Biomass Density 2017-2018", 
                     y = "Estimated Biomass Density (lbs. / acre)")
-coc.bmD
+bmD
 
 # Buf total biomass plot
 bib.bmD<-ggplot(b.data, aes(x= Year, y = B.BMDensity, ymin=B.L.BMDensity, ymax=B.U.BMDensity))+
@@ -1331,6 +1338,28 @@ grid.arrange(coc.bm,
              nrow = 2)
 
 ```
+
+
+
+## real quick cpue plot like above frame
+
+```{r}
+frame<-read.csv("junk2.csv")
+frame$Year<-factor(frame$Year)
+str(frame)
+# total biomass plot
+bm<-ggplot(frame, aes(x= Year, y = CPUE, ymin=Lower, ymax=Upper))+
+                geom_point(size=4, aes(colour = Species, shape = Species))+
+                geom_errorbar(width = 0.2) +
+                facet_wrap(~Species+Lake)+
+                theme_bw()+
+                labs (title = "Change in CPUE 2017-2018", 
+                    y = "CPUE (Fish per Hour)")
+bm
+```
+
+
+
 
 
 # Plot of species diversity
