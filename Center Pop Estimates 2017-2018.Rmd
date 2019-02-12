@@ -12,7 +12,9 @@ setwd("~/BMB-COC")
 #### Data Entry
 
 ```{r}
-Year<-factor(c(2017,2018))
+# Center Lake
+Lake<-c("Center","Center")
+Year<-c(2017,2018)
 COC.PopEst<-c(8675,6298)
 BMB.PopEst<-c(12999,3997)
 COC.LL<-c(6769,2865)
@@ -20,18 +22,61 @@ COC.UL<-c(11578,9731)
 BMB.LL<-c(11243,1216)
 BMB.UL<-c(15463,6778)
 
-df<-data.frame(cbind(Year,COC.PopEst,COC.LL,COC.UL,BMB.PopEst,BMB.LL,BMB.UL))
-df
+c.df<-data.frame(cbind(Lake,Year,COC.PopEst,COC.LL,COC.UL,BMB.PopEst,BMB.LL,BMB.UL))
 
-# Could add biomass and biomass density. Have on hand for 2017, could be done easily for 2018
+
+# North Twin Lake
+Lake<-c("N. Twin","N. Twin")
+Year<-c(2017,2018)
+COC.PopEst<-c(2057,3816)
+BMB.PopEst<-c(12963,18,775)
+COC.LL<-c(1231,1942)
+COC.UL<-c(3898,5690)
+BMB.LL<-c(7276,8542)
+BMB.UL<-c(23038,29009)
+
+N.df<-data.frame(cbind(Lake,Year,COC.PopEst,COC.LL,COC.UL,BMB.PopEst,BMB.LL,BMB.UL))
+
+
+# South Twin Lake
+Lake<-c("S. Twin","S. Twin")
+Year<-c(2017,2018)
+COC.PopEst<-c(23204,20661)
+BMB.PopEst<-c(6895,34277)
+COC.LL<-c(12227,13001)
+COC.UL<-c(41883,28320)
+BMB.LL<-c(5535,18839)
+BMB.UL<-c(8748,49715)
+
+S.df<-data.frame(cbind(Lake,Year,COC.PopEst,COC.LL,COC.UL,BMB.PopEst,BMB.LL,BMB.UL))
+
+df<-rbind(c.df,N.df,S.df)
+df$Year<-as.factor(df$Year)
+df[,3]<-as.numeric(as.character(df[,3]))
+df[,4]<-as.numeric(as.character(df[,4]))
+df[,5]<-as.numeric(as.character(df[,5]))
+df[,6]<-as.numeric(as.character(df[,6]))
+df[,7]<-as.numeric(as.character(df[,7]))
+df[,8]<-as.numeric(as.character(df[,8]))
+
+str(df)
+
 ```
 
 #### Plot year changes
 
 ```{r}
-
-
-
+df<-read.csv("junk3.csv",header=T)
+str(df)
+df$Year<-factor(as.character(df$Year))
+abund<-ggplot(df, aes(x= Year, y = PopEst, ymin=Lower, ymax=Upper))+
+                geom_point(size=4, aes(colour = Species, shape = Species))+
+                geom_errorbar(width = 0.2) +
+                facet_wrap(~Species+Lake)+
+                theme_bw()+
+                labs (title = "Change in Abundance 2017-2018", 
+                      y = "Abundance Estimate")
+abund
 
 ```
 
