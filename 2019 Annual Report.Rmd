@@ -1682,8 +1682,8 @@ lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
         #buff
 buff <- subset(ages, Species == "COC")
 summary(buff)
-
-ggplot(buff, aes(x=Spine.MAS, y=Spine.DRF, shape = Lake, colour = Lake))+geom_point(size=5)+
+packages("ggplot2")
+ggplot(ages, aes(x=Otolith.MAS, y=Otolith.DRF, shape = Lake, colour = Lake))+geom_point(size=5)+
   geom_abline(slope = 1, intercept = 0)+
   ggtitle("Carp Age Estimates by Lake")
 
@@ -1893,15 +1893,15 @@ CI95<-groupwiseMean(cpue ~ Lake + Year + Species,
 - update 1-28-2019
 -- need to find some target species that we hypothesize will respond to harvest
 -- need to come up with some of those metrics (Wr, size structure, cpue, PSD, etc)
-<<<<<<< HEAD
+
 -- Decide what's most meaningful for annual report!
-=======
+
 -- Maybe just most common sportfish species (age structures collected)
->>>>>>> 202a0ead5f86acadfda35ae8776eea551802ef7d
+
 
 ## Species Diversity
 ```{r}
-diversity<-read.csv("2018_COC_BIB_CMR_Data.csv", header = T)
+diversity<-read.csv("2018/2018_COC_BIB_CMR_Data.csv", header = T)
 
 summary(diversity$Gear)
 diversity<-droplevels(subset(diversity, Gear == "Fyke" |
@@ -1936,16 +1936,138 @@ p1
 summary(diversity$Species[diversity$Gear == "Fyke"])
 # BLC and BLG and WHC
 # WAE
-# White Sucker
+# White Sucker ?
+fyke<-droplevels(subset(diversity, Gear == "Fyke")) #fyke samples 
+fyke<-droplevels(subset(fyke, Species == "BLC" |
+                   Species == "BLG" |
+                   Species == "WHC" |
+                   Species == "WAE")) # top four species (not white bass, not bullhead)
+str(fyke)
+fyke<-fyke[,-c(1,4,7,8,9,10,12:22)]
+
+df<-subset(fyke, !is.na(Length..mm.))
+
+levels(df$Lake)
+df$Lake<-as.character(df$Lake)
+df$Lake[df$Lake == "5 Island"] <- "Five Island"
+df$Lake<-as.factor(df$Lake)
+df.m<-melt(df)
+
+Fyke.lf2018<-ggplot(df.m, aes(x=value))+
+                         geom_histogram(binwidth = 10,
+                                        colour = "black",
+                                        position = "stack")+
+                         coord_cartesian(xlim = c(0,1000))+
+                         scale_y_continuous(limits = c(0,250))+
+                         facet_grid(vars(Species), vars(Lake))+
+                         theme(panel.grid.major = element_blank(), 
+                              panel.grid.minor = element_blank(),
+                              panel.background = element_rect(fill="white",colour="grey50"), 
+                              axis.line = element_line(colour = "black"),
+                              legend.position = "bottom",
+                              legend.background = element_rect(colour="grey20"))+
+                         labs(title = "2018 Length Frequencies",
+                              x = "Length (mm)",
+                              y = "Frequency")
+
+Fyke.lf2018
+
+
+
+
+
+
+
+
+
 
 summary(diversity$Species[diversity$Gear == "Electroshocking"])
 # WAE
 # LMB
 # CCF
 # BLC/BLGL/WHC
+Shock<-droplevels(subset(diversity, Gear == "Electroshocking")) #fyke samples 
+Shock<-droplevels(subset(Shock, Species == "WAE" |
+                   Species == "LMB" |
+                   Species == "CCF" |
+                   Species == "BLG")) # top four species (not white bass, not bullhead)
+str(Shock)
+Shock<-Shock[,-c(1,4,7,8,9,10,12:22)]
+
+df<-subset(Shock, !is.na(Length..mm.))
+
+levels(df$Lake)
+df$Lake<-as.character(df$Lake)
+df$Lake[df$Lake == "5 Island"] <- "Five Island"
+df$Lake<-as.factor(df$Lake)
+df.m<-melt(df)
+
+Fyke.lf2018<-ggplot(df.m, aes(x=value))+
+                         geom_histogram(binwidth = 10,
+                                        colour = "black",
+                                        position = "stack")+
+                         coord_cartesian(xlim = c(0,1000))+
+                         scale_y_continuous(limits = c(0,50))+
+                         facet_grid(vars(Species), vars(Lake))+
+                         theme(panel.grid.major = element_blank(), 
+                              panel.grid.minor = element_blank(),
+                              panel.background = element_rect(fill="white",colour="grey50"), 
+                              axis.line = element_line(colour = "black"),
+                              legend.position = "bottom",
+                              legend.background = element_rect(colour="grey20"))+
+                         labs(title = "2018 Length Frequencies",
+                              x = "Length (mm)",
+                              y = "Frequency")
+
+Fyke.lf2018
+
+
+
 
 ```
 
+that didn't pan out.
+
+Trying some PSDs with the truncated data (only six species)
+
+```{r}
+packages("FSA")
+
+# reduce "Diversity" to top 6 interesting species
+# WAE, BLG, LMB, CCF, WHC, BLC
+str(diversity)
+psd.frame<-droplevels(subset(diversity, Species == "BLC"|
+                                        Species == "BLG"|
+                                        Species == "CCF"|
+                                        Species == "LMB"|
+                                        Species == "WAE"|
+                                        Species == "WHC"))
+psd.frame$Species<-as.character(psd.frame$Species)
+psd.frame$Species[psd.frame$Species == "BLC"]<-"Black Crappie"
+psd.frame$Species[psd.frame$Species == "BLG"]<-"Bluegill"
+psd.frame$Species[psd.frame$Species == "CCF"]<-"Channel Catfish"
+psd.frame$Species[psd.frame$Species == "LMB"]<-"Largemouth Bass"
+psd.frame$Species[psd.frame$Species == "WAE"]<-"Walleye"
+psd.frame$Species[psd.frame$Species == "WHC"]<-"White Crappie"
+psd.frame$Species<-as.factor(psd.frame$Species)
+
+psd.frame$PSDcat<-psdAdd(Length..mm.~Species, data = psd.frame,
+                        units = "mm")
+head(psd.frame)
+( t1 <- with(psd.frame, table(interaction(Species, Lake),PSDcat)) )
+
+# one trophy black crappie in center lake
+psdVal("Black Crappie",units="in")
+
+
+
+
+( t1r <- t(apply(t1[,-1],MARGIN=1,FUN=rcumsum)) )
+
+( t1p <- round(t1r[,-1]/t1r[,1]*100,1) )
+
+
+```
 
 
 

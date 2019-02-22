@@ -1,0 +1,45 @@
+---
+title: "AECL 560 Assignment 4"
+author: "Marty Simonson"
+date: "February 19, 2019"
+output: word_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r,}
+setwd("C://Users/martysim/Downloads")
+
+df<-read.csv("Pallid Sturgeon - Sheet1.csv", header=T)
+
+str(df)
+df<-df[-51,]
+df$FL.cm.<-as.numeric(as.character(df$FL.cm.))
+df$ForkLength<-df$FL.cm.*10
+
+df<-df[,-1]
+
+df.m<-melt(df, id.vars = "ForkLength")
+
+summary(df.m$ForkLength)
+
+
+PallidSturgeon<-ggplot(df.m, aes(x=ForkLength, y=value )) +
+                        geom_col()+
+                         coord_cartesian(xlim = c(0,2000))+
+                         scale_y_continuous(limits = c(0,50))+
+                         facet_grid(vars(variable))+
+                         theme(panel.grid.major = element_blank(), 
+                              panel.grid.minor = element_blank(),
+                              panel.background = element_rect(fill="white",colour="grey50"), 
+                              axis.line = element_line(colour = "black"),
+                              legend.position = "bottom",
+                              legend.background = element_rect(colour="grey20"))+
+                         labs(title = "Pallid Sturgeon Length Frequencies",
+                              x = "Length (mm)",
+                              y = "Frequency")
+
+PallidSturgeon
+
+```
