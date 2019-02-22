@@ -982,6 +982,8 @@ harvest<-droplevels(subset(harvest, Lake == "Center Lake" |
                          Lake == "Five Island Lake" |
                          Lake == "Silver Lake (Dickinson)" ))
 
+
+
 #drop freshwater drum
 harvest<-droplevels(subset(harvest, Species == "CAP"|
                                     Species == "BMB"))
@@ -1006,6 +1008,8 @@ harvest$Lake<-factor(harvest$Lake)
 # add column for pounds removed per acre
 harvest$Removal<-harvest$Harvest/harvest$Acres
 
+
+
 ##################################
 # Lake: factor of lakes with harvest 2015 to 2018
 # Year: factor of year
@@ -1015,6 +1019,46 @@ harvest$Removal<-harvest$Harvest/harvest$Acres
 # Removal: standardized rough fish removal in pounds per acre
 #################################
 ```
+
+```{r}
+#############################
+#    quick alternate plot for my IA AFS presentation: 
+#    just figure of harvest in center in 2017
+c.harvest<-droplevels(subset(harvest,Lake == "Center Lake"))
+c.harvest<-droplevels(subset(c.harvest, Year == "2018"))
+p1<-ggplot(c.harvest,aes(x=Species, y=Harvest))+
+           geom_bar(stat="identity",position="Dodge")+
+           theme(panel.grid.major = element_blank(), 
+                panel.grid.minor = element_blank(),
+                panel.background = element_rect(fill="white",colour="grey50"), 
+                axis.line = element_line(colour = "black"),
+                legend.position = "bottom")+
+           labs(title = "Center Lake Harvest",
+                x = "Species",
+                y = "Harvest (lbs)")
+           
+p1
+
+p2<-ggplot(harvest,aes(x=Species, y=Removal))+
+           geom_bar(stat="identity",position="Dodge")+
+           theme(panel.grid.major = element_blank(), 
+                panel.grid.minor = element_blank(),
+                panel.background = element_rect(fill="white",colour="grey50"), 
+                axis.line = element_line(colour = "black"),
+                legend.position = "bottom",
+                legend.background = element_rect(colour="grey20"))+
+           labs(title = "Center Lake Removal",
+                x = "Species",
+                y = "Harvest Removal Rate (lbs/acre)")
+           
+p2
+
+
+```
+
+
+
+
 
 - need to adjust DF so that we have another column representing a season. 
 -- maybe like "15-16" could represent fall 15 and spring 16 harvest. Eh?
@@ -1811,6 +1855,34 @@ bm<-ggplot(frame, aes(x= Year, y = CPUE, ymin=Lower, ymax=Upper))+
 bm
 ```
 
+
+## new plot of cpue changes between 2017 and 2018 but subset of months sampled (may-june)
+
+```{r}
+frame<-droplevels(subset(DF, Lake == "Center" |
+                             Lake == "N. Twin"|
+                             Lake == "S. Twin"))
+head(frame)
+summary(frame$Month)
+# Subset months
+frame<-droplevels(subset(frame, Month == "5"|
+                                Month == "6"))
+
+
+
+
+# 95% CI stats... 
+CI95<-groupwiseMean(cpue ~ Lake + Year + Species,
+                    data = frame,
+                    conf = 0.95,
+                    digits = 3)
+
+
+
+
+
+
+```
 
 
 

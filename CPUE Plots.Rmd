@@ -876,7 +876,7 @@ final<-rbind(final1,final2)
 going to finish summary stats and plotting in 2019 annual report file
 
 ```{r}
-write.csv(final, "2018 Raw CPUE Data.csv")
+write.csv(final, "2018 Raw CPUE Data.csv", row.names = F)
 
 ```
 
