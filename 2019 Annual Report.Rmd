@@ -1620,7 +1620,7 @@ st.buff <- droplevels(subset(ages, Species == "BIB" &
                                  !is.na(ages$Otolith.MAS)))
 summary(st.buff)
 st.buff$tl<-st.buff$TL.mm
-st.buff$age<-st.buff$Spine.DRF # No otoliths taken from this lake 2017
+st.buff$age<-st.buff$Otolith.DRF # No otoliths taken from this lake 2017
 
 summary(st.buff$tl)
 summary(st.buff$age)
@@ -1629,7 +1629,7 @@ summary(st.buff$age)
 svTypical<-vbStarts(tl~age,data=st.buff)
 #svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.buff)
 unlist(svTypical)
-svTypical<-list(Linf=632.94,K=0.3592972,t0=-0.9764594) # screwed up starting values... try spines
+svTypical<-list(Linf=591.78,K=0.1976491,t0=-6.3982946) # screwed up starting values... try spines
 
 
 # Fitting the model and boostrapping
@@ -1637,7 +1637,7 @@ svTypical<-list(Linf=632.94,K=0.3592972,t0=-0.9764594) # screwed up starting val
 
 vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
 vbTyp<-vbFuns()
-vbTyp(3,Linf=c(632.94,0.3592972,-0.9764594))
+vbTyp(3,Linf=c(591.78,0.1976491,-6.3982946))
 
 
 
