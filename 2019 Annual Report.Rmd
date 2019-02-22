@@ -205,6 +205,10 @@ df<-subset(dframe, !is.na(Length..mm.) & Species == "COC" |
                    !is.na(Length..mm.) & Species == "BIB")
 #df<-subset(df, Lake != "Blue")
 
+levels(df$Lake)
+df$Lake<-as.character(df$Lake)
+df$Lake[df$Lake == "5 Island"] <- "Five Island"
+df$Lake<-as.factor(df$Lake)
 df.m<-melt(df)
 
 all.lakes.lf2018<-ggplot(df.m, aes(x=value, fill = Gear))+
@@ -212,7 +216,7 @@ all.lakes.lf2018<-ggplot(df.m, aes(x=value, fill = Gear))+
                                         colour = "black",
                                         position = "stack")+
                          coord_cartesian(xlim = c(0,1000))+
-                         scale_y_continuous(limits = c(0,200))+
+                         scale_y_continuous(limits = c(0,700))+
                          facet_grid(vars(Species), vars(Lake))+
                          theme(panel.grid.major = element_blank(), 
                               panel.grid.minor = element_blank(),
@@ -225,6 +229,7 @@ all.lakes.lf2018<-ggplot(df.m, aes(x=value, fill = Gear))+
                               y = "Frequency")
 
 all.lakes.lf2018
+
 ```
 
 
@@ -584,7 +589,6 @@ DF[,3]<-as.factor(as.character(DF[,3]))
 DF$n<-as.numeric(DF$n)
 
 summary(DF)
-# removing the blue lake data point with 300 fish/hour
 
 ```
 
@@ -599,24 +603,44 @@ CI95<-groupwiseMean(cpue ~ Lake + Month + Species,
                     digits = 3)
 # results in lots of negative numbers for confidence interval, especially in late fall :(
 
+CI95$Month<-as.character(CI95$Month)
+CI95$Month[CI95$Month == "5"] <- "May"
+CI95$Month[CI95$Month == "6"] <- "June"
+CI95$Month[CI95$Month == "7"] <- "July"
+CI95$Month[CI95$Month == "8"] <- "August"
+CI95$Month[CI95$Month == "9"] <- "September"
+CI95$Month[CI95$Month == "10"] <- "October"
+CI95$Month[CI95$Month == "11"] <- "November"
+CI95$Month<-as.factor(CI95$Month)
+CI95$Month<- ordered(CI95$Month, levels = c("May","June","July","August",
+                                            "September","October","November"))
+
+
 # removing the blue lake data point with 300 fish/hour
 CI95.b<-CI95[-13,]
 
 
 
 CI95.plot<-ggplot(CI95.b, aes(x=Month, y=Mean))+
-  geom_jitter(aes(colour = Species, shape = Species),
-              size=2, width = 0.2)+
+  geom_jitter(aes(colour = Lake, shape = Lake),
+              size=4, width = 0.2)+
+  scale_shape_manual(values = c(15,16,17,2,3,4,8))+
   theme_bw()+
-  theme(legend.position = c(.8,.8),
-        legend.title = element_text(size=12,face="bold"))
+  theme(legend.position = "right",
+        legend.title = element_text(size=12,face="bold"))+
+  facet_grid(Species ~ . )+
+  labs(x="",
+       y="Mean Electrofishing CPUE (# fish / hour)",
+       title = "Electrofishing CPUE by Month")
+
+  
 CI95.plot
 
 CI95.boxplot<-ggplot(CI95.b, aes(x=Month, y=Mean))+
-  geom_boxplot(aes(colour = Species),
+  geom_boxplot(aes(colour = Species, fill = Species),
               size=1)+
   theme_bw()+
-  theme(legend.position = c(.8,.8),
+  theme(legend.position = "right",
         legend.title = element_text(size=12,face="bold"))
 CI95.boxplot
 
@@ -808,6 +832,7 @@ __removing only the blue lake may observation of cpue__ so we can have the other
 
 ```{r}
 head(CI95)
+str(CI95)
 
 
 
@@ -827,7 +852,7 @@ BMD.plot
 CI95.b<-CI95[-13,]
 BMD.plot2<-ggplot(CI95.b, aes(x=CI95.b[,10],y=CI95.b[,5]))+
                   geom_point(aes(shape = Lake),size=3)+
-                  scale_shape_manual(values = c(2,4,7,8,15,16,17))+
+                  scale_shape_manual(values = c(15,16,17,2,3,4,8))+
                   facet_grid(Month~Species)+
                   labs( x = "Biomass Density (lbs./acre)",
                         y = "Mean Electrofishing CPUE (Fish/Hour)",
@@ -1042,7 +1067,7 @@ p1<-ggplot(harvest,aes(x=Season, y=Harvest, fill = Species))+
                 panel.grid.minor = element_blank(),
                 panel.background = element_rect(fill="white",colour="grey50"), 
                 axis.line = element_line(colour = "black"),
-                legend.position = "bottom")+
+                legend.position = "none")+
            labs(title = "Total Commercial Harvest 2015-2018",
                 x = "Harvest Season",
                 y = "Harvest (lbs)")
@@ -1063,6 +1088,8 @@ p2<-ggplot(harvest,aes(x=Season, y=Removal, fill = Species))+
                 y = "Harvest Removal Rate (lbs/acre)")
            
 p2
+
+grid.arrange(p1,p2, ncol = 1)
 ```
 
 # Von Bertalanffy Growth Curves
@@ -1123,62 +1150,498 @@ lines(LPI~ages2plot,type="l",col="red",lwd=2,lty=2)
 - now I need to apply the above example code to my data
 - find most accurate age estimate file, read it in, and start a plot
 
+- can't get the FSAsim package to load from GitHub.
+- Having problems with Linf blowing up too large on Blue.
+- Center carp seemed OK
+
+## CARPE DIEM
+
 ```{r}
 
 # FSAsim package
-if (!require('devtools')) install.packages('devtools'); require('devtools')
-devtools::install_github('droglenc/FSAsim')
-install.packages("tidyverse")
+#if (!require('devtools')) install.packages('devtools'); require('devtools')
+#devtools::install_github('droglenc/FSAsim')
+#install.packages("tidyverse")
 # read in data
-age<-read.csv("2017_Age_Estimates.csv",header=T)
-summary(age)
-str(age)
+ages<-read.csv("2017_Age_Estimates.csv",header=T)
+summary(ages)
+str(ages)
 
-
+#######################################################################
 # Subset by species then lake
-b.carp <- droplevels(subset(age, Species == "COC" &
-                                 Lake == "Blue"))
+#
+#
+#         Blue Lake Carp (otoliths used for age ests)
+#
+#
+#
+b.carp <- droplevels(subset(ages, Species == "COC" &
+                                 Lake == "Blue" &
+                                 !is.na(ages$Otolith.MAS)))
 summary(b.carp)
 b.carp$tl<-b.carp$TL.mm
-b.carp$age<-b.carp$Otolith.MAS
+b.carp$age<-b.carp$Otolith.MAS 
+
+summary(b.carp$tl)
+summary(b.carp$age)
 
 # vbStarts and function variables
-svTypical<-vbStarts(TL.mm~Otolith.MAS,data=b.carp)
-svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.carp)
+svTypical<-vbStarts(tl~age,data=b.carp,
+                    methLinf = "oldAge")
+#svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.carp)
 unlist(svTypical)
-svTypical<-list(Linf=596,K=0.0243,t0=-4.49032)
+svTypical<-list(Linf=560,K=0.02430846,t0=-31.50717871)
 
 
-# Equations
-vbTypical <- tl~Linf*(1-exp(-K*(age-t0)))
-fitTypical <- nls(vbTypical,data=b.carp,start=svTypical)
+# Fitting the model and boostrapping
 
-fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",main = "")
+
+vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
+vbTyp<-vbFuns()
+
+fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
+            control = list(maxiter=500), 
+            data=b.carp, start=svTypical) ## ERROR
+
+fitTypical <- nls(vbTypical,data=b.carp,start=svTypical) ## Error as well
 overview(fitTypical)
 
-bootTypical <- nlsBoot(fitTypical,niter=200)
+bootTypical <- nlsBoot(fitTypical,niter=2000)
+headtail(bootTypical$coefboot,n=2)
+confint(bootTypical,plot=T)
 ests <- data.frame(bootTypical$coefboot)
-pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(8-ests[,"t0"])))
-quantile(pv,c(0.025,0.975))
 
-
-
-
+ages2plot<- 0:8                        # need to change this with each spp/lake combo
+LCI<-UCI<-numeric(length(ages2plot))
+for(i in 1:length(ages2plot)) {
+  pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
+  LCI[i] <-quantile(pv,0.025)
+  UCI[i] <-quantile(pv,0.975)
+}
 
 
 # Plots
 
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
+        main = "2017 Center Lake Carp VBGM - Spines Only",
+        xlim = range(ages2plot), ylim = c(200,900),
+        legend = T)
+lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+
+
+#############################################################################
+# Subset by species then lake
+#
+#
+#           Center Lake Carp (spines only, no otoliths)
+#
+#
+c.carp <- droplevels(subset(ages, Species == "COC" &
+                                 Lake == "Center" &
+                                 !is.na(ages$TL.mm)))
+summary(c.carp)
+c.carp$tl<-c.carp$TL.mm
+c.carp$age<-c.carp$Spine.MAS # No otoliths taken from this lake 2017
+
+summary(c.carp$tl)
+summary(c.carp$age)
+
+# vbStarts and function variables
+svTypical<-vbStarts(tl~age,data=c.carp)
+#svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.carp)
+unlist(svTypical)
+svTypical<-list(Linf=704,K=0.2795948,t0=-1.2430354)
+
+
+# Fitting the model and boostrapping
+
+
+vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
+vbTyp<-vbFuns()
+vbTyp(3,Linf=c(704,0.2795948,-1.2430354))
+
+fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
+            control = list(maxiter=500), 
+            data=c.carp, start=svTypical)
+
+fitTypical <- nls(vbTypical,data=c.carp,start=svTypical)
+overview(fitTypical)
+
+bootTypical <- nlsBoot(fitTypical,niter=2000)
+headtail(bootTypical$coefboot,n=2)
+confint(bootTypical,plot=T)
+ests <- data.frame(bootTypical$coefboot)
+
+ages2plot<- 0:16                        # need to change this with each spp/lake combo
+LCI<-UCI<-numeric(length(ages2plot))
+for(i in 1:length(ages2plot)) {
+  pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
+  LCI[i] <-quantile(pv,0.025)
+  UCI[i] <-quantile(pv,0.975)
+}
+
+
+# Plots
+
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
+        main = "2017 Center Lake Carp VBGM - Spines Only",
+        xlim = range(ages2plot), ylim = c(200,900),
+        legend = T)
+lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+
+#############################################################################
+# Subset by species then lake
+#
+#
+#           North Twin Lake Carp (Otoliths)
+#
+#
+levels(ages$Lake)
+nt.carp <- droplevels(subset(ages, Species == "COC" &
+                                 Lake == "N Twin" &
+                                 !is.na(ages$Otolith.MAS)))
+summary(nt.carp)
+nt.carp$tl<-nt.carp$TL.mm
+nt.carp$age<-nt.carp$Otolith.MAS 
+
+summary(nt.carp$tl)
+summary(nt.carp$age)
+
+# vbStarts and function variables
+svTypical<-vbStarts(tl~age,data=nt.carp)
+#svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.carp)
+unlist(svTypical)
+svTypical<-list(Linf=735.296,K=0.1600955,t0=-1.5186606)
+
+
+# Fitting the model and boostrapping
+
+
+vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
+vbTyp<-vbFuns()
+vbTyp(3,Linf=c(765,0.1600955,-1.5186606))
+
+fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
+            control = list(maxiter=500), 
+            data=nt.carp, start=svTypical)
+summary(fitTyp)
+
+fitTypical <- nls(vbTypical,data=nt.carp,start=svTypical)
+summary(fitTypical)
+
+
+bootTypical <- nlsBoot(fitTypical,niter=2000)
+headtail(bootTypical$coefboot,n=2)
+confint(bootTypical,plot=T)
+ests <- data.frame(bootTypical$coefboot)
+
+ages2plot<- 0:24                        # need to change this with each spp/lake combo
+LCI<-UCI<-numeric(length(ages2plot))
+for(i in 1:length(ages2plot)) {
+  pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
+  LCI[i] <-quantile(pv,0.025)
+  UCI[i] <-quantile(pv,0.975)
+}
+
+
+# Plots
+
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
+        main = "2017 North Twin Lake Carp VBGF",
+        xlim = range(ages2plot), ylim = c(200,900),
+        legend = T)
+lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+
+#############################################################################
+# Subset by species then lake
+#
+#
+#           South Twin Lake Carp (otoliths)
+#
+#
+st.carp <- droplevels(subset(ages, Species == "COC" &
+                                 Lake == "S. Twin" &
+                                 !is.na(ages$TL.mm)&
+                                 !is.na(ages$Otolith.MAS)))
+summary(st.carp)
+st.carp$tl<-st.carp$TL.mm
+st.carp$age<-st.carp$Otolith.MAS # otoliths taken from this lake 2017
+
+summary(st.carp$tl)
+summary(st.carp$age)
+
+# vbStarts and function variables
+svTypical<-vbStarts(tl~age,data=st.carp)
+#svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.carp)
+unlist(svTypical)
+svTypical<-list(Linf=619,K=0.144879,t0=-8.042712)
+
+
+# Fitting the model and boostrapping
+
+
+vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
+vbTyp<-vbFuns()
+vbTyp(3,Linf=c(619,0.144879,-8.042712))
+
+fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
+            control = list(maxiter=500), 
+            data=st.carp, start=svTypical)
+
+fitTypical <- nls(vbTypical,data=st.carp,start=svTypical)
+overview(fitTypical)
+
+bootTypical <- nlsBoot(fitTypical,niter=2000)
+headtail(bootTypical$coefboot,n=2)
+confint(bootTypical,plot=T)
+ests <- data.frame(bootTypical$coefboot)
+
+ages2plot<- 0:28                       # need to change this with each spp/lake combo
+LCI<-UCI<-numeric(length(ages2plot))
+for(i in 1:length(ages2plot)) {
+  pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
+  LCI[i] <-quantile(pv,0.025)
+  UCI[i] <-quantile(pv,0.975)
+}
+
+
+# Plots
+
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
+        main = "2017 South Twin Lake Carp VBGF",
+        xlim = range(ages2plot), ylim = c(200,900),
+        legend = T)
+lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+
+
+```
+
+## Buffalo DIEM
+
+```{r}
+
+# FSAsim package
+#if (!require('devtools')) install.packages('devtools'); require('devtools')
+#devtools::install_github('droglenc/FSAsim')
+#install.packages("tidyverse")
+# read in data
+ages<-read.csv("2017_Age_Estimates.csv",header=T)
+summary(ages)
+str(ages)
 
 
 
+#############################################################################
+# Subset by species then lake
+#
+#
+#           Center Lake Buffalo (spines only, no otoliths)
+#
+#
+c.buff <- droplevels(subset(ages, Species == "BIB" &
+                                 Lake == "Center" &
+                                 !is.na(ages$TL.mm)))
+summary(c.buff)
+c.buff$tl<-c.buff$TL.mm
+c.buff$age<-c.buff$Spine.MAS # No otoliths taken from this lake 2017
+
+summary(c.buff$tl)
+summary(c.buff$age)
+
+# vbStarts and function variables
+svTypical<-vbStarts(tl~age,data=c.buff,
+                    methLinf = "oldAge")
+#svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.buff)
+unlist(svTypical)
+svTypical<-list(Linf=699,K=0.05632404,t0=-13.11349714)
+
+
+# Fitting the model and boostrapping
+
+
+vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
+vbTyp<-vbFuns()
+vbTyp(3,Linf=c(Linf=699,K=0.05632404,t0=-13.11349714))
+
+fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
+            control = list(maxiter=500), 
+            data=c.buff, start=svTypical)
+summary(fitTyp)
+
+fitTypical <- nls(vbTypical,data=c.buff,start=svTypical)
+summary(fitTypical)
+overview(fitTypical)
+
+bootTypical <- nlsBoot(fitTypical,niter=2000)
+headtail(bootTypical$coefboot,n=2)
+confint(bootTypical,plot=T)
+ests <- data.frame(bootTypical$coefboot)
+
+ages2plot<- 0:12                        # need to change this with each spp/lake combo
+LCI<-UCI<-numeric(length(ages2plot))
+for(i in 1:length(ages2plot)) {
+  pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
+  LCI[i] <-quantile(pv,0.025)
+  UCI[i] <-quantile(pv,0.975)
+}
+
+
+# Plots
+
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
+        main = "2017 Center Lake Buffalo VBGM - Spines Only",
+        xlim = range(ages2plot), ylim = c(200,900),
+        legend = T)
+lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+
+#############################################################################
+# Subset by species then lake
+#
+#
+#           North Twin Lake Buffalo (Otoliths)
+#
+#
+levels(ages$Lake)
+nt.buff <- droplevels(subset(ages, Species == "BIB" &
+                                 Lake == "N Twin" &
+                                 !is.na(ages$Otolith.MAS)))
+summary(nt.buff)
+nt.buff$tl<-nt.buff$TL.mm
+nt.buff$age<-nt.buff$Otolith.MAS 
+
+summary(nt.buff$tl)
+summary(nt.buff$age)
+
+# vbStarts and function variables
+svTypical<-vbStarts(tl~age,data=nt.buff)
+#svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.buff)
+unlist(svTypical)
+svTypical<-list(Linf=622.79,K=0.3775477,t0=-0.1895637)
+
+
+# Fitting the model and boostrapping
+
+
+vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
+vbTyp<-vbFuns()
+vbTyp(3,Linf=c(622.79,0.3775477,-0.1895637))
+
+fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
+            control = list(maxiter=500), 
+            data=nt.buff, start=svTypical)
+summary(fitTyp)
+
+fitTypical <- nls(vbTypical,data=nt.buff,start=svTypical)
+summary(fitTypical)
+
+
+bootTypical <- nlsBoot(fitTypical,niter=2000)
+headtail(bootTypical$coefboot,n=2)
+confint(bootTypical,plot=T)
+ests <- data.frame(bootTypical$coefboot)
+
+ages2plot<- 0:22                        # need to change this with each spp/lake combo
+LCI<-UCI<-numeric(length(ages2plot))
+for(i in 1:length(ages2plot)) {
+  pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
+  LCI[i] <-quantile(pv,0.025)
+  UCI[i] <-quantile(pv,0.975)
+}
+
+
+# Plots
+
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
+        main = "2017 North Twin Lake Buffalo VBGM",
+        xlim = range(ages2plot), ylim = c(200,900),
+        legend = T)
+lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+
+#############################################################################
+# Subset by species then lake
+#
+#
+#           South Twin Lake Carp (otoliths)
+#
+#
+st.buff <- droplevels(subset(ages, Species == "BIB" &
+                                 Lake == "S. Twin" &
+                                 !is.na(ages$TL.mm)&
+                                 !is.na(ages$Otolith.MAS)))
+summary(st.buff)
+st.buff$tl<-st.buff$TL.mm
+st.buff$age<-st.buff$Otolith.MAS # No otoliths taken from this lake 2017
+
+summary(st.buff$tl)
+summary(st.buff$age)
+
+# vbStarts and function variables
+svTypical<-vbStarts(tl~age,data=st.buff, meth0 = "poly")
+#svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.buff)
+unlist(svTypical)
+svTypical<-list(Linf=537.0418092,K=0.9137324,t0=1.1882746) # screwed up starting values... try spines
+
+
+# Fitting the model and boostrapping
+
+
+vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
+vbTyp<-vbFuns()
+vbTyp(3,Linf=c(537.0418092,0.9137324,1.1882746))
+
+
+
+fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
+            control = list(maxiter=500), 
+            data=st.buff, start=svTypical) # screwed up starting values... try spines
+
+fitTypical <- nls(vbTypical,data=st.buff,start=svTypical)
+overview(fitTypical)
+
+bootTypical <- nlsBoot(fitTypical,niter=2000)
+headtail(bootTypical$coefboot,n=2)
+confint(bootTypical,plot=T)
+ests <- data.frame(bootTypical$coefboot)
+
+ages2plot<- 0:16                        # need to change this with each spp/lake combo
+LCI<-UCI<-numeric(length(ages2plot))
+for(i in 1:length(ages2plot)) {
+  pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
+  LCI[i] <-quantile(pv,0.025)
+  UCI[i] <-quantile(pv,0.975)
+}
+
+
+# Plots
+
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
+        main = "2017 Center Lake Buffalo VBGM - Spines Only",
+        xlim = range(ages2plot), ylim = c(200,900),
+        legend = T)
+lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+
+
+```
+
+
+## Other age plots
+
+```{r}
 # subset by species then separate by lake
-        #carp
-carp <- subset(age, Species == "COC")
-summary(carp)
+        #buff
+buff <- subset(age, Species == "COC")
+summary(buff)
 
-ggplot(carp, aes(x=Otolith.MAS, y=Spine.MAS, shape = Lake, colour = Lake))+geom_point(size=5)+
+ggplot(buff, aes(x=Otolith.MAS, y=Spine.MAS, shape = Lake, colour = Lake))+geom_point(size=5)+
   geom_abline(slope = 1, intercept = 0)+
-  ggtitle("Carp Age Estimates by Lake")
+  ggtitle("buff Age Estimates by Lake")
 
         #buffalo
 buff <- subset(age, Species == "BIB")
