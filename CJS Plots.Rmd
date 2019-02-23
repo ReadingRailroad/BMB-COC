@@ -69,13 +69,8 @@ survival (phi) on y axis
 Open water (spring summer fall) vs. Winter
 grouped within that is Center vs Twins 
 
-duplicated for each species. Shown separately
+duplicated for each species. Shown separately due to different top models
 
-```{r}
-# load in data
-
-BuffSurv<-
-```
 
 ```{r,}
 # Create DF with CPUE and 95% CI for each lake...
@@ -104,30 +99,125 @@ summary(Carp.DF)
 
 ```
 
-Now to create 2 plots, 
-
+Now to create 2 carp plots, 
+- Carp actual top model (Phi(Center(.),N=S(.)) p (g*t))
 ```{r,}
-Lakes<-c("Center","Center","Twins","Twins")
-Season<-c("Open","Winter","Open","Winter")
-Carp.S<-c(0.9364316, 0.5137947, 0.9364316, 0.9364316)
-Carp.S.L<-c(0.8886910,0.0662681, 0.8886910,0.8886910)
-Carp.S.U<-c(0.9795353, 0.9951693, 0.9795353, 0.9795353)
-Carp.DF<-data.frame(Lakes,Season,
+Lakes<-c("Center","Twins")
+Carp.S<-c(0.8821662, 0.9522349)
+Carp.S.L<-c(0.7190165,0.9047440)
+Carp.S.U<-c(0.9970485,0.9907159)
+Carp.DF<-data.frame(Lakes,
                     Carp.S,
                     Carp.S.L,
                     Carp.S.U)
 
 # Carp FIrst
-carp<-ggplot(Carp.DF, aes(x=Lakes, y=Carp.S)) +
-  geom_bar(stat="identity") +
+carp1<-ggplot(Carp.DF, aes(x=Lakes, y=Carp.S)) +
+  geom_point(stat="identity", size = 4) +
+  scale_y_continuous(limits=c(0,1))+
   geom_errorbar(aes(ymax = Carp.S.U, ymin = Carp.S.L)) +
-  labs(title = "Common Carp Survival in Open Water vs. Winter Seasons",
+  labs(title = "Common Carp Survival",
        x = "Lake",
        y = "Survival") +
-  theme_bw() +
-  facet_wrap(~Season)
-carp
+  theme_bw() 
+carp1
 
 
 ```
 
+- carp model that matches buff top model (and within 2 AICc points)
+- Phi(Center(winter), center(open)=N=S(.)) p(g*t)
+
+```{r,}
+Lakes<-c("Center","Twins","Center","Twins")
+Season<-c("Open","Open","Winter","Winter")
+Carp.S<-c(0.9444109,0.9444109,0.8517614,0.9444109)
+Carp.S.L<-c(0.8979603,0.8979603,0.4493000,0.8979603)
+Carp.S.U<-c(0.9866552,0.9866552,0.9979746,0.9866552)
+Carp.DF<-data.frame(Lakes,
+                    Season,
+                    Carp.S,
+                    Carp.S.L,
+                    Carp.S.U)
+
+# Carp FIrst
+carp2<-ggplot(Carp.DF, aes(x=Lakes, y=Carp.S)) +
+  geom_point(stat="identity", size = 4) +
+  scale_y_continuous(limits=c(0,1))+
+  geom_errorbar(aes(ymax = Carp.S.U, ymin = Carp.S.L)) +
+  labs(title = "Common Carp Survival",
+       x = "Lake",
+       y = "Survival") +
+  facet_wrap(~Season)+
+  theme_bw() 
+carp2
+
+
+```
+
+
+
+
+- two Buff Plots:
+top model:
+
+Phi(Center, n=s(.); p (g*t))
+
+```{r}
+Lakes<-c("Center","Twins")
+Carp.S<-c(0.6295946, 0.9510359)
+Carp.S.L<-c(0.4252622,0.903211)
+Carp.S.U<-c(0.8689247,0.9881958)
+Carp.DF<-data.frame(Lakes,
+                    Carp.S,
+                    Carp.S.L,
+                    Carp.S.U)
+
+# Buffalo
+Buff1<-ggplot(Carp.DF, aes(x=Lakes, y=Carp.S)) +
+  geom_point(stat="identity", size = 4) +
+  scale_y_continuous(limits=c(0,1))+
+  geom_errorbar(aes(ymax = Carp.S.U, ymin = Carp.S.L)) +
+  labs(title = "Buffalo Survival",
+       x = "Lake",
+       y = "Survival") +
+  theme_bw() 
+Buff1
+
+```
+
+
+
+
+
+
+- second ranked model
+phi(center(winter), center(open)=n=s=(.) and p(g*t))
+
+
+```{r,}
+Lakes<-c("Center","Twins","Center","Twins")
+Season<-c("Open","Open","Winter","Winter")
+Buff.S<-c(0.9358976,0.9358976, 0.5108930,0.9358976)
+Buff.S.L<-c(0.8892595,0.8892595,0.0586412,0.8892595)
+Buff.S.U<-c(0.9759545,0.9759545,0.9938855,0.9759545)
+Buff.DF<-data.frame(Lakes,
+                    Season,
+                    Buff.S,
+                    Buff.S.L,
+                    Buff.S.U)
+
+# Buffalo
+Buff<-ggplot(Buff.DF, aes(x=Lakes, y=Buff.S)) +
+  geom_point(stat="identity", size = 4) +
+  scale_y_continuous(limits=c(0,1))+
+  geom_errorbar(aes(ymax = Buff.S.U, ymin = Buff.S.L)) +
+  labs(title = "Buffalo Survival",
+       x = "Lake",
+       y = "Survival") +
+  facet_wrap(~Season)+
+  theme_bw() 
+Buff
+
+
+```
