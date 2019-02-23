@@ -1190,7 +1190,7 @@ b.carp$age<-b.carp$Otolith.MAS
 svTypical<-vbStarts(TL.mm~Otolith.MAS,data=b.carp)
 svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.carp)
 unlist(svTypical)
-svTypical<-list(Linf=596,K=0.0243,t0=-4.49032)
+svTypical<-list(Linf=1000,K=0.0243,t0=-4.49032)
 
 
 # Equations
