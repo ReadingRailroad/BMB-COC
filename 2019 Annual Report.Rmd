@@ -2036,25 +2036,69 @@ packages("FSA")
 # reduce "Diversity" to top 6 interesting species
 # WAE, BLG, LMB, CCF, WHC, BLC
 str(diversity)
-psd.frame<-droplevels(subset(diversity, Species == "BLC"|
-                                        Species == "BLG"|
-                                        Species == "CCF"|
-                                        Species == "LMB"|
-                                        Species == "WAE"|
-                                        Species == "WHC"))
+
+
+psdVal()
+levels(diversity$Species)
+psd.frame<-diversity
+
 psd.frame$Species<-as.character(psd.frame$Species)
 psd.frame$Species[psd.frame$Species == "BLC"]<-"Black Crappie"
+psd.frame$Species[psd.frame$Species == "BBH"]<-"Brown Bullhead"
+psd.frame$Species[psd.frame$Species == "BIB"]<-"Bigmouth Buffalo"
+psd.frame$Species[psd.frame$Species == "BLB"]<-"Black Bullhead"
+psd.frame$Species[psd.frame$Species == "BLGxGSF"]<-"Bluegill"
+psd.frame$Species[psd.frame$Species == "COC"]<-"Common Carp"
+psd.frame$Species[psd.frame$Species == "FWD"]<-"Freshwater Drum"
+psd.frame$Species[psd.frame$Species == "GIS"]<-"Gizzard Shad"
+psd.frame$Species[psd.frame$Species == "GSF"]<-"Green Sunfish"
+psd.frame$Species[psd.frame$Species == "NOP"]<-"Northern Pike"
+psd.frame$Species[psd.frame$Species == "OSS"]<-"Orangespotted Sunfish"
+psd.frame$Species[psd.frame$Species == "SMB"]<-"Smallmouth Bass"
+psd.frame$Species[psd.frame$Species == "WHB"]<-"White Bass"
+psd.frame$Species[psd.frame$Species == "WHS"]<-"White Sucker"
+psd.frame$Species[psd.frame$Species == "YEB"]<-"Yellow Bullhead"
+psd.frame$Species[psd.frame$Species == "YEP"]<-"Yellow Perch"
+psd.frame$Species[psd.frame$Species == "YLB"]<-"Yellow Bass"
 psd.frame$Species[psd.frame$Species == "BLG"]<-"Bluegill"
 psd.frame$Species[psd.frame$Species == "CCF"]<-"Channel Catfish"
 psd.frame$Species[psd.frame$Species == "LMB"]<-"Largemouth Bass"
 psd.frame$Species[psd.frame$Species == "WAE"]<-"Walleye"
 psd.frame$Species[psd.frame$Species == "WHC"]<-"White Crappie"
 psd.frame$Species<-as.factor(psd.frame$Species)
+levels(psd.frame$Species)
+
+# remove fish that aren't included in Ogle's FSA (Gablehouse (PSD) lengths)
+summary(psd.frame$Lake[psd.frame$Species == "Painted turtle"])
+
+
+
+
+
+# Also remove Carp and buff because of uneven sampling
+psd.frame<-droplevels(subset(psd.frame, Species != "Golden Shiner" &
+                                       Species != "Orangespotted Sunfish"&
+                                       Species != "Painted turtle"&
+                                       Species != "Snapping Turtle"&
+                                       Species != "SNG"&
+                                       Species != "Softshell Turtle"&
+                                        Species != "Spotfin shiner"&
+                                        Species != "Spottail shiner"&
+                                        Species != "Common Carp"&
+                                        Species != "Bigmouth Buffalo"))
+
+
+
 
 psd.frame$PSDcat<-psdAdd(Length..mm.~Species, data = psd.frame,
                         units = "mm")
 head(psd.frame)
-( t1 <- with(psd.frame, table(interaction(Species, Lake),PSDcat)) )
+first.table<-data.frame(t1 <- with(psd.frame, table(interaction(Species, Lake),PSDcat)))
+packages("reshape2")
+second.table<-dcast(first.table, Var1 ~ PSDcat, fun.aggregate = NULL )
+
+second.table$Total<-rowSums(second.table[,2:7])
+#write.csv(second.table, "2018_PSD_Sportfish.csv")
 
 # one trophy black crappie in center lake
 psdVal("Black Crappie",units="in")
@@ -2064,8 +2108,8 @@ psdVal("Black Crappie",units="in")
 
 ( t1r <- t(apply(t1[,-1],MARGIN=1,FUN=rcumsum)) )
 
-( t1p <- round(t1r[,-1]/t1r[,1]*100,1) )
-
+third.table<-data.frame( t1p <- round(t1r[,-1]/t1r[,1]*100,1) )
+#write.csv(third.table, "2018_PSD_Sportfish2.csv")
 
 ```
 
