@@ -9,7 +9,7 @@ editor_options:
 
 
 ```{r,include=FALSE}
-rm(list=ls())
+#rm(list=ls())
 
 
 packages<-function(x, repos="http://cran.r-project.org", ...){
@@ -117,33 +117,51 @@ write.csv(EuthTotal, "2018 Catch-Euthanized.csv")
             - ending up with many rows and a column for each lake.
 - stacked barplot is in order
 
-
+__ Update 2/24/2018 __ need to add in 2017 catch as well. Switching dat.frame to compiled data.
 
 ```{r,}
 ##########################################################################
-# 2018 catch
-catch.melt<-melt(datframe, id.var = c("Species","Lake"),
+# 2017 and 2018 catch
+dat.frame<-read.csv("2018 and 2017 Compiled Data.csv", header = T)
+dat.frame$Year<-as.factor(dat.frame$Year)
+dat.frame$detect<-1
+str(dat.frame)
+
+catch.melt<-melt(dat.frame, id.var = c("Species","Lake"),
               measure.vars = "detect")
 TotalCatch<-dcast(catch.melt,Species~Lake)
 #write.csv(TotalCatch, "2018 Catch by gear.csv")
 
 #########################################################################
 # 2018 Carp and Buffalo Catch split by gear
-
-gear.melt<-melt(datframe, id.var = c("Species","Lake","Gear"),
+# Subset to only carp and buffalo to apply ggplot wrapper for year and species
+dat.frame<-droplevels(subset(dat.frame, Species == "COC" |
+                                        Species == "BIB"))
+dat.frame$Species<-as.character(dat.frame$Species)
+dat.frame$Species[dat.frame$Species == "BIB"] <- "Bigmouth Buffalo"
+dat.frame$Species[dat.frame$Species == "COC"] <- "Common Carp"
+dat.frame$Species<-as.factor(dat.frame$Species)
+gear.melt<-melt(dat.frame, id.var = c("Species","Lake","Gear","Year"),
               measure.vars = "detect")
-GearCatch<-dcast(gear.melt,Lake + Gear~Species)
-GearCatch<-GearCatch[,c(1,2,4,10)]
+GearCatch<-dcast(gear.melt,Lake + Gear+Year+Species~.)
+
 
 # Buffalo
-GearPlot.Buff<-ggplot(GearCatch, aes(x=Lake, y = BIB, fill = Gear))+
-                geom_bar(stat="identity",colour="black") +
-                scale_fill_manual(values = wes_palette("Royal1")) +
-                scale_y_continuous(limits = c(0,5000)) +
-                labs(title = "2018 Total Bigmouth Buffalo Catch By Gear",
-                 x="Lake",
-                 y="Bigmouth Buffalo Catch") +
-                theme_classic()
+Catch_GearSppYear<-ggplot(GearCatch, aes(x=Lake, y = ., fill = Gear))+
+                          geom_bar(stat="identity",colour="black") +
+                          scale_fill_grey(start = 0.1, end = 0.9, aesthetics = "fill")+
+                          labs(title = NULL,
+                                x="Lake",
+                                y="Total Number of Fish Caught") +
+                          facet_grid(vars(Species),vars(Year))+
+                          theme(legend.position = 'bottom',legend.direction = "horizontal",
+                                panel.grid.major = element_blank(), 
+                                panel.grid.minor = element_blank(),
+                                panel.background = element_rect(fill="white",colour="grey50"), 
+                                axis.line = element_line(colour = "black"))
+                         
+Catch_GearSppYear
+
 
 # Carp
 GearPlot.Carp<-ggplot(GearCatch, aes(x=Lake, y = COC, fill = Gear))+
@@ -155,10 +173,6 @@ GearPlot.Carp<-ggplot(GearCatch, aes(x=Lake, y = COC, fill = Gear))+
                  y="Common Carp Catch") +
                 theme_classic()
 
-grid.arrange(GearPlot.Buff,
-             GearPlot.Carp,
-             nrow=2,
-             ncol=1)
 
 ```
 
@@ -170,20 +184,28 @@ grid.arrange(GearPlot.Buff,
 - split by gear too and exclude fyke nets
 - delete unnecessary columns for LF (most of them)
 
-__Problem__: have to switch these to inches probably
+__Problem__: have to switch these to inches!
+__Update 2-24-2018__ in addition to above problem need to change a bit so that we can keep adding on years in the future. Basic setup is to switch to the compiled data, and split the single figure into two figures of both species.
+
+for each spp: lakes as columns, years as rows, filled with gear. 
+- Suggested adding PSD values as well!
+
+
 ```{r,}
 #reading in data
-dframe<-read.csv("2018_COC_BIB_CMR_Data.csv")
+dframe<-read.csv("2018 and 2017 Compiled Data.csv")
 dframe<-dframe[,-1]
-
+dframe$Year<-as.factor(dframe$Year)
+str(dframe)
 # removing fyke catches
 levels(dframe$Gear)
-dframe<-subset(dframe, Gear == "Electroshocking" |
-                       Gear == "Commercial Seine")
+dframe<-droplevels(subset(dframe, Gear == "Electroshocking" |
+                                  Gear == "Commercial Seine"))
 
 # getting rid of unused columns
 str(dframe)
-dframe<-dframe[,-c(1,3,6:10,12:21)]
+dframe<-dframe[,-c(1,3,6:10,12:20)]
+head(dframe)
 
 # splitting data frame by Lakes
 levels(dframe$Lake)
@@ -205,364 +227,68 @@ df<-subset(dframe, !is.na(Length..mm.) & Species == "COC" |
                    !is.na(Length..mm.) & Species == "BIB")
 #df<-subset(df, Lake != "Blue")
 
+# correcting names so they show up consistently on plot.
 levels(df$Lake)
 df$Lake<-as.character(df$Lake)
 df$Lake[df$Lake == "5 Island"] <- "Five Island"
 df$Lake<-as.factor(df$Lake)
-df.m<-melt(df)
+df$Species<-as.character(df$Species)
+df$Species[df$Species == "COC"] <- "Common Carp"
+df$Species[df$Species == "BIB"] <- "Bigmouth Buffalo"
+df$Species<-as.factor(df$Species)
+#switching to Inches
+df$Length.in<-df$Length..mm./25.4
+df<-df[,-3]
 
-all.lakes.lf2018<-ggplot(df.m, aes(x=value, fill = Gear))+
-                         geom_histogram(binwidth = 10,
+
+df.b<-droplevels(subset(df, Species == "Bigmouth Buffalo"))
+df.c<-droplevels(subset(df, Species == "Common Carp"))
+
+df.b.m<-melt(df.b)
+
+all.lakes.Buff.lf<-ggplot(df.b.m, aes(x=value, fill = Gear))+
+                         geom_histogram(binwidth = 1,
                                         colour = "black",
                                         position = "stack")+
-                         coord_cartesian(xlim = c(0,1000))+
-                         scale_y_continuous(limits = c(0,700))+
-                         facet_grid(vars(Species), vars(Lake))+
+                         coord_cartesian(xlim = c(0,45))+
+                         facet_grid(vars(Year), vars(Lake))+
+                         theme(panel.grid.major = element_blank(), 
+                              panel.grid.minor = element_blank(),
+                              panel.background = element_rect(fill="white",colour="grey50"), 
+                              axis.line = element_line(colour = "black"),
+                              legend.position = "none",
+                              legend.background = element_rect(colour="grey20"))+
+                         scale_fill_grey(start = 0.1, end = 0.9, aesthetics = "fill")+
+                         labs(title = "2017 and 2018 Bigmouth Buffalo Length Frequencies",
+                              x = "Length (inches)",
+                              y = "Frequency")
+
+all.lakes.Buff.lf
+
+df.c.m<-melt(df.c)
+
+all.lakes.Carp.lf<-ggplot(df.c.m, aes(x=value, fill = Gear))+
+                         geom_histogram(binwidth = 1,
+                                        colour = "black",
+                                        position = "stack")+
+                         coord_cartesian(xlim = c(0,45))+
+                         facet_grid(vars(Year), vars(Lake))+
                          theme(panel.grid.major = element_blank(), 
                               panel.grid.minor = element_blank(),
                               panel.background = element_rect(fill="white",colour="grey50"), 
                               axis.line = element_line(colour = "black"),
                               legend.position = "bottom",
                               legend.background = element_rect(colour="grey20"))+
-                         labs(title = "2018 Length Frequencies",
-                              x = "Length (mm)",
+                         scale_fill_grey(start = 0.1, end = 0.9, aesthetics = "fill")+
+                         labs(title = "2017 and 2018 Common Carp Length Frequencies",
+                              x = "Length (inches)",
                               y = "Frequency")
 
-all.lakes.lf2018
+all.lakes.Carp.lf
 
-```
+grid.arrange(all.lakes.Buff.lf,all.lakes.Carp.lf,ncol=1)
 
 
-
-- separate plots below:
-## Blue Lake
-```{r}
-# No extreme need to split species (one BIB in dataset) but I'll do it anyway
-blue.coc<-subset(Blue, Species == "COC" & !is.na(Length..mm.))
-blue.coc<-blue.coc[,-c(1:2)]
-blue.coc<-melt(blue.coc)
-
-# Length Frequency Histograms
-# 2017
-
-
-
-
-
-
-#2018
-BlueLF.2018<-ggplot(blue.coc, aes(x=value, fill=Gear))+
-                geom_histogram(binwidth=10,
-                               colour="black",
-                               position="stack",
-                               show.legend=F,
-                               fill = "#00BFC4")+
-                coord_cartesian(xlim = c(0,1000))+
-                scale_y_continuous(limits = c(0,700))+
-                labs(x = "",
-                      y = "(Note larger y-axis)") +
-                theme_classic()+
-                theme(plot.margin = unit(c(0.2,0.2,0.2,0.2),"pt"))+
-                annotate("text",x=500,y=600,label="Blue Lake Carp")
-BlueLF.2018
-
-
-```
-
-## Center Lake
-```{r}
-# Subsetting species
-#                             Carp
-center.coc<-subset(Center, Species == "COC" & !is.na(Length..mm.))
-center.coc<-center.coc[,-c(1:2)]
-center.c.m<-melt(center.coc)
-
-#                             Buffalo
-center.bib<-subset(Center, Species == "BIB" & !is.na(Length..mm.))
-center.bib<-center.bib[,-c(1:2)]
-center.b.m<-melt(center.bib)
-
-# Length Frequency Histograms
-# 2017
-
-
-
-
-
-#2018 Carp
-centerLF.c.2018<-ggplot(center.c.m, aes(x=value,  fill=Gear))+
-                geom_histogram(binwidth=10, 
-                               colour="black", 
-                               position = "stack",
-                               show.legend = F) +
-                coord_cartesian(xlim = c(100,1000))+
-                scale_y_continuous(limits = c(0,200))+
-                labs(x="",y="")+
-                theme_classic()+
-                theme(axis.text.x=element_blank(),
-                      plot.margin = unit(c(0.2,0.2,0.2,0.2),"pt"))+
-                annotate("text",x=250, y = 150, label = "Center Lake Carp")
-centerLF.c.2018
-#2018 Buffalo
-centerLF.b.2018<-ggplot(center.b.m, aes(x=value, fill = Gear))+
-                  geom_histogram(binwidth = 10, 
-                                 colour = "black", 
-                                 position = "stack", 
-                                 show.legend = F)+
-                  coord_cartesian(xlim = c(100,1000))+
-                  scale_y_continuous(limits = c(0,200))+
-                  labs(x = "",y = "") +
-                  theme_classic()+
-                  annotate("text", x= 250, y = 150, label = "Center Lake Buffalo")
-centerLF.b.2018
-
-```
-
-## Five Island Lake
-```{r}
-# Subsetting species
-#                             Carp
-FiveIsland.coc<-subset(FiveIsland, Species == "COC" & !is.na(Length..mm.))
-FiveIsland.coc<-FiveIsland.coc[,-c(1:2)]
-FiveIsland.coc<-melt(FiveIsland.coc)
-#                             Buffalo
-FiveIsland.bib<-subset(FiveIsland, Species == "BIB" & !is.na(Length..mm.))
-FiveIsland.bib<-FiveIsland.bib[,-c(1:2)]
-FiveIsland.bib<-melt(FiveIsland.bib)
-
-# Length Frequency Histograms
-# 2017
-
-
-
-
-
-
-#2018 Carp
-FiveIslandLF.c.2018<-ggplot(FiveIsland.coc, aes(x=value, fill=Gear))+
-                geom_histogram(binwidth=10,
-                               colour="black",
-                               position="stack", 
-                               show.legend=F)+
-                coord_cartesian(xlim = c(0,1000))+
-                scale_y_continuous(limits = c(0,200))+
-                labs(x = "",
-                     y = "") +
-                theme_classic()+
-                annotate("text", x= 250, y = 150, label = "Five Island Lake Carp Length-Frequency")
-FiveIslandLF.c.2018
-#2018 Buffalo 
-FiveIslandLF.b.2018<-ggplot(FiveIsland.bib, aes(x=value, fill = Gear))+
-                  geom_histogram(binwidth = 10, 
-                                 colour = "black", 
-                                 position = "stack", 
-                                 show.legend=F)+
-                  coord_cartesian(xlim = c(0,1000))+
-                  scale_y_continuous(limits = c(0,200))+
-                  labs(x = "",y = "") +
-                  theme_classic()+
-                  annotate("text",x=250,y=150,label="Five Island Lake Buffalo Length-Frequency")
-FiveIslandLF.b.2018
-
-```
-
-## North Twin Lake
-```{r}
-# Subsetting species
-#                             Carp
-NTwin.coc<-subset(NTwin, Species == "COC" & !is.na(Length..mm.))
-NTwin.coc<-NTwin.coc[,-c(1:2)]
-NTwin.coc<-melt(NTwin.coc)
-#                             Buffalo
-NTwin.bib<-subset(NTwin, Species == "BIB" & !is.na(Length..mm.))
-NTwin.bib<-NTwin.bib[,-c(1:2)]
-NTwin.bib<-melt(NTwin.bib)
-
-# Length Frequency Histograms
-# 2017
-
-
-
-
-
-
-#2018
-NTwinLF.c.2018<-ggplot(NTwin.coc, aes(x=value, fill=Gear))+
-                geom_histogram(binwidth=10,
-                               colour="black",
-                               position="stack", 
-                               show.legend=F)+
-                coord_cartesian(xlim = c(0,1000))+
-                scale_y_continuous(limits = c(0,200))+
-                labs(x = "",y = "") +
-                theme_classic()+
-                annotate("text",x=250,y=150, label = "North Twin Lake Carp Length-Frequency")
-NTwinLF.c.2018
-
-NTwinLF.b.2018<-ggplot(NTwin.bib, aes(x=value, fill = Gear))+
-                  geom_histogram(binwidth = 10, 
-                                 colour = "black", 
-                                 position = "stack", 
-                                 show.legend = F)+
-                  coord_cartesian(xlim = c(0,1000))+
-                  scale_y_continuous(limits = c(0,200))+
-                  labs(x = "",
-                      y = "") +
-                  theme_classic()+
-                  annotate("text",x=250,y=150,label="North Twin Lake Buffalo Length-Frequency")
-NTwinLF.b.2018
-
-```
-
-## Silver Lake
-```{r}
-# Subsetting species
-#                             Carp
-Silver.coc<-subset(Silver, Species == "COC" & !is.na(Length..mm.))
-Silver.coc<-Silver.coc[,-c(1:2)]
-Silver.coc<-melt(Silver.coc)
-#                             Buffalo
-Silver.bib<-subset(Silver, Species == "BIB" & !is.na(Length..mm.))
-Silver.bib<-Silver.bib[,-c(1:2)]
-Silver.bib<-melt(Silver.bib)
-
-# Length Frequency Histograms
-# 2017
-
-
-
-
-
-
-#2018
-SilverLF.c.2018<-ggplot(Silver.coc, aes(x=value, fill=Gear))+
-                geom_histogram(binwidth=10,
-                               colour="black",
-                               position="stack", 
-                               show.legend=F,
-                               fill = "#00BFC4")+
-                coord_cartesian(xlim = c(0,1000))+
-                scale_y_continuous(limits = c(0,200))+
-                labs(x = "",y = "") +
-                theme_classic()+
-                annotate("text",x=250,y=150,label = "Silver Lake Carp Length-Frequency")
-SilverLF.c.2018
-
-SilverLF.b.2018<-ggplot(Silver.bib, aes(x=value, fill = Gear))+
-                  geom_histogram(binwidth = 10, 
-                                 colour = "black", 
-                                 position = "stack", 
-                                 show.legend = F,
-                                 fill = "#00BFC4")+
-                  coord_cartesian(xlim = c(0,1000))+
-                  scale_y_continuous(limits = c(0,200))+
-                  labs(x = "",y = "") +
-                  theme_classic()+
-                  annotate("text",x=250,y=150,label = "Silver Lake Buffalo Length-Frequency")
-SilverLF.b.2018
-
-```
-
-## South Twin Lake
-```{r}
-# Subsetting species
-#                             Carp
-STwin.coc<-subset(STwin, Species == "COC" & !is.na(Length..mm.))
-STwin.coc<-STwin.coc[,-c(1:2)]
-STwin.coc<-melt(STwin.coc)
-#                             Buffalo
-STwin.bib<-subset(STwin, Species == "BIB" & !is.na(Length..mm.))
-STwin.bib<-STwin.bib[,-c(1:2)]
-STwin.bib<-melt(STwin.bib)
-
-# Length Frequency Histograms
-# 2017
-
-
-
-
-
-
-#2018
-STwinLF.c.2018<-ggplot(STwin.coc, aes(x=value, fill=Gear))+
-                geom_histogram(binwidth=10,
-                               colour="black",
-                               position="stack", 
-                               show.legend = F)+
-                coord_cartesian(xlim = c(0,1000))+
-                scale_y_continuous(limits = c(0,200))+
-                labs(x = "",y = "") +
-                theme_classic()+
-                annotate("text",x=250, y=190,label = "South Twin Lake Carp Length-Frequency")
-STwinLF.c.2018
-
-STwinLF.b.2018<-ggplot(STwin.bib, aes(x=value, fill = Gear))+
-                  geom_histogram(binwidth = 10, 
-                                 colour = "black", 
-                                 position = "stack", 
-                                 show.legend=F)+
-                  coord_cartesian(xlim = c(0,1000))+
-                  scale_y_continuous(limits = c(0,200))+
-                  labs(x = "",y = "") +
-                  theme_classic()+
-                  annotate("text",x=250,y=190,label = "South Twin Lake Buffalo Length-Frequency")
-STwinLF.b.2018
-
-```
-
-## Storm Lake
-```{r}
-# Subsetting species
-#                             Carp
-Storm.coc<-subset(Storm, Species == "COC" & !is.na(Length..mm.))
-Storm.coc<-Storm.coc[,-c(1:2)]
-Storm.coc<-melt(Storm.coc)
-#                             Buffalo
-Storm.bib<-subset(Storm, Species == "BIB" & !is.na(Length..mm.))
-Storm.bib<-Storm.bib[,-c(1:2)]
-Storm.bib<-melt(Storm.bib)
-
-# Length Frequency Histograms
-# 2017
-
-
-
-
-
-
-#2018
-StormLF.c.2018<-ggplot(Storm.coc, aes(x=value, fill=Gear))+
-                geom_histogram(binwidth=10,
-                               colour="black",
-                               position="stack", 
-                               show.legend=F)+
-                coord_cartesian(xlim = c(0,1000))+
-                scale_y_continuous(limits = c(0,200))+
-                labs( x = "",y = "") +
-                theme_classic()+
-                annotate("text",x=250,y=150,label="Storm Lake Carp Length-Frequency")
-StormLF.c.2018
-
-StormLF.b.2018<-ggplot(Storm.bib, aes(x=value, fill = Gear))+
-                  geom_histogram(binwidth = 10, 
-                                 colour = "black", 
-                                 position = "stack", 
-                                 show.legend=F)+
-                  coord_cartesian(xlim = c(0,1000))+
-                  scale_y_continuous(limits = c(0,200))+
-                  labs(x = "",y = "") +
-                  theme_classic()+
-                  annotate("text",x=250,y=150,label="Storm Lake Buffalo Length-Frequency")
-StormLF.b.2018
-
-```
-
-## now arrange the objects in a meaningful way
-```{r}
-# Carp
-grid.arrange(centerLF.c.2018,FiveIslandLF.c.2018,NTwinLF.c.2018,SilverLF.c.2018,STwinLF.c.2018,StormLF.c.2018,BlueLF.2018,
-             centerLF.b.2018,FiveIslandLF.b.2018,NTwinLF.b.2018,SilverLF.b.2018,STwinLF.b.2018,StormLF.b.2018,
-             nrow=2,ncol=7)
 ```
 
 
@@ -578,6 +304,8 @@ after January project update meeting:
 - need to use facet.grid again with month variable
 - let's rock and roll!
 
+__Update 2/24/2019__ need to add 2017 data as well.
+
 ```{r}
 # front matter
 DF<-read.csv("2018 Raw CPUE Data.csv",header=T)
@@ -587,10 +315,232 @@ DF[,1]<-as.factor(as.character(DF[,1]))
 DF[,2]<-as.factor(DF[,2])
 DF[,3]<-as.factor(as.character(DF[,3]))
 DF$n<-as.numeric(DF$n)
+levels(DF$Lake)
 
-summary(DF)
+
+DF2018<-groupwiseMean(cpue ~ Lake + Species,
+                    data = DF,
+                    conf = 0.95,
+                    digits = 3)
+
+# loading in data frame
+denframe<-read.csv("2018_BiomassDensityEstimates.csv",header=T)
+denframe[,1]<-factor(c("Blue","Center","5 Island","N. Twin","Silver","S. Twin","Storm"))
+head(denframe)
+str(denframe)
+
+# CarpBiomass - avg from 2018 length specific biomass density estimates (IN POUNDS)
+BM<-denframe
+colnames(BM)[1] <- "Lake"
+
+# adding carp
+BM$CarpN <- c(72140,6466,25798,3816,9755,20661,9251) # est carp abundance for 7 lakes as of 12/18/2018
+
+# Buff pop estimates
+BM$BuffN<- c(NA,3530,2300,18776,12486,34278,13724)
+
+
+# step 1 add biomass density with density limits
+# probably using Merge?
+head(BM)
+head(DF2018)
+# meh I'll just subset rather than wrangle another function
+#                     lower biomass density limit - carp
+DF2018$L.BMD[DF2018$Lake == "Blue" &
+             DF2018$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "Blue"]
+DF2018$L.BMD[DF2018$Lake == "5 Island" &
+             DF2018$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "5 Island"]
+DF2018$L.BMD[DF2018$Lake == "Center" &
+             DF2018$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "Center"]
+DF2018$L.BMD[DF2018$Lake == "N. Twin" &
+             DF2018$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "N. Twin"]
+DF2018$L.BMD[DF2018$Lake == "Silver" &
+             DF2018$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "Silver"]
+DF2018$L.BMD[DF2018$Lake == "S. Twin" &
+             DF2018$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "S. Twin"]
+DF2018$L.BMD[DF2018$Lake == "Storm" &
+             DF2018$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "Storm"]
+                                                     
+
+#                     biomass density estimate - carp
+DF2018$BMD[DF2018$Lake == "Blue" &
+             DF2018$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "Blue"]
+DF2018$BMD[DF2018$Lake == "5 Island" &
+             DF2018$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "5 Island"]
+DF2018$BMD[DF2018$Lake == "Center" &
+             DF2018$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "Center"]
+DF2018$BMD[DF2018$Lake == "N. Twin" &
+             DF2018$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "N. Twin"]
+DF2018$BMD[DF2018$Lake == "Silver" &
+             DF2018$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "Silver"]
+DF2018$BMD[DF2018$Lake == "S. Twin" &
+             DF2018$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "S. Twin"]
+DF2018$BMD[DF2018$Lake == "Storm" &
+             DF2018$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "Storm"]
+
+
+#                     upper biomass density estimate - carp
+DF2018$U.BMD[DF2018$Lake == "Blue" &
+             DF2018$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "Blue"]
+DF2018$U.BMD[DF2018$Lake == "5 Island" &
+             DF2018$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "5 Island"]
+DF2018$U.BMD[DF2018$Lake == "Center" &
+             DF2018$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "Center"]
+DF2018$U.BMD[DF2018$Lake == "N. Twin" &
+             DF2018$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "N. Twin"]
+DF2018$U.BMD[DF2018$Lake == "Silver" &
+             DF2018$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "Silver"]
+DF2018$U.BMD[DF2018$Lake == "S. Twin" &
+             DF2018$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "S. Twin"]
+DF2018$U.BMD[DF2018$Lake == "Storm" &
+             DF2018$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "Storm"]
+
+############################################################################
+#                     lower biomass density limit - BUFFALO
+DF2018$L.BMD[DF2018$Lake == "Blue" &
+             DF2018$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "Blue"]
+DF2018$L.BMD[DF2018$Lake == "5 Island" &
+             DF2018$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "5 Island"]
+DF2018$L.BMD[DF2018$Lake == "Center" &
+             DF2018$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "Center"]
+DF2018$L.BMD[DF2018$Lake == "N. Twin" &
+             DF2018$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "N. Twin"]
+DF2018$L.BMD[DF2018$Lake == "Silver" &
+             DF2018$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "Silver"]
+DF2018$L.BMD[DF2018$Lake == "S. Twin" &
+             DF2018$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "S. Twin"]
+DF2018$L.BMD[DF2018$Lake == "Storm" &
+             DF2018$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "Storm"]
+                                                     
+
+#                     biomass density estimate - BUFFALO
+DF2018$BMD[DF2018$Lake == "Blue" &
+             DF2018$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "Blue"]
+DF2018$BMD[DF2018$Lake == "5 Island" &
+             DF2018$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "5 Island"]
+DF2018$BMD[DF2018$Lake == "Center" &
+             DF2018$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "Center"]
+DF2018$BMD[DF2018$Lake == "N. Twin" &
+             DF2018$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "N. Twin"]
+DF2018$BMD[DF2018$Lake == "Silver" &
+             DF2018$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "Silver"]
+DF2018$BMD[DF2018$Lake == "S. Twin" &
+             DF2018$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "S. Twin"]
+DF2018$BMD[DF2018$Lake == "Storm" &
+             DF2018$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "Storm"]
+
+
+#                     upper biomass density estimate - BUFFALO
+DF2018$U.BMD[DF2018$Lake == "Blue" &
+             DF2018$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "Blue"]
+DF2018$U.BMD[DF2018$Lake == "5 Island" &
+             DF2018$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "5 Island"]
+DF2018$U.BMD[DF2018$Lake == "Center" &
+             DF2018$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "Center"]
+DF2018$U.BMD[DF2018$Lake == "N. Twin" &
+             DF2018$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "N. Twin"]
+DF2018$U.BMD[DF2018$Lake == "Silver" &
+             DF2018$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "Silver"]
+DF2018$U.BMD[DF2018$Lake == "S. Twin" &
+             DF2018$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "S. Twin"]
+DF2018$U.BMD[DF2018$Lake == "Storm" &
+             DF2018$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "Storm"]
+
+DF2018$Lake<-as.character(DF2018$Lake)
+DF2018$Lake[DF2018$Lake == "5 Island"]<-"Five Island"
+DF2018$Lake<-as.factor(DF2018$Lake)
+
+
+# ALL 2017 DATA
+# Create DF with CPUE and 95% CI for each lake...
+
+Lake<-c("Blue","Blue","Center","Center","N. Twin","N.Twin","S. Twin","S.Twin")
+Species<-c("BIB","COC","BIB","COC","BIB","COC","BIB","COC")
+Biomass <- c(NA,120617,81894,57932,104513,9001,26802,51187)
+BMD <- c(NA,438.6,327.6,231.7,225.7,19.4,48.3,92.2)
+Mean<-c(NA,80.37,102.29,36.3,24.56,17.18,64.65,41.78)
+Trad.lower<-c(NA,59.99,59.4,22.41,17.99,9.74,36.56,29.96)
+Trad.upper<-c(NA,100.76,145.17,50.20,31.14,24.63,95.32,53.05)
+L.BMD<-c(NA,230.7,283.3,180.8,126.7,11.6,38.8,52.6)
+U.BMD<-c(NA,815.1,389.7,309.3,401.2,36.8,61.3,166.5)
+
+DF2017<-data.frame(Lake,Species,Mean,Trad.lower,Trad.upper,L.BMD,BMD,U.BMD)
+DF2017<-DF2017[-1,] # removing buff in blue lake from linear regression and plots to follow
+DF2017$Year<-as.factor("2017")
+summary(DF2017)
+
+DF2018<-DF2018[,-c(3,5)] # removing sample size for mean
+DF2018$Year<-as.factor("2018")
+summary(DF2018)
+
+# close
+DF.17.18<-rbind(DF2017,DF2018)
+str(DF.17.18)
+
+DF.17.18$L.BMD[DF.17.18$L.BMD <= 0] <- 0 # setting negative biomass estimates to 0
+
+############################################
+# Lake = Lake 
+# Species = binary factor of BIB and COC
+# mean = mean cpue for that lake/species combination (# fish per hour)
+# Trad.lower = lower ci for monthly cpue
+# Trad.upper = upper ci for monthly cpue
+# L.BMD = lower biomass density estimate
+# BMD = biomass density estimate in lbs per acre
+# U.BMD = upper biomass density estimate
+#############################################
 
 ```
+
+- whew that was a doozy. got the data frame though!
+
+
+Now to create 4 plots, with regression lines (YAY!)
+
+```{r,}
+
+# visualize how CPUE changes as a function of biomass....
+#
+# I think biomass density might be beneficial here
+
+# Regression lines imply lm() but we'll see........
+
+mod<-lm(Mean ~ BMD + Year, data = DF.17.18)
+summary(mod)
+R2<-format(summary(mod)$r.squared,digits=3)
+
+max(DF.17.18$U.BMD)
+max(DF.17.18$Trad.upper)
+
+library(devtools)
+source_gist("524eade46135f6348140")
+
+CPUE.Plot<-ggplot(DF.17.18, aes(x=BMD, y=Mean, label = Lake)) +
+                            geom_point(size=2) +
+                            geom_errorbar(aes(ymax = Trad.upper, ymin = Trad.lower),width=20) +
+                            geom_errorbarh(aes(xmax= U.BMD, xmin = L.BMD),height=5) +
+                            geom_text(aes(label=Lake),hjust = -.25, vjust = .75, size = 3)+
+                            labs(title = NULL,
+                                  x = "Estimated Common Carp Biomass Density (lbs. / acre)",
+                                  y = "Catch per Unit Effort (fish/hour)") +
+                            facet_grid(vars(Species),vars(Year),
+                                       scales = "free")+ 
+                            theme(panel.grid.major = element_blank(), 
+                                  panel.grid.minor = element_blank(),
+                                  panel.background = element_rect(fill="white",colour="grey50"),
+                                  axis.line = element_line(colour = "black")) +
+                            geom_smooth(method=lm,se=F) +
+                            stat_smooth_func(geom="text",method="lm",hjust = 0,vjust=-2,parse=TRUE)
+CPUE.Plot
+
+
+
+```
+
+
+
+
+
 
 more specifically, let's say that I should
 (1) plot with month as discrete x variable and CPUE as y axis variable and 6-7 dots for each month. BONUS if I can add the variance. side by side for each species
@@ -612,36 +562,47 @@ CI95$Month[CI95$Month == "9"] <- "September"
 CI95$Month[CI95$Month == "10"] <- "October"
 CI95$Month[CI95$Month == "11"] <- "November"
 CI95$Month<-as.factor(CI95$Month)
+CI95$Lake<-as.character(CI95$Lake)
+CI95$Lake[CI95$Lake == "5 Island"] <- "Five Island"
+CI95$Lake<-as.factor(CI95$Lake)
 CI95$Month<- ordered(CI95$Month, levels = c("May","June","July","August",
                                             "September","October","November"))
 
 
-# removing the blue lake data point with 300 fish/hour
-CI95.b<-CI95[-13,]
 
 
 
-CI95.plot<-ggplot(CI95.b, aes(x=Month, y=Mean))+
-  geom_jitter(aes(colour = Lake, shape = Lake),
-              size=4, width = 0.2)+
-  scale_shape_manual(values = c(15,16,17,2,3,4,8))+
+CI95.plot<-ggplot(CI95, aes(x=Month, y=Mean))+
+  geom_jitter(aes(shape = Lake, colour = Lake),
+              size=5, width = 0.25)+
+  scale_shape_manual(values = c(0,1,2,3,4,6,8))+
   theme_bw()+
-  theme(legend.position = "right",
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(fill="white",colour="grey50"), 
+        axis.line = element_line(colour = "black"),
+        legend.position = "bottom",
         legend.title = element_text(size=12,face="bold"))+
-  facet_grid(Species ~ . )+
-  labs(x="",
+  facet_grid(Species ~ . , scales = "free_y")+
+  labs(x=NULL,
        y="Mean Electrofishing CPUE (# fish / hour)",
-       title = "Electrofishing CPUE by Month")
+       title = NULL)
 
-  
 CI95.plot
 
-CI95.boxplot<-ggplot(CI95.b, aes(x=Month, y=Mean))+
-  geom_boxplot(aes(colour = Species, fill = Species),
+
+
+
+CI95.boxplot<-ggplot(CI95, aes(x=Month, y=Mean))+
+  geom_boxplot(aes(fill = Species),
               size=1)+
-  theme_bw()+
-  theme(legend.position = "right",
-        legend.title = element_text(size=12,face="bold"))
+  theme(legend.title = element_text(size=12,face="bold"),
+        panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(fill="white",colour="grey50"), 
+        axis.line = element_line(colour = "black"),
+        legend.position = "bottom")+
+        scale_fill_grey(start = 0.5, end = 0.9, aesthetics = "fill")
 CI95.boxplot
 
 # split by lake, and using entire df for more accurate distribution
@@ -680,6 +641,38 @@ DF2.plot
 (2) stacked plots with each month as a panel in one column, biomass density on x axis and CPUE in the multiple y-axes. side by side for each species first but maybe also split by STD and Run-n-Gun within each species.  
 
 ```{r}
+
+
+```
+
+- plots
+-- x axis: biomass density in lbs/acre
+-- y axis: CPUE in fish/hour
+-- vertical panels: month
+
+dot for each lake in each month
+
+regressions may be pointless and cumbersome, ask MJW
+
+__leaving in the blue lake may observation of cpue__ because data is data and let's not discard anything.
+
+```{r}
+# front matter
+DF<-read.csv("2018 Raw CPUE Data.csv",header=T)
+str(DF)
+DF<-DF[,-1]
+DF[,1]<-as.factor(as.character(DF[,1]))
+DF[,2]<-as.factor(DF[,2])
+DF[,3]<-as.factor(as.character(DF[,3]))
+DF$n<-as.numeric(DF$n)
+levels(DF$Lake)
+
+
+DF2018<-groupwiseMean(cpue ~ Lake + Species + Month,
+                    data = DF,
+                    conf = 0.95,
+                    digits = 3)
+
 # loading in data frame
 denframe<-read.csv("2018_BiomassDensityEstimates.csv",header=T)
 denframe[,1]<-factor(c("Blue","Center","5 Island","N. Twin","Silver","S. Twin","Storm"))
@@ -700,167 +693,148 @@ BM$BuffN<- c(NA,3530,2300,18776,12486,34278,13724)
 # step 1 add biomass density with density limits
 # probably using Merge?
 head(BM)
-head(CI95)
+head(DF2018)
 # meh I'll just subset rather than wrangle another function
 #                     lower biomass density limit - carp
-CI95$L.BMD[CI95$Lake == "Blue" &
-             CI95$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "Blue"]
-CI95$L.BMD[CI95$Lake == "5 Island" &
-             CI95$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "5 Island"]
-CI95$L.BMD[CI95$Lake == "Center" &
-             CI95$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "Center"]
-CI95$L.BMD[CI95$Lake == "N. Twin" &
-             CI95$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "N. Twin"]
-CI95$L.BMD[CI95$Lake == "Silver" &
-             CI95$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "Silver"]
-CI95$L.BMD[CI95$Lake == "S. Twin" &
-             CI95$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "S. Twin"]
-CI95$L.BMD[CI95$Lake == "Storm" &
-             CI95$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "Storm"]
+DF2018$L.BMD[DF2018$Lake == "Blue" &
+             DF2018$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "Blue"]
+DF2018$L.BMD[DF2018$Lake == "5 Island" &
+             DF2018$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "5 Island"]
+DF2018$L.BMD[DF2018$Lake == "Center" &
+             DF2018$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "Center"]
+DF2018$L.BMD[DF2018$Lake == "N. Twin" &
+             DF2018$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "N. Twin"]
+DF2018$L.BMD[DF2018$Lake == "Silver" &
+             DF2018$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "Silver"]
+DF2018$L.BMD[DF2018$Lake == "S. Twin" &
+             DF2018$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "S. Twin"]
+DF2018$L.BMD[DF2018$Lake == "Storm" &
+             DF2018$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "Storm"]
                                                      
 
 #                     biomass density estimate - carp
-CI95$BMD[CI95$Lake == "Blue" &
-             CI95$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "Blue"]
-CI95$BMD[CI95$Lake == "5 Island" &
-             CI95$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "5 Island"]
-CI95$BMD[CI95$Lake == "Center" &
-             CI95$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "Center"]
-CI95$BMD[CI95$Lake == "N. Twin" &
-             CI95$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "N. Twin"]
-CI95$BMD[CI95$Lake == "Silver" &
-             CI95$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "Silver"]
-CI95$BMD[CI95$Lake == "S. Twin" &
-             CI95$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "S. Twin"]
-CI95$BMD[CI95$Lake == "Storm" &
-             CI95$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "Storm"]
+DF2018$BMD[DF2018$Lake == "Blue" &
+             DF2018$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "Blue"]
+DF2018$BMD[DF2018$Lake == "5 Island" &
+             DF2018$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "5 Island"]
+DF2018$BMD[DF2018$Lake == "Center" &
+             DF2018$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "Center"]
+DF2018$BMD[DF2018$Lake == "N. Twin" &
+             DF2018$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "N. Twin"]
+DF2018$BMD[DF2018$Lake == "Silver" &
+             DF2018$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "Silver"]
+DF2018$BMD[DF2018$Lake == "S. Twin" &
+             DF2018$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "S. Twin"]
+DF2018$BMD[DF2018$Lake == "Storm" &
+             DF2018$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "Storm"]
 
 
 #                     upper biomass density estimate - carp
-CI95$U.BMD[CI95$Lake == "Blue" &
-             CI95$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "Blue"]
-CI95$U.BMD[CI95$Lake == "5 Island" &
-             CI95$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "5 Island"]
-CI95$U.BMD[CI95$Lake == "Center" &
-             CI95$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "Center"]
-CI95$U.BMD[CI95$Lake == "N. Twin" &
-             CI95$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "N. Twin"]
-CI95$U.BMD[CI95$Lake == "Silver" &
-             CI95$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "Silver"]
-CI95$U.BMD[CI95$Lake == "S. Twin" &
-             CI95$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "S. Twin"]
-CI95$U.BMD[CI95$Lake == "Storm" &
-             CI95$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "Storm"]
+DF2018$U.BMD[DF2018$Lake == "Blue" &
+             DF2018$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "Blue"]
+DF2018$U.BMD[DF2018$Lake == "5 Island" &
+             DF2018$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "5 Island"]
+DF2018$U.BMD[DF2018$Lake == "Center" &
+             DF2018$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "Center"]
+DF2018$U.BMD[DF2018$Lake == "N. Twin" &
+             DF2018$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "N. Twin"]
+DF2018$U.BMD[DF2018$Lake == "Silver" &
+             DF2018$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "Silver"]
+DF2018$U.BMD[DF2018$Lake == "S. Twin" &
+             DF2018$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "S. Twin"]
+DF2018$U.BMD[DF2018$Lake == "Storm" &
+             DF2018$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "Storm"]
 
 ############################################################################
 #                     lower biomass density limit - BUFFALO
-CI95$L.BMD[CI95$Lake == "Blue" &
-             CI95$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "Blue"]
-CI95$L.BMD[CI95$Lake == "5 Island" &
-             CI95$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "5 Island"]
-CI95$L.BMD[CI95$Lake == "Center" &
-             CI95$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "Center"]
-CI95$L.BMD[CI95$Lake == "N. Twin" &
-             CI95$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "N. Twin"]
-CI95$L.BMD[CI95$Lake == "Silver" &
-             CI95$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "Silver"]
-CI95$L.BMD[CI95$Lake == "S. Twin" &
-             CI95$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "S. Twin"]
-CI95$L.BMD[CI95$Lake == "Storm" &
-             CI95$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "Storm"]
+DF2018$L.BMD[DF2018$Lake == "Blue" &
+             DF2018$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "Blue"]
+DF2018$L.BMD[DF2018$Lake == "5 Island" &
+             DF2018$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "5 Island"]
+DF2018$L.BMD[DF2018$Lake == "Center" &
+             DF2018$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "Center"]
+DF2018$L.BMD[DF2018$Lake == "N. Twin" &
+             DF2018$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "N. Twin"]
+DF2018$L.BMD[DF2018$Lake == "Silver" &
+             DF2018$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "Silver"]
+DF2018$L.BMD[DF2018$Lake == "S. Twin" &
+             DF2018$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "S. Twin"]
+DF2018$L.BMD[DF2018$Lake == "Storm" &
+             DF2018$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "Storm"]
                                                      
 
 #                     biomass density estimate - BUFFALO
-CI95$BMD[CI95$Lake == "Blue" &
-             CI95$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "Blue"]
-CI95$BMD[CI95$Lake == "5 Island" &
-             CI95$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "5 Island"]
-CI95$BMD[CI95$Lake == "Center" &
-             CI95$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "Center"]
-CI95$BMD[CI95$Lake == "N. Twin" &
-             CI95$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "N. Twin"]
-CI95$BMD[CI95$Lake == "Silver" &
-             CI95$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "Silver"]
-CI95$BMD[CI95$Lake == "S. Twin" &
-             CI95$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "S. Twin"]
-CI95$BMD[CI95$Lake == "Storm" &
-             CI95$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "Storm"]
+DF2018$BMD[DF2018$Lake == "Blue" &
+             DF2018$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "Blue"]
+DF2018$BMD[DF2018$Lake == "5 Island" &
+             DF2018$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "5 Island"]
+DF2018$BMD[DF2018$Lake == "Center" &
+             DF2018$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "Center"]
+DF2018$BMD[DF2018$Lake == "N. Twin" &
+             DF2018$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "N. Twin"]
+DF2018$BMD[DF2018$Lake == "Silver" &
+             DF2018$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "Silver"]
+DF2018$BMD[DF2018$Lake == "S. Twin" &
+             DF2018$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "S. Twin"]
+DF2018$BMD[DF2018$Lake == "Storm" &
+             DF2018$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "Storm"]
 
 
 #                     upper biomass density estimate - BUFFALO
-CI95$U.BMD[CI95$Lake == "Blue" &
-             CI95$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "Blue"]
-CI95$U.BMD[CI95$Lake == "5 Island" &
-             CI95$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "5 Island"]
-CI95$U.BMD[CI95$Lake == "Center" &
-             CI95$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "Center"]
-CI95$U.BMD[CI95$Lake == "N. Twin" &
-             CI95$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "N. Twin"]
-CI95$U.BMD[CI95$Lake == "Silver" &
-             CI95$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "Silver"]
-CI95$U.BMD[CI95$Lake == "S. Twin" &
-             CI95$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "S. Twin"]
-CI95$U.BMD[CI95$Lake == "Storm" &
-             CI95$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "Storm"]
+DF2018$U.BMD[DF2018$Lake == "Blue" &
+             DF2018$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "Blue"]
+DF2018$U.BMD[DF2018$Lake == "5 Island" &
+             DF2018$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "5 Island"]
+DF2018$U.BMD[DF2018$Lake == "Center" &
+             DF2018$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "Center"]
+DF2018$U.BMD[DF2018$Lake == "N. Twin" &
+             DF2018$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "N. Twin"]
+DF2018$U.BMD[DF2018$Lake == "Silver" &
+             DF2018$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "Silver"]
+DF2018$U.BMD[DF2018$Lake == "S. Twin" &
+             DF2018$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "S. Twin"]
+DF2018$U.BMD[DF2018$Lake == "Storm" &
+             DF2018$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "Storm"]
 
-############################################
-# Lake = Lake 
-# Month = month number
-# Species = binary
-# n = number of transects
-# mean = mean cpue for that month (# fish per hour)
-# conf.level = our alpha is 0.05
-# Trad.lower = lower ci for monthly cpue
-# Trad.upper = upper ci for monthly cpue
-# L.BMD = lower biomass density estimate
-# BMD = biomass density estimate in lbs per acre
-# U.BMD = upper biomass density estimate
-#############################################
+DF2018$Lake<-as.character(DF2018$Lake)
+DF2018$Lake[DF2018$Lake == "5 Island"]<-"Five Island"
+DF2018$Lake<-as.factor(DF2018$Lake)
 
-```
 
-- plots
--- x axis: biomass density in lbs/acre
--- y axis: CPUE in fish/hour
--- vertical panels: month
+DF2018$Month<-as.character(DF2018$Month)
+DF2018$Month[DF2018$Month == "5"] <- "May"
+DF2018$Month[DF2018$Month == "6"] <- "June"
+DF2018$Month[DF2018$Month == "7"] <- "July"
+DF2018$Month[DF2018$Month == "8"] <- "August"
+DF2018$Month[DF2018$Month == "9"] <- "September"
+DF2018$Month[DF2018$Month == "10"] <- "October"
+DF2018$Month[DF2018$Month == "11"] <- "November"
+DF2018$Month<-as.factor(DF2018$Month)
+DF2018$Lake<-as.character(DF2018$Lake)
+DF2018$Lake[DF2018$Lake == "5 Island"] <- "Five Island"
+DF2018$Lake<-as.factor(DF2018$Lake)
+DF2018$Month<- ordered(DF2018$Month, levels = c("May","June","July","August",
+                                            "September","October","November"))
 
-dot for each lake in each month
 
-regressions may be pointless and cumbersome, ask MJW
-
-__removing only the blue lake may observation of cpue__ so we can have the other non-oulier months of blue lake sampling but a y-axis that tops out at 300 not 1000. 
-
-```{r}
-head(CI95)
-str(CI95)
+head(DF2018)
 
 
 
 
-BMD.plot<-ggplot(CI95, aes(x=CI95[,10],y=CI95[,5]))+
-                  geom_point(aes(colour=Species, shape = Lake),size=2)+
-                  facet_grid(Month~.)+
-                  scale_shape_manual(values = c(2,4,7,8,15,16,17))+
-                  labs( x = "Biomass Density (lbs./acre)",
-                        y = "Mean Electrofishing CPUE (Fish/Hour)",
-                        title = "Electrofishing CPUE vs. Biomass Density")
-
-
-BMD.plot
-
-# Without blue lake in may
-CI95.b<-CI95[-13,]
-BMD.plot2<-ggplot(CI95.b, aes(x=CI95.b[,10],y=CI95.b[,5]))+
-                  geom_point(aes(shape = Lake),size=3)+
-                  scale_shape_manual(values = c(15,16,17,2,3,4,8))+
+BMD.plot2<-ggplot(DF2018, aes(x= BMD,y=Mean))+
+                  geom_point(aes(shape = Lake),size=2)+
+                  scale_shape_manual(values = c(0,1,2,3,4,6,8))+
                   facet_grid(Month~Species)+
                   labs( x = "Biomass Density (lbs./acre)",
                         y = "Mean Electrofishing CPUE (Fish/Hour)",
-                        title = "Electrofishing CPUE vs. Biomass Density")+
+                        title = NULL)+
                   theme(panel.grid.major = element_blank(), 
                        panel.grid.minor = element_blank(),
-                       panel.background = element_rect(fill="white",colour="grey50"), 
-                       axis.line = element_line(colour = "black"))
+                       panel.background = element_rect(fill="white",colour="gray50"), 
+                       axis.line = element_line(colour = "black"),
+                       legend.position= "bottom",
+                       legend.background = element_blank())
 
 
 BMD.plot2
@@ -1049,7 +1023,7 @@ p2<-ggplot(harvest,aes(x=Species, y=Removal))+
                 legend.background = element_rect(colour="grey20"))+
            labs(title = "Center Lake Removal",
                 x = "Species",
-                y = "Harvest Removal Rate (lbs/acre)")
+                y = "Harvest Removal (lbs/acre)")
            
 p2
 
@@ -1104,36 +1078,30 @@ levels(harvest$Lake)
 -- then again with Removal on y axis
 
 ```{r}
-p1<-ggplot(harvest,aes(x=Season, y=Harvest, fill = Species))+
+str(harvest)
+
+harvest$Total.Harvest<-harvest$Harvest
+harvest$Std.Removal<-harvest$Removal
+harvest<-harvest[,-c(3,5:7)]
+harvest.m<-melt(harvest, id.vars = c("Lake", "Year","Species","Season"))
+harvest.c<-dcast(harvest.m, Lake + Season + Species ~ variable, sum)
+harvest.m<-melt(harvest.c)
+p1<-ggplot(harvest.m,aes(x=Season, y=value, fill = Species))+
            geom_bar(stat="identity",position="Dodge")+
-           facet_wrap(.~Lake)+
+           scale_fill_grey(start = 0.3, end = 0.7, aesthetics = "fill")+
+           facet_grid(variable~Lake, scales = "free_y")+
            theme(panel.grid.major = element_blank(), 
                 panel.grid.minor = element_blank(),
                 panel.background = element_rect(fill="white",colour="grey50"), 
                 axis.line = element_line(colour = "black"),
-                legend.position = "none")+
-           labs(title = "Total Commercial Harvest 2015-2018",
+                legend.position = "bottom")+
+           labs(title = NULL,
                 x = "Harvest Season",
-                y = "Harvest (lbs)")
+                y = "Harvest")
            
 p1
 
-p2<-ggplot(harvest,aes(x=Season, y=Removal, fill = Species))+
-           geom_bar(stat="identity",position="Dodge")+
-           facet_wrap(.~Lake)+
-           theme(panel.grid.major = element_blank(), 
-                panel.grid.minor = element_blank(),
-                panel.background = element_rect(fill="white",colour="grey50"), 
-                axis.line = element_line(colour = "black"),
-                legend.position = "bottom",
-                legend.background = element_rect(colour="grey20"))+
-           labs(title = "Commercial Harvest Removal Rate 2015-2018",
-                x = "Harvest Season",
-                y = "Harvest Removal Rate (lbs/acre)")
-           
-p2
 
-grid.arrange(p1,p2, ncol = 1)
 ```
 
 # Von Bertalanffy Growth Curves
@@ -1207,6 +1175,9 @@ lines(LPI~ages2plot,type="l",col="red",lwd=2,lty=2)
 #devtools::install_github('droglenc/FSAsim')
 #install.packages("tidyverse")
 # read in data
+
+packages("FSA")
+
 ages<-read.csv("2017_Age_Estimates.csv",header=T)
 summary(ages)
 str(ages)
@@ -1221,10 +1192,11 @@ str(ages)
 #
 b.carp <- droplevels(subset(ages, Species == "COC" &
                                  Lake == "Blue" &
-                                 !is.na(ages$Otolith.MAS)))
+                                 !is.na(ages$Otolith.MAS)&
+                                 !is.na(ages$Spine.MAS)))
 summary(b.carp)
 b.carp$tl<-b.carp$TL.mm
-b.carp$age<-b.carp$Otolith.MAS 
+b.carp$age<-b.carp$Spine.MAS 
 
 summary(b.carp$tl)
 summary(b.carp$age)
@@ -1234,7 +1206,7 @@ svTypical<-vbStarts(tl~age,data=b.carp,
                     methLinf = "oldAge")
 #svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.carp)
 unlist(svTypical)
-svTypical<-list(Linf=560,K=0.02430846,t0=-31.50717871)
+svTypical<-list(Linf=530,K=0.1509417,t0=-4.1269841)
 
 
 # Fitting the model and boostrapping
@@ -1245,17 +1217,17 @@ vbTyp<-vbFuns()
 
 fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
             control = list(maxiter=500), 
-            data=b.carp, start=svTypical) ## ERROR
+            data=b.carp, start=svTypical) 
 
 fitTypical <- nls(vbTypical,data=b.carp,start=svTypical) ## Error as well
-overview(fitTypical)
+#overview(fitTypical)
 
 bootTypical <- nlsBoot(fitTypical,niter=2000)
 headtail(bootTypical$coefboot,n=2)
-confint(bootTypical,plot=T)
+confint(bootTypical,plot=F)
 ests <- data.frame(bootTypical$coefboot)
 
-ages2plot<- 0:8                        # need to change this with each spp/lake combo
+ages2plot<- 0:10                       # need to change this with each spp/lake combo
 LCI<-UCI<-numeric(length(ages2plot))
 for(i in 1:length(ages2plot)) {
   pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
@@ -1265,13 +1237,14 @@ for(i in 1:length(ages2plot)) {
 
 
 # Plots
-
+plot.new()
+par(mfrow=c(3,2))
 fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
-        main = "2017 Center Lake Carp VBGM - Spines Only",
-        xlim = range(ages2plot), ylim = c(200,900),
-        legend = T)
-lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
-lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+        main = "Blue Lake Carp",
+        xlim = c(0,35), ylim = c(200,900),
+        legend = T)+
+      lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)+
+      lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
 
 
 #############################################################################
@@ -1314,7 +1287,7 @@ overview(fitTypical)
 
 bootTypical <- nlsBoot(fitTypical,niter=2000)
 headtail(bootTypical$coefboot,n=2)
-confint(bootTypical,plot=T)
+confint(bootTypical,plot=F)
 ests <- data.frame(bootTypical$coefboot)
 
 ages2plot<- 0:16                        # need to change this with each spp/lake combo
@@ -1328,9 +1301,9 @@ for(i in 1:length(ages2plot)) {
 
 # Plots
 
-fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
-        main = "2017 Center Lake Carp VBGM - Spines Only",
-        xlim = range(ages2plot), ylim = c(200,900),
+fitPlot(fitTypical,xlab="Age",ylab="",
+        main = "Center Lake Carp",
+        xlim = c(0,35), ylim = c(200,900),
         legend = T)
 lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
 lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
@@ -1348,7 +1321,7 @@ nt.carp <- droplevels(subset(ages, Species == "COC" &
                                  !is.na(ages$Otolith.MAS)))
 summary(nt.carp)
 nt.carp$tl<-nt.carp$TL.mm
-nt.carp$age<-nt.carp$Otolith.MAS 
+nt.carp$age<-nt.carp$Spine.MAS 
 
 summary(nt.carp$tl)
 summary(nt.carp$age)
@@ -1357,7 +1330,7 @@ summary(nt.carp$age)
 svTypical<-vbStarts(tl~age,data=nt.carp)
 #svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.carp)
 unlist(svTypical)
-svTypical<-list(Linf=735.296,K=0.1600955,t0=-1.5186606)
+svTypical<-list(Linf=674.5,K=0.201306,t0=-2.387971)
 
 
 # Fitting the model and boostrapping
@@ -1365,7 +1338,7 @@ svTypical<-list(Linf=735.296,K=0.1600955,t0=-1.5186606)
 
 vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
 vbTyp<-vbFuns()
-vbTyp(3,Linf=c(765,0.1600955,-1.5186606))
+vbTyp(3,Linf=c(674.5,0.201306,-2.387971))
 
 fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
             control = list(maxiter=500), 
@@ -1378,10 +1351,10 @@ summary(fitTypical)
 
 bootTypical <- nlsBoot(fitTypical,niter=2000)
 headtail(bootTypical$coefboot,n=2)
-confint(bootTypical,plot=T)
+confint(bootTypical,plot=F)
 ests <- data.frame(bootTypical$coefboot)
 
-ages2plot<- 0:24                        # need to change this with each spp/lake combo
+ages2plot<- 0:32                        # need to change this with each spp/lake combo
 LCI<-UCI<-numeric(length(ages2plot))
 for(i in 1:length(ages2plot)) {
   pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
@@ -1393,8 +1366,8 @@ for(i in 1:length(ages2plot)) {
 # Plots
 
 fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
-        main = "2017 North Twin Lake Carp VBGF",
-        xlim = range(ages2plot), ylim = c(200,900),
+        main = "N. Twin Lake Carp",
+        xlim = c(0,35), ylim = c(200,900),
         legend = T)
 lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
 lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
@@ -1409,10 +1382,10 @@ lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
 st.carp <- droplevels(subset(ages, Species == "COC" &
                                  Lake == "S. Twin" &
                                  !is.na(ages$TL.mm)&
-                                 !is.na(ages$Otolith.MAS)))
+                                 !is.na(ages$Spine.DRF)))
 summary(st.carp)
 st.carp$tl<-st.carp$TL.mm
-st.carp$age<-st.carp$Otolith.MAS # otoliths taken from this lake 2017
+st.carp$age<-st.carp$Spine.DRF # otoliths taken from this lake 2017
 
 summary(st.carp$tl)
 summary(st.carp$age)
@@ -1421,7 +1394,7 @@ summary(st.carp$age)
 svTypical<-vbStarts(tl~age,data=st.carp)
 #svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.carp)
 unlist(svTypical)
-svTypical<-list(Linf=619,K=0.144879,t0=-8.042712)
+svTypical<-list(Linf=495,K=1.145066,t0=1.061007)
 
 
 # Fitting the model and boostrapping
@@ -1429,7 +1402,7 @@ svTypical<-list(Linf=619,K=0.144879,t0=-8.042712)
 
 vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
 vbTyp<-vbFuns()
-vbTyp(3,Linf=c(619,0.144879,-8.042712))
+vbTyp(3,Linf=c(495,1.145066,1.061007))
 
 fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
             control = list(maxiter=500), 
@@ -1440,10 +1413,10 @@ overview(fitTypical)
 
 bootTypical <- nlsBoot(fitTypical,niter=2000)
 headtail(bootTypical$coefboot,n=2)
-confint(bootTypical,plot=T)
+confint(bootTypical,plot=F)
 ests <- data.frame(bootTypical$coefboot)
 
-ages2plot<- 0:28                       # need to change this with each spp/lake combo
+ages2plot<- 0:13                       # need to change this with each spp/lake combo
 LCI<-UCI<-numeric(length(ages2plot))
 for(i in 1:length(ages2plot)) {
   pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
@@ -1454,9 +1427,9 @@ for(i in 1:length(ages2plot)) {
 
 # Plots
 
-fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
-        main = "2017 South Twin Lake Carp VBGF",
-        xlim = range(ages2plot), ylim = c(200,900),
+fitPlot(fitTypical,xlab="Age",ylab="",
+        main = "South Twin Lake Carp",
+        xlim = c(0,35), ylim = c(200,900),
         legend = T)
 lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
 lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
@@ -1522,7 +1495,7 @@ overview(fitTypical)
 
 bootTypical <- nlsBoot(fitTypical,niter=2000)
 headtail(bootTypical$coefboot,n=2)
-confint(bootTypical,plot=T)
+confint(bootTypical,plot=F)
 ests <- data.frame(bootTypical$coefboot)
 
 ages2plot<- 0:12                        # need to change this with each spp/lake combo
@@ -1537,8 +1510,8 @@ for(i in 1:length(ages2plot)) {
 # Plots
 
 fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
-        main = "2017 Center Lake Buffalo VBGM - Spines Only",
-        xlim = range(ages2plot), ylim = c(200,900),
+        main = "Center Lake Buffalo",
+        xlim = c(0,26), ylim = c(200,900),
         legend = T)
 lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
 lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
@@ -1553,10 +1526,11 @@ lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
 levels(ages$Lake)
 nt.buff <- droplevels(subset(ages, Species == "BIB" &
                                  Lake == "N Twin" &
-                                 !is.na(ages$Otolith.MAS)))
+                                 !is.na(ages$Spine.MAS)))
+nt.buff$Spine.MAS[nt.buff$Spine.MAS == 40]<-25
 summary(nt.buff)
 nt.buff$tl<-nt.buff$TL.mm
-nt.buff$age<-nt.buff$Otolith.MAS 
+nt.buff$age<-nt.buff$Spine.MAS 
 
 summary(nt.buff$tl)
 summary(nt.buff$age)
@@ -1565,15 +1539,14 @@ summary(nt.buff$age)
 svTypical<-vbStarts(tl~age,data=nt.buff)
 #svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.buff)
 unlist(svTypical)
-svTypical<-list(Linf=622.79,K=0.3775477,t0=-0.1895637)
+svTypical<-list(Linf=633,K=0.238783,t0=-2.887681)
 
 
 # Fitting the model and boostrapping
 
-
 vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
 vbTyp<-vbFuns()
-vbTyp(3,Linf=c(622.79,0.3775477,-0.1895637))
+vbTyp(3,Linf=c(633,0.238783,-2.887681))
 
 fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
             control = list(maxiter=500), 
@@ -1586,10 +1559,10 @@ summary(fitTypical)
 
 bootTypical <- nlsBoot(fitTypical,niter=2000)
 headtail(bootTypical$coefboot,n=2)
-confint(bootTypical,plot=T)
+confint(bootTypical,plot=F)
 ests <- data.frame(bootTypical$coefboot)
 
-ages2plot<- 0:22                        # need to change this with each spp/lake combo
+ages2plot<- 0:26                       # need to change this with each spp/lake combo
 LCI<-UCI<-numeric(length(ages2plot))
 for(i in 1:length(ages2plot)) {
   pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
@@ -1600,9 +1573,9 @@ for(i in 1:length(ages2plot)) {
 
 # Plots
 
-fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
-        main = "2017 North Twin Lake Buffalo VBGM",
-        xlim = range(ages2plot), ylim = c(200,900),
+fitPlot(fitTypical,xlab="Age",ylab="",
+        main = "N. Twin Lake Buffalo",
+        xlim = c(0,26), ylim = c(200,900),
         legend = T)
 lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
 lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
@@ -1617,19 +1590,19 @@ lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
 st.buff <- droplevels(subset(ages, Species == "BIB" &
                                  Lake == "S. Twin" &
                                  !is.na(ages$TL.mm)&
-                                 !is.na(ages$Otolith.MAS)))
+                                 !is.na(ages$Spine.DRF)))
 summary(st.buff)
 st.buff$tl<-st.buff$TL.mm
-st.buff$age<-st.buff$Otolith.DRF # No otoliths taken from this lake 2017
+st.buff$age<-st.buff$Spine.DRF
 
 summary(st.buff$tl)
 summary(st.buff$age)
 
 # vbStarts and function variables
-svTypical<-vbStarts(tl~age,data=st.buff)
+svTypical<-vbStarts(tl~age,data=st.buff, meth0 = "yngAge")
 #svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.buff)
 unlist(svTypical)
-svTypical<-list(Linf=591.78,K=0.1976491,t0=-6.3982946) # screwed up starting values... try spines
+svTypical<-list(Linf=633.38,K=0.3588921,t0=-0.9641883) # screwed up starting values... try spines
 
 
 # Fitting the model and boostrapping
@@ -1637,7 +1610,7 @@ svTypical<-list(Linf=591.78,K=0.1976491,t0=-6.3982946) # screwed up starting val
 
 vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
 vbTyp<-vbFuns()
-vbTyp(3,Linf=c(591.78,0.1976491,-6.3982946))
+vbTyp(3,Linf=c(633.38,0.3588921,-0.9641883))
 
 
 
@@ -1730,6 +1703,66 @@ ggplot(age, aes(x=Spine.Age, y=Weight..Kg., shape = Species))+geom_point(size=5)
 ```
 
 
+# age-frequency histograms
+```{r}
+ages<-read.csv("2017_Age_Estimates.csv",header=T)
+ages<-droplevels(ages[-761,])
+summary(ages)
+str(ages)
+
+ages<-ages[,-c(2,4,5,7:13)]
+ages<-droplevels(subset(ages, !is.na(ages$Spine.MAS)))
+
+ages$Species<-as.character(ages$Species)
+ages$Species[ages$Species == "BIB"] <-"Bigmouth Buffalo"
+ages$Species[ages$Species == "COC"] <-"Common Carp"
+ages$Species<-as.factor(ages$Species)
+
+
+Age.Hist<-ggplot(ages, aes(x=Spine.MAS, fill = Species))+
+                         geom_histogram(binwidth = 1,
+                                        colour = "black",
+                                        position = "stack")+
+                         facet_grid(.~Lake)+
+                         theme(panel.grid.major = element_blank(), 
+                              panel.grid.minor = element_blank(),
+                              panel.background = element_rect(fill="white",colour="grey50"), 
+                              axis.line = element_line(colour = "black"),
+                              legend.position = "bottom",
+                              legend.background = element_rect(colour="grey20"))+
+                         scale_fill_grey(start = 0.1, end = 0.9, aesthetics = "fill")+
+                         labs(title = "2017 Age Frequency Histograms",
+                              x = "Year",
+                              y = "Frequency")
+
+Age.Hist
+
+df.c.m<-melt(df.c)
+
+all.lakes.Carp.lf<-ggplot(df.c.m, aes(x=value, fill = Gear))+
+                         geom_histogram(binwidth = 1,
+                                        colour = "black",
+                                        position = "stack")+
+                         coord_cartesian(xlim = c(0,45))+
+                         facet_grid(vars(Year), vars(Lake))+
+                         theme(panel.grid.major = element_blank(), 
+                              panel.grid.minor = element_blank(),
+                              panel.background = element_rect(fill="white",colour="grey50"), 
+                              axis.line = element_line(colour = "black"),
+                              legend.position = "bottom",
+                              legend.background = element_rect(colour="grey20"))+
+                         scale_fill_grey(start = 0.1, end = 0.9, aesthetics = "fill")+
+                         labs(title = "2017 and 2018 Common Carp Length Frequencies",
+                              x = "Length (inches)",
+                              y = "Frequency")
+
+all.lakes.Carp.lf
+
+grid.arrange(all.lakes.Buff.lf,all.lakes.Carp.lf,ncol=1)
+
+
+
+```
 
 
 
@@ -1783,15 +1816,23 @@ b.data<-data[,c(1,8:14)]
 frame<-read.csv("junk.csv")
 frame$Year<-factor(frame$Year)
 str(frame)
-# total biomass plot
+
+frame$L.BM<-frame$L.BM/1000
+frame$BM<-frame$BM/1000
+frame$U.BM<-frame$U.BM/1000
+
 bm<-ggplot(frame, aes(x= Year, y = BM, ymin=L.BM, ymax=U.BM))+
-                geom_point(size=4, aes(colour = Species, shape = Species))+
+                geom_point(size=3, aes( shape = Species))+
                 geom_errorbar(width = 0.2) +
-                facet_wrap(~Species+Lake)+
-                scale_y_continuous(labels = c("0","100,000","200,000","300,000"))+
-                theme_bw()+
+                facet_grid(Species ~ Lake)+
+                scale_y_continuous(labels = c("0","100","200","300"))+
+                theme(panel.grid.major = element_blank(), 
+                      panel.grid.minor = element_blank(),
+                      panel.background = element_rect(fill="white",colour="grey50"), 
+                      axis.line = element_line(colour = "black"),
+                      legend.position = "none")+
                 labs (title = "Change in Total Biomass 2017-2018", 
-                    y = "Biomass Estimate (lbs.)")
+                    y = "Biomass Estimate (in thousands of pounds)")
 bm
 
 # Buf total biomass plot
@@ -1808,30 +1849,20 @@ bm
 #Carp bm density plot
 dodge<-position_dodge(width=0.2)
 bmD<-ggplot(frame, aes(x= Year, y = BMDensity, ymin=L.BMDensity, ymax=U.BMDensity))+
-                geom_point(size=4, aes(colour=Species,shape=Species))+
+                geom_point(size=4, aes(shape=Species))+
                 geom_errorbar(width = 0.2,
                            position = dodge) +
-                facet_wrap(~Species+Lake)+
-                theme_bw()+
+                facet_grid(Species~Lake)+
+                theme(panel.grid.major = element_blank(), 
+                      panel.grid.minor = element_blank(),
+                      panel.background = element_rect(fill="white",colour="grey50"), 
+                      axis.line = element_line(colour = "black"),
+                      legend.position = "none")+
                 labs (title = "Change in Biomass Density 2017-2018", 
                     y = "Estimated Biomass Density (lbs. / acre)")
 bmD
 
-# Buf total biomass plot
-bib.bmD<-ggplot(b.data, aes(x= Year, y = B.BMDensity, ymin=B.L.BMDensity, ymax=B.U.BMDensity))+
-                geom_point(size=4)+
-                geom_linerange(size = 0.5) +
-                facet_wrap(~X,scales = "free_x")+
-                theme_bw()+
-                labs (title = "Buffalo Biomass Density 2017-2018", 
-                    y = "Estimated Biomass Density (lbs. / acre)")
-bib.bmD
-
-grid.arrange(coc.bm,
-             bib.bm,
-             coc.bmD,
-             bib.bmD,
-             ncol = 2,
+grid.arrange(bm,bmD,
              nrow = 2)
 
 ```
@@ -1918,10 +1949,13 @@ m1.d.melt<-melt(p1.data)
 theme_set(theme_bw())
 p1 <- ggplot(m1.d.melt, aes(x=Lake, y = value, fill = variable))+
             geom_bar(stat="identity", position = "dodge", colour = "black") +
-              scale_fill_manual(values = wes_palette("Moonrise2")) +
-            theme_bw()+
-             theme(legend.position = "bottom", legend.title = element_blank()) +
-              labs (title = "Species Richness", 
+           scale_fill_grey(start = 0.3, end = 0.7, aesthetics = "fill")+
+             theme(panel.grid.major = element_blank(), 
+                panel.grid.minor = element_blank(),
+                panel.background = element_rect(fill="white",colour="grey50"), 
+                axis.line = element_line(colour = "black"),
+                legend.position = "bottom", legend.title = element_blank()) +
+              labs (title = NULL, 
                     y = "Number of Species")
   
 p1
@@ -2068,6 +2102,8 @@ psd.frame$Species[psd.frame$Species == "WHC"]<-"White Crappie"
 psd.frame$Species<-as.factor(psd.frame$Species)
 levels(psd.frame$Species)
 
+
+length(levels(psd.frame$species))
 # remove fish that aren't included in Ogle's FSA (Gablehouse (PSD) lengths)
 summary(psd.frame$Lake[psd.frame$Species == "Painted turtle"])
 
