@@ -1206,7 +1206,15 @@ svTypical<-vbStarts(tl~age,data=b.carp,
                     methLinf = "oldAge")
 #svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.carp)
 unlist(svTypical)
+<<<<<<< HEAD
 svTypical<-list(Linf=530,K=0.1509417,t0=-4.1269841)
+=======
+<<<<<<< HEAD
+svTypical<-list(Linf=1000,K=0.0243,t0=-4.49032)
+=======
+svTypical<-list(Linf=560,K=0.02430846,t0=-31.50717871)
+>>>>>>> 3e664d588fb6f006ffae7870b99549ad5fc96c75
+>>>>>>> 979d699f6387675f608f23000a946113bd90bbfb
 
 
 # Fitting the model and boostrapping
