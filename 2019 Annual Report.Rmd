@@ -53,6 +53,49 @@ packages(doBy)
 packages(dplyr)
 packages(tidyr)
 packages(rcompanion)
+packages(GISTools)
+packages(maps)
+packages(mapproj)
+```
+
+# Iowa state map
+
+```{r}
+plot.new()
+# blank state of Iowa
+map('state','iowa',fill=T,col="grey95",mar=c(0,1,1.1,1))
+# now add cities
+data(us.cities)
+# just Ames
+map.cities(us.cities,country='IA',minpop=57680,maxpop=57690,cex=2.5, pch = 16)
+# Just Des Moines
+map.cities(us.cities,country='IA',capitals=2,cex=1.5,pch=8)
+# Add a scale
+x<-(-95.4)
+y<-(41.1)
+map.scale(x,y,ratio=F,cex=1)
+# Add a north arrow
+x<-(-96.2)
+y<-(41)
+north.arrow(x,y,len=0.1,lab="N",col='black')
+# To add the study lakes, I first need to create a df with the lat, long, and labels
+
+coords<-read.csv('LakeCoords.csv',header=T)
+# Adding the points to the map with labels I hope
+
+# only these lakes for 2019 IA AFS talk
+# coords<-subset(coords, Name == "Center Lake" | Name == "S. Twin Lake" | Name == "N. Twin Lake")
+
+
+points(coords$Long,
+       coords$Lat,
+       pch=c(13,1,13,1,19,13,19),col='blue',cex=2)
+text(coords$Long,
+     coords$Lat,
+     labels = coords$Name,
+     pos=c(2,4,4,2,4,4,4),col='black',cex=1.75)
+# Adding a title
+# title(main="Carp & Buffalo Mgmt. Lakes")
 ```
 
 
@@ -154,7 +197,8 @@ Catch_GearSppYear<-ggplot(GearCatch, aes(x=Lake, y = ., fill = Gear))+
                                 x="Lake",
                                 y="Total Number of Fish Caught") +
                           facet_grid(vars(Species),vars(Year))+
-                          theme(legend.position = 'bottom',legend.direction = "horizontal",
+                          theme(legend.position = c(.75,.9),legend.direction = "vertical",
+                                legend.title = element_blank(),
                                 panel.grid.major = element_blank(), 
                                 panel.grid.minor = element_blank(),
                                 panel.background = element_rect(fill="white",colour="grey50"), 
@@ -277,7 +321,8 @@ all.lakes.Carp.lf<-ggplot(df.c.m, aes(x=value, fill = Gear))+
                               panel.grid.minor = element_blank(),
                               panel.background = element_rect(fill="white",colour="grey50"), 
                               axis.line = element_line(colour = "black"),
-                              legend.position = "bottom",
+                              legend.position = c(0.9,0.8),
+                              legend.title = element_blank(),
                               legend.background = element_rect(colour="grey20"))+
                          scale_fill_grey(start = 0.1, end = 0.9, aesthetics = "fill")+
                          labs(title = "2017 and 2018 Common Carp Length Frequencies",
@@ -591,19 +636,40 @@ CI95.plot<-ggplot(CI95, aes(x=Month, y=Mean))+
 CI95.plot
 
 
+# trying now with DF instead of computed means. get an idea of distribution
+str(DF)
+DF$Month<-as.character(DF$Month)
+DF$Month[DF$Month == "5"] <- "May"
+DF$Month[DF$Month == "6"] <- "June"
+DF$Month[DF$Month == "7"] <- "July"
+DF$Month[DF$Month == "8"] <- "August"
+DF$Month[DF$Month == "9"] <- "September"
+DF$Month[DF$Month == "10"] <- "October"
+DF$Month[DF$Month == "11"] <- "November"
+DF$Month<-as.factor(DF$Month)
+DF$Lake<-as.character(DF$Lake)
+DF$Lake[DF$Lake == "5 Island"] <- "Five Island"
+DF$Lake<-as.factor(DF$Lake)
+DF$Species<-as.character(DF$Species)
+DF$Species[DF$Species == "COC"] <- "Common Carp"
+DF$Species[DF$Species == "BIB"] <- "Bigmouth Buffalo"
+DF$Species<-as.factor(DF$Species)
+DF$Month<- ordered(DF$Month, levels = c("May","June","July","August",
+                                            "September","October","November"))
+str(DF)
 
-
-CI95.boxplot<-ggplot(CI95, aes(x=Month, y=Mean))+
-  geom_boxplot(aes(fill = Species),
+DF.boxplot<-ggplot(DF, aes(x=Month, y=cpue))+
+  geom_boxplot(aes(fill = Lake, colour = Lake),
               size=1)+
-  theme(legend.title = element_text(size=12,face="bold"),
-        panel.grid.major = element_blank(), 
+  theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         panel.background = element_rect(fill="white",colour="grey50"), 
         axis.line = element_line(colour = "black"),
-        legend.position = "bottom")+
-        scale_fill_grey(start = 0.5, end = 0.9, aesthetics = "fill")
-CI95.boxplot
+        legend.position = c(0.7,0.4),
+        legend.title = element_blank(),
+        legend.direction = "horizontal")+
+  facet_grid(Species~., scales = "free_y")
+DF.boxplot
 
 # split by lake, and using entire df for more accurate distribution
 

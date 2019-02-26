@@ -41,14 +41,15 @@ packages(mapproj)
 # Iowa state map
 
 ```{r}
+plot.new()
 # blank state of Iowa
 map('state','iowa',fill=T,col="grey95",mar=c(0,1,1.1,1))
 # now add cities
 data(us.cities)
 # just Ames
-map.cities(us.cities,country='IA',minpop=57680,maxpop=57690)
+map.cities(us.cities,country='IA',minpop=57680,maxpop=57690,cex=2.5, pch = 16)
 # Just Des Moines
-map.cities(us.cities,country='IA',capitals=2,cex=1,pch=8)
+map.cities(us.cities,country='IA',capitals=2,cex=1.5,pch=8)
 # Add a scale
 x<-(-95.4)
 y<-(41.1)
@@ -68,13 +69,13 @@ coords<-read.csv('LakeCoords.csv',header=T)
 
 points(coords$Long,
        coords$Lat,
-       pch=19,col='blue',cex=1)
+       pch=c(13,1,13,1,19,13,19),col='blue',cex=2)
 text(coords$Long,
      coords$Lat,
      labels = coords$Name,
-     pos=c(2,4,4,2,4,4,4),col='black',cex=0.85)
+     pos=c(2,4,4,2,4,4,4),col='black',cex=1.75)
 # Adding a title
-title(main="Carp & Buffalo Mgmt. Lakes")
+# title(main="Carp & Buffalo Mgmt. Lakes")
 ```
 
 
