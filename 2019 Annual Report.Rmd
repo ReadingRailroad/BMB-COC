@@ -523,7 +523,10 @@ DF.17.18<-rbind(DF2017,DF2018)
 str(DF.17.18)
 
 DF.17.18$L.BMD[DF.17.18$L.BMD <= 0] <- 0 # setting negative biomass estimates to 0
-
+DF.17.18$Species<-as.character(DF.17.18$Species)
+DF.17.18$Species[DF.17.18$Species == "BIB"]<- "Bigmouth Buffalo"
+DF.17.18$Species[DF.17.18$Species == "COC"]<- "Common Carp"
+DF.17.18$Species<-as.factor(DF.17.18$Species)
 ############################################
 # Lake = Lake 
 # Species = binary factor of BIB and COC
@@ -559,7 +562,9 @@ max(DF.17.18$Trad.upper)
 
 library(devtools)
 source_gist("524eade46135f6348140")
+require(devtools)
 
+packages("ggpmisc")
 CPUE.Plot<-ggplot(DF.17.18, aes(x=BMD, y=Mean, label = Lake)) +
                             geom_point(size=2) +
                             geom_errorbar(aes(ymax = Trad.upper, ymin = Trad.lower),width=20) +
@@ -575,7 +580,9 @@ CPUE.Plot<-ggplot(DF.17.18, aes(x=BMD, y=Mean, label = Lake)) +
                                   panel.background = element_rect(fill="white",colour="grey50"),
                                   axis.line = element_line(colour = "black")) +
                             geom_smooth(method=lm,se=F) +
-                            stat_smooth_func(geom="text",method="lm",hjust = 0,vjust=-2,parse=TRUE)
+                            stat_poly_eq(formula = y~x,
+                                         aes(label = paste(..eq.label..,..rr.label..,sep = "~~~")),
+                                         parse=T)
 CPUE.Plot
 
 
@@ -658,17 +665,24 @@ DF$Month<- ordered(DF$Month, levels = c("May","June","July","August",
                                             "September","October","November"))
 str(DF)
 
-DF.boxplot<-ggplot(DF, aes(x=Month, y=cpue))+
-  geom_boxplot(aes(fill = Lake, colour = Lake),
-              size=1)+
+DF.boxplot<-ggplot(DF, aes(x=Lake, y=cpue))+
+  geom_boxplot(aes(fill = Lake),
+               stat = "boxplot",
+               position = "dodge2")+
+  scale_fill_brewer(palette = "Greens")+
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         panel.background = element_rect(fill="white",colour="grey50"), 
         axis.line = element_line(colour = "black"),
-        legend.position = c(0.7,0.4),
+        legend.position = c(0.5,0.4),
         legend.title = element_blank(),
-        legend.direction = "horizontal")+
-  facet_grid(Species~., scales = "free_y")
+        legend.direction = "horizontal",
+        legend.key.width = unit(0.5,"cm"),
+        legend.background = element_rect(fill = "white", colour ="black"),
+        axis.text.x = element_blank())+
+  labs(y = "Mean Electrofishing CPUE (Number of fish / Hour)")+
+  guides(fill = guide_legend(nrow=1))+
+  facet_grid(Species~Month, scales = "free_y")
 DF.boxplot
 
 # split by lake, and using entire df for more accurate distribution
@@ -886,24 +900,97 @@ DF2018$Month<- ordered(DF2018$Month, levels = c("May","June","July","August",
 head(DF2018)
 
 
+levels(DF2018$Species)
+DF2018$Species<-as.character((DF2018$Species))
+DF2018$Species[DF2018$Species == "BIB"]<-"Bigmouth Buffalo"
+DF2018$Species[DF2018$Species == "COC"]<-"Common Carp"
+DF2018$Species<-as.factor(DF2018$Species)
 
 
-BMD.plot2<-ggplot(DF2018, aes(x= BMD,y=Mean))+
+
+
+BMD.plot<-ggplot(DF2018, aes(x= BMD,y=Mean))+
                   geom_point(aes(shape = Lake),size=2)+
                   scale_shape_manual(values = c(0,1,2,3,4,6,8))+
                   facet_grid(Month~Species)+
                   labs( x = "Biomass Density (lbs./acre)",
                         y = "Mean Electrofishing CPUE (Fish/Hour)",
                         title = NULL)+
+                  geom_smooth(method = lm, se=F)+
+                  stat_poly_eq(formula = y~x,
+                               aes(label = paste(..eq.label..,..rr.label..,sep = "~~~")),
+                                         parse=T)+
                   theme(panel.grid.major = element_blank(), 
                        panel.grid.minor = element_blank(),
                        panel.background = element_rect(fill="white",colour="gray50"), 
                        axis.line = element_line(colour = "black"),
                        legend.position= "bottom",
+                       legend.direction = "horizontal",
+                       legend.title = element_blank(),
+                       legend.background = element_blank())+
+                  guides(shape = guide_legend(nrow=1))
+BMD.plot
+
+
+
+
+
+
+
+# gonna split by species then use grid.arrange to put them together.
+
+# didn't work how I wanted :(
+DF2018.b<-droplevels(subset(DF2018, Species == "Bigmouth Buffalo"))
+
+BMD.plot.b<-ggplot(DF2018.b, aes(x= BMD,y=Mean))+
+                  geom_point(aes(shape = Lake),size=2)+
+                  scale_shape_manual(values = c(1,2,3,4,6,8))+
+                  facet_grid(Month~.)+
+                  labs( x = "Bigmouth Buffalo Biomass Density (lbs./acre)",
+                        y = "Mean Electrofishing CPUE (Fish/Hour)",
+                        title = NULL)+
+                  geom_smooth(method = lm, se=F)+
+                  stat_poly_eq(formula = y~x,
+                               aes(label = paste(..eq.label..,..rr.label..,sep = "~~~")),
+                                         parse=T)+
+                  theme(panel.grid.major = element_blank(), 
+                       panel.grid.minor = element_blank(),
+                       panel.background = element_rect(fill="white",colour="gray50"), 
+                       axis.line = element_line(colour = "black"),
+                       legend.position= "none",
                        legend.background = element_blank())
 
 
-BMD.plot2
+BMD.plot.b
+
+
+DF2018.c<-droplevels(subset(DF2018, Species == "Common Carp"))
+BMD.plot.c<-ggplot(DF2018.c, aes(x= BMD,y=Mean))+
+                  geom_point(aes(shape = Lake),size=2)+
+                  scale_shape_manual(values = c(0,1,2,3,4,6,8))+
+                  facet_grid(Month~.)+
+                  labs( x = "Common Carp Biomass Density (lbs./acre)",
+                        y = "Mean Electrofishing CPUE (Fish/Hour)",
+                        title = NULL)+
+                  geom_smooth(method = lm, se=F)+
+                  stat_poly_eq(formula = y~x,
+                               aes(label = paste(..eq.label..,..rr.label..,sep = "~~~")),
+                                         parse=T)+
+                  theme(panel.grid.major = element_blank(), 
+                       panel.grid.minor = element_blank(),
+                       panel.background = element_rect(fill="white",colour="gray50"), 
+                       axis.line = element_line(colour = "black"),
+                       legend.position= "top",
+                       legend.direction = "horizontal",
+                       legend.title = element_blank(),
+                       legend.background = element_blank())+
+                  guides(shape = guide_legend(nrow=1))
+
+
+BMD.plot.c
+
+
+grid.arrange(BMD.plot.b,BMD.plot.c,ncol=2)
 
 ```
 - decent at this point. 
@@ -1160,7 +1247,9 @@ p1<-ggplot(harvest.m,aes(x=Season, y=value, fill = Species))+
                 panel.grid.minor = element_blank(),
                 panel.background = element_rect(fill="white",colour="grey50"), 
                 axis.line = element_line(colour = "black"),
-                legend.position = "bottom")+
+                legend.position = c(0.8,0.4),
+                legend.background = element_rect(fill = "white", colour="black"),
+                legend.title = element_blank())+
            labs(title = NULL,
                 x = "Harvest Season",
                 y = "Harvest")
@@ -1793,11 +1882,10 @@ ages$Species[ages$Species == "COC"] <-"Common Carp"
 ages$Species<-as.factor(ages$Species)
 
 
-Age.Hist<-ggplot(ages, aes(x=Spine.MAS, fill = Species))+
+Age.Hist<-ggplot(ages, aes(x=Spine.MAS))+
                          geom_histogram(binwidth = 1,
-                                        colour = "black",
-                                        position = "stack")+
-                         facet_grid(.~Lake)+
+                                        colour = "white")+
+                         facet_grid(Species~Lake)+
                          theme(panel.grid.major = element_blank(), 
                               panel.grid.minor = element_blank(),
                               panel.background = element_rect(fill="white",colour="grey50"), 
@@ -1805,8 +1893,8 @@ Age.Hist<-ggplot(ages, aes(x=Spine.MAS, fill = Species))+
                               legend.position = "bottom",
                               legend.background = element_rect(colour="grey20"))+
                          scale_fill_grey(start = 0.1, end = 0.9, aesthetics = "fill")+
-                         labs(title = "2017 Age Frequency Histograms",
-                              x = "Year",
+                         labs(title = NULL,
+                              x = "Age",
                               y = "Frequency")
 
 Age.Hist
