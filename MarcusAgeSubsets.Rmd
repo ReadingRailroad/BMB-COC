@@ -1,0 +1,105 @@
+---
+title: "Marcus_Project"
+author: "Martin Simonson"
+date: "March 1, 2019"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+```{r,include=FALSE}
+rm(list=ls())
+
+
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
+
+#remove.packages(c("ggplot2", "data.table"))
+#install.packages('Rcpp', dependencies = TRUE)
+#install.packages('ggplot2', dependencies = TRUE)
+#install.packages('data.table', dependencies = TRUE)
+
+#packages(rcompanion)
+#packages(vegan)
+packages(ggplot2)
+packages(gridExtra)
+packages(reshape2)
+packages(FSA)
+#packages(nnet)
+#packages(multcomp)
+#packages(plyr)
+#packages(rv)
+#packages(arm)
+#packages(lattice)
+#packages(tikzDevice)
+packages(FSAdata)
+packages(nlstools)
+#packages(GGally)
+#packages(wesanderson)
+#packages(DescTools)
+#packages(mvnormtest)
+#packages(HH)
+#packages(biotools)
+#packages(car)
+#packages(psych)
+#packages(GPArotation)
+#packages(doBy)
+packages(dplyr)
+packages(tidyr)
+packages(rcompanion)
+#packages(GISTools)
+#packages(maps)
+#packages(mapproj)
+packages(splitstackshape)
+```
+
+
+# splitting and subsetting buffalo data for Marcus' analysis.
+
+Here's the deal. Marcus can't handle all the buffalo structures we have, therefore, I need to figure out a way to subset our age samples that still provides an even distribution of the data.
+
+- We can only use Center, Silver, and Five Island.
+          Storm didn't have enough buffalo sampled and dissected. (I think, who knows anymore)
+          We don't have the two otolith methods from 2017, but could go back and look for double otoliths in envelopes?
+          
+Start with 2018 man. Don't kill yourself on a friday. There's hockey tonight.
+
+```{r}
+df<-read.csv("2018 and 2017 Compiled Data.csv", header = T)
+head(df)
+# remove extraneous data
+df<-df[,-c(1,8:10,12:21)]
+df<-droplevels(subset(df, Species == "BIB"))
+df.2018<-droplevels(subset(df, Year == "2018"))
+df.2018<-droplevels(subset(df.2018, Lake == "Center"|
+                                    Lake == "5 ISland"|
+                                    Lake == "Silver"))
+
+summary(df.2018$Notes)
+
+# only one note is "aging fish" 
+df.2018.ages<-droplevels(subset(df.2018, Notes == "Aging Fish"))
+df.2018.alive<-droplevels(subset(df.2018, Notes != "Aging Fish"))
+
+# I hate life today.
+summary(df.2018.ages$Length..mm.)
+
+
+df.c<-droplevels(subset(df.2018.ages, Lake == "Center"))
+
+df.c.sub<-stratified(df.c, "Length..mm.", size = 3, seed = 1)
+
+```
+
+
+
+
+
+

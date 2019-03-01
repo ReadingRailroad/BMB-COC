@@ -9,7 +9,7 @@ editor_options:
 
 
 ```{r,include=FALSE}
-#rm(list=ls())
+rm(list=ls())
 
 
 packages<-function(x, repos="http://cran.r-project.org", ...){
@@ -101,7 +101,6 @@ text(coords$Long,
 
 
 # DNR Permit data
-
 
 ```{r, include = F}
 datframe<-read.csv("2018_COC_BIB_CMR_Data.csv", header = T)
@@ -1361,15 +1360,8 @@ svTypical<-vbStarts(tl~age,data=b.carp,
                     methLinf = "oldAge")
 #svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.carp)
 unlist(svTypical)
-<<<<<<< HEAD
 svTypical<-list(Linf=530,K=0.1509417,t0=-4.1269841)
-=======
-<<<<<<< HEAD
-svTypical<-list(Linf=1000,K=0.0243,t0=-4.49032)
-=======
-svTypical<-list(Linf=560,K=0.02430846,t0=-31.50717871)
->>>>>>> 3e664d588fb6f006ffae7870b99549ad5fc96c75
->>>>>>> 979d699f6387675f608f23000a946113bd90bbfb
+
 
 
 # Fitting the model and boostrapping
@@ -1382,7 +1374,7 @@ fitTyp<-nls(tl~vbTyp(age,Linf,K,t0),
             control = list(maxiter=500), 
             data=b.carp, start=svTypical) 
 
-fitTypical <- nls(vbTypical,data=b.carp,start=svTypical) ## Error as well
+fitTypical <- nls(vbTypical,data=b.carp,start=svTypical) 
 #overview(fitTypical)
 
 bootTypical <- nlsBoot(fitTypical,niter=2000)
@@ -1591,7 +1583,7 @@ for(i in 1:length(ages2plot)) {
 # Plots
 
 fitPlot(fitTypical,xlab="Age",ylab="",
-        main = "South Twin Lake Carp",
+        main = "S. Twin Lake Carp",
         xlim = c(0,35), ylim = c(200,900),
         legend = T)
 lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
@@ -1613,7 +1605,7 @@ ages<-read.csv("2017_Age_Estimates.csv",header=T)
 summary(ages)
 str(ages)
 
-
+summary(ages$TL.mm)
 
 #############################################################################
 # Subset by species then lake
@@ -1747,7 +1739,7 @@ lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
 # Subset by species then lake
 #
 #
-#           South Twin Lake Carp (otoliths)
+#           South Twin Lake buffalo spines
 #
 #
 st.buff <- droplevels(subset(ages, Species == "BIB" &
@@ -2116,7 +2108,7 @@ p1 <- ggplot(m1.d.melt, aes(x=Lake, y = value, fill = variable))+
                 panel.grid.minor = element_blank(),
                 panel.background = element_rect(fill="white",colour="grey50"), 
                 axis.line = element_line(colour = "black"),
-                legend.position = "bottom", legend.title = element_blank()) +
+                legend.position = c(0.3,0.8), legend.title = element_blank()) +
               labs (title = NULL, 
                     y = "Number of Species")
   
@@ -2311,6 +2303,25 @@ third.table<-data.frame( t1p <- round(t1r[,-1]/t1r[,1]*100,1) )
 
 ```
 
+## Checking the YLB in Storm Lake 2018
+```{r}
+
+summary(diversity$Species[diversity$Lake == "Storm"])
+basses<-droplevels(subset(diversity, Species == "YLB"|
+                                     Species == "WHB"))
+
+basses<-droplevels(subset(basses, Lake == "Storm"))
+
+summary(basses$Length..mm.[basses$Species == "YLB"])
+
+summary(basses$Length..mm.[basses$Species == "WHB"])
+
+
+```
+
+Well, I think these are actually white bass. The sizes line up from our spring EF (no white bass) and fall fyke (no yellow bass). I wrote "striped bass" on the datasheets. Like a dope. These arent wipers??
+
+Fudge.
 
 
 
