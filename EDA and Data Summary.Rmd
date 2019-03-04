@@ -58,7 +58,7 @@ data<-read.csv("2018_Data_compiled_2.0.csv",header=T)
 # data includes seine, electrofishing, and fyke nets
 #           includes all species data from spring std runs (may) and fall fyke netting (sept)
 #           some bigly data here, boys.
-headtail(data)
+
 
 str(data)
 
@@ -70,7 +70,7 @@ str(data)
 
 # Date
 levels(data$Date)
-data$Date<-as.Date(data$Date, format = "%m/%d/%Y")
+data$Date<-as.Date(as.character(data$Date), format = "%m/%d/%Y")
 str(data$Date)
 
 
@@ -79,7 +79,7 @@ summary(data$Lake)
 data$Lake[data$Lake == "SIlver"] <- "Silver"
 data$Lake[data$Lake == "silver"] <- "Silver"
 data$Lake[data$Lake == "Silver (Dickinson)"] <- "Silver"
-data$Lake[data$Lake == "Five Island"] <- "5 Island"
+data$Lake[data$Lake == "5 Island"] <- "Five Island"
 data$Lake[data$Lake == "N Twin"] <- "N. Twin"
 data$Lake[data$Lake == "S Twin"] <- "S. Twin"
 data$Lake<-droplevels(data$Lake)
@@ -117,6 +117,11 @@ data$Species<-as.factor(data$Species)
 summary(data$Species)
 # Confirm the abbreviations: Yellow Bullhead = YEB; Yellow Bass = YLB
 #       Confirmed 1/3/2019
+
+#       HOWEVER! Found out that the YLB in storm are really WHB. Super awesome
+#       Thanks jon meerbeek though.
+data$Species[data$Lake == "Storm" & 
+             data$Species == "YLB"] <- "WHB"
 
 
 
@@ -327,16 +332,115 @@ data$Year<-factor("2018")
 # at this time 2018 data is entered and looking OK.
 
 
+###################################################################################################
+#
+#
+#           Need to specify Standard Transects vs. Run N Gun
+#           Need to specify ALL SPECIES spring run as well.
+levels(data$Site.Transect)
+levels(data$Start.Latitude)
+
+summary(data$Length..mm.[data$Lake == "Center" &
+                         data$Species == "YLB"]) 
+# forked up man. No WHB recorded but listed as popular fish in the lake. feck.
+# anyway let's set the Site.Transect
+
+data$Site.Transect<-as.character(data$Site.Transect)
+# Center spring ef
+data$Site.Transect[data$Date == as.Date("2018-05-17") &
+                   data$Lake == "Center" &
+                   data$Site.Transect == "1"] <- "EF.Comp.1"
+data$Site.Transect[data$Date == as.Date("2018-05-17") &
+                   data$Lake == "Center" &
+                   data$Site.Transect == "2"] <- "EF.Comp.2"
+data$Site.Transect[data$Date == as.Date("2018-05-17") &
+                   data$Lake == "Center" &
+                   data$Site.Transect == "3"] <- "EF.Comp.3"
+data$Site.Transect[data$Date == as.Date("2018-05-17") &
+                   data$Lake == "Center" &
+                   data$Site.Transect == "4"] <- "EF.Comp.4"
+data$Site.Transect[data$Date == as.Date("2018-05-17") &
+                   data$Lake == "Center" &
+                   data$Site.Transect == "5"] <- "EF.Comp.5"
+# Five Island spring EF
+data$Site.Transect[data$Date == as.Date("2018-05-23") &
+                   data$Lake == "Five Island" &
+                   data$Site.Transect == "1"] <- "EF.Comp.1"
+data$Site.Transect[data$Date == as.Date("2018-05-23") &
+                   data$Lake == "Five Island" &
+                   data$Site.Transect == "2"] <- "EF.Comp.2"
+data$Site.Transect[data$Date == as.Date("2018-05-23") &
+                   data$Lake == "Five Island" &
+                   data$Site.Transect == "3"] <- "EF.Comp.3"
+data$Site.Transect[data$Date == as.Date("2018-05-23") &
+                   data$Lake == "Five Island" &
+                   data$Site.Transect == "4"] <- "EF.Comp.4"
+data$Site.Transect[data$Date == as.Date("2018-05-23") &
+                   data$Lake == "Five Island" &
+                   data$Site.Transect == "5"] <- "EF.Comp.5"
+# Silver spring EF
+data$Site.Transect[data$Date == as.Date("2018-05-18") &
+                   data$Lake == "Silver" &
+                   data$Site.Transect == "1"] <- "EF.Comp.1"
+data$Site.Transect[data$Date == as.Date("2018-05-18") &
+                   data$Lake == "Silver" &
+                   data$Site.Transect == "2"] <- "EF.Comp.2"
+data$Site.Transect[data$Date == as.Date("2018-05-18") &
+                   data$Lake == "Silver" &
+                   data$Site.Transect == "3"] <- "EF.Comp.3"
+data$Site.Transect[data$Date == as.Date("2018-05-18") &
+                   data$Lake == "Silver" &
+                   data$Site.Transect == "4"] <- "EF.Comp.4"
+data$Site.Transect[data$Date == as.Date("2018-05-18") &
+                   data$Lake == "Silver" &
+                   data$Site.Transect == "5"] <- "EF.Comp.5"
+data$Site.Transect[data$Date == as.Date("2018-05-18") &
+                   data$Lake == "Silver" &
+                   data$Site.Transect == "6"] <- "EF.Comp.6"
+# Storm Spring EF
+data$Site.Transect[data$Date == as.Date("2018-05-21") &
+                   data$Lake == "Storm" &
+                   data$Site.Transect == "1"] <- "EF.Comp.1"
+data$Site.Transect[data$Date == as.Date("2018-05-21") &
+                   data$Lake == "Storm" &
+                   data$Site.Transect == "2"] <- "EF.Comp.2"
+data$Site.Transect[data$Date == as.Date("2018-05-21") &
+                   data$Lake == "Storm" &
+                   data$Site.Transect == "4"] <- "EF.Comp.4"
+data$Site.Transect[data$Date == as.Date("2018-05-21") &
+                   data$Lake == "Storm" &
+                   data$Site.Transect == "5"] <- "EF.Comp.5"
+data$Site.Transect[data$Date == as.Date("2018-05-21") &
+                   data$Lake == "Storm" &
+                   data$Site.Transect == "7"] <- "EF.Comp.7"
+data$Site.Transect[data$Date == as.Date("2018-05-21") &
+                   data$Lake == "Storm" &
+                   data$Site.Transect == "9"] <- "EF.Comp.9"
+# See what's up now, dog.
+
+# Fyke should take care of itself.
+# I am really, really questioning if life is worth it.
+
+# which means I'm not happy where I am at.
+# which means I quit? I should get [[[[more]]]] help.
+
+########################################################################################################
 
 
+
+
+```
+
+```{r}
 
 # This code is to overwrite this file name already in directory
 # Should re-write this line later for 17 and 18 data in new file name
 #
- write.csv(data, "2018_COC_BIB_CMR_Data.csv")
-
-
+#
+write.csv(data, "2018_COC_BIB_CMR_Data.csv", row.names = F)
 ```
+
+
 
 ## Adding in 2017 data:
 Each of four lakes where fish were tagged in 2017 (Center, N&S Twin, Blue) have separate data files, if I'm not mistaken. Now that I have my personal PC back (12/10/2018) I am more familiar with the filing and where to get the best data files based on most updated and whatnot. 

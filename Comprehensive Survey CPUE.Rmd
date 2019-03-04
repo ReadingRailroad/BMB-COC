@@ -1,0 +1,194 @@
+---
+title: "Meerbeek Summary"
+author: "Martin Simonson"
+date: "March 4, 2019"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r,include=FALSE}
+rm(list=ls())
+
+
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
+
+#remove.packages(c("ggplot2", "data.table"))
+#install.packages('Rcpp', dependencies = TRUE)
+#install.packages('ggplot2', dependencies = TRUE)
+#install.packages('data.table', dependencies = TRUE)
+
+#packages(rcompanion)
+#packages(vegan)
+packages(ggplot2)
+packages(gridExtra)
+packages(reshape2)
+packages(FSA)
+packages(nnet)
+#packages(multcomp)
+#packages(plyr)
+#packages(rv)
+packages(arm)
+packages(lattice)
+packages(tikzDevice)
+packages(FSAdata)
+packages(nlstools)
+#packages(GGally)
+packages(wesanderson)
+#packages(DescTools)
+#packages(mvnormtest)
+#packages(HH)
+#packages(biotools)
+#packages(car)
+#packages(psych)
+#packages(GPArotation)
+packages(doBy)
+packages(dplyr)
+packages(tidyr)
+packages(rcompanion)
+#packages(GISTools)
+#packages(maps)
+#packages(mapproj)
+```
+
+
+# CPUE
+
+comprehensive spring electrofishing and fall fyke netting surveys for all species.
+Jon wants CPUE in n/hour and n/net. 
+
+He wants species as rows. gear as broad column and lake as subcolumn.
+values in each cell are to the tenth of a unit.
+
+Also I guess it's only for my main 4 lakes? 
+- Don't do any extra work, stupid. He will tell you if he needs more.
+
+```{r}
+# load and clean up data to what I need to work with.
+df<-read.csv("2018_COC_BIB_CMR_Data.csv", header = T)
+head(df)
+
+# Year
+df<-droplevels(subset(df, Year == "2018"))
+df<-droplevels(subset(df, Lake == "Center" |
+                          Lake == "Five Island" |
+                          Lake == "Silver" |
+                          Lake == "Storm"))
+df.fyke<-droplevels(subset(df, Gear == "Fyke"))
+df.shock<-droplevels(subset(df, Gear == "Electroshocking"))
+df.shock<-droplevels(subset(df.shock, Site.Transect == "EF.Comp.1" |
+                                      Site.Transect == "EF.Comp.2" |
+                                      Site.Transect == "EF.Comp.3" |
+                                      Site.Transect == "EF.Comp.4" |
+                                      Site.Transect == "EF.Comp.5" |
+                                      Site.Transect == "EF.Comp.6" |
+                                      Site.Transect == "EF.Comp.7" |
+                                      Site.Transect == "EF.Comp.9"))
+##############################################################################
+summary(df.fyke)
+summary(df.shock)
+
+```
+
+on to CPUE
+
+- FYKE
+
+```{r}
+df.fyke$Effort[df.fyke$Lake == "Center"] <-6
+df.fyke$Effort[df.fyke$Lake == "Five Island"] <- 9
+df.fyke$Effort[df.fyke$Lake == "Silver"] <- 11
+df.fyke$Effort[df.fyke$Lake == "Storm"] <- 10
+
+
+cpue1<-aggregate(Effort~Lake + Species, data = df.fyke, mean)
+df.fyke$dummy<-1
+cpue2<-aggregate(dummy~Lake+Species, data = df.fyke, sum)
+cpue1$n<-cpue2$dummy
+cpue1$fyke.cpue<-cpue1$n/cpue1$Effort
+length1<-aggregate(Length..mm.~Lake+Species, data = df.fyke, mean)
+length1$Length..in.<-length1$Length..mm./25.4
+```
+
+- EFishing
+
+```{r}
+df.shock$Effort<-df.shock$On.Time..s./3600
+
+
+df.shock$dummy<-1
+cpue4<-aggregate(dummy~Lake+Species + Site.Transect + Effort, data = df.shock, sum)
+cpue4$shock.cpue<-cpue4$dummy/cpue4$Effort
+cpue3<-aggregate(shock.cpue ~ Lake + Species, data = cpue4, mean)
+length2<-aggregate(Length..mm. ~ Lake + Species, data = df.shock, mean)
+length2$Length..in.<-length2$Length..mm./25.4
+```
+
+- put that ish together
+
+```{r}
+
+cpue<-merge(cpue1,cpue3, by = c("Species","Lake"), all = T)
+cpue<-cpue[,-c(3,4)]
+# Melt and cast
+
+cpue.m<-melt(cpue)
+
+cpue.cast<-dcast(cpue.m, Species ~ variable + Lake)
+
+write.csv(cpue.cast, "2018_All_Species_CPUE.csv")
+################################################################################
+lengths<-merge(length1,length2, by = c("Species","Lake"), all = T)
+lengths.m<-melt(lengths)
+lengths.cast<-dcast(lengths.m, Species ~ variable + Lake)
+write.csv(lengths.cast, "2018_All_Species_Lengths.csv", row.names = F)
+```
+
+
+# And other garbage
+
+this is to attempt to count what age structures we have collected from ALL species in 2018
+
+```{r}
+df<-read.csv("2018_COC_BIB_CMR_Data.csv", header = T)
+head(df)
+
+# Year
+df<-droplevels(subset(df, Year == "2018"))
+df<-droplevels(subset(df, Lake == "Center" |
+                          Lake == "Five Island" |
+                          Lake == "Silver" |
+                          Lake == "Storm"))
+
+# now how the trickle am I supposed to figure out which structures we have on hand????
+levels(df$Notes)
+
+df<-droplevels(subset(df, Notes == "euthanized" |
+                          Notes == "Aging Fish" |
+                          Notes == "Aging Fish " |
+                          Notes == "Aging Fish - 2017 Tag Loss" |
+                          Notes == "Aging Fish - 2017 Tag Loss Female"|
+                          Notes == "Aging Fish - Female" |
+                          Notes == "Aging Fish - Male" |
+                          Notes == "Aging Fish - Mirror" |
+                          Notes == "Aging Fish - Scoliosis"|
+                          Notes == "Aging Fish 2017 Tag Loss Female" |
+                          Notes == "dorsal fin flipped too" |
+                          Notes == "dorsal fin clips" ))
+
+
+df.dummy<-1
+df.m<-melt(df)
+
+df.cast<-dcast(df.m, Species ~ variable + Lake, subset = .(variable == "dummy"), fun.aggregate = "sum")
+
+
+```
+
