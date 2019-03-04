@@ -33,7 +33,7 @@ packages(reshape2)
 packages(FSA)
 packages(nnet)
 #packages(multcomp)
-#packages(plyr)
+packages(plyr)
 #packages(rv)
 packages(arm)
 packages(lattice)
@@ -184,10 +184,10 @@ df<-droplevels(subset(df, Notes == "euthanized" |
                           Notes == "dorsal fin clips" ))
 
 
-df.dummy<-1
+df$dummy<-1
 df.m<-melt(df)
 
-df.cast<-dcast(df.m, Species ~ variable + Lake, subset = .(variable == "dummy"), fun.aggregate = "sum")
+df.cast<-dcast(df.m, Species ~ variable + Lake, length, subset = .(variable == "dummy"))
 
 
 ```
