@@ -192,3 +192,55 @@ df.cast<-dcast(df.m, Species ~ variable + Lake, length, subset = .(variable == "
 
 ```
 
+# Quick data summary for Silver Lake Restoration Crew
+
+- They want the dates (june std transects) ===== 6/4/2018
+- # transects ===== (6)
+- # Carp per transect ===== 4.8
+- CPUE Carp / Hour ===== 18.9
+- Mean lengths (inches) ===== 26.8
+- Mean weight (lbs) ==== 10.6
+
+```{r}
+# load and clean up data to what I need to work with.
+df<-read.csv("2018_COC_BIB_CMR_Data.csv", header = T)
+str(df)
+
+# Year
+df<-droplevels(subset(df, Year == "2018"))
+df<-droplevels(subset(df, Lake == "Silver"))
+df.shock<-droplevels(subset(df, Gear == "Electroshocking"))
+df.shock<-droplevels(subset(df.shock, Date == "2018-06-04"))
+df.shock<-droplevels(subset(df.shock, Species == "COC"))
+
+###############################
+
+df.shock$Effort<-df.shock$On.Time..s./3600
+
+
+df.shock$dummy<-1
+cpue4<-aggregate(dummy~Lake+Species + Site.Transect + Effort, data = df.shock, sum)
+cpue4$shock.cpue<-cpue4$dummy/cpue4$Effort
+cpue3<-aggregate(shock.cpue ~ Lake + Species, data = cpue4, mean)
+length2<-aggregate(Length..mm. ~ Lake + Species, data = df.shock, mean)
+length2$Length..in.<-length2$Length..mm./25.4
+
+cpue4$shock.cpue
+cpue3
+length2$Length..in.
+
+
+##########################################
+df<-read.csv("2018_COC_BIB_CMR_Data.csv", header = T)
+str(df)
+df<-droplevels(subset(df, Year == "2018"))
+df<-droplevels(subset(df, Lake == "Silver"))
+df.shock<-droplevels(subset(df, Gear == "Electroshocking"))
+df.shock<-droplevels(subset(df.shock, Species == "COC"))
+df.shock<-droplevels(subset(df.shock, !is.na(Weight..g.)))
+
+lbs<-(mean(df.shock$Weight..g.))/453.592
+lbs
+
+```
+
