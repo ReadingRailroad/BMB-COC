@@ -2319,29 +2319,7 @@ summary(basses$Length..mm.[basses$Species == "WHB"])
 
 ```
 
-Well, I think these are actually white bass. The sizes line up from our spring EF (no white bass) and fall fyke (no yellow bass). I wrote "striped bass" on the datasheets. Like a dope. These arent wipers??
-
-Fudge.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Water Quality?
-
+Well, I think these are actually white bass. The sizes line up from our spring EF (no white bass) and fall fyke (no yellow bass). I wrote "striped bass" on the datasheets. Like a dope. These arent wipers?? Nope not been stocked there.
 
 
 
