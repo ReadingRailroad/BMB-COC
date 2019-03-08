@@ -79,7 +79,7 @@ df<-df[,-c(1,8:10,12:21)]
 df<-droplevels(subset(df, Species == "BIB"))
 df.2018<-droplevels(subset(df, Year == "2018"))
 df.2018<-droplevels(subset(df.2018, Lake == "Center"|
-                                    Lake == "5 ISland"|
+                                    Lake == "5 Island"|
                                     Lake == "Silver"))
 
 summary(df.2018$Notes)
@@ -90,11 +90,48 @@ df.2018.alive<-droplevels(subset(df.2018, Notes != "Aging Fish"))
 
 # I hate life today.
 summary(df.2018.ages$Length..mm.)
+df.2018.ages$Group[df.2018.ages$Length..mm. >= 299 &
+                   df.2018.ages$Length..mm. <= 349] <- "A"
+df.2018.ages$Group[df.2018.ages$Length..mm. >= 350 &
+                   df.2018.ages$Length..mm. <= 399] <- "B"
+df.2018.ages$Group[df.2018.ages$Length..mm. >= 400 &
+                   df.2018.ages$Length..mm. <= 449] <- "C"
+df.2018.ages$Group[df.2018.ages$Length..mm. >= 450 &
+                   df.2018.ages$Length..mm. <= 499] <- "D"
+df.2018.ages$Group[df.2018.ages$Length..mm. >= 500 &
+                   df.2018.ages$Length..mm. <= 549] <- "E"
+df.2018.ages$Group[df.2018.ages$Length..mm. >= 550 &
+                   df.2018.ages$Length..mm. <= 599] <- "F"
+df.2018.ages$Group[df.2018.ages$Length..mm. >= 600 &
+                   df.2018.ages$Length..mm. <= 649] <- "G"
+df.2018.ages$Group[df.2018.ages$Length..mm. >= 650 &
+                   df.2018.ages$Length..mm. <= 699] <- "H"
+df.2018.ages$Group[df.2018.ages$Length..mm. >= 700 &
+                   df.2018.ages$Length..mm. <= 749] <- "I"
+df.2018.ages$Group[df.2018.ages$Length..mm. >= 750 &
+                   df.2018.ages$Length..mm. <= 799] <- "J"
+df.2018.ages$Group[df.2018.ages$Length..mm. >= 800 &
+                   df.2018.ages$Length..mm. <= 849] <- "K"
 
-
+# Center
 df.c<-droplevels(subset(df.2018.ages, Lake == "Center"))
 
-df.c.sub<-stratified(df.c, "Length..mm.", size = 3, seed = 1)
+df.c.sub<-stratified(df.c, "Group", size = 4)
+
+# Five Island
+df.5<-droplevels(subset(df.2018.ages, Lake == "5 Island"))
+
+df.5.sub<-stratified(df.5, "Group", size = 4)
+
+# Silver
+df.s<-droplevels(subset(df.2018.ages, Lake == "Silver"))
+
+df.s.sub<-stratified(df.s, "Group", size = 4)
+
+# put that ish together
+Marcus.samp<-rbind(df.c.sub,df.5.sub,df.s.sub)
+
+write.csv(Marcus.samp,"Marcus_2018_AgeComparison.csv", row.names = F)
 
 ```
 
