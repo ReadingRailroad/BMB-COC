@@ -335,6 +335,68 @@ grid.arrange(all.lakes.Buff.lf,all.lakes.Carp.lf,ncol=1)
 
 ```
 
+```{r}
+
+
+df.b<-droplevels(subset(df, Species == "Bigmouth Buffalo"))
+df.c<-droplevels(subset(df, Species == "Common Carp"))
+
+# for AFS newsletter project update:
+# length-frequencies of my 17-18 comparison lakes (center, twins)
+df.b<-droplevels(subset(df.b, Lake == "Center" |
+                              Lake == "N. Twin"|
+                              Lake == "S. Twin"))
+df.c<-droplevels(subset(df.c, Lake == "Center" |
+                              Lake == "N. Twin"|
+                              Lake == "S. Twin"))
+
+
+df.b.m<-melt(df.b)
+
+all.lakes.Buff.lf<-ggplot(df.b.m, aes(x=value))+
+                         geom_histogram(binwidth = 1,
+                                        colour = "black",
+                                        position = "stack")+
+                         coord_cartesian(xlim = c(0,40))+
+                         facet_grid(vars(Year), vars(Lake))+
+                         theme(panel.grid.major = element_blank(), 
+                              panel.grid.minor = element_blank(),
+                              panel.background = element_rect(fill="white",colour="grey50"), 
+                              axis.line = element_line(colour = "black"),
+                              legend.position = "none",
+                              legend.background = element_rect(colour="grey20"))+
+                         scale_fill_grey(start = 0.1, end = 0.9, aesthetics = "fill")+
+                         labs(title = "2017 and 2018 Bigmouth Buffalo Length Frequencies",
+                              x = "Length (inches)",
+                              y = "Frequency")
+
+all.lakes.Buff.lf
+
+df.c.m<-melt(df.c)
+
+all.lakes.Carp.lf<-ggplot(df.c.m, aes(x=value))+
+                         geom_histogram(binwidth = 1,
+                                        colour = "black",
+                                        position = "stack")+
+                         coord_cartesian(xlim = c(0,40))+
+                         facet_grid(vars(Year), vars(Lake))+
+                         theme(panel.grid.major = element_blank(), 
+                              panel.grid.minor = element_blank(),
+                              panel.background = element_rect(fill="white",colour="grey50"), 
+                              axis.line = element_line(colour = "black"),
+                              legend.position = c(0.9,0.8),
+                              legend.title = element_blank(),
+                              legend.background = element_rect(colour="grey20"))+
+                         scale_fill_grey(start = 0.1, end = 0.9, aesthetics = "fill")+
+                         labs(title = "2017 and 2018 Common Carp Length Frequencies",
+                              x = "Length (inches)",
+                              y = "Frequency")
+
+all.lakes.Carp.lf
+
+grid.arrange(all.lakes.Buff.lf,all.lakes.Carp.lf,ncol=1)
+
+```
 
 #############################################################################
 # CPUE and Biomass Density
