@@ -1,0 +1,535 @@
+Storet_ID,Station_Name,Date_Time,Year,Analyte,Method_Speciation,Result,Units,Detect_Status,Detection_Limit,Quantitation_Limit,Analytical_Procedure,Sample_Fraction,Medium,Organization_Name
+22130004,South Twin Lake,5/25/2006 9:00,2006,Turbidity,,44.3,NTU,,,,USEPA 180.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/26/2006 9:00,2006,Chloride,,28,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/26/2006 9:00,2006,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/26/2006 9:00,2006,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/26/2006 9:00,2006,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/26/2006 9:00,2006,Phosphate-phosphorus,AS P,0.14,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/26/2006 9:00,2006,"Solids, Dissolved",,330,mg/l,,1,,USEPA 160.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/26/2006 9:00,2006,"Solids, Fixed Suspended",,24,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/26/2006 9:00,2006,Volatile Suspended Solids,,44,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/26/2006 9:00,2006,"Nitrogen, Kjeldahl",,3.4,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/26/2006 9:00,2006,"Solids, Total Suspended (TSS)",,68,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/26/2006 9:00,2006,"Chlorophyll a, free of pheophytin",,100,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2006 15:00,2006,Chloride,,31,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2006 15:00,2006,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2006 15:00,2006,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2006 15:00,2006,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2006 15:00,2006,Phosphate-phosphorus,AS P,0.19,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2006 15:00,2006,"Solids, Dissolved",,370,mg/l,,1,,USEPA 160.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2006 15:00,2006,"Solids, Fixed Suspended",,24,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2006 15:00,2006,Volatile Suspended Solids,,52,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2006 15:00,2006,"Nitrogen, Kjeldahl",,4,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2006 15:00,2006,"Solids, Total Suspended (TSS)",,76,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2006 15:00,2006,"Chlorophyll a, free of pheophytin",,110,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2006 15:00,2006,Turbidity,,178,NTU,,,,USEPA 180.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/29/2006 15:00,2006,Turbidity,,49.4,NTU,,,,USEPA 180.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/29/2006 15:00,2006,Chloride,,34,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/29/2006 15:00,2006,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/29/2006 15:00,2006,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/29/2006 15:00,2006,Phosphate-phosphorus,AS P,0.15,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/29/2006 15:00,2006,"Solids, Dissolved",,370,mg/l,,1,,USEPA 160.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/29/2006 15:00,2006,"Solids, Fixed Suspended",,23,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/29/2006 15:00,2006,Volatile Suspended Solids,,42,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/29/2006 15:00,2006,"Nitrogen, Kjeldahl",,3.4,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/29/2006 15:00,2006,"Solids, Total Suspended (TSS)",,65,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/29/2006 15:00,2006,"Chlorophyll a, free of pheophytin",,80,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/12/2006 15:00,2006,"Nitrogen, Kjeldahl",,4,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/12/2006 15:00,2006,"Solids, Total Suspended (TSS)",,60,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/12/2006 15:00,2006,"Chlorophyll a, free of pheophytin",,120,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/12/2006 15:00,2006,Turbidity,,42.4,NTU,,,,USEPA 180.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/12/2006 15:00,2006,Chloride,,36,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/12/2006 15:00,2006,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/12/2006 15:00,2006,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/12/2006 15:00,2006,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/12/2006 15:00,2006,Phosphate-phosphorus,AS P,0.16,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/12/2006 15:00,2006,"Solids, Dissolved",,390,mg/l,,1,,USEPA 160.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/12/2006 15:00,2006,"Solids, Fixed Suspended",,16,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/12/2006 15:00,2006,Volatile Suspended Solids,,44,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/26/2006 16:30,2006,"Nitrogen, Kjeldahl",,3.7,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/26/2006 16:30,2006,"Solids, Total Suspended (TSS)",,70,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/26/2006 16:30,2006,"Chlorophyll a, free of pheophytin",,130,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/26/2006 16:30,2006,Turbidity,,42.5,NTU,,,,USEPA 180.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/26/2006 16:30,2006,Chloride,,38,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/26/2006 16:30,2006,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/26/2006 16:30,2006,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/26/2006 16:30,2006,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/26/2006 16:30,2006,Phosphate-phosphorus,AS P,0.15,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/26/2006 16:30,2006,"Solids, Dissolved",,380,mg/l,,1,,USEPA 160.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/26/2006 16:30,2006,"Solids, Fixed Suspended",,20,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/26/2006 16:30,2006,Volatile Suspended Solids,,50,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/10/2006 15:00,2006,Turbidity,,41.3,NTU,,,,USEPA 180.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/10/2006 15:00,2006,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/10/2006 15:00,2006,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/10/2006 15:00,2006,Phosphate-phosphorus,AS P,0.13,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/10/2006 15:00,2006,"Solids, Dissolved",,390,mg/l,,1,,USEPA 160.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/10/2006 15:00,2006,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/10/2006 15:00,2006,"Solids, Fixed Suspended",,16,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/10/2006 15:00,2006,Volatile Suspended Solids,,40,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/10/2006 15:00,2006,"Nitrogen, Kjeldahl",,4.1,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/10/2006 15:00,2006,"Solids, Total Suspended (TSS)",,56,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/10/2006 15:00,2006,"Chlorophyll a, free of pheophytin",,140,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/10/2006 15:00,2006,Chloride,,37,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/21/2006 15:30,2006,Chloride,,36,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/21/2006 15:30,2006,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/21/2006 15:30,2006,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/21/2006 15:30,2006,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/21/2006 15:30,2006,Phosphate-phosphorus,AS P,0.12,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/21/2006 15:30,2006,"Solids, Dissolved",,390,mg/l,,1,,USEPA 160.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/21/2006 15:30,2006,"Solids, Fixed Suspended",,16,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/21/2006 15:30,2006,Volatile Suspended Solids,,36,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/21/2006 15:30,2006,"Nitrogen, Kjeldahl",,3.6,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/21/2006 15:30,2006,"Solids, Total Suspended (TSS)",,52,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/21/2006 15:30,2006,"Chlorophyll a, free of pheophytin",,110,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/21/2006 15:30,2006,Turbidity,,35.1,NTU,,,,USEPA 180.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/11/2006 14:00,2006,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/11/2006 14:00,2006,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/11/2006 14:00,2006,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/11/2006 14:00,2006,Phosphate-phosphorus,AS P,0.46,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/11/2006 14:00,2006,"Solids, Dissolved",,360,mg/l,,1,,USEPA 160.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/11/2006 14:00,2006,"Solids, Fixed Suspended",,14,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/11/2006 14:00,2006,Volatile Suspended Solids,,40,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/11/2006 14:00,2006,"Nitrogen, Kjeldahl",,2.9,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/11/2006 14:00,2006,"Solids, Total Suspended (TSS)",,54,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/11/2006 14:00,2006,"Chlorophyll a, free of pheophytin",,89,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/11/2006 14:00,2006,Chloride,,36,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/12/2006 14:00,2006,Turbidity,,88.8,NTU,,,,USEPA 180.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/26/2006 11:00,2006,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/26/2006 11:00,2006,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/26/2006 11:00,2006,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/26/2006 11:00,2006,Phosphate-phosphorus,AS P,0.12,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/26/2006 11:00,2006,"Nitrogen, Kjeldahl",,2.8,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/26/2006 11:00,2006,"Chlorophyll a, free of pheophytin",,82,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/27/2006 11:00,2006,Turbidity,,22.2,NTU,,,,USEPA 180.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/17/2007 15:00,2007,"Solids, Fixed Suspended",,32,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/17/2007 15:00,2007,Volatile Suspended Solids,,36,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/17/2007 15:00,2007,"Nitrogen, Kjeldahl",,3.2,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/17/2007 15:00,2007,"Solids, Total Suspended (TSS)",,68,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/17/2007 15:00,2007,"Chlorophyll a, free of pheophytin",,100,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/17/2007 15:00,2007,Chloride,,28,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/17/2007 15:00,2007,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/17/2007 15:00,2007,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/17/2007 15:00,2007,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/17/2007 15:00,2007,Phosphate-phosphorus,AS P,0.18,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/17/2007 15:00,2007,"Solids, Dissolved",,300,mg/l,,1,,USEPA 160.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/30/2007 10:30,2007,Chloride,,28,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/30/2007 10:30,2007,Phosphate-phosphorus,AS P,0.17,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/30/2007 10:30,2007,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/30/2007 10:30,2007,"Nitrogen, Kjeldahl",,3,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/30/2007 10:30,2007,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/30/2007 10:30,2007,Orthophosphate,as P,0.04,mg/l,,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/30/2007 10:30,2007,"Chlorophyll a, free of pheophytin",,73,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/30/2007 10:30,2007,"Solids, Dissolved",,320,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/30/2007 10:30,2007,"Solids, Fixed Suspended",,30,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/30/2007 10:30,2007,Volatile Suspended Solids,,34,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/30/2007 10:30,2007,"Solids, Total Suspended (TSS)",,64,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/31/2007 10:30,2007,Dissolved oxygen (DO),,10.6,mg/l,,,,APHA 4500-O-G,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/31/2007 10:30,2007,pH,,9,None,,,,APHA 4500-H,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/31/2007 10:30,2007,"Depth, Secchi disk depth",,0.3,m,,,,21IOWA Unknown,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/31/2007 10:30,2007,Specific conductance,,396,uS/cm,,,,APHA 2510,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/31/2007 10:30,2007,Turbidity,,41.7,NTU,,,,USEPA 180.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/31/2007 10:30,2007,"Temperature, water",,21.7,deg C,,,,APHA 2550,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2007 15:00,2007,Dissolved oxygen (DO),,12,mg/l,,,,APHA 4500-O-G,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2007 15:00,2007,pH,,8.8,None,,,,APHA 4500-H,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2007 15:00,2007,Specific conductance,,347,uS/cm,,,,APHA 2510,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2007 15:00,2007,Turbidity,,33.9,NTU,,,,USEPA 180.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2007 15:00,2007,"Temperature, water",,25.8,deg C,,,,APHA 2550,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2007 15:00,2007,Chloride,,30,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2007 15:00,2007,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2007 15:00,2007,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2007 15:00,2007,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2007 15:00,2007,Phosphate-phosphorus,AS P,0.1,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2007 15:00,2007,"Solids, Dissolved",,350,mg/l,,1,,USEPA 160.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2007 15:00,2007,"Solids, Fixed Suspended",,24,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2007 15:00,2007,Volatile Suspended Solids,,24,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2007 15:00,2007,"Nitrogen, Kjeldahl",,3,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2007 15:00,2007,"Solids, Total Suspended (TSS)",,48,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/14/2007 15:00,2007,"Chlorophyll a, free of pheophytin",,68,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/28/2007 15:30,2007,"Chlorophyll a, free of pheophytin",,68,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/28/2007 15:30,2007,Dissolved oxygen (DO),,9.7,mg/l,,,,APHA 4500-O-G,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/28/2007 15:30,2007,pH,,8.7,None,,,,APHA 4500-H,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/28/2007 15:30,2007,"Depth, Secchi disk depth",,0.4,m,,,,21IOWA Unknown,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/28/2007 15:30,2007,Specific conductance,,355,uS/cm,,,,APHA 2510,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/28/2007 15:30,2007,Turbidity,,32.2,NTU,,,,USEPA 180.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/28/2007 15:30,2007,"Temperature, water",,25.8,deg C,,,,APHA 2550,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/28/2007 15:30,2007,Chloride,,30,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/28/2007 15:30,2007,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/28/2007 15:30,2007,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/28/2007 15:30,2007,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/28/2007 15:30,2007,Phosphate-phosphorus,AS P,0.11,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/28/2007 15:30,2007,"Solids, Dissolved",,360,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/28/2007 15:30,2007,"Solids, Fixed Suspended",,20,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/28/2007 15:30,2007,Volatile Suspended Solids,,30,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/28/2007 15:30,2007,"Nitrogen, Kjeldahl",,2.8,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/28/2007 15:30,2007,"Solids, Total Suspended (TSS)",,50,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/9/2007 17:00,2007,"Solids, Dissolved",,370,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/9/2007 17:00,2007,"Solids, Fixed Suspended",,25,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/9/2007 17:00,2007,Volatile Suspended Solids,,37,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/9/2007 17:00,2007,"Nitrogen, Kjeldahl",,3.2,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/9/2007 17:00,2007,"Solids, Total Suspended (TSS)",,62,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/9/2007 17:00,2007,"Chlorophyll a, free of pheophytin",,68,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/9/2007 17:00,2007,Chloride,,32,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/9/2007 17:00,2007,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/9/2007 17:00,2007,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/9/2007 17:00,2007,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/9/2007 17:00,2007,Phosphate-phosphorus,AS P,0.13,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/9/2007 17:00,2007,Dissolved oxygen (DO),,9.7,mg/l,,,,APHA 4500-O-G,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/9/2007 17:00,2007,pH,,8.7,None,,,,APHA 4500-H,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/9/2007 17:00,2007,"Depth, Secchi disk depth",,0.22,m,,,,21IOWA Unknown,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/9/2007 17:00,2007,Specific conductance,,416,uS/cm,,,,APHA 2510,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/9/2007 17:00,2007,Turbidity,,39.4,NTU,,,,USEPA 180.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/9/2007 17:00,2007,"Temperature, water",,28.8,deg C,,,,APHA 2550,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/23/2007 10:20,2007,Dissolved oxygen (DO),,8.2,mg/l,,,,APHA 4500-O-G,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/23/2007 10:20,2007,pH,,8.9,None,,,,APHA 4500-H,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/23/2007 10:20,2007,"Depth, Secchi disk depth",,0.23,m,,,,21IOWA Unknown,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/23/2007 10:20,2007,Specific conductance,,500,uS/cm,,,,APHA 2510,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/23/2007 10:20,2007,Turbidity,,24.7,NTU,,,,USEPA 180.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/23/2007 10:20,2007,"Temperature, water",,25.1,deg C,,,,APHA 2550,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/23/2007 10:20,2007,Chloride,,34,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/23/2007 10:20,2007,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/23/2007 10:20,2007,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/23/2007 10:20,2007,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/23/2007 10:20,2007,Phosphate-phosphorus,AS P,0.13,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/23/2007 10:20,2007,"Solids, Dissolved",,360,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/23/2007 10:20,2007,"Solids, Fixed Suspended",,14,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/23/2007 10:20,2007,Volatile Suspended Solids,,45,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/23/2007 10:20,2007,"Nitrogen, Kjeldahl",,3.2,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/23/2007 10:20,2007,"Solids, Total Suspended (TSS)",,59,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/23/2007 10:20,2007,"Chlorophyll a, free of pheophytin",,120,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2007 9:20,2007,"Solids, Fixed Suspended",,18,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2007 9:20,2007,Volatile Suspended Solids,,35,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2007 9:20,2007,"Solids, Total Suspended (TSS)",,53,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2007 9:20,2007,Chloride,,31,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2007 9:20,2007,"Chlorophyll a, free of pheophytin",,100,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2007 9:20,2007,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2007 9:20,2007,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2007 9:20,2007,"Nitrogen, Kjeldahl",,2.8,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2007 9:20,2007,Phosphate-phosphorus,AS P,0.11,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2007 9:20,2007,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2007 9:20,2007,"Solids, Dissolved",,340,mg/l,,1,,USEPA 160.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2007 9:20,2007,Dissolved oxygen (DO),,5.3,mg/l,,,,APHA 4500-O-G,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2007 9:20,2007,pH,,8.6,None,,,,APHA 4500-H,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2007 9:20,2007,"Depth, Secchi disk depth",,0.26,m,,,,21IOWA Unknown,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2007 9:20,2007,Specific conductance,,492,uS/cm,,,,APHA 2510,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2007 9:20,2007,Turbidity,,18.6,NTU,,,,USEPA 180.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2007 9:20,2007,"Temperature, water",,27,deg C,,,,APHA 2550,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/29/2007 11:00,2007,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/29/2007 11:00,2007,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/29/2007 11:00,2007,"Nitrogen, Kjeldahl",,1.8,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/29/2007 11:00,2007,Phosphate-phosphorus,AS P,0.11,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/29/2007 11:00,2007,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/29/2007 11:00,2007,"Solids, Dissolved",,310,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/29/2007 11:00,2007,"Solids, Fixed Suspended",,16,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/29/2007 11:00,2007,Volatile Suspended Solids,,24,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/29/2007 11:00,2007,"Solids, Total Suspended (TSS)",,40,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/29/2007 11:00,2007,Chloride,,26,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/29/2007 11:00,2007,"Chlorophyll a, free of pheophytin",,59,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/19/2007 15:20,2007,"Alkalinity, total",,140,mg/l CaCO3,,1,,APHA 2320-B,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/19/2007 15:20,2007,Chloride,,26,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/19/2007 15:20,2007,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/19/2007 15:20,2007,Orthophosphate,as P,0.02,mg/l,,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/19/2007 15:20,2007,Phosphate-phosphorus,AS P,0.11,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/19/2007 15:20,2007,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/19/2007 15:20,2007,"Solids, Dissolved",,310,mg/l,,1,,USEPA 160.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/19/2007 15:20,2007,"Solids, Fixed Suspended",,10,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/19/2007 15:20,2007,Volatile Suspended Solids,,28,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/19/2007 15:20,2007,"Nitrogen, Kjeldahl",,2.5,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/19/2007 15:20,2007,"Solids, Total Suspended (TSS)",,38,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/19/2007 15:20,2007,"Chlorophyll a, free of pheophytin",,110,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/19/2007 15:20,2007,Dissolved oxygen (DO),,14.7,mg/l,,,,APHA 4500-O-G,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/19/2007 15:20,2007,pH,,8.8,None,,,,APHA 4500-H,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/19/2007 15:20,2007,Specific conductance,,426,uS/cm,,,,APHA 2510,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/19/2007 15:20,2007,Turbidity,,20.8,NTU,,,,USEPA 180.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/19/2007 15:20,2007,"Temperature, water",,21.6,deg C,,,,APHA 2550,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/3/2007 11:00,2007,Dissolved oxygen (DO),,11.6,mg/l,,,,APHA 4500-O-G,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/3/2007 11:00,2007,pH,,8.8,None,,,,APHA 4500-H,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/3/2007 11:00,2007,Specific conductance,,436,uS/cm,,,,APHA 2510,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/3/2007 11:00,2007,Turbidity,,25.7,NTU,,,,USEPA 180.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/3/2007 11:00,2007,"Temperature, water",,15.9,deg C,,,,APHA 2550,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/3/2007 11:00,2007,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/3/2007 11:00,2007,"Nitrogen, Kjeldahl",,2.2,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/3/2007 11:00,2007,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/3/2007 11:00,2007,Phosphate-phosphorus,AS P,0.11,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/3/2007 11:00,2007,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/3/2007 11:00,2007,"Solids, Dissolved",,300,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/3/2007 11:00,2007,"Solids, Total Suspended (TSS)",,34,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/3/2007 11:00,2007,"Solids, Fixed Suspended",,4,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/3/2007 11:00,2007,Volatile Suspended Solids,,30,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/3/2007 11:00,2007,"Alkalinity, total",,160,mg/l CaCO3,,1,,APHA 2320-B,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/3/2007 11:00,2007,Chloride,,25,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/3/2007 11:00,2007,"Chlorophyll a, free of pheophytin",,83,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,4/29/2008 11:40,2008,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,4/29/2008 11:40,2008,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,4/29/2008 11:40,2008,"Nitrogen, Kjeldahl",,2.8,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,4/29/2008 11:40,2008,Phosphate-phosphorus,AS P,0.16,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,4/29/2008 11:40,2008,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,4/29/2008 11:40,2008,"Solids, Dissolved",,270,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,4/29/2008 11:40,2008,"Solids, Fixed Suspended",,27,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,4/29/2008 11:40,2008,Volatile Suspended Solids,,29,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,4/29/2008 11:40,2008,"Solids, Total Suspended (TSS)",,57,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,4/29/2008 11:40,2008,Chloride,,23,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,4/29/2008 11:40,2008,pH,,9.3,None,,,,APHA 4500-H,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,4/29/2008 11:40,2008,Specific conductance,,523,uS/cm,,,,APHA 2510,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,4/29/2008 11:40,2008,Turbidity,,35.8,NTU,,,,USEPA 180.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,4/29/2008 11:40,2008,"Temperature, water",,9,deg C,,,,APHA 2550,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/2/2008 14:30,2008,Dissolved oxygen (DO),,6,mg/l,,,,APHA 4500-O-G,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/2/2008 14:30,2008,pH,,6.7,None,,,,APHA 4500-H,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/2/2008 14:30,2008,Specific conductance,,489,uS/cm,,,,APHA 2510,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/2/2008 14:30,2008,Turbidity,,23.3,NTU,,,,USEPA 180.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/2/2008 14:30,2008,"Temperature, water",,22.8,deg C,,,,APHA 2550,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/2/2008 14:30,2008,"Nitrogen, Kjeldahl",,2.2,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/2/2008 14:30,2008,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/2/2008 14:30,2008,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/2/2008 14:30,2008,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/2/2008 14:30,2008,Phosphate-phosphorus,AS P,0.11,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/2/2008 14:30,2008,"Solids, Dissolved",,250,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/2/2008 14:30,2008,"Solids, Total Suspended (TSS)",,38,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/2/2008 14:30,2008,"Solids, Fixed Suspended",,8,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/2/2008 14:30,2008,Volatile Suspended Solids,,30,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/2/2008 14:30,2008,"Chlorophyll a, free of pheophytin",,60,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/2/2008 14:30,2008,Chloride,,23,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/25/2008 14:45,2008,Phosphate-phosphorus,AS P,0.13,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/25/2008 14:45,2008,"Solids, Dissolved",,270,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/25/2008 14:45,2008,"Solids, Total Suspended (TSS)",,42,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/25/2008 14:45,2008,"Solids, Fixed Suspended",,14,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/25/2008 14:45,2008,Volatile Suspended Solids,,28,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/25/2008 14:45,2008,"Chlorophyll a, free of pheophytin",,50,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/25/2008 14:45,2008,Chloride,,23,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/25/2008 14:45,2008,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/25/2008 14:45,2008,"Nitrogen, Kjeldahl",,2.2,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/25/2008 14:45,2008,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/25/2008 14:45,2008,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/6/2008 13:30,2008,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/6/2008 13:30,2008,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/6/2008 13:30,2008,Phosphate-phosphorus,AS P,0.1,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/6/2008 13:30,2008,"Nitrogen, Kjeldahl",,2.2,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/6/2008 13:30,2008,"Solids, Dissolved",,310,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/6/2008 13:30,2008,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/6/2008 13:30,2008,"Solids, Total Suspended (TSS)",,36,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/6/2008 13:30,2008,Volatile Suspended Solids,,25,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/6/2008 13:30,2008,"Chlorophyll a, free of pheophytin",,57,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/28/2008 14:15,2008,"Chlorophyll a, free of pheophytin",,59,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/28/2008 14:15,2008,Chloride,,24,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/28/2008 14:15,2008,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/28/2008 14:15,2008,"Nitrogen, Kjeldahl",,2.1,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/28/2008 14:15,2008,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/28/2008 14:15,2008,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/28/2008 14:15,2008,Phosphate-phosphorus,AS P,0.11,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/28/2008 14:15,2008,"Solids, Dissolved",,300,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/28/2008 14:15,2008,"Solids, Total Suspended (TSS)",,32,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/28/2008 14:15,2008,"Solids, Fixed Suspended",,11,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/28/2008 14:15,2008,Volatile Suspended Solids,,21,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/28/2008 14:15,2008,Dissolved oxygen (DO),,11,mg/l,,,,APHA 4500-O-G,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/28/2008 14:15,2008,pH,,9.1,None,,,,APHA 4500-H,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/28/2008 14:15,2008,Specific conductance,,572,uS/cm,,,,APHA 2510,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/28/2008 14:15,2008,Turbidity,,25.5,NTU,,,,USEPA 180.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/28/2008 14:15,2008,"Temperature, water",,24.6,deg C,,,,APHA 2550,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/25/2008 10:30,2008,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/25/2008 10:30,2008,"Nitrogen, Kjeldahl",,2,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/25/2008 10:30,2008,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/25/2008 10:30,2008,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/25/2008 10:30,2008,Phosphate-phosphorus,AS P,0.06,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/25/2008 10:30,2008,"Solids, Dissolved",,300,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/25/2008 10:30,2008,"Solids, Total Suspended (TSS)",,23,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/25/2008 10:30,2008,"Solids, Fixed Suspended",,5,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/25/2008 10:30,2008,Volatile Suspended Solids,,18,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/25/2008 10:30,2008,"Chlorophyll a, free of pheophytin",,47,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/25/2008 10:30,2008,Chloride,,25,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/16/2008 11:30,2008,"Nitrogen, Kjeldahl",,2.3,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/16/2008 11:30,2008,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/16/2008 11:30,2008,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/16/2008 11:30,2008,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/16/2008 11:30,2008,Phosphate-phosphorus,AS P,0.09,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/16/2008 11:30,2008,"Solids, Dissolved",,280,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/16/2008 11:30,2008,"Solids, Total Suspended (TSS)",,24,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/16/2008 11:30,2008,"Solids, Fixed Suspended",,5,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/16/2008 11:30,2008,Volatile Suspended Solids,,19,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/16/2008 11:30,2008,"Chlorophyll a, free of pheophytin",,52,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/16/2008 11:30,2008,Chloride,,24,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/16/2008 11:30,2008,Dissolved oxygen (DO),,10.4,mg/l,,,,APHA 4500-O-G,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/16/2008 11:30,2008,pH,,9.3,None,,,,APHA 4500-H,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/16/2008 11:30,2008,Specific conductance,,523,uS/cm,,,,APHA 2510,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/16/2008 11:30,2008,"Temperature, water",,11.2,deg C,,,,APHA 2550,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/23/2009 10:45,2009,Dissolved oxygen (DO),,5.4,mg/l,,,,APHA 4500-O-G,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/23/2009 10:45,2009,pH,,9.9,None,,,,APHA 4500-H,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/23/2009 10:45,2009,"Depth, Secchi disk depth",,0.22,m,,,,21IOWA Unknown,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/23/2009 10:45,2009,Specific conductance,,407,uS/cm,,,,APHA 2510,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/23/2009 10:45,2009,"Temperature, water",,28.4,deg C,,,,APHA 2550,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/23/2009 10:45,2009,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/23/2009 10:45,2009,"Nitrogen, Kjeldahl",,3.9,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/23/2009 10:45,2009,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/23/2009 10:45,2009,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/23/2009 10:45,2009,Phosphate-phosphorus,AS P,0.18,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/23/2009 10:45,2009,"Solids, Dissolved",,270,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/23/2009 10:45,2009,Volatile Suspended Solids,,36,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/23/2009 10:45,2009,"Solids, Total Suspended (TSS)",,52,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/23/2009 10:45,2009,"Chlorophyll a, free of pheophytin",,140,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/23/2009 10:45,2009,Chloride,,24,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/14/2009 11:45,2009,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/14/2009 11:45,2009,"Nitrogen, Kjeldahl",,3.9,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/14/2009 11:45,2009,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/14/2009 11:45,2009,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/14/2009 11:45,2009,Phosphate-phosphorus,AS P,0.21,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/14/2009 11:45,2009,"Solids, Dissolved",,290,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/14/2009 11:45,2009,Volatile Suspended Solids,,38,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/14/2009 11:45,2009,"Solids, Total Suspended (TSS)",,62,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/14/2009 11:45,2009,"Chlorophyll a, free of pheophytin",,110,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/14/2009 11:45,2009,Chloride,,24,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/14/2009 11:45,2009,Dissolved oxygen (DO),,6.3,mg/l,,,,APHA 4500-O-G,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/14/2009 11:45,2009,pH,,8.2,None,,,,APHA 4500-H,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/14/2009 11:45,2009,"Depth, Secchi disk depth",,0.34,m,,,,21IOWA Unknown,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/14/2009 11:45,2009,Specific conductance,,425,uS/cm,,,,APHA 2510,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/14/2009 11:45,2009,Turbidity,,35.5,NTU,,,,USEPA 180.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/14/2009 11:45,2009,"Temperature, water",,24.4,deg C,,,,APHA 2550,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2009 11:00,2009,Dissolved oxygen (DO),,7.9,mg/l,,,,APHA 4500-O-G,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2009 11:00,2009,pH,,7.6,None,,,,APHA 4500-H,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2009 11:00,2009,"Depth, Secchi disk depth",,0.3,m,,,,21IOWA Unknown,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2009 11:00,2009,Specific conductance,,428,uS/cm,,,,APHA 2510,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2009 11:00,2009,Turbidity,,34,NTU,,,,USEPA 180.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2009 11:00,2009,"Temperature, water",,25.1,deg C,,,,APHA 2550,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2009 11:00,2009,"Nitrogen, Kjeldahl",,3.8,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2009 11:00,2009,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2009 11:00,2009,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2009 11:00,2009,Phosphate-phosphorus,AS P,0.17,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2009 11:00,2009,"Solids, Dissolved",,310,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2009 11:00,2009,Volatile Suspended Solids,,42,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2009 11:00,2009,"Solids, Total Suspended (TSS)",,82,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2009 11:00,2009,"Chlorophyll a, free of pheophytin",,140,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2009 11:00,2009,Chloride,,24,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/13/2009 11:00,2009,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/22/2009 11:00,2009,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.1,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/22/2009 11:00,2009,"Nitrogen, Kjeldahl",,3.2,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/22/2009 11:00,2009,Orthophosphate,as P,0.02,mg/l,,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/22/2009 11:00,2009,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/22/2009 11:00,2009,Phosphate-phosphorus,AS P,0.1,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/22/2009 11:00,2009,"Solids, Dissolved",,310,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/22/2009 11:00,2009,Volatile Suspended Solids,,36,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/22/2009 11:00,2009,"Solids, Total Suspended (TSS)",,40,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/22/2009 11:00,2009,"Chlorophyll a, free of pheophytin",,120,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/22/2009 11:00,2009,Chloride,,28,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/22/2009 11:00,2009,Dissolved oxygen (DO),,8.4,mg/l,,,,APHA 4500-O-G,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/22/2009 11:00,2009,pH,,8.5,None,,,,APHA 4500-H,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/22/2009 11:00,2009,"Depth, Secchi disk depth",,0.21,m,,,,21IOWA Unknown,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/22/2009 11:00,2009,Specific conductance,,430,uS/cm,,,,APHA 2510,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/22/2009 11:00,2009,Turbidity,,24.2,NTU,,,,USEPA 180.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/22/2009 11:00,2009,"Temperature, water",,18.5,deg C,,,,APHA 2550,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/19/2009 10:45,2009,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.1,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/19/2009 10:45,2009,"Nitrogen, Kjeldahl",,3.1,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/19/2009 10:45,2009,Orthophosphate,as P,0.03,mg/l,,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/19/2009 10:45,2009,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/19/2009 10:45,2009,Phosphate-phosphorus,AS P,0.09,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/19/2009 10:45,2009,"Solids, Dissolved",,280,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/19/2009 10:45,2009,Volatile Suspended Solids,,22,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/19/2009 10:45,2009,"Solids, Total Suspended (TSS)",,26,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/19/2009 10:45,2009,"Chlorophyll a, free of pheophytin",,70,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,10/19/2009 10:45,2009,Chloride,,28,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/20/2010 10:30,2010,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.1,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/20/2010 10:30,2010,"Nitrogen, Kjeldahl",,2.3,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/20/2010 10:30,2010,Orthophosphate,as P,0.02,mg/l,,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/20/2010 10:30,2010,Phosphate-phosphorus,AS P,0.07,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/20/2010 10:30,2010,"Nitrogen, ammonia",as N,0.46,mg/l,,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/20/2010 10:30,2010,"Solids, Fixed Suspended",,7,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/20/2010 10:30,2010,Volatile Suspended Solids,,7,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/20/2010 10:30,2010,"Solids, Total Suspended (TSS)",,14,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/20/2010 10:30,2010,"Chlorophyll a, free of pheophytin",,12,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/20/2010 10:30,2010,Chloride,,23,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/20/2010 10:30,2010,"Solids, Dissolved",,300,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/20/2010 10:30,2010,"Depth, Secchi disk depth",,0.2,m,,,,21IOWA Unknown,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/20/2010 10:30,2010,Specific conductance,,409,uS/cm,,,,APHA 2510,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/20/2010 10:30,2010,Turbidity,,11.5,NTU,,,,USEPA 180.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/20/2010 10:30,2010,"Temperature, water",,18,deg C,,,,APHA 2550,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/16/2010 14:00,2010,Dissolved oxygen (DO),,11.7,mg/l,,,,APHA 4500-O-G,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/16/2010 14:00,2010,pH,,8.5,None,,,,APHA 4500-H,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/16/2010 14:00,2010,"Depth, Secchi disk depth",,0.4,m,,,,21IOWA Unknown,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/16/2010 14:00,2010,Turbidity,,13.4,NTU,,,,USEPA 180.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/16/2010 14:00,2010,"Temperature, water",,23.6,deg C,,,,APHA 2550,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/16/2010 14:00,2010,Nitrate + nitrite,as N,0.14,mg/l,,0.1,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/16/2010 14:00,2010,"Nitrogen, Kjeldahl",,2.8,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/16/2010 14:00,2010,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/16/2010 14:00,2010,Phosphate-phosphorus,AS P,0.1,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/16/2010 14:00,2010,"Nitrogen, ammonia",as N,0.37,mg/l,,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/16/2010 14:00,2010,"Solids, Fixed Suspended",,6,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/16/2010 14:00,2010,Volatile Suspended Solids,,13,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/16/2010 14:00,2010,"Solids, Total Suspended (TSS)",,19,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/16/2010 14:00,2010,"Chlorophyll a, free of pheophytin",,62,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/16/2010 14:00,2010,Chloride,,22,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/16/2010 14:00,2010,"Solids, Dissolved",,320,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/14/2010 12:45,2010,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.1,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/14/2010 12:45,2010,"Nitrogen, Kjeldahl",,3.2,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/14/2010 12:45,2010,Orthophosphate,as P,0.02,mg/l,,0.02,,USEPA 365.1,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/14/2010 12:45,2010,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/14/2010 12:45,2010,Phosphate-phosphorus,AS P,0.19,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/14/2010 12:45,2010,"Solids, Dissolved",,310,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/14/2010 12:45,2010,Volatile Suspended Solids,,44,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/14/2010 12:45,2010,"Solids, Total Suspended (TSS)",,56,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/14/2010 12:45,2010,"Chlorophyll a, free of pheophytin",,110,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/14/2010 12:45,2010,Chloride,,22,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/17/2010 10:30,2010,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.1,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/17/2010 10:30,2010,"Nitrogen, Kjeldahl",,3.2,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/17/2010 10:30,2010,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/17/2010 10:30,2010,Phosphate-phosphorus,AS P,0.12,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/17/2010 10:30,2010,"Solids, Dissolved",,250,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/17/2010 10:30,2010,Volatile Suspended Solids,,38,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/17/2010 10:30,2010,"Solids, Total Suspended (TSS)",,48,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/17/2010 10:30,2010,Chloride,,18,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/17/2010 10:30,2010,"Chlorophyll a, free of pheophytin",,120,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/17/2010 10:30,2010,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,APHA 4500-P-E,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/8/2010 10:15,2010,Nitrate + nitrite,as N,Not Detected,mg/l,Not Detected,0.1,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/8/2010 10:15,2010,"Nitrogen, Kjeldahl",,3,mg/l,,0.1,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/8/2010 10:15,2010,"Nitrogen, ammonia",as N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/8/2010 10:15,2010,Phosphate-phosphorus,AS P,0.1,mg/l,,0.02,,USEPA 365.4,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/8/2010 10:15,2010,"Solids, Dissolved",,250,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/8/2010 10:15,2010,Volatile Suspended Solids,,36,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/8/2010 10:15,2010,"Solids, Total Suspended (TSS)",,52,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/8/2010 10:15,2010,Chloride,,19,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/8/2010 10:15,2010,"Chlorophyll a, free of pheophytin",,62,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/8/2010 10:15,2010,Orthophosphate,as P,Not Detected,mg/l,Not Detected,0.02,,APHA 4500-P-E,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/14/2013 10:00,2013,Volatile Suspended Solids,,72,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/14/2013 10:00,2013,"Solids, Dissolved",,500,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/14/2013 10:00,2013,Chloride,,37,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/14/2013 10:00,2013,"Nitrogen, ammonia",AS N,Not Detected,mg/l,Not Detected,0.05,,USEPA 350.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/14/2013 10:00,2013,"Nitrogen, Kjeldahl",,5.8,mg/l,,0.3,,USEPA 351.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/14/2013 10:00,2013,Nitrate + nitrite,AS N,0.15,mg/l,,0.05,,USEPA 353.2,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/14/2013 10:00,2013,Phosphate-phosphorus,AS P,0.54,mg/l,,0.02,,USEPA 365.1,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/14/2013 10:00,2013,"Chlorophyll a, free of pheophytin",,190,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/14/2013 10:00,2013,Orthophosphate,AS P,Not Detected,mg/l,Not Detected,0.02,,APHA 4500-P-E,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,5/14/2013 10:00,2013,"Solids, Total Suspended (TSS)",,200,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/12/2013 13:10,2013,Volatile Suspended Solids,,18,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/12/2013 13:10,2013,"Solids, Dissolved",,420,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/12/2013 13:10,2013,Chloride,,28,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/12/2013 13:10,2013,"Chlorophyll a, free of pheophytin",,32,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/12/2013 13:10,2013,"Solids, Total Suspended (TSS)",,29,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/12/2013 13:10,2013,Nitrate + nitrite,AS N,0.12,mg/l,,0.1,,21IOWA LAC10-107-04-1J,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/12/2013 13:10,2013,"Nitrogen, ammonia",AS N,0.3,mg/l,,0.05,,21IOWA LAC10-107-06-1J,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/12/2013 13:10,2013,"Nitrogen, Kjeldahl",,2.7,mg/l,,0.1,,21IOWA LAC10-107-06-2E,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/12/2013 13:10,2013,Orthophosphate,AS P,Not Detected,mg/l,Not Detected,0.02,,21IOWA LAC10-115-01-1A,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,6/12/2013 13:10,2013,Phosphate-phosphorus,AS P,0.24,mg/l,,0.02,,21IOWA LAC10-115-01-1D,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/10/2013 12:00,2013,"Nitrogen, ammonia",AS N,Not Detected,mg/l,Not Detected,0.05,,21IOWA LAC10-107-06-1J,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/10/2013 12:00,2013,"Nitrogen, Kjeldahl",,5.8,mg/l,,0.1,,21IOWA LAC10-107-06-2E,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/10/2013 12:00,2013,Volatile Suspended Solids,,78,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/10/2013 12:00,2013,"Solids, Dissolved",,410,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/10/2013 12:00,2013,Chloride,,31,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/10/2013 12:00,2013,"Chlorophyll a, free of pheophytin",,260,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/10/2013 12:00,2013,"Solids, Total Suspended (TSS)",,150,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/10/2013 12:00,2013,Nitrate + nitrite,AS N,8.9,mg/l,,0.1,,21IOWA LAC10-107-04-1J,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/10/2013 12:00,2013,Orthophosphate,AS P,Not Detected,mg/l,Not Detected,0.02,,21IOWA LAC10-115-01-1A,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,7/10/2013 12:00,2013,Phosphate-phosphorus,AS P,0.38,mg/l,,0.02,,21IOWA LAC10-115-01-1D,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/14/2013 10:30,2013,Volatile Suspended Solids,,50,mg/l,,1,,USEPA 160.4,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/14/2013 10:30,2013,"Solids, Dissolved",,440,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/14/2013 10:30,2013,Chloride,,37,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/14/2013 10:30,2013,"Chlorophyll a, free of pheophytin",,77,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/14/2013 10:30,2013,"Solids, Total Suspended (TSS)",,88,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/14/2013 10:30,2013,Nitrate + nitrite,AS N,Not Detected,mg/l,Not Detected,0.1,,21IOWA LAC10-107-04-1J,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/14/2013 10:30,2013,"Nitrogen, ammonia",AS N,Not Detected,mg/l,Not Detected,0.05,,21IOWA LAC10-107-06-1J,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/14/2013 10:30,2013,"Nitrogen, Kjeldahl",,3.9,mg/l,,0.1,,21IOWA LAC10-107-06-2E,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/14/2013 10:30,2013,Orthophosphate,AS P,Not Detected,mg/l,Not Detected,0.02,,21IOWA LAC10-115-01-1A,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,8/14/2013 10:30,2013,Phosphate-phosphorus,AS P,0.2,mg/l,,0.02,,21IOWA LAC10-115-01-1D,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/17/2013 9:00,2013,"Solids, Dissolved",,470,mg/l,,1,,APHA 2540-C,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/17/2013 9:00,2013,Chloride,,43,mg/l,,1,,USEPA 300.0,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/17/2013 9:00,2013,"Chlorophyll a, free of pheophytin",,280,ug/l,,1,,USEPA 445,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/17/2013 9:00,2013,"Solids, Total Suspended (TSS)",,240,mg/l,,1,,USDOI/USGS I3765,NonFilt,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/17/2013 9:00,2013,Nitrate + nitrite,AS N,Not Detected,mg/l,Not Detected,0.1,,21IOWA LAC10-107-04-1J,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/17/2013 9:00,2013,"Nitrogen, ammonia",AS N,Not Detected,mg/l,Not Detected,0.05,,21IOWA LAC10-107-06-1J,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/17/2013 9:00,2013,"Nitrogen, Kjeldahl",,7.1,mg/l,,0.1,,21IOWA LAC10-107-06-2E,Total,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/17/2013 9:00,2013,Orthophosphate,AS P,Not Detected,mg/l,Not Detected,0.02,,21IOWA LAC10-115-01-1A,Dissolved,Water,Iowa Dept. of  Natural Resources
+22130004,South Twin Lake,9/17/2013 9:00,2013,Phosphate-phosphorus,AS P,0.49,mg/l,,0.02,,21IOWA LAC10-115-01-1D,Total,Water,Iowa Dept. of  Natural Resources
