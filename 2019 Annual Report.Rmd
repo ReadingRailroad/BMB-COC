@@ -2003,12 +2003,12 @@ current idea is to take the code from the cpue plots. figure out how to categori
 ```{r}
 # gonna need biomass df for both years with confidence intervals
 # basically paired boxplots without the boxes?
-daf<-read.csv("2018_BiomassDensityEstimates.csv")
+daf<-read.csv("2018/2018_BiomassDensityEstimates.csv")
 daf
 daf[,1]<-c("Blue","Center","Five Island","N. Twin","Silver","S. Twin","Storm")
 daf$Year<-factor("2018")
 
-dat<-read.csv("2017_BiomassDensityEstimates.csv")
+dat<-read.csv("2017/2017_BiomassDensityEstimates.csv")
 dat
 dat[,1]<-c("Blue","Center","N. Twin","S. Twin")
 dat$Year<-factor("2017")
@@ -2017,6 +2017,8 @@ data<-rbind(dat,daf)
 data<-subset(data, X == "Center" |
                    X == "N. Twin"|
                    X == "S. Twin")
+
+
 
 
 ```
@@ -2036,7 +2038,7 @@ str(frame)
 frame$L.BM<-frame$L.BM/1000
 frame$BM<-frame$BM/1000
 frame$U.BM<-frame$U.BM/1000
-
+require(ggplot2)
 bm<-ggplot(frame, aes(x= Year, y = BM, ymin=L.BM, ymax=U.BM))+
                 geom_point(size=3, aes( shape = Species))+
                 geom_errorbar(width = 0.2) +
