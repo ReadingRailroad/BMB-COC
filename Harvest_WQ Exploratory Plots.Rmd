@@ -1,0 +1,230 @@
+---
+title: "Harvest and Ambient Lake Monitoring"
+author: "Marty Simonson"
+date: "March 13, 2019"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# front matter
+
+
+
+```{r,include=FALSE}
+rm(list=ls())
+
+
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
+
+#remove.packages(c("ggplot2", "data.table"))
+#install.packages('Rcpp', dependencies = TRUE)
+#install.packages('ggplot2', dependencies = TRUE)
+#install.packages('data.table', dependencies = TRUE)
+
+#packages(rcompanion)
+#packages(vegan)
+packages(ggplot2)
+packages(gridExtra)
+packages(reshape2)
+packages(FSA)
+packages(nnet)
+#packages(multcomp)
+packages(plyr)
+#packages(rv)
+packages(arm)
+packages(lattice)
+packages(tikzDevice)
+packages(FSAdata)
+packages(nlstools)
+#packages(GGally)
+packages(wesanderson)
+#packages(DescTools)
+#packages(mvnormtest)
+#packages(HH)
+#packages(biotools)
+#packages(car)
+#packages(psych)
+#packages(GPArotation)
+packages(doBy)
+packages(dplyr)
+packages(tidyr)
+packages(rcompanion)
+packages(GISTools)
+packages(maps)
+packages(mapproj)
+```
+
+# get the ball rolling
+
+goal for tonight is to develop some double-y axis graphs. Total harvest (lbs.) and removal (lbs. per acre) one axis, and various water quality parameters on secondary yaxis. Time on x axis.
+
+## Reading in and augmenting harvest data
+```{r}
+harvest<-read.csv("2018/Comm_Harvest_AsOfDec2018.csv")
+str(harvest)
+
+# get rid of those unknown dates of harvest
+harvest<-droplevels(subset(harvest, Date != "No Date"))
+
+# Dates
+levels(harvest$Date)
+harvest$Date<-as.Date(as.character(harvest$Date), format = "%m/%d/%Y")
+harvest$Year<-format(as.Date(harvest$Date, format="%d/%m/%Y"),"%Y")
+harvest$Month<-format(as.Date(harvest$Date, format="%d/%m/%Y"),"%m")
+harvest$YearMonth<-format(as.Date(harvest$Date, format="%d/%m/%Y"),"%Y.%m")
+
+
+
+# Lakes
+levels(harvest$Lake)
+harvest$Lake<-as.character(harvest$Lake)
+harvest$Lake[harvest$Lake == "center lake"]<-"Center Lake"
+harvest$Lake[harvest$Lake == "elk lake"]<-"Elk Lake"
+harvest$Lake[harvest$Lake == "Elk lake"]<-"Elk Lake"
+harvest$Lake[harvest$Lake == "Iowa Lake"]<-"Iowa Lake (Osceola)"
+harvest$Lake[harvest$Lake == "Little Spirit lake"]<-"Little Spirit Lake"
+harvest$Lake[harvest$Lake == "little swan lake"]<-"Little Swan Lake"
+harvest$Lake[harvest$Lake == "Lost Island lake"]<-"Lost Island Lake"
+harvest$Lake[harvest$Lake == "spirit lake"]<-"Spirit Lake"
+harvest$Lake[harvest$Lake == "West Swan lake "]<-"West Swan Lake"
+harvest$Lake<-as.factor(harvest$Lake)
+harvest<-droplevels(subset(harvest, Lake != ""))# remove rows in dataset without lake/harvest/observation. Artifact of transferring from formula xlsx that came from Hawkins into csv.
+
+# kilograms
+class(harvest$Pounds)
+levels(harvest$Pounds)
+harvest$Pounds<-as.character(harvest$Pounds)
+harvest$Pounds[harvest$Pounds == "."]<-0
+harvest$Pounds<-as.numeric(harvest$Pounds)
+harvest$KG<-harvest$Pounds/2.205
+
+# Acres for Density...
+levels(harvest$Lake)
+harvest$Acres[harvest$Lake == "Center Lake"] <- 220
+harvest$Acres[harvest$Lake == "Diamond Lake"] <- 98
+harvest$Acres[harvest$Lake == "East Okoboji Lake"] <- 1835
+harvest$Acres[harvest$Lake == "Elk Lake"] <- 261
+harvest$Acres[harvest$Lake == "Five Island Lake"] <- 973
+harvest$Acres[harvest$Lake == "High Lake"] <- 467
+harvest$Acres[harvest$Lake == "Ingham Lake"] <- 357
+harvest$Acres[harvest$Lake == "Iowa Lake (Osceola)"] <- 116
+harvest$Acres[harvest$Lake == "Little Spirit Lake"] <- 604
+harvest$Acres[harvest$Lake == "Little Swan Lake"] <- 371
+harvest$Acres[harvest$Lake == "Lost Island Lake"] <- 1162
+harvest$Acres[harvest$Lake == "Lower Gar Lake"] <- 251
+harvest$Acres[harvest$Lake == "Minnewashta Lake"] <- 118
+harvest$Acres[harvest$Lake == "Silver Lake (Dickinson)"] <- 1041
+harvest$Acres[harvest$Lake == "Silver Lake (Palo Alto)"] <- 648
+harvest$Acres[harvest$Lake == "Spirit Lake"] <- 5684
+harvest$Acres[harvest$Lake == "Trumbull Lake"] <- 1183
+harvest$Acres[harvest$Lake == "Tuttle Lake"] <- 2268.00
+harvest$Acres[harvest$Lake == "Upper Gar Lake"] <- 36
+harvest$Acres[harvest$Lake == "Virgin Lake"] <- 222
+harvest$Acres[harvest$Lake == "West Okoboji Lake"] <- 3847
+harvest$Acres[harvest$Lake == "West Swan Lake"] <- 379
+harvest$Hectares<-harvest$Acres/2.471
+
+# Removal amounts (mass/area)
+harvest$Removal.lbs<-harvest$Pounds/harvest$Acres
+harvest$Removal.kg<-harvest$KG/harvest$Hectares
+
+# species
+levels(harvest$Species)
+harvest$Species<-as.character(harvest$Species)
+harvest$Species[harvest$Species == "BMB"]<-"Bigmouth Buffalo"
+harvest$Species[harvest$Species == "CAP"]<-"Common Carp"
+harvest$Species[harvest$Species == "FWD"]<-"Freshwater Drum"
+harvest$Species<-as.factor(harvest$Species)
+
+
+
+# I think that's it for now
+
+str(harvest)
+
+```
+
+## Water Quality Data
+
+```{r}
+h2o<-read.csv("WaterQuality/130Lakes_IowaLakesDatabase.csv")
+str(h2o)
+
+# Lakes first, since not all tested lakes have harvest and not all harvest lakes have testing.
+levels(h2o$Lake.Name)
+h2o$Lake.Name<-as.character(h2o$Lake.Name)
+h2o$Lake[h2o$Lake.ID == 19]<-"Center Lake"
+h2o$Lake[h2o$Lake.ID == 29]<-"Diamond Lake"
+h2o$Lake[h2o$Lake.ID == 33]<-"East Okoboji Lake"
+h2o$Lake[h2o$Lake.ID == 36]<-"Five Island Lake"
+h2o$Lake[h2o$Lake.ID == 48]<-"Ingham Lake"
+h2o$Lake[h2o$Lake.ID == 74]<-"Little Spirit Lake"
+h2o$Lake[h2o$Lake.ID == 77]<-"Lost Island Lake"
+h2o$Lake[h2o$Lake.ID == 78]<-"Lower Gar Lake"
+h2o$Lake[h2o$Lake.ID == 105]<-"Silver Lake (Dickinson)"
+h2o$Lake[h2o$Lake.ID == 108]<-"Silver Lake (Palo Alto)"
+h2o$Lake[h2o$Lake.ID == 10]<-"Spirit Lake"
+h2o$Lake[h2o$Lake.ID == 117]<-"Trumbull Lake"
+h2o$Lake[h2o$Lake.ID == 118]<-"Tuttle Lake"
+h2o$Lake[h2o$Lake.ID == 121]<-"Upper Gar Lake"
+h2o$Lake[h2o$Lake.ID == 125]<-"West Okoboji Lake"
+
+h2o<-droplevels(subset(h2o, Lake.ID == 19|
+                            Lake.ID == 29|
+                            Lake.ID == 33|
+                            Lake.ID == 36|
+                            Lake.ID == 48|
+                            Lake.ID == 74|
+                            Lake.ID == 77|
+                            Lake.ID == 78|
+                            Lake.ID == 105|
+                            Lake.ID == 108|
+                            Lake.ID == 10|
+                            Lake.ID == 117|
+                            Lake.ID == 118|
+                            Lake.ID == 121|
+                            Lake.ID == 125))
+
+str(h2o)
+
+# Date and time
+levels(h2o$Sampling.Date...Time)
+h2o$Date<-as.Date(format(h2o$Sampling.Date...Time), format = "%m/%d/%Y %H:%M")
+h2o$YearMonth<-format(as.Date(h2o$Date, format="%d/%m/%Y"),"%Y.%m")
+summary(h2o$Date)
+str(h2o)
+
+```
+
+## Time to merge
+
+how the heck am i supposed to do this?? 
+
+```{r}
+df<-join(harvest,h2o,
+                     by="Lake",
+         type="right")
+# chill mello yello. 
+#
+# this isn't compton.
+
+str(df)
+
+# what I frickin mean is that it doesn't line up how I want. 
+# the WQ params are independent of harvest. Therefore they need their own date variable.
+
+# man if i could just visualize what i want.
+
+
+
+
+
+```
+
