@@ -149,6 +149,27 @@ harvest$Species<-as.factor(harvest$Species)
 
 str(harvest)
 
+# Well I'm gonna trim off all the lakes that we don't have WQ data for.
+
+harvest<-droplevels(subset(harvest, Lake == "Center Lake" |
+                                    Lake == "Diamond Lake"|
+                                    Lake == "East Okoboji Lake"|
+                                    Lake == "Five Island Lake"|
+                                    Lake == "Ingham Lake" |
+                                    Lake == "Little Spirit Lake" |
+                                    Lake == "Lost Island Lake" |
+                                    Lake == "Lower Gar Lake"|
+                                    Lake == "Silver Lake (Dickinson)"|
+                                    Lake == "Silver Lake (Palo Alto)"|
+                                    Lake == "Spirit Lake"|
+                                    Lake == "Trumbull Lake"|
+                                    Lake == "Tuttle Lake"|
+                                    Lake == "Upper Gar Lake"|
+                                    Lake == "West Okoboji Lake"))
+
+
+
+
 ```
 
 ## Water Quality Data
@@ -209,20 +230,16 @@ how the heck am i supposed to do this??
 
 ```{r}
 df<-join(harvest,h2o,
-                     by="Lake",
-         type="right")
-# chill mello yello. 
-#
-# this isn't compton.
+                     by="Lake", type = "left")
+
 
 str(df)
 
-# what I frickin mean is that it doesn't line up how I want. 
+df2<-merge(harvest,h2o,by=c("Lake","Date"), all = TRUE)
 # the WQ params are independent of harvest. Therefore they need their own date variable.
 
-# man if i could just visualize what i want.
 
-
+# Walk through lost island lake first
 
 
 
