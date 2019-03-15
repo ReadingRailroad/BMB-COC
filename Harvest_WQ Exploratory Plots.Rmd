@@ -226,22 +226,74 @@ str(h2o)
 
 ## Time to merge
 
-how the heck am i supposed to do this?? 
 
 ```{r}
-df<-join(harvest,h2o,
-                     by="Lake", type = "left")
 
-
-str(df)
-
-df2<-merge(harvest,h2o,by=c("Lake","Date"), all = TRUE)
+df<-merge(harvest,h2o,by=c("Lake","Date"), all = TRUE)
 # the WQ params are independent of harvest. Therefore they need their own date variable.
-
-
+str(df)
+#df$YearMonth.x<-as.numeric(df$YearMonth.x)
+df$YearMonth.y<-as.numeric(df$YearMonth.y)
 # Walk through lost island lake first
+df.l<-droplevels(subset(df, Lake == "Lost Island Lake"))
+p1<-ggplot(df.l,aes(x=YearMonth.x, y=KG, fill = Species))+
+  geom_bar(stat="identity",position = "dodge")+
+  theme_classic()+
+  theme(legend.position = "top")+
+  theme(axis.text.x = element_text(angle = 90))
+p1
+
+length(is.na(df.l$Total.Suspended.Solids..mg.L.))
+p2<-ggplot(df.l,aes(x=YearMonth.y,y=Total.Suspended.Solids..mg.L.))+
+  geom_point()+
+  scale_x_continuous(limits = c(1984.10,2018.05))+
+  theme_classic()
+
+p2
+
+p2<-ggplot(df.l,aes(x=Date,y=Total.Suspended.Solids..mg.L.))+
+  geom_point()+
+  theme_classic()
+
+p2
+
+p3<-ggplot(df.l,aes(x=Date,y=TN..mg.L.))+
+  geom_point()+
+  theme(axis.text.x = element_text(angle = 90))+
+  theme_classic()
+
+p3
+
+p4<-ggplot(df.l,aes(x=Date,y=Secchi.Transparency.at.Sampling.Site..m.))+
+  geom_point()+
+  theme(axis.text.x = element_text(angle = 90))+
+  theme_classic()
+
+p4
 
 
+p5<-ggplot(df.l,aes(x=Date,y=Phytoplankton.Total.Biomass..mg.L.))+
+  geom_point()+
+  theme(axis.text.x = element_text(angle = 90))+
+  theme_classic()
 
+p5
+
+
+p6<-ggplot(df.l,aes(x=Date,y=Zooplankton.Total.Biomass..µg.L.))+
+  geom_point()+
+  theme_classic()
+
+p6
+
+p7<-ggplot(df.l,aes(x=Date,y=Total.Phosphorus.as.P..µg.L.))+
+  geom_point()+
+  theme_classic()
+
+p7
+
+grid.arrange(p1,p2,p4)
+grid.arrange(p1,p3,p7)
+grid.arrange(p1,p5,p6,ncol=1)
 ```
 
