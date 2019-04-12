@@ -1,0 +1,70 @@
+---
+title: "AECL 520 Group Project"
+author: "Martin Simonson"
+date: "April 12, 2019"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+---
+
+Here I am taking output data from FAMS von bert curves and our analyses of mean length of fish caught compared to the different length limits.
+
+idea is to get figures in a panel grid (vertical?)
+
+-- read in data
+
+```{r}
+df<-read.csv("AECL520/FAMS output.csv", header = T )
+str(df)
+df$Min.TL..mm.<-factor(df$Min.TL..mm.)
+```
+
+
+-- plot some figs
+
+```{r}
+library(ggplot2)
+library(gridExtra)
+library(reshape2)
+
+# removing survival and recruitment 
+
+df.m<-melt(df, id.vars = c("Min.TL..mm.","Exploitation"))
+ggplot(df.m, aes (x = Exploitation,y = value, group = Min.TL..mm., colour = Min.TL..mm.))+
+  theme_classic()+
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(fill="white",colour="grey50"), 
+        axis.line = element_line(colour = "black"),
+        legend.position = "bottom",
+        legend.background = element_rect(colour="grey20"))+
+  geom_line(size = 1.25)+
+  geom_point(size = 2)+
+  labs(title = "Estimated Crappie Harvest as a Function of Exploitation",
+       subtitle = "Considering three different minimum length limits",
+       y = "")+
+  facet_grid(variable~., scales = "free_y")
+
+
+# removing survival and time to recruitment, this way we have three panels that each show a different harvest goal
+df<-df[,-c(2,3)]
+df.m<-melt(df, id.vars = c("Min.TL..mm.","Exploitation"))
+ggplot(df.m, aes (x = Exploitation,y = value, group = Min.TL..mm., colour = Min.TL..mm.))+
+  theme_classic()+
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(fill="white",colour="grey50"), 
+        axis.line = element_line(colour = "black"),
+        legend.position = "bottom",
+        legend.background = element_rect(colour="grey20"))+
+  geom_line(size = 1.25)+
+  geom_point(size = 2)+
+  labs(title = "Estimated Crappie Harvest as a Function of Exploitation",
+       subtitle = "Considering three different minimum length limits",
+       y = "")+
+  facet_grid(variable~., scales = "free_y")
+
+
+```
+
+new plots
