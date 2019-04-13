@@ -437,7 +437,7 @@ data$Site.Transect[data$Date == as.Date("2018-05-21") &
 # Should re-write this line later for 17 and 18 data in new file name
 #
 #
-write.csv(data, "2018_COC_BIB_CMR_Data.csv", row.names = F)
+write.csv(data, "2018/2018_COC_BIB_CMR_Data.csv", row.names = F)
 ```
 
 
