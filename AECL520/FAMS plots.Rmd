@@ -47,9 +47,9 @@ ggplot(df.m, aes (x = Exploitation,y = value, group = Min.TL..mm., colour = Min.
 
 
 # removing survival and time to recruitment, this way we have three panels that each show a different harvest goal
-df<-df[,-c(2,3)]
-df.m<-melt(df, id.vars = c("Min.TL..mm.","Exploitation"))
-ggplot(df.m, aes (x = Exploitation,y = value, group = Min.TL..mm., colour = Min.TL..mm.))+
+df2<-df[,-c(2,3)]
+df.m2<-melt(df2, id.vars = c("Min.TL..mm.","Exploitation"))
+ggplot(df.m2, aes (x = Exploitation,y = value, group = Min.TL..mm., colour = Min.TL..mm., shape = Min.TL..mm.))+
   theme_classic()+
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
@@ -58,7 +58,7 @@ ggplot(df.m, aes (x = Exploitation,y = value, group = Min.TL..mm., colour = Min.
         legend.position = "bottom",
         legend.background = element_rect(colour="grey20"))+
   geom_line(size = 1.25)+
-  geom_point(size = 2)+
+  geom_point(size = 3)+
   labs(title = "Estimated Crappie Harvest as a Function of Exploitation",
        subtitle = "Considering three different minimum length limits",
        y = "")+
@@ -67,4 +67,59 @@ ggplot(df.m, aes (x = Exploitation,y = value, group = Min.TL..mm., colour = Min.
 
 ```
 
-new plots
+new plots with American units and better labels, etc.
+
+```{r}
+head(df2)
+# change units
+df2$Min.TL..mm.<-as.numeric(as.character(df2$Min.TL..mm.))
+df2$MinInches<-df2$Min.TL..mm./25.4
+df2$MeanInches<-df2$MTL..mm./25.4
+df2$Min.TL..mm.<-as.factor(df2$Min.TL..mm.)
+df2$MinInches<-as.factor(df2$MinInches)
+df2$Yield.Pounds<-df2$Yield..kg.*2.205
+df2$NumberHarvested<-df2$Nharv
+
+df3<-data.frame(as.numeric(as.character(df2$MinInches)),
+                           df2$Exploitation,
+                           df2$NumberHarvested,
+                           df2$Yield.Pounds,
+                           df2$MeanInches)
+head(df3)
+colnames(df3)<-c("Minimum Length Limit (Inches)","Exploitation Rate","Number Harvested","Yield in Pounds","Average Length Caught")
+df3$`Minimum Length Limit (Inches)`<-round(df3$`Minimum Length Limit (Inches)`)
+df3$`Minimum Length Limit (Inches)`<-factor(df3$`Minimum Length Limit (Inches)`)
+
+
+df.m3<-melt(df3, id.vars = c("Minimum Length Limit (Inches)","Exploitation Rate"))
+ggplot(df.m3, aes (x = `Exploitation Rate`,
+                   y = value, 
+                   group = `Minimum Length Limit (Inches)`, 
+                   colour = `Minimum Length Limit (Inches)`, 
+                   shape = `Minimum Length Limit (Inches)`))+
+  theme_classic()+
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(fill="white",colour="grey50"),
+        axis.line = element_line(colour = "black"),
+        legend.position = "bottom",
+        legend.background = element_rect(colour="grey20"))+
+  labs(fill = "Minimum Length Limit (Inches)")+
+  geom_line(size = 1.25)+
+  geom_point(size = 3)+
+  labs(title = "Estimated Crappie Harvest as a Function of Exploitation",
+       subtitle = "Considering three different minimum length limits",
+       y = "")+
+  facet_grid(variable~., scales = "free_y")
+
+
+
+
+
+
+
+
+
+
+```
+
