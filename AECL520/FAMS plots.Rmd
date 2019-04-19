@@ -68,3 +68,7 @@ ggplot(df.m, aes (x = Exploitation,y = value, group = Min.TL..mm., colour = Min.
 ```
 
 new plots
+
+- so we want other plots without exploitation on the x
+- instead we can do time to recruitment on x with mean TL harvested on Y
+- 
