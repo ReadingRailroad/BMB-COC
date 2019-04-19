@@ -1,0 +1,234 @@
+---
+title: "Marcus Age Comparison Plots"
+author: "Martin Simonson"
+date: "April 19, 2019"
+output: pdf_document
+---
+
+```{r,include=F}
+rm(list=ls())
+
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
+
+packages(vegan)
+packages(ggplot2)
+packages(reshape2)
+packages(nnet)
+packages(multcomp)
+packages(plyr)
+packages(rv)
+packages(arm)
+packages(lattice)
+packages(tikzDevice)
+packages(gridExtra)
+packages(dplyr)
+
+```
+
+
+```{r,}
+## Age comparison plots for North Twin Lake
+#
+# Buffalo and Carp
+#
+#
+age<-read.csv("Marcus/BuffaloAges_Compiled.csv",header=T)
+summary(age)
+
+
+
+
+
+
+# Need to compare three estimates with each structure
+          # Spines
+ggplot(age, aes(x=Otolith.MAS, y=Otolith.DRF, shape= Species))+
+  geom_point(size=5, alpha = 0.5)+
+  geom_abline(slope = 1, intercept = 0)+
+  ggtitle("Otolith Age Readings: Marty vs. Drake")+
+  theme_classic()
+          # Otoliths
+ggplot(age, aes(x=Spine.MAS, y=Spine.DRF, shape= Species))+
+  geom_point(size=5, alpha = 0.5)+
+  geom_abline(slope = 1, intercept = 0)+
+  ggtitle("Spine Age Readings: Marty vs. Drake")+
+  theme_classic()
+
+
+
+
+# subset by species then separate by reader
+buff <- subset(age, Species == "BIB")
+summary(buff)
+
+carp <- subset(age, Species == "COC")
+summary(carp)
+
+
+        #carp
+
+        # marty v drake
+p1<-ggplot(carp, aes(carp,x=Otolith.MAS, y=Otolith.DRF))+
+  geom_point(size=5, alpha = 0.2)+
+  geom_abline(slope = 1, intercept = 0)+
+  ggtitle("Carp Age Estimates by Reader: Marty vs. Drake")+
+  theme_classic()
+
+        #buffalo
+
+        # marty v drake
+p2<-ggplot(buff, aes(x=Otolith.MAS, y=Otolith.DRF))+
+  geom_point(size=5, alpha = 0.2)+
+  geom_abline(slope = 1, intercept = 0)+
+  ggtitle("Buffalo Age Estimates by reader: Marty vs. Drake")+
+  theme_classic()
+
+##############################################################
+        #carp
+
+        # marty v marcus
+p3<-ggplot(carp, aes(carp,x=Otolith.MAS, y=Otolith.MRP))+
+  geom_point(size=5, alpha = 0.2)+
+  geom_abline(slope = 1, intercept = 0)+
+  ggtitle("Carp Age Estimates by Reader: Marty vs. Marcus")+
+  theme_classic()
+
+        #buffalo
+
+        # marty v marcus
+p4<-ggplot(buff, aes(x=Otolith.MAS, y=Otolith.MRP))+
+  geom_point(size=5, alpha = 0.2)+
+  geom_abline(slope = 1, intercept = 0)+
+  ggtitle("Buffalo Age Estimates by reader: Marty vs. Marcus")+
+  theme_classic()
+
+################################################################
+        #carp
+
+        # marty v drake
+p5<-ggplot(carp, aes(carp,x=Otolith.MRP, y=Otolith.DRF))+
+  geom_point(size=5, alpha = 0.2)+
+  geom_abline(slope = 1, intercept = 0)+
+  ggtitle("Carp Age Estimates by Reader: Marcus vs. Drake")+
+  theme_classic()
+
+        #buffalo
+
+        # marty v drake
+p6<-ggplot(buff, aes(x=Otolith.MRP, y=Otolith.DRF))+
+  geom_point(size=5, alpha = 0.2)+
+  geom_abline(slope = 1, intercept = 0)+
+  ggtitle("Buffalo Age Estimates by reader: Marcus vs. Drake")+
+  theme_classic()
+
+otoliths<-grid.arrange(p1,p2,p3,p4,p5,p6,ncol=2)
+
+#######################################################
+#
+#
+#
+# Spines
+#
+#
+######################################################
+
+        #carp
+
+        # marty v drake
+p1<-ggplot(carp, aes(carp,x=Spine.MAS, y=Spine.DRF))+
+  geom_point(size=5, alpha = 0.2)+
+  geom_abline(slope = 1, intercept = 0)+
+  ggtitle("Carp Age Estimates by Reader: Marty vs. Drake")+
+  theme_classic()
+
+        #buffalo
+
+        # marty v drake
+p2<-ggplot(buff, aes(x=Spine.MAS, y=Spine.DRF))+
+  geom_point(size=5, alpha = 0.2)+
+  geom_abline(slope = 1, intercept = 0)+
+  ggtitle("Buffalo Age Estimates by reader: Marty vs. Drake")+
+  theme_classic()
+
+##############################################################
+        #carp
+
+        # marty v marcus
+p3<-ggplot(carp, aes(carp,x=Spine.MAS, y=Spine.MRP))+
+  geom_point(size=5, alpha = 0.2)+
+  geom_abline(slope = 1, intercept = 0)+
+  ggtitle("Carp Age Estimates by Reader: Marty vs. Marcus")+
+  theme_classic()
+
+        #buffalo
+
+        # marty v marcus
+p4<-ggplot(buff, aes(x=Spine.MAS, y=Spine.MRP))+
+  geom_point(size=5, alpha = 0.2)+
+  geom_abline(slope = 1, intercept = 0)+
+  ggtitle("Buffalo Age Estimates by reader: Marty vs. Marcus")+
+  theme_classic()
+
+################################################################
+        #carp
+
+        # marty v drake
+p5<-ggplot(carp, aes(carp,x=Spine.MRP, y=Spine.DRF))+
+  geom_point(size=5, alpha = 0.2)+
+  geom_abline(slope = 1, intercept = 0)+
+  ggtitle("Carp Age Estimates by Reader: Marcus vs. Drake")+
+  theme_classic()
+
+        #buffalo
+
+        # marty v drake
+p6<-ggplot(buff, aes(x=Spine.MRP, y=Spine.DRF))+
+  geom_point(size=5, alpha = 0.2)+
+  geom_abline(slope = 1, intercept = 0)+
+  ggtitle("Buffalo Age Estimates by reader: Marcus vs. Drake")+
+  theme_classic()
+
+Spines<-grid.arrange(p1,p2,p3,p4,p5,p6,ncol=2)
+
+
+
+
+
+```
+
+```{r}
+grid.arrange(otoliths)
+grid.arrange(Spines)
+```
+
+
+# differences
+```{r}
+
+age$Spine.Marty.Drake<-age$Spine.MAS-age$Spine.DRF
+age$Spine.Marty.Marcus<-age$Spine.MAS-age$Spine.MRP
+age$Spine.Marcus.Drake<-age$Spine.MRP-age$Spine.DRF
+
+age$Otolith.Marty.Drake<-age$Otolith.MAS-age$Otolith.DRF
+age$Otolith.Marty.Marcus<-age$Otolith.MAS-age$Otolith.MRP
+age$Otolith.Marcus.Drake<-age$Otolith.MRP-age$Otolith.DRF
+
+age$Envelope..<-factor(as.character(age$Envelope..))
+
+spine.envelopes<-droplevels(subset(age, age$Spine.Marty.Drake != 0|
+                                  age$Spine.Marty.Marcus !=0|
+                                  age$Spine.Marcus.Drake !=0))
+whywhy<-data.frame(unique(spine.envelopes$Envelope..))
+
+otolith.envelopes<-droplevels(subset(age, age$Otolith.Marty.Drake !=0|
+                                  age$Otolith.Marty.Marcus !=0|
+                                  age$Otolith.Marcus.Drake !=0))
+whywhy2<-data.frame(unique(otolith.envelopes$Envelope..))
+```
+

@@ -14,9 +14,9 @@ idea is to get figures in a panel grid (vertical?)
 -- read in data
 
 ```{r}
-df<-read.csv("AECL520/FAMS output.csv", header = T )
+df<-read.csv("AECL520/NewFams.csv", header = T )
 str(df)
-df$Min.TL..mm.<-factor(df$Min.TL..mm.)
+df$Min.Length.Limit<-factor(df$Min.Length.Limit)
 ```
 
 
@@ -29,8 +29,8 @@ library(reshape2)
 
 # removing survival and recruitment 
 
-df.m<-melt(df, id.vars = c("Min.TL..mm.","Exploitation"))
-ggplot(df.m, aes (x = Exploitation,y = value, group = Min.TL..mm., colour = Min.TL..mm.))+
+df.m<-melt(df, id.vars = c("Min.Length.Limit","Exploitation"))
+ggplot(df.m, aes (x = Exploitation,y = value, group = Min.Length.Limit, colour = Min.Length.Limit))+
   theme_classic()+
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
@@ -70,21 +70,20 @@ ggplot(df.m2, aes (x = Exploitation,y = value, group = Min.TL..mm., colour = Min
 new plots with American units and better labels, etc.
 
 ```{r}
-head(df2)
+head(df)
 # change units
-df2$Min.TL..mm.<-as.numeric(as.character(df2$Min.TL..mm.))
-df2$MinInches<-df2$Min.TL..mm./25.4
-df2$MeanInches<-df2$MTL..mm./25.4
-df2$Min.TL..mm.<-as.factor(df2$Min.TL..mm.)
-df2$MinInches<-as.factor(df2$MinInches)
-df2$Yield.Pounds<-df2$Yield..kg.*2.205
-df2$NumberHarvested<-df2$Nharv
+df$Min.Length.Limit<-as.numeric(as.character(df$Min.Length.Limit))
+df$MinInches<-df$Min.Length.Limit/25.4
+df$MeanInches<-df$Mean.Length.of.Fish.Caught/25.4
+df$Min.Length.Limit<-as.factor(df$Min.Length.Limit)
+df$MinInches<-as.factor(df$MinInches)
+df$Yield.Pounds<-df$Yield..kg.*2.205
 
-df3<-data.frame(as.numeric(as.character(df2$MinInches)),
-                           df2$Exploitation,
-                           df2$NumberHarvested,
-                           df2$Yield.Pounds,
-                           df2$MeanInches)
+df3<-data.frame(as.numeric(as.character(df$MinInches)),
+                           df$Exploitation,
+                           df$Number.Harvested,
+                           df$Yield.Pounds,
+                           df$MeanInches)
 head(df3)
 colnames(df3)<-c("Minimum Length Limit (Inches)","Exploitation Rate","Number Harvested","Yield in Pounds","Average Length Caught")
 df3$`Minimum Length Limit (Inches)`<-round(df3$`Minimum Length Limit (Inches)`)
@@ -92,6 +91,10 @@ df3$`Minimum Length Limit (Inches)`<-factor(df3$`Minimum Length Limit (Inches)`)
 
 
 df.m3<-melt(df3, id.vars = c("Minimum Length Limit (Inches)","Exploitation Rate"))
+
+require(scales)
+scale_x_continuous(labels = comma)
+
 ggplot(df.m3, aes (x = `Exploitation Rate`,
                    y = value, 
                    group = `Minimum Length Limit (Inches)`, 
@@ -107,6 +110,7 @@ ggplot(df.m3, aes (x = `Exploitation Rate`,
   labs(fill = "Minimum Length Limit (Inches)")+
   geom_line(size = 1.25)+
   geom_point(size = 3)+
+  scale_y_continuous(labels = comma)+
   labs(title = "Estimated Crappie Harvest as a Function of Exploitation",
        subtitle = "Considering three different minimum length limits",
        y = "")+
