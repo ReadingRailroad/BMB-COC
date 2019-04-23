@@ -179,19 +179,85 @@ Therefore, we need:
 let's get to work!
 
 ```{r,}
-ages<-read.csv("Marcus/VariationSheet.csv",header=TRUE)
-head(ages)
-ages<-droplevels(subset(ages, Structure != "SandOtolith"))
-levels(ages$Structure)
 
-ages$j<-paste(ages$Lake,ages$TAG.NUMBER,sep = ".")
-ages$R<-3 # easy one. number of times fish is aged.
+age$j<-paste(age$Lake,age$TAG.NUMBER,sep = ".")
+age$R<-3 # easy one. number of times fish is aged.
 
-ages<-ages[,-c(1,2)]
+age<-age[,-c(1:7)]
 
-head(ages)
+head(age)
+
 # MeanAge = Xj
 
+###########################
+#
+#    Dorsal
+#
+###########################
+
+dorsal<-age[,c(10,1,2,3,11)]
+head(dorsal)
+
+library(dplyr)
+dorsal <- dorsal %>% mutate(MeanAge=(Marcus_Dorsal+Drake_Dorsal+Marty_Dorsal)/3)
+head(dorsal)
+
+# items to sum before the square root sign of denominator of CV equation.
+dorsal$MarcusDenom<-((dorsal$Marcus_Dorsal-dorsal$MeanAge)^2)/(dorsal$R-1)
+dorsal$DrakeDenom<-((dorsal$Drake_Dorsal-dorsal$MeanAge)^2)/(dorsal$R-1)
+dorsal$MartyDenom<-((dorsal$Marty_Dorsal-dorsal$MeanAge)^2)/(dorsal$R-1)
+head(dorsal)
+
+# CV
+dorsal$CV<-100*((sqrt(dorsal$MarcusDenom+dorsal$MartyDenom+dorsal$DrakeDenom))/dorsal$MeanAge)
+summary(dorsal$CV)
+
+###########################
+#
+#    Pectoral
+#
+###########################
+head(age)
+pectoral<-age[,c(10,4,5,6,11)]
+head(pectoral)
+
+library(dplyr)
+pectoral <- pectoral %>% mutate(MeanAge=(Marcus_Pectoral+Drake_Pectoral+Marty_Pectoral)/3)
+head(pectoral)
+
+# items to sum before the square root sign of denominator of CV equation.
+pectoral$MarcusDenom<-((pectoral$Marcus_Pectoral-pectoral$MeanAge)^2)/(pectoral$R-1)
+pectoral$DrakeDenom<-((pectoral$Drake_Pectoral-pectoral$MeanAge)^2)/(pectoral$R-1)
+pectoral$MartyDenom<-((pectoral$Marty_Pectoral-pectoral$MeanAge)^2)/(pectoral$R-1)
+head(pectoral)
+
+# CV
+pectoral$CV<-100*((sqrt(pectoral$MarcusDenom+pectoral$MartyDenom+pectoral$DrakeDenom))/pectoral$MeanAge)
+summary(pectoral$CV)
+
+
+###########################
+#
+#    sectioned otoliths
+#
+###########################
+head(age)
+SectOto<-age[,c(10,7,8,9,11)]
+head(SectOto)
+
+library(dplyr)
+SectOto <- SectOto %>% mutate(MeanAge=(Marcus_SectOto+Drake_SectOto+Marty_SectOto)/3)
+head(SectOto)
+
+# items to sum before the square root sign of denominator of CV equation.
+SectOto$MarcusDenom<-((SectOto$Marcus_SectOto-SectOto$MeanAge)^2)/(SectOto$R-1)
+SectOto$DrakeDenom<-((SectOto$Drake_SectOto-SectOto$MeanAge)^2)/(SectOto$R-1)
+SectOto$MartyDenom<-((SectOto$Marty_SectOto-SectOto$MeanAge)^2)/(SectOto$R-1)
+head(SectOto)
+
+# CV
+SectOto$CV<-100*((sqrt(SectOto$MarcusDenom+SectOto$MartyDenom+SectOto$DrakeDenom))/SectOto$MeanAge)
+summary(SectOto$CV)
 
 
 ```
