@@ -16,7 +16,7 @@ idea is to get figures in a panel grid (vertical?)
 ```{r}
 df<-read.csv("AECL520/NewFams.csv", header = T )
 str(df)
-df$Min.Length.Limit<-factor(df$Min.Length.Limit)
+df$Min.TL..mm.<-factor(df$Min.TL..mm.)
 ```
 
 
@@ -79,18 +79,20 @@ new plots with American units and better labels, etc.
 ```{r}
 head(df)
 # change units
-df$Min.Length.Limit<-as.numeric(as.character(df$Min.Length.Limit))
-df$MinInches<-df$Min.Length.Limit/25.4
-df$MeanInches<-df$Mean.Length.of.Fish.Caught/25.4
-df$Min.Length.Limit<-as.factor(df$Min.Length.Limit)
+df$Min.TL..mm.<-as.numeric(as.character(df$Min.TL..mm.))
+df$MinInches<-df$Min.TL..mm./25.4
+df$MeanInches<-df$Nharv/25.4
+df$Min.TL..mm.<-as.factor(df$Min.TL..mm.)
 df$MinInches<-as.factor(df$MinInches)
 df$Yield.Pounds<-df$Yield..kg.*2.205
+df$u<-df$u*100
+df$MTL..mm.<-df$MTL..mm./25.4
 
 df3<-data.frame(as.numeric(as.character(df$MinInches)),
-                           df$Exploitation,
-                           df$Number.Harvested,
+                           df$u,
+                           df$Nharv,
                            df$Yield.Pounds,
-                           df$MeanInches)
+                           df$MTL..mm.)
 head(df3)
 colnames(df3)<-c("Minimum Length Limit (Inches)","Exploitation Rate","Number Harvested","Yield in Pounds","Average Length Caught")
 df3$`Minimum Length Limit (Inches)`<-round(df3$`Minimum Length Limit (Inches)`)
@@ -120,7 +122,8 @@ ggplot(df.m3, aes (x = `Exploitation Rate`,
   scale_y_continuous(labels = comma)+
   labs(title = "Estimated Crappie Harvest as a Function of Exploitation",
        subtitle = "Considering three different minimum length limits",
-       y = "")+
+       y = "",
+       x = "Percent Exploitation")+
   facet_grid(variable~., scales = "free_y")
 
 

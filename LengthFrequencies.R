@@ -272,7 +272,7 @@ FI.B<-subset(df,df$Lake=="Five Island" & df$Species == "BIB")
 FI.C<-subset(df,df$Lake=="Five Island" & df$Species == "COC")
 
 
-FI.B.2018<-ggplot(FI.B, aes(x=Length..inches., fill=Species)) +
+FI.B.2018<-ggplot(FI.B, aes(x=Dorsal.TFF, fill=Species)) +
   geom_histogram(binwidth=0.5, colour="black", position="dodge") +
   scale_fill_manual(breaks=1:2, 
                     values=c("cornflowerblue","goldenrod")) +

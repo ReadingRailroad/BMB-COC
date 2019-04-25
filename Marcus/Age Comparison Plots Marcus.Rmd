@@ -155,6 +155,40 @@ grid.arrange(p1,p4,p7,
              ncol=3)
 
 
+##############################################################
+
+#
+
+#
+
+#       New plots: based on fact that pectoral spines have least CV
+
+#       We will place Pectoral Age as the common X axis (but different for each reader)
+
+#       Each of the other three structures will be columns
+
+#       Each of the readers will be rows
+
+#       Therefore a 9x9 grid
+
+#       Within each plot we want to have the 1 to 1 line,
+
+#       then the average age estimate from the reader for the column structure with error bars
+
+##############################################################################################
+ages<-read.csv("Marcus/BuffaloAges_Long.csv",header=T)
+head(ages)
+
+
+ggplot(ages, aes(x=))
+
+
+
+
+
+
+
+
 ```
 
 
@@ -211,7 +245,8 @@ head(dorsal)
 # CV
 dorsal$CV<-100*((sqrt(dorsal$MarcusDenom+dorsal$MartyDenom+dorsal$DrakeDenom))/dorsal$MeanAge)
 summary(dorsal$CV)
-
+packages(psych)
+describe(dorsal$CV)
 ###########################
 #
 #    Pectoral
@@ -234,7 +269,7 @@ head(pectoral)
 # CV
 pectoral$CV<-100*((sqrt(pectoral$MarcusDenom+pectoral$MartyDenom+pectoral$DrakeDenom))/pectoral$MeanAge)
 summary(pectoral$CV)
-
+describe(pectoral$CV)
 
 ###########################
 #
@@ -258,7 +293,28 @@ head(SectOto)
 # CV
 SectOto$CV<-100*((sqrt(SectOto$MarcusDenom+SectOto$MartyDenom+SectOto$DrakeDenom))/SectOto$MeanAge)
 summary(SectOto$CV)
+describe(SectOto$CV)
+###########################
+#
+#    Cracked and Sanded otoliths
+#
+###########################
+head(age)
+CrackOto<-age[,c(10,7,8,9,11)]
+head(CrackOto)
 
+library(dplyr)
+CrackOto <- CrackOto %>% mutate(MeanAge=(Marcus_CrackOto+Drake_CrackOto+Marty_CrackOto)/3)
+head(CrackOto)
 
+# items to sum before the square root sign of denominator of CV equation.
+CrackOto$MarcusDenom<-((CrackOto$Marcus_CrackOto-CrackOto$MeanAge)^2)/(CrackOto$R-1)
+CrackOto$DrakeDenom<-((CrackOto$Drake_CrackOto-CrackOto$MeanAge)^2)/(CrackOto$R-1)
+CrackOto$MartyDenom<-((CrackOto$Marty_CrackOto-CrackOto$MeanAge)^2)/(CrackOto$R-1)
+head(CrackOto)
+
+# CV
+CrackOto$CV<-100*((sqrt(CrackOto$MarcusDenom+CrackOto$MartyDenom+CrackOto$DrakeDenom))/CrackOto$MeanAge)
+summary(CrackOto$CV)
+describe(CrackOto$CV)
 ```
-
