@@ -944,318 +944,93 @@ Silver,Env93,SectOtolith,Marty,6
 Silver,Env94,SectOtolith,Marty,8
 Silver,Env97,SectOtolith,Marty,7
 Silver,Env99,SectOtolith,Marty,13
-5 Island,Env105,SandOtolith,Marcus,
-5 Island,Env106,SandOtolith,Marcus,
-5 Island,Env112,SandOtolith,Marcus,
-5 Island,Env117,SandOtolith,Marcus,
-5 Island,Env119,SandOtolith,Marcus,
-5 Island,Env131,SandOtolith,Marcus,
-5 Island,Env132,SandOtolith,Marcus,
-5 Island,Env135,SandOtolith,Marcus,
-5 Island,Env137,SandOtolith,Marcus,
-5 Island,Env146,SandOtolith,Marcus,
-5 Island,Env149,SandOtolith,Marcus,
-5 Island,Env156,SandOtolith,Marcus,
-5 Island,Env157,SandOtolith,Marcus,
-5 Island,Env161,SandOtolith,Marcus,
-5 Island,Env164,SandOtolith,Marcus,
-5 Island,Env167,SandOtolith,Marcus,
-5 Island,Env168,SandOtolith,Marcus,
-5 Island,Env169,SandOtolith,Marcus,
-5 Island,Env172,SandOtolith,Marcus,
-5 Island,Env176,SandOtolith,Marcus,
-5 Island,Env182,SandOtolith,Marcus,
-5 Island,Env183,SandOtolith,Marcus,
-5 Island,Env189,SandOtolith,Marcus,
-5 Island,Env235,SandOtolith,Marcus,
-5 Island,Env236,SandOtolith,Marcus,
-5 Island,Env244,SandOtolith,Marcus,
-5 Island,Env246,SandOtolith,Marcus,
-5 Island,Env247,SandOtolith,Marcus,
-5 Island,Env249,SandOtolith,Marcus,
-5 Island,Env250,SandOtolith,Marcus,
-5 Island,Env254,SandOtolith,Marcus,
-5 Island,Env256,SandOtolith,Marcus,
-5 Island,Env259,SandOtolith,Marcus,
-5 Island,Env265,SandOtolith,Marcus,
-5 Island,Env268,SandOtolith,Marcus,
-Center,Env101,SandOtolith,Marcus,
-Center,Env11,SandOtolith,Marcus,
-Center,Env113,SandOtolith,Marcus,
-Center,Env131,SandOtolith,Marcus,
-Center,Env19,SandOtolith,Marcus,
-Center,Env23,SandOtolith,Marcus,
-Center,Env3,SandOtolith,Marcus,
-Center,Env36,SandOtolith,Marcus,
-Center,Env39,SandOtolith,Marcus,
-Center,Env44,SandOtolith,Marcus,
-Center,Env45,SandOtolith,Marcus,
-Center,Env5,SandOtolith,Marcus,
-Center,Env51,SandOtolith,Marcus,
-Center,Env52,SandOtolith,Marcus,
-Center,Env58,SandOtolith,Marcus,
-Center,Env59,SandOtolith,Marcus,
-Center,Env61,SandOtolith,Marcus,
-Center,Env62,SandOtolith,Marcus,
-Center,Env63,SandOtolith,Marcus,
-Center,Env64,SandOtolith,Marcus,
-Center,Env66,SandOtolith,Marcus,
-Center,Env71,SandOtolith,Marcus,
-Center,Env72,SandOtolith,Marcus,
-Center,Env73,SandOtolith,Marcus,
-Center,Env74,SandOtolith,Marcus,
-Center,Env75,SandOtolith,Marcus,
-Center,Env79,SandOtolith,Marcus,
-Center,Env8,SandOtolith,Marcus,
-Center,Env83,SandOtolith,Marcus,
-Center,Env89,SandOtolith,Marcus,
-Silver,Env100,SandOtolith,Marcus,
-Silver,Env101,SandOtolith,Marcus,
-Silver,Env107,SandOtolith,Marcus,
-Silver,Env121,SandOtolith,Marcus,
-Silver,Env123,SandOtolith,Marcus,
-Silver,Env13,SandOtolith,Marcus,
-Silver,Env137,SandOtolith,Marcus,
-Silver,Env14,SandOtolith,Marcus,
-Silver,Env140,SandOtolith,Marcus,
-Silver,Env141,SandOtolith,Marcus,
-Silver,Env142,SandOtolith,Marcus,
-Silver,Env15,SandOtolith,Marcus,
-Silver,Env18,SandOtolith,Marcus,
-Silver,Env19,SandOtolith,Marcus,
-Silver,Env2,SandOtolith,Marcus,
-Silver,Env25,SandOtolith,Marcus,
-Silver,Env27,SandOtolith,Marcus,
-Silver,Env28,SandOtolith,Marcus,
-Silver,Env29,SandOtolith,Marcus,
-Silver,Env3,SandOtolith,Marcus,
-Silver,Env30,SandOtolith,Marcus,
-Silver,Env47,SandOtolith,Marcus,
-Silver,Env48,SandOtolith,Marcus,
-Silver,Env49,SandOtolith,Marcus,
-Silver,Env53,SandOtolith,Marcus,
-Silver,Env55,SandOtolith,Marcus,
-Silver,Env6,SandOtolith,Marcus,
-Silver,Env60,SandOtolith,Marcus,
-Silver,Env61,SandOtolith,Marcus,
-Silver,Env63,SandOtolith,Marcus,
-Silver,Env66,SandOtolith,Marcus,
-Silver,Env67,SandOtolith,Marcus,
-Silver,Env82,SandOtolith,Marcus,
-Silver,Env84,SandOtolith,Marcus,
-Silver,Env87,SandOtolith,Marcus,
-Silver,Env89,SandOtolith,Marcus,
-Silver,Env93,SandOtolith,Marcus,
-Silver,Env94,SandOtolith,Marcus,
-Silver,Env97,SandOtolith,Marcus,
-Silver,Env99,SandOtolith,Marcus,
-5 Island,Env105,SandOtolith,Drake,
-5 Island,Env106,SandOtolith,Drake,
-5 Island,Env112,SandOtolith,Drake,
-5 Island,Env117,SandOtolith,Drake,
-5 Island,Env119,SandOtolith,Drake,
-5 Island,Env131,SandOtolith,Drake,
-5 Island,Env132,SandOtolith,Drake,
-5 Island,Env135,SandOtolith,Drake,
-5 Island,Env137,SandOtolith,Drake,
-5 Island,Env146,SandOtolith,Drake,
-5 Island,Env149,SandOtolith,Drake,
-5 Island,Env156,SandOtolith,Drake,
-5 Island,Env157,SandOtolith,Drake,
-5 Island,Env161,SandOtolith,Drake,
-5 Island,Env164,SandOtolith,Drake,
-5 Island,Env167,SandOtolith,Drake,
-5 Island,Env168,SandOtolith,Drake,
-5 Island,Env169,SandOtolith,Drake,
-5 Island,Env172,SandOtolith,Drake,
-5 Island,Env176,SandOtolith,Drake,
-5 Island,Env182,SandOtolith,Drake,
-5 Island,Env183,SandOtolith,Drake,
-5 Island,Env189,SandOtolith,Drake,
-5 Island,Env235,SandOtolith,Drake,
-5 Island,Env236,SandOtolith,Drake,
-5 Island,Env244,SandOtolith,Drake,
-5 Island,Env246,SandOtolith,Drake,
-5 Island,Env247,SandOtolith,Drake,
-5 Island,Env249,SandOtolith,Drake,
-5 Island,Env250,SandOtolith,Drake,
-5 Island,Env254,SandOtolith,Drake,
-5 Island,Env256,SandOtolith,Drake,
-5 Island,Env259,SandOtolith,Drake,
-5 Island,Env265,SandOtolith,Drake,
-5 Island,Env268,SandOtolith,Drake,
-Center,Env101,SandOtolith,Drake,
-Center,Env11,SandOtolith,Drake,
-Center,Env113,SandOtolith,Drake,
-Center,Env131,SandOtolith,Drake,
-Center,Env19,SandOtolith,Drake,
-Center,Env23,SandOtolith,Drake,
-Center,Env3,SandOtolith,Drake,
-Center,Env36,SandOtolith,Drake,
-Center,Env39,SandOtolith,Drake,
-Center,Env44,SandOtolith,Drake,
-Center,Env45,SandOtolith,Drake,
-Center,Env5,SandOtolith,Drake,
-Center,Env51,SandOtolith,Drake,
-Center,Env52,SandOtolith,Drake,
-Center,Env58,SandOtolith,Drake,
-Center,Env59,SandOtolith,Drake,
-Center,Env61,SandOtolith,Drake,
-Center,Env62,SandOtolith,Drake,
-Center,Env63,SandOtolith,Drake,
-Center,Env64,SandOtolith,Drake,
-Center,Env66,SandOtolith,Drake,
-Center,Env71,SandOtolith,Drake,
-Center,Env72,SandOtolith,Drake,
-Center,Env73,SandOtolith,Drake,
-Center,Env74,SandOtolith,Drake,
-Center,Env75,SandOtolith,Drake,
-Center,Env79,SandOtolith,Drake,
-Center,Env8,SandOtolith,Drake,
-Center,Env83,SandOtolith,Drake,
-Center,Env89,SandOtolith,Drake,
-Silver,Env100,SandOtolith,Drake,
-Silver,Env101,SandOtolith,Drake,
-Silver,Env107,SandOtolith,Drake,
-Silver,Env121,SandOtolith,Drake,
-Silver,Env123,SandOtolith,Drake,
-Silver,Env13,SandOtolith,Drake,
-Silver,Env137,SandOtolith,Drake,
-Silver,Env14,SandOtolith,Drake,
-Silver,Env140,SandOtolith,Drake,
-Silver,Env141,SandOtolith,Drake,
-Silver,Env142,SandOtolith,Drake,
-Silver,Env15,SandOtolith,Drake,
-Silver,Env18,SandOtolith,Drake,
-Silver,Env19,SandOtolith,Drake,
-Silver,Env2,SandOtolith,Drake,
-Silver,Env25,SandOtolith,Drake,
-Silver,Env27,SandOtolith,Drake,
-Silver,Env28,SandOtolith,Drake,
-Silver,Env29,SandOtolith,Drake,
-Silver,Env3,SandOtolith,Drake,
-Silver,Env30,SandOtolith,Drake,
-Silver,Env47,SandOtolith,Drake,
-Silver,Env48,SandOtolith,Drake,
-Silver,Env49,SandOtolith,Drake,
-Silver,Env53,SandOtolith,Drake,
-Silver,Env55,SandOtolith,Drake,
-Silver,Env6,SandOtolith,Drake,
-Silver,Env60,SandOtolith,Drake,
-Silver,Env61,SandOtolith,Drake,
-Silver,Env63,SandOtolith,Drake,
-Silver,Env66,SandOtolith,Drake,
-Silver,Env67,SandOtolith,Drake,
-Silver,Env82,SandOtolith,Drake,
-Silver,Env84,SandOtolith,Drake,
-Silver,Env87,SandOtolith,Drake,
-Silver,Env89,SandOtolith,Drake,
-Silver,Env93,SandOtolith,Drake,
-Silver,Env94,SandOtolith,Drake,
-Silver,Env97,SandOtolith,Drake,
-Silver,Env99,SandOtolith,Drake,
-5 Island,Env105,SandOtolith,Marty,
-5 Island,Env106,SandOtolith,Marty,
-5 Island,Env112,SandOtolith,Marty,
-5 Island,Env117,SandOtolith,Marty,
-5 Island,Env119,SandOtolith,Marty,
-5 Island,Env131,SandOtolith,Marty,
-5 Island,Env132,SandOtolith,Marty,
-5 Island,Env135,SandOtolith,Marty,
-5 Island,Env137,SandOtolith,Marty,
-5 Island,Env146,SandOtolith,Marty,
-5 Island,Env149,SandOtolith,Marty,
-5 Island,Env156,SandOtolith,Marty,
-5 Island,Env157,SandOtolith,Marty,
-5 Island,Env161,SandOtolith,Marty,
-5 Island,Env164,SandOtolith,Marty,
-5 Island,Env167,SandOtolith,Marty,
-5 Island,Env168,SandOtolith,Marty,
-5 Island,Env169,SandOtolith,Marty,
-5 Island,Env172,SandOtolith,Marty,
-5 Island,Env176,SandOtolith,Marty,
-5 Island,Env182,SandOtolith,Marty,
-5 Island,Env183,SandOtolith,Marty,
-5 Island,Env189,SandOtolith,Marty,
-5 Island,Env235,SandOtolith,Marty,
-5 Island,Env236,SandOtolith,Marty,
-5 Island,Env244,SandOtolith,Marty,
-5 Island,Env246,SandOtolith,Marty,
-5 Island,Env247,SandOtolith,Marty,
-5 Island,Env249,SandOtolith,Marty,
-5 Island,Env250,SandOtolith,Marty,
-5 Island,Env254,SandOtolith,Marty,
-5 Island,Env256,SandOtolith,Marty,
-5 Island,Env259,SandOtolith,Marty,
-5 Island,Env265,SandOtolith,Marty,
-5 Island,Env268,SandOtolith,Marty,
-Center,Env101,SandOtolith,Marty,
-Center,Env11,SandOtolith,Marty,
-Center,Env113,SandOtolith,Marty,
-Center,Env131,SandOtolith,Marty,
-Center,Env19,SandOtolith,Marty,
-Center,Env23,SandOtolith,Marty,
-Center,Env3,SandOtolith,Marty,
-Center,Env36,SandOtolith,Marty,
-Center,Env39,SandOtolith,Marty,
-Center,Env44,SandOtolith,Marty,
-Center,Env45,SandOtolith,Marty,
-Center,Env5,SandOtolith,Marty,
-Center,Env51,SandOtolith,Marty,
-Center,Env52,SandOtolith,Marty,
-Center,Env58,SandOtolith,Marty,
-Center,Env59,SandOtolith,Marty,
-Center,Env61,SandOtolith,Marty,
-Center,Env62,SandOtolith,Marty,
-Center,Env63,SandOtolith,Marty,
-Center,Env64,SandOtolith,Marty,
-Center,Env66,SandOtolith,Marty,
-Center,Env71,SandOtolith,Marty,
-Center,Env72,SandOtolith,Marty,
-Center,Env73,SandOtolith,Marty,
-Center,Env74,SandOtolith,Marty,
-Center,Env75,SandOtolith,Marty,
-Center,Env79,SandOtolith,Marty,
-Center,Env8,SandOtolith,Marty,
-Center,Env83,SandOtolith,Marty,
-Center,Env89,SandOtolith,Marty,
-Silver,Env100,SandOtolith,Marty,
-Silver,Env101,SandOtolith,Marty,
-Silver,Env107,SandOtolith,Marty,
-Silver,Env121,SandOtolith,Marty,
-Silver,Env123,SandOtolith,Marty,
-Silver,Env13,SandOtolith,Marty,
-Silver,Env137,SandOtolith,Marty,
-Silver,Env14,SandOtolith,Marty,
-Silver,Env140,SandOtolith,Marty,
-Silver,Env141,SandOtolith,Marty,
-Silver,Env142,SandOtolith,Marty,
-Silver,Env15,SandOtolith,Marty,
-Silver,Env18,SandOtolith,Marty,
-Silver,Env19,SandOtolith,Marty,
-Silver,Env2,SandOtolith,Marty,
-Silver,Env25,SandOtolith,Marty,
-Silver,Env27,SandOtolith,Marty,
-Silver,Env28,SandOtolith,Marty,
-Silver,Env29,SandOtolith,Marty,
-Silver,Env3,SandOtolith,Marty,
-Silver,Env30,SandOtolith,Marty,
-Silver,Env47,SandOtolith,Marty,
-Silver,Env48,SandOtolith,Marty,
-Silver,Env49,SandOtolith,Marty,
-Silver,Env53,SandOtolith,Marty,
-Silver,Env55,SandOtolith,Marty,
-Silver,Env6,SandOtolith,Marty,
-Silver,Env60,SandOtolith,Marty,
-Silver,Env61,SandOtolith,Marty,
-Silver,Env63,SandOtolith,Marty,
-Silver,Env66,SandOtolith,Marty,
-Silver,Env67,SandOtolith,Marty,
-Silver,Env82,SandOtolith,Marty,
-Silver,Env84,SandOtolith,Marty,
-Silver,Env87,SandOtolith,Marty,
-Silver,Env89,SandOtolith,Marty,
-Silver,Env93,SandOtolith,Marty,
-Silver,Env94,SandOtolith,Marty,
-Silver,Env97,SandOtolith,Marty,
-Silver,Env99,SandOtolith,Marty,
+5 Island,132,CrackOtolith,Marcus,12
+5 Island,146,CrackOtolith,Marcus,12
+5 Island,149,CrackOtolith,Marcus,15
+5 Island,164,CrackOtolith,Marcus,4
+5 Island,167,CrackOtolith,Marcus,11
+5 Island,168,CrackOtolith,Marcus,5
+5 Island,169,CrackOtolith,Marcus,11
+5 Island,172,CrackOtolith,Marcus,5
+5 Island,176,CrackOtolith,Marcus,18
+5 Island,182,CrackOtolith,Marcus,3
+Center,3,CrackOtolith,Marcus,4
+Center,19,CrackOtolith,Marcus,7
+Center,36,CrackOtolith,Marcus,10
+Center,44,CrackOtolith,Marcus,3
+Center,51,CrackOtolith,Marcus,4
+Center,52,CrackOtolith,Marcus,7
+Center,58,CrackOtolith,Marcus,16
+Center,59,CrackOtolith,Marcus,12
+Center,113,CrackOtolith,Marcus,3
+Center,131,CrackOtolith,Marcus,6
+Silver,13,CrackOtolith,Marcus,5
+Silver,14,CrackOtolith,Marcus,6
+Silver,15,CrackOtolith,Marcus,13
+Silver,25,CrackOtolith,Marcus,13
+Silver,101,CrackOtolith,Marcus,4
+Silver,121,CrackOtolith,Marcus,4
+Silver,137,CrackOtolith,Marcus,4
+Silver,140,CrackOtolith,Marcus,10
+Silver,141,CrackOtolith,Marcus,5
+Silver,142,CrackOtolith,Marcus,5
+5 Island,132,CrackOtolith,Drake,9
+5 Island,146,CrackOtolith,Drake,7
+5 Island,149,CrackOtolith,Drake,14
+5 Island,164,CrackOtolith,Drake,5
+5 Island,167,CrackOtolith,Drake,11
+5 Island,168,CrackOtolith,Drake,2
+5 Island,169,CrackOtolith,Drake,9
+5 Island,172,CrackOtolith,Drake,3
+5 Island,176,CrackOtolith,Drake,12
+5 Island,182,CrackOtolith,Drake,2
+Center,3,CrackOtolith,Drake,6
+Center,19,CrackOtolith,Drake,3
+Center,36,CrackOtolith,Drake,10
+Center,44,CrackOtolith,Drake,4
+Center,51,CrackOtolith,Drake,3
+Center,52,CrackOtolith,Drake,11
+Center,58,CrackOtolith,Drake,14
+Center,59,CrackOtolith,Drake,8
+Center,113,CrackOtolith,Drake,3
+Center,131,CrackOtolith,Drake,4
+Silver,13,CrackOtolith,Drake,3
+Silver,14,CrackOtolith,Drake,4
+Silver,15,CrackOtolith,Drake,11
+Silver,25,CrackOtolith,Drake,13
+Silver,101,CrackOtolith,Drake,2
+Silver,121,CrackOtolith,Drake,2
+Silver,137,CrackOtolith,Drake,4
+Silver,140,CrackOtolith,Drake,8
+Silver,141,CrackOtolith,Drake,3
+Silver,142,CrackOtolith,Drake,5
+5 Island,132,CrackOtolith,Marty,14
+5 Island,146,CrackOtolith,Marty,15
+5 Island,149,CrackOtolith,Marty,14
+5 Island,164,CrackOtolith,Marty,12
+5 Island,167,CrackOtolith,Marty,11
+5 Island,168,CrackOtolith,Marty,4
+5 Island,169,CrackOtolith,Marty,8
+5 Island,172,CrackOtolith,Marty,4
+5 Island,176,CrackOtolith,Marty,16
+5 Island,182,CrackOtolith,Marty,3
+Center,3,CrackOtolith,Marty,4
+Center,19,CrackOtolith,Marty,6
+Center,36,CrackOtolith,Marty,10
+Center,44,CrackOtolith,Marty,3
+Center,51,CrackOtolith,Marty,3
+Center,52,CrackOtolith,Marty,10
+Center,58,CrackOtolith,Marty,19
+Center,59,CrackOtolith,Marty,12
+Center,113,CrackOtolith,Marty,5
+Center,131,CrackOtolith,Marty,5
+Silver,13,CrackOtolith,Marty,8
+Silver,14,CrackOtolith,Marty,6
+Silver,15,CrackOtolith,Marty,12
+Silver,25,CrackOtolith,Marty,15
+Silver,101,CrackOtolith,Marty,5
+Silver,121,CrackOtolith,Marty,6
+Silver,137,CrackOtolith,Marty,5
+Silver,140,CrackOtolith,Marty,14
+Silver,141,CrackOtolith,Marty,4
+Silver,142,CrackOtolith,Marty,5

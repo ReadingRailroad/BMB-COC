@@ -77,6 +77,8 @@ new plots
 new plots with American units and better labels, etc.
 
 ```{r}
+df<-read.csv("AECL520/NewFams.csv", header = T )
+str(df)
 head(df)
 # change units
 df$Min.TL..mm.<-as.numeric(as.character(df$Min.TL..mm.))
@@ -96,6 +98,7 @@ df3<-data.frame(as.numeric(as.character(df$MinInches)),
 head(df3)
 colnames(df3)<-c("Minimum Length Limit (Inches)","Exploitation Rate","Number Harvested","Yield in Pounds","Average Length Caught")
 df3$`Minimum Length Limit (Inches)`<-round(df3$`Minimum Length Limit (Inches)`)
+df3$`Minimum Length Limit (Inches)`[df3$`Minimum Length Limit (Inches)`==6]<-"None"
 df3$`Minimum Length Limit (Inches)`<-factor(df3$`Minimum Length Limit (Inches)`)
 
 
@@ -121,7 +124,7 @@ ggplot(df.m3, aes (x = `Exploitation Rate`,
   geom_point(size = 3)+
   scale_y_continuous(labels = comma)+
   labs(title = "Estimated Crappie Harvest as a Function of Exploitation",
-       subtitle = "Considering three different minimum length limits",
+       subtitle = "Considering two minimum length limits",
        y = "",
        x = "Percent Exploitation")+
   facet_grid(variable~., scales = "free_y")
