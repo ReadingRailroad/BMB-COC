@@ -91,6 +91,7 @@ p2<-ggplot(buff, aes(x=Otolith.MAS, y=Otolith.DRF))+
   ggtitle("Buffalo Age Estimates by reader: Marty vs. Drake")+
   theme_classic()
 
+p2
 ##############################################################
         #carp
 

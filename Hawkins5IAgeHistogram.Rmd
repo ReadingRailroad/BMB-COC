@@ -1,0 +1,83 @@
+---
+title: "Hawkins Age Plot"
+author: "Marty Simonson"
+date: "April 24, 2019"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r,}
+packages<-function(x, repos="http://cran.r-project.org", ...){
+  x<-as.character(match.call()[[2]])
+  if (!require(x,character.only=TRUE)){
+    install.packages(pkgs=x, repos=repos, ...)
+    require(x,character.only=TRUE)
+  }
+}
+
+packages(vegan)
+packages(ggplot2)
+packages(reshape2)
+packages(nnet)
+packages(multcomp)
+packages(plyr)
+packages(rv)
+packages(arm)
+packages(lattice)
+packages(tikzDevice)
+packages(gridExtra)
+
+
+#############################
+
+df<-read.csv("Hawkins_5I_Age2.csv",header=T)
+head(df)
+require(ggplot2)
+Age.Hist<-ggplot(df, aes(x=Age))+
+                         geom_histogram(binwidth = 1,
+                                        colour = "white")+
+                         facet_grid(Species~.)+
+                         theme(panel.grid.major = element_blank(), 
+                              panel.grid.minor = element_blank(),
+                              panel.background = element_rect(fill="white",colour="grey50"), 
+                              axis.line = element_line(colour = "black"),
+                              legend.position = "bottom",
+                              legend.background = element_rect(colour="grey20"))+
+                         scale_fill_grey(start = 0.1, end = 0.9, aesthetics = "fill")+
+                         labs(title = NULL,
+                              x = "Age",
+                              y = "Frequency")
+
+Age.Hist
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```

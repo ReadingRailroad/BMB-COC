@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:Sources xmlns:b="http://schemas.openxmlformats.org/officeDocument/2006/bibliography" xmlns="http://schemas.openxmlformats.org/officeDocument/2006/bibliography">
+  <b:Source>
+    <b:Tag>campana-2001-accuracy,-precision-and-quality-control-in-age-determination,-including-a-review-of-the-use-and-abuse-of-age-validation-methods</b:Tag>
+    <b:SourceType>JournalArticle</b:SourceType>
+    <b:Title>Accuracy, precision and quality control in age determination, including a review of the use and abuse of age validation methods</b:Title>
+    <b:Year>2001</b:Year>
+    <b:RefOrder>1</b:RefOrder>
+    <b:Author>
+      <b:Author>
+        <b:NameList>
+          <b:Person>
+            <b:First>S</b:First>
+            <b:Last>Campana</b:Last>
+          </b:Person>
+        </b:NameList>
+      </b:Author>
+    </b:Author>
+    <b:JournalName>Journal of Fish Biology</b:JournalName>
+    <b:Pages>197-242</b:Pages>
+    <b:Volume>59</b:Volume>
+    <b:Issue>2</b:Issue>
+    <b:StandardNumber>10.1006/jfbi.2001.1668</b:StandardNumber>
+    <b:Month>8</b:Month>
+  </b:Source>
+</b:Sources>

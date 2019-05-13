@@ -30,7 +30,7 @@ packages(lattice)
 packages(tikzDevice)
 packages(gridExtra)
 packages(dplyr)
-
+packages(scales)
 ```
 
 
@@ -46,113 +46,253 @@ summary(age)
 
 ##############################################################
 
-# Dorsals
-        # marcus v drake
-p1<-ggplot(age, aes(carp,x=Marcus_Dorsal, y=Drake_Dorsal))+
+# Marcus
+        # Pectoral v Dorsal
+p1<-ggplot(age, aes(carp,x=Marcus_Pectoral, y=Marcus_Dorsal))+
   geom_point(size=5, alpha = 0.2)+
   geom_abline(slope = 1, intercept = 0)+
-  ggtitle("Dorsal Spine Buffalo Age: Marcus vs. Drake")+
+  labs(y = "Reader 1",
+       x = "",
+       title ="Dorsal Spines")+
   theme_classic()+
   xlim(0,20)+
-  ylim(0,20)
+  ylim(0,20)+
+  theme(plot.title = element_text(hjust = 0.5))
+
 p1
 
-        # marcus v Marty
-p2<-ggplot(age, aes(x=Marcus_Dorsal, y=Marty_Dorsal))+
+model<-lm(Marcus_Dorsal~-1 + Marcus_Pectoral, data = age)
+summary(model)
+confint(model)
+
+
+
+
+
+        # Pectoral v sectioned otolith
+p2<-ggplot(age, aes(x=Marcus_Pectoral, y=Marcus_SectOto))+
   geom_point(size=5, alpha = 0.2)+
   geom_abline(slope = 1, intercept = 0)+
-  ggtitle("Dorsal Spine Buffalo Age: Marcus vs. Marty")+
+  labs(y = "",
+       x="",
+       title = "Sectioned Otoliths")+
   theme_classic()+
   xlim(0,20)+
-  ylim(0,20)
+  ylim(0,20)+
+  theme(plot.title = element_text(hjust = 0.5))
+
 p2
 
-        # Drake v Marty
-p3<-ggplot(age, aes(x=Drake_Dorsal, y=Marty_Dorsal))+
+model<-lm(Marcus_SectOto~Marcus_Pectoral, data = age)
+summary(model)
+confint(model)
+
+        # Pectoral v cracked otlith
+p3<-ggplot(age, aes(x=Marcus_Pectoral, y=Marcus_CrackOto))+
   geom_point(size=5, alpha = 0.2)+
   geom_abline(slope = 1, intercept = 0)+
-  ggtitle("Dorsal Spine Buffalo Age: Drake vs. Marty")+
+  labs(y = "",
+       x = "",
+       title = "Cracked and Sanded Otoliths")+
   theme_classic()+
   xlim(0,20)+
-  ylim(0,20)
+  ylim(0,20)+
+  theme(plot.title = element_text(hjust = 0.5))
+
 p3
+
+model<-lm(Marcus_CrackOto~Marcus_Pectoral, data = age)
+summary(model)
+confint(model)
+
 
 ##############################################################
         
 
-# Pectoral spines
+# Drake
 
 
-        # marcus v drake
-p4<-ggplot(age, aes(carp,x=Marcus_Pectoral, y=Drake_Pectoral))+
+        # dorsal
+p4<-ggplot(age, aes(carp,x=Drake_Pectoral, y=Drake_Dorsal))+
   geom_point(size=5, alpha = 0.2)+
   geom_abline(slope = 1, intercept = 0)+
-  ggtitle("Pectoral Spine Buffalo Age: Marcus vs. Drake")+
+  labs(y = "Reader 2",
+       x = "")+
   theme_classic()+
   xlim(0,20)+
   ylim(0,20)
 p4
 
-        # marcus v Marty
-p5<-ggplot(age, aes(x=Marcus_Pectoral, y=Marty_Pectoral))+
+model<-lm(Drake_Dorsal~Drake_Pectoral, data = age)
+summary(model)
+confint(model)
+
+
+
+        # sectioned otlith
+p5<-ggplot(age, aes(x=Drake_Pectoral, y=Drake_SectOto))+
   geom_point(size=5, alpha = 0.2)+
   geom_abline(slope = 1, intercept = 0)+
-  ggtitle("Pectoral Spine Buffalo Age: Marcus vs. Marty")+
+  labs(y = "",
+       x = "")+
   theme_classic()+
   xlim(0,20)+
   ylim(0,20)
 p5
 
-        # Drake v Marty
-p6<-ggplot(age, aes(x=Drake_Pectoral, y=Marty_Pectoral))+
+model<-lm(Drake_SectOto~Drake_Pectoral, data = age)
+summary(model)
+confint(model)
+
+        # cracked otolith
+p6<-ggplot(age, aes(x=Drake_Pectoral, y=Drake_Crackoto))+
   geom_point(size=5, alpha = 0.2)+
   geom_abline(slope = 1, intercept = 0)+
-  ggtitle("Pectoral Spine Buffalo Age: Drake vs. Marty")+
+  labs(y = "",
+       x = "")+
   theme_classic()+
   xlim(0,20)+
   ylim(0,20)
 p6
 
+model<-lm(Drake_Crackoto~Drake_Pectoral, data = age)
+summary(model)
+confint(model)
+
 ##############################################################
 
-# sectioned otliths
+# Marty
 
-        # marcus v drake
-p7<-ggplot(age, aes(carp,x=Marcus_SectOto, y=Drake_SectOto))+
+        # Dorsal
+p7<-ggplot(age, aes(carp,x=Marty_Pectoral, y=Marty_Dorsal))+
   geom_point(size=5, alpha = 0.2)+
   geom_abline(slope = 1, intercept = 0)+
-  ggtitle("Sectioned Otolith Buffalo Age: Marcus vs. Drake")+
+  labs(x = "Pectoral Age",
+       y = "Reader 3")+
   theme_classic()+
   xlim(0,20)+
   ylim(0,20)
 p7
 
-        # marcus v Marty
-p8<-ggplot(age, aes(x=Marcus_SectOto, y=Marty_SectOto))+
+model<-lm(Marty_Dorsal~Marty_Pectoral, data = age)
+summary(model)
+confint(model)
+
+        # sectioned otoliths
+p8<-ggplot(age, aes(x=Marty_Pectoral, y=Marty_SectOto))+
   geom_point(size=5, alpha = 0.2)+
   geom_abline(slope = 1, intercept = 0)+
-  ggtitle("Sectioned Otolith Buffalo Age: Marcus vs. Marty")+
+  geom_smooth(method = "lm")+
+  labs(x = "Pectoral Age",
+       y = "")+
   theme_classic()+
   xlim(0,20)+
   ylim(0,20)
 p8
 
-        # Drake v Marty
-p9<-ggplot(age, aes(x=Drake_SectOto, y=Marty_SectOto))+
+model<-lm(Marty_SectOto~Marty_Pectoral, data = age)
+summary(model)
+confint(model)
+
+        # cracked otlith
+p9<-ggplot(age, aes(x=Marty_Pectoral, y=Marty_Crackoto))+
   geom_point(size=5, alpha = 0.2)+
   geom_abline(slope = 1, intercept = 0)+
-  ggtitle("Sectioned Otolith Buffalo Age: Drake vs. Marty")+
+  geom_smooth(method="lm")+
+  labs(x = "Pectoral Age",
+       y = "")+
   theme_classic()+
   xlim(0,20)+
   ylim(0,20)
 p9
 
+model<-lm(Marty_Crackoto~Marty_Pectoral, data = age)
+summary(model)
+confint(model)
+
 ##############################################################
 
-grid.arrange(p1,p4,p7,
-             p2,p5,p8,
-             p3,p4,p9,
+grid.arrange(p1,p2,p3,
+             p4,p5,p6,
+             p7,p8,p9,
              ncol=3)
+```
+
+```{r,}
+
+##############################################################
+
+#
+
+#
+
+#       New plots: based on fact that pectoral spines have least CV
+
+#       We will place Pectoral Age as the common X axis (but different for each reader)
+
+#       Each of the other three structures will be columns
+
+#       Each of the readers will be rows
+
+#       Therefore a 3x3 grid
+
+#       Within each plot we want to have the 1 to 1 line,
+
+#       then the average age estimate from the reader for the column structure with error bars
+
+##############################################################################################
+ages<-read.csv("Marcus/BuffaloAges_Compiled.csv",header=T)
+head(ages)
+ages$Drake_Pectoral<-as.factor(ages$Drake_Pectoral)
+ages$Marcus_Pectoral<-as.factor(ages$Marcus_Pectoral)
+ages$Marty_Pectoral<-as.factor(ages$Marty_Pectoral)
+
+# trim the fat
+ages<-ages[,-c(1:7)]
+str(ages)
+d.ages<-ages[,c(5,2,8,11)]
+m.ages<-ages[,c(4,1,7,10)]
+my.ages<-ages[,c(6,3,9,12)]
+
+d.ages.m<-melt(d.ages)
+d.ages.c<-dcast(d.ages.m, 
+                Drake_Pectoral ~ variable, 
+                fun.aggregate = mean)
+d.ages.c2<-dcast(d.ages.m, 
+                Drake_Pectoral ~ variable, 
+                fun.aggregate = sd)
+drake<-merge.data.frame(d.ages.c,d.ages.c2, by = "Drake_Pectoral")
+
+
+
+
+m.ages.m<-melt(m.ages)
+m.ages.c<-dcast(m.ages.m, 
+                Marcus_Pectoral ~ variable, 
+                fun.aggregate = mean)
+m.ages.c2<-dcast(m.ages.m, 
+                Marcus_Pectoral ~ variable, 
+                fun.aggregate = sd)
+
+my.ages.m<-melt(my.ages)
+my.ages.c<-dcast(my.ages.m, 
+                Marty_Pectoral ~ variable, 
+                fun.aggregate = mean)
+my.ages.c<-dcast(my.ages.m, 
+                Marty_Pectoral ~ variable, 
+                fun.aggregate = sd)
+
+
+ggplot(ages, aes(x=))
+
+
+
+
+##############################################################
+ages<-ages[,-c(1:7)]
+ages2<-melt(ages)
+
+ggplot(ages, aes(x=))
 
 
 ```
@@ -211,7 +351,8 @@ head(dorsal)
 # CV
 dorsal$CV<-100*((sqrt(dorsal$MarcusDenom+dorsal$MartyDenom+dorsal$DrakeDenom))/dorsal$MeanAge)
 summary(dorsal$CV)
-
+packages(psych)
+describe(dorsal$CV)
 ###########################
 #
 #    Pectoral
@@ -234,7 +375,7 @@ head(pectoral)
 # CV
 pectoral$CV<-100*((sqrt(pectoral$MarcusDenom+pectoral$MartyDenom+pectoral$DrakeDenom))/pectoral$MeanAge)
 summary(pectoral$CV)
-
+describe(pectoral$CV)
 
 ###########################
 #
@@ -258,7 +399,35 @@ head(SectOto)
 # CV
 SectOto$CV<-100*((sqrt(SectOto$MarcusDenom+SectOto$MartyDenom+SectOto$DrakeDenom))/SectOto$MeanAge)
 summary(SectOto$CV)
+describe(SectOto$CV)
+###########################
+#
+#    Cracked and Sanded otoliths
+#
+###########################
+age<-read.csv("Marcus/CrackSandOnly.csv",header=T)
+head(age)
+age$j<-paste(age$Lake,age$Slide..,sep = ".")
+age$R<-3 # easy one. number of times fish is aged.
 
+CrackOto<-age[,-c(1,2,6)]
+head(CrackOto)
+str(CrackOto)
+
+library(dplyr)
+CrackOto <- CrackOto %>% mutate(MeanAge=(Marcus+Drake+Marty)/3)
+head(CrackOto)
+
+# items to sum before the square root sign of denominator of CV equation.
+CrackOto$MarcusDenom<-((CrackOto$Marcus-CrackOto$MeanAge)^2)/(CrackOto$R-1)
+CrackOto$DrakeDenom<-((CrackOto$Drake-CrackOto$MeanAge)^2)/(CrackOto$R-1)
+CrackOto$MartyDenom<-((CrackOto$Marty-CrackOto$MeanAge)^2)/(CrackOto$R-1)
+head(CrackOto)
+
+# CV
+CrackOto$CV<-100*((sqrt(CrackOto$MarcusDenom+CrackOto$MartyDenom+CrackOto$DrakeDenom))/CrackOto$MeanAge)
+summary(CrackOto$CV)
+library(psych)
+describe(CrackOto$CV)
 
 ```
-
