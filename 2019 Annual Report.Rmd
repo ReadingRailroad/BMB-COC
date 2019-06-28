@@ -61,7 +61,8 @@ packages(mapproj)
 # Iowa state map
 
 ```{r}
-plot.new()
+
+dev.off()
 # blank state of Iowa
 map('state','iowa',fill=T,col="grey95",mar=c(0,1,1.1,1))
 # now add cities
@@ -89,7 +90,7 @@ coords<-read.csv('LakeCoords.csv',header=T)
 
 points(coords$Long,
        coords$Lat,
-       pch=c(13,1,13,1,19,13,19),col='blue',cex=2)
+       pch=c(13,13,13,1,19,1,19),col='blue',cex=2)
 text(coords$Long,
      coords$Lat,
      labels = coords$Name,
@@ -2285,8 +2286,6 @@ Trying some PSDs with the truncated data (only six species)
 ```{r}
 packages("FSA")
 
-# reduce "Diversity" to top 6 interesting species
-# WAE, BLG, LMB, CCF, WHC, BLC
 str(diversity)
 
 
@@ -2379,6 +2378,46 @@ basses<-droplevels(subset(basses, Lake == "Storm"))
 summary(basses$Length..mm.[basses$Species == "YLB"])
 
 summary(basses$Length..mm.[basses$Species == "WHB"])
+
+
+# ignore shock
+Shock<-droplevels(subset(diversity, Species == "YLB" |
+                   Species == "WHB" )) # comparing yellow bass vs white bass in storm
+Shock<-droplevels(subset(Shock, Lake == "Storm"))
+str(Shock)
+Shock<-Shock[,-c(1,4,7,8,9,10,12:22)]
+
+df<-subset(Shock, !is.na(Length..mm.))
+
+levels(df$Lake)
+df$Lake<-as.character(df$Lake)
+df$Lake[df$Lake == "5 Island"] <- "Five Island"
+df$Lake<-as.factor(df$Lake)
+df.m<-melt(df)
+
+Fyke.lf2018<-ggplot(df.m, aes(x=value))+
+                         geom_histogram(binwidth = 10,
+                                        colour = "black",
+                                        position = "stack")+
+                         coord_cartesian(xlim = c(0,1000))+
+                         scale_y_continuous(limits = c(0,50))+
+                         facet_grid(vars(Species), vars(Lake))+
+                         theme(panel.grid.major = element_blank(), 
+                              panel.grid.minor = element_blank(),
+                              panel.background = element_rect(fill="white",colour="grey50"), 
+                              axis.line = element_line(colour = "black"),
+                              legend.position = "bottom",
+                              legend.background = element_rect(colour="grey20"))+
+                         labs(title = "2018 Length Frequencies",
+                              x = "Length (mm)",
+                              y = "Frequency")
+
+Fyke.lf2018
+
+
+
+
+
 
 
 ```
