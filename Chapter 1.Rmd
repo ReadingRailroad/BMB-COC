@@ -1,0 +1,383 @@
+---
+title: "Chapter 1"
+author: "Marty Simonson"
+date: "2019"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r,include=FALSE}
+rm(list=ls())
+
+
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
+
+#remove.packages(c("ggplot2", "data.table"))
+#install.packages('Rcpp', dependencies = TRUE)
+#install.packages('ggplot2', dependencies = TRUE)
+#install.packages('data.table', dependencies = TRUE)
+
+#packages(rcompanion)
+#packages(vegan)
+packages(ggplot2)
+packages(gridExtra)
+packages(reshape2)
+packages(FSA)
+packages(nnet)
+#packages(multcomp)
+#packages(plyr)
+#packages(rv)
+packages(arm)
+packages(lattice)
+packages(tikzDevice)
+packages(FSAdata)
+packages(nlstools)
+#packages(GGally)
+packages(wesanderson)
+#packages(DescTools)
+#packages(mvnormtest)
+#packages(HH)
+#packages(biotools)
+#packages(car)
+#packages(psych)
+#packages(GPArotation)
+#packages(doBy)
+packages(dplyr)
+packages(tidyr)
+#packages(rcompanion)
+#packages(GISTools)
+#packages(maps)
+#packages(mapproj)
+```
+
+# Objective:
+
+Chapter 1 of my dissertation proposal deals with variation in CPUE, primarily as a function of true abundance/density. However, there are many covariates (environmental, temporal, human) that can affect catchability of carp and buffalo. 
+
+1) Is there a linear or nonlinear relationship between carp/buffalo density and CPUE?
+
+2) What covariates influence CPUE? In what conditions does sampling result in tight correlation with true abundance/density?
+
+## Sub-Objective 1
+
+For this objective, I need to take the data set up and split it into each year (closure assumption)
+- remove commercial seine sampling
+- remove run-n-gun sampling (standard transects only)
+- keep month, lake, species as ID variables
+
+Then, I will have to use the following equations for the initial comparisons:
+
+\[
+\frac{C}{f} = \alpha * (\frac{N}{a})^{\beta+1} * exp^\epsilon 
+\]
+
+where $\alpha$ is an estimate of catchability at low population density, $\beta$ is the degree of curvature between cpue and density, anhd $\epsilon$ is the error. These parameters can be estimated from the natural log-transformed model:
+
+\[
+ln(\frac{C}{f}) = b_0 + (b_1 * ln\frac{N}{a}) + \epsilon 
+\]
+
+where the intercept $b_0$ equals $ln(\alpha)$ and the slope $b_1$ equals $\beta + 1$. 
+
+For reference, when $b_1$ = 1, catch rate is linearly related to density (proportional, $\beta$ = 0). When $b_1$ is less than than 1, density increases faster than catch rate (hyperstability), and when $b_1$ is greater than 1, catch rate increases faster than actual density (hyperdepletion)
+
+Here goes nothing:
+
+## Data Entry and cleaning:
+
+note: we are going to start from the beginning with the master (compiled) data file. No searching other spreadsheets for biomass density data or schnabel estimates typed in from google, this is transforming raw data into the variables needed for analysis. Many threads may extend from compiled data file depending on desired outcome (average weight/biomass density, for example)
+
+### CPUE Data First
+_CPUE data needs to be checked, some of that code will come from manual entry in another script_
+
+```{r}
+# overall chapter data name will be "catchability" 
+# with additional prefixes and suffixes as necessary (year, species, variable)
+
+# read in compiled data:
+catchability <- read.csv("2018 and 2017 Compiled Data.csv")
+str(catchability)
+
+
+# Subset for only electrofishing
+levels(catchability$Gear)
+catchability<-droplevels(subset(catchability, Gear != "Commercial Seine" & Gear != "Fyke"))
+levels(catchability$Gear)
+
+# Subset for ONLY standard transect sampling
+levels(catchability$Start.Latitude)
+
+catchability<-droplevels(subset(catchability, Start.Latitude == "5 island std 1" |
+                                              Start.Latitude == "5 Island Std 1" |
+                                              Start.Latitude == "5 island std 2" |
+                                              Start.Latitude == "5 island std 3" |
+                                              Start.Latitude == "5 island std 4" |
+                                              Start.Latitude == "5 island std 5" |
+                                  
+                                              Start.Latitude == "Blue Std 1" |
+                                              Start.Latitude == "Blue Std 2" |
+                                              Start.Latitude == "Blue Std 3" |
+                                              Start.Latitude == "Blue Std 4" |
+                                    
+                                              Start.Latitude == "Center std 1" |
+                                              Start.Latitude == "Center std 2" |
+                                              Start.Latitude == "Center std 3" |
+                                              Start.Latitude == "Center std 4" |
+                                              Start.Latitude == "Center std 5" |
+                                              Start.Latitude == "Center trans. 1" |
+                                              Start.Latitude == "Center Trans. 1" |
+                                              Start.Latitude == "Center trans. 2" |
+                                              Start.Latitude == "Center Trans. 2" |
+                                              Start.Latitude == "Center trans. 3" |
+                                              Start.Latitude == "Center Trans. 3" |
+                                              Start.Latitude == "Center trans. 4" |
+                                              Start.Latitude == "Center Trans. 4" |
+                                              Start.Latitude == "Center trans. 5" |
+                                              Start.Latitude == "Center Trans. 5" |
+                                  
+                                              Start.Latitude == "EF1" |
+                                              Start.Latitude == "EF2" |
+                                              Start.Latitude == "EF3" |
+                                              Start.Latitude == "EF4" |
+                                              Start.Latitude == "EF5" |
+                                  
+                                              Start.Latitude == "Five Island trans. 1" |
+                                              Start.Latitude == "Five Island trans. 2" |
+                                              Start.Latitude == "Five Island trans. 3" |
+                                              Start.Latitude == "Five Island trans. 4" |
+                                              Start.Latitude == "Five Island trans. 5" |
+                                              
+                                              Start.Latitude == "N twin std 1" |
+                                              Start.Latitude == "N twin std 2" |
+                                              Start.Latitude == "N twin std 3" |
+                                              Start.Latitude == "N twin std 4 (labeled as 5 on trans coordinates)" |
+                                            
+                                              Start.Latitude == "S Twin Std 2" |
+                                              Start.Latitude == "S Twin Std 4" |
+                                              Start.Latitude == "S. Twin Std 1"|
+                                  
+                                              Start.Latitude == "Silver std 1" |
+                                              Start.Latitude == "Silver Std 1" |
+                                              Start.Latitude == "Silver std 2" |
+                                              Start.Latitude == "Silver Std 2" |
+                                              Start.Latitude == "Silver std 3" |
+                                              Start.Latitude == "Silver Std 3" |
+                                              Start.Latitude == "Silver std 4" |
+                                              Start.Latitude == "Silver Std 4" |
+                                              Start.Latitude == "Silver std 5" |
+                                              Start.Latitude == "Silver std 6" |
+                                  
+                                              Start.Latitude == "Silver trans. 1" |
+                                              Start.Latitude == "Silver Trans. 1" |
+                                              Start.Latitude == "Silver trans. 2" |
+                                              Start.Latitude == "Silver Trans. 2" |
+                                              Start.Latitude == "Silver trans. 3" |
+                                              Start.Latitude == "Silver Trans. 3" |
+                                              Start.Latitude == "Silver trans. 4" |
+                                              Start.Latitude == "Silver Trans. 4" |
+                                              Start.Latitude == "Silver trans. 5" |
+                                              Start.Latitude == "Silver Trans. 5" |
+                                              Start.Latitude == "Silver trans. 6" |
+                                              Start.Latitude == "Silver Trans. 6" |
+                                  
+                                              Start.Latitude == "Std Trans 3" |
+                                              Start.Latitude == "Std. Trans 1" |
+                                              Start.Latitude == "Std. Trans 2" |
+                                              Start.Latitude == "Std. Trans 3" |
+                                              Start.Latitude == "Std. Trans 4" |
+                                              Start.Latitude == "Std. Trans 5" |
+                                              Start.Latitude == "Std. Trans 6" |
+                                              Start.Latitude == "Std. Trans 7" |
+                                              Start.Latitude == "Std. Trans 9" |
+                                  
+                                              Start.Latitude == "Storm std 1" |
+                                              Start.Latitude == "Storm std 2" |
+                                              Start.Latitude == "Storm std 4 (by casino beach)" |
+                                              Start.Latitude == "Storm std 5" |
+                                              Start.Latitude == "Storm std 7" |
+                                              Start.Latitude == "Storm std 9" |
+                                  
+                                              Start.Latitude == "Storm trans. 1" |
+                                              Start.Latitude == "Storm trans. 2" |
+                                              Start.Latitude == "Storm trans. 4" |
+                                              Start.Latitude == "Storm trans. 5" |
+                                              Start.Latitude == "Storm trans. 7" |
+                                              Start.Latitude == "Storm trans. 9"))
+
+# Species maybe
+levels(catchability$Species)
+catchability<-droplevels(subset(catchability, Species == "COC" | Species == "BIB"))
+levels(catchability$Species)
+
+# Drop unused columns (weather, etc)
+str(catchability)
+catchability<-catchability[,-c(7:12,14:16,18:20)]
+str(catchability)
+
+# For consistency in date-lake-run later, must consolidate transect names. 
+#
+#       Using EF# to denote standard electrofishing runs, 
+#         for example the second standard run for a lake would be EF2
+#
+levels(catchability$Start.Latitude)
+
+catchability$Start.Latitude<-as.character(catchability$Start.Latitude, stringsAsFactors = F)
+
+catchability$Start.Latitude[catchability$Start.Latitude == "5 island std 1"] <- "EF1"
+catchability$Start.Latitude[catchability$Start.Latitude == "5 Island Std 1"] <- "EF1"
+catchability$Start.Latitude[catchability$Start.Latitude == "5 island std 2"] <- "EF2"
+catchability$Start.Latitude[catchability$Start.Latitude == "5 island std 3"] <- "EF3"
+catchability$Start.Latitude[catchability$Start.Latitude == "5 island std 4"] <- "EF4"
+catchability$Start.Latitude[catchability$Start.Latitude == "5 island std 5"] <- "EF5"
+                                  
+catchability$Start.Latitude[catchability$Start.Latitude == "Blue Std 1"] <- "EF1"
+catchability$Start.Latitude[catchability$Start.Latitude == "Blue Std 2"] <- "EF2"
+catchability$Start.Latitude[catchability$Start.Latitude == "Blue Std 3"] <- "EF3"
+catchability$Start.Latitude[catchability$Start.Latitude == "Blue Std 4"] <- "EF4"
+                                    
+catchability$Start.Latitude[catchability$Start.Latitude == "Center std 1"] <- "EF1"
+catchability$Start.Latitude[catchability$Start.Latitude == "Center std 2"] <- "EF2"
+catchability$Start.Latitude[catchability$Start.Latitude == "Center std 3"] <- "EF3"
+catchability$Start.Latitude[catchability$Start.Latitude == "Center std 4"] <- "EF4"
+catchability$Start.Latitude[catchability$Start.Latitude == "Center std 5"] <- "EF5"
+catchability$Start.Latitude[catchability$Start.Latitude == "Center trans. 1"] <- "EF1"
+catchability$Start.Latitude[catchability$Start.Latitude == "Center Trans. 1"] <- "EF1"
+catchability$Start.Latitude[catchability$Start.Latitude == "Center trans. 2"] <- "EF2"
+catchability$Start.Latitude[catchability$Start.Latitude == "Center Trans. 2"] <- "EF2"
+catchability$Start.Latitude[catchability$Start.Latitude == "Center trans. 3"] <- "EF3"
+catchability$Start.Latitude[catchability$Start.Latitude == "Center Trans. 3"] <- "EF3"
+catchability$Start.Latitude[catchability$Start.Latitude == "Center trans. 4"] <- "EF4"
+catchability$Start.Latitude[catchability$Start.Latitude == "Center Trans. 4"] <- "EF4"
+catchability$Start.Latitude[catchability$Start.Latitude == "Center trans. 5"] <- "EF5"
+catchability$Start.Latitude[catchability$Start.Latitude == "Center Trans. 5"] <- "EF5"
+                                  
+catchability$Start.Latitude[catchability$Start.Latitude == "Five Island trans. 1" ] <- "EF1"
+catchability$Start.Latitude[catchability$Start.Latitude == "Five Island trans. 2" ] <- "EF2"
+catchability$Start.Latitude[catchability$Start.Latitude == "Five Island trans. 3" ] <- "EF3"
+catchability$Start.Latitude[catchability$Start.Latitude == "Five Island trans. 4" ] <- "EF4"
+catchability$Start.Latitude[catchability$Start.Latitude == "Five Island trans. 5" ] <- "EF5"
+                                              
+catchability$Start.Latitude[catchability$Start.Latitude == "N twin std 1" ] <- "EF1"
+catchability$Start.Latitude[catchability$Start.Latitude == "N twin std 2" ] <- "EF2"
+catchability$Start.Latitude[catchability$Start.Latitude == "N twin std 3" ] <- "EF3"
+catchability$Start.Latitude[catchability$Start.Latitude == "N twin std 4 (labeled as 5 on trans coordinates)" ] <- "EF4"
+                                            
+catchability$Start.Latitude[catchability$Start.Latitude == "S Twin Std 2" ] <- "EF2"
+catchability$Start.Latitude[catchability$Start.Latitude == "S Twin Std 4" ] <- "EF4"
+catchability$Start.Latitude[catchability$Start.Latitude == "S. Twin Std 1"] <- "EF1"
+                                  
+catchability$Start.Latitude[catchability$Start.Latitude == "Silver std 1" ] <- "EF1"
+catchability$Start.Latitude[catchability$Start.Latitude == "Silver Std 1" ] <- "EF1"
+catchability$Start.Latitude[catchability$Start.Latitude == "Silver std 2" ] <- "EF2"
+catchability$Start.Latitude[catchability$Start.Latitude == "Silver Std 2" ] <- "EF2"
+catchability$Start.Latitude[catchability$Start.Latitude == "Silver std 3" ] <- "EF3"
+catchability$Start.Latitude[catchability$Start.Latitude == "Silver Std 3" ] <- "EF3"
+catchability$Start.Latitude[catchability$Start.Latitude == "Silver std 4" ] <- "EF4"
+catchability$Start.Latitude[catchability$Start.Latitude == "Silver Std 4" ] <- "EF4"
+catchability$Start.Latitude[catchability$Start.Latitude == "Silver std 5" ] <- "EF5"
+catchability$Start.Latitude[catchability$Start.Latitude == "Silver std 6" ] <- "EF6" 
+                                  
+catchability$Start.Latitude[catchability$Start.Latitude == "Silver trans. 1" ] <- "EF1"
+catchability$Start.Latitude[catchability$Start.Latitude == "Silver Trans. 1" ] <- "EF1"
+catchability$Start.Latitude[catchability$Start.Latitude == "Silver trans. 2" ] <- "EF2"
+catchability$Start.Latitude[catchability$Start.Latitude == "Silver Trans. 2" ] <- "EF2"
+catchability$Start.Latitude[catchability$Start.Latitude == "Silver trans. 3" ] <- "EF3"
+catchability$Start.Latitude[catchability$Start.Latitude == "Silver Trans. 3" ] <- "EF3"
+catchability$Start.Latitude[catchability$Start.Latitude == "Silver trans. 4" ] <- "EF4"
+catchability$Start.Latitude[catchability$Start.Latitude == "Silver Trans. 4" ] <- "EF4"
+catchability$Start.Latitude[catchability$Start.Latitude == "Silver trans. 5" ] <- "EF5"
+catchability$Start.Latitude[catchability$Start.Latitude == "Silver Trans. 5" ] <- "EF5"
+catchability$Start.Latitude[catchability$Start.Latitude == "Silver trans. 6" ] <- "EF6" 
+catchability$Start.Latitude[catchability$Start.Latitude == "Silver Trans. 6" ] <- "EF6" 
+                                  
+catchability$Start.Latitude[catchability$Start.Latitude == "Std Trans 3" ] <- "EF3" 
+catchability$Start.Latitude[catchability$Start.Latitude == "Std. Trans 1" ] <- "EF1" 
+catchability$Start.Latitude[catchability$Start.Latitude == "Std. Trans 2" ] <- "EF2"
+catchability$Start.Latitude[catchability$Start.Latitude == "Std. Trans 3" ] <- "EF3"
+catchability$Start.Latitude[catchability$Start.Latitude == "Std. Trans 4" ] <- "EF4"
+catchability$Start.Latitude[catchability$Start.Latitude == "Std. Trans 5" ] <- "EF5"
+catchability$Start.Latitude[catchability$Start.Latitude == "Std. Trans 6" ] <- "EF6" 
+catchability$Start.Latitude[catchability$Start.Latitude == "Std. Trans 7" ] <- "EF7" 
+catchability$Start.Latitude[catchability$Start.Latitude == "Std. Trans 9" ] <- "EF9" 
+                                  
+catchability$Start.Latitude[catchability$Start.Latitude == "Storm std 1" ] <- "EF1"
+catchability$Start.Latitude[catchability$Start.Latitude == "Storm std 2" ] <- "EF2"
+catchability$Start.Latitude[catchability$Start.Latitude == "Storm std 4 (by casino beach)" ] <- "EF4"
+catchability$Start.Latitude[catchability$Start.Latitude == "Storm std 5" ] <- "EF5"
+catchability$Start.Latitude[catchability$Start.Latitude == "Storm std 7" ] <- "EF7" 
+catchability$Start.Latitude[catchability$Start.Latitude == "Storm std 9" ] <- "EF9" 
+                                  
+catchability$Start.Latitude[catchability$Start.Latitude == "Storm trans. 1" ] <- "EF1"
+catchability$Start.Latitude[catchability$Start.Latitude == "Storm trans. 2" ] <- "EF2"
+catchability$Start.Latitude[catchability$Start.Latitude == "Storm trans. 4" ] <- "EF4"
+catchability$Start.Latitude[catchability$Start.Latitude == "Storm trans. 5" ] <- "EF5"
+catchability$Start.Latitude[catchability$Start.Latitude == "Storm trans. 7" ] <- "EF7" 
+catchability$Start.Latitude[catchability$Start.Latitude == "Storm trans. 9" ] <- "EF9" 
+
+catchability$Start.Latitude<-as.factor(catchability$Start.Latitude)
+levels(catchability$Start.Latitude) # No EF8, as it should be.
+
+#
+#
+# Make sure that the each lake has the appropriate transects
+levels(catchability$Lake)
+
+summary(catchability$Start.Latitude[catchability$Lake == "5 Island"])
+# all five transects represented. Low number of captures, though.
+
+summary(catchability$Start.Latitude[catchability$Lake == "Blue"])
+# all four transects represented. probably highest catches
+
+summary(catchability$Start.Latitude[catchability$Lake == "Center"])
+# all 5 transects represented, good catches
+
+summary(catchability$Start.Latitude[catchability$Lake == "N. Twin"]) 
+# all 4 transects represented. 
+
+summary(catchability$Start.Latitude[catchability$Lake == "S. Twin"])
+# This is more appropriate catches. all four transects represented.
+
+summary(catchability$Start.Latitude[catchability$Lake == "Silver"])
+# All six transects represented. more or less appropriate catches.
+
+summary(catchability$Start.Latitude[catchability$Lake == "Storm"])
+# correct transects represented. better catches than I was expecting.
+
+#
+#
+#
+#     Pasting Date/Lake/Run into single ID column, our minimum sample unit
+catchability$DLR<-factor(paste(catchability$Date,
+                               catchability$Lake,
+                               catchability$Start.Latitude,
+                               sep = ";"))
+str(catchability$DLR) # 352 sample units across 7 lakes in 2 years
+```
+
+##### splitting by species and CPUE (additions)
+to 1) comply with format used in CPUE Plots.Rmd code, and 2) do data checking against each other to make sure there's not samples for one species that aren't included for the other (looking at you, buffalo)
+
+```{r}
+# Using modified 'catchability' data frame from previous chunk
+
+# Adding effort (in hours instead of seconds)
+catchability$Effort<-catchability$On.Time..s./3600
+
+# Splitting to carp and buffalo
+coc.df<-subset(catchability, Species == "COC")
+bib.df<-subset(catchability, Species == "BIB")
+
+# CPUE
+coc.cpue<-aggregate(Effort~Lake+DLR, data = coc.df, mean) # stuck here, I need to think about the other code more. 
+
+```
+
+

@@ -42,7 +42,7 @@ packages(scales)
 #
 age<-read.csv("Marcus/BuffaloAges_Compiled.csv",header=T)
 summary(age)
-
+head(age)
 
 ##############################################################
 
