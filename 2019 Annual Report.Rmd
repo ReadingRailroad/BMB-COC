@@ -89,13 +89,13 @@ coords<-read.csv('LakeCoords.csv',header=T)
 
 points(coords$Long,
        coords$Lat,
-       pch=c(13,1,13,1,19,13,19),col='blue',cex=2)
+       pch=c(13,13,13,1,19,1,19),col='blue',cex=2)
 text(coords$Long,
      coords$Lat,
      labels = coords$Name,
      pos=c(2,4,4,2,4,4,4),col='black',cex=1.75)
 # Adding a title
-# title(main="Carp & Buffalo Mgmt. Lakes")
+title(main="Carp & Buffalo Mgmt. Lakes")
 ```
 
 
