@@ -1,0 +1,318 @@
+---
+title: "2019 Schnabel"
+author: "Martin Simonson"
+date: "August 27, 2019"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r,include=F}
+# front matter
+rm(list=ls())
+
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
+
+packages(vegan)
+packages(ggplot2)
+packages(reshape2)
+packages(nnet)
+packages(multcomp)
+packages(plyr)
+packages(rv)
+packages(arm)
+packages(lattice)
+packages(tikzDevice)
+packages(gridExtra)
+packages(dplyr)
+
+packages(FSA)
+
+```
+
+# Objective
+
+This markdown is meant to provide a more accurate 2019 population estimate for carp and buffalo in my study lakes. The complication is that although we can do a quick-n-dirty estimate in google sheets we are missing out on any 2017 and 2018 recaptures that were caught more than once in a year. That, and human error can lead to missing of recaps where the computer can query tag numbers and accurately find recaps. This would be especially problematic in Blue Lake and both Twin Lakes.
+
+# Methods:
+## Formula:
+
+Here's the general formula for the Chapman Modified Schnabel:
+
+\[
+\hat{N} = \frac{\Sigma C_i*M_i}{\Sigma R_i + 1}
+\]
+
+where $C_i$ is the number of animals caught in the ith census sample, $M_i$ is the number of marked animals at large when the ith sample was taken, and $R_i$ is the number of previously marked animals in the ith sample. 
+
+The variance of the modified schnabel is calculated by:
+
+\[
+Variance(\hat{N}) = \hat{N}^2 * [ \frac{\hat{N}}{\Sigma C_i*M_i} + (2*\frac{\hat{N}^2}{(\Sigma C_i*M_i)^2}) + (6 * \frac{\hat{N}^3}{(\Sigma C_i * M_i)^3})]
+\]
+
+And therefore the 95% confidence interval for an estimate is 
+
+\[
+\hat{N} \pm 1.96 * \sqrt{Variance(\hat{N})}
+\]
+
+## Data Wrangling
+
+### Overview
+
+I need to take the existing 2019 tagging data file and reshape it to a condensed data frame where each sample date is a row, and the columns are:
+
+Ci: Total number of fish caught in that sample
+Mi: total number of marked fish "at large" in the lake
+        - This is only the number of 2019 fish caught and marked previous to sample day
+        - For 2017/2018 fish, this counts fish as "at large" after they are caught once
+Ri: Total number of recaptures in that sample
+        - For 2017/2018 tagged fish, recaps are ONLY fish that have been caught at least once in 2019 and are already "at large"
+        
+### Strategy
+
+Split data frames by species first. If i'm lucky, I can keep lake names as a factor and apply the reshaping to all lakes at once. 
+
+The tough part is getting the code to recognize recaptures...
+
+Idea_1: I can reshape the data frame first where the first column is the tag number and the rest of the columns are the sample dates, with a binary value for observation (1 if observed, 0 if not observed). Then, Derek Ogle's FishR package can use capHistSum() to get the values for Ci (n), Ri (m), Ci-Ri (R), and Mi (M).
+
+Then, the mrClosed() function from FishR can apply the schnabel method. Let's try it out:
+
+
+### Wrangling
+
+```{r}
+df<-read.csv("2019 Tagging Data.csv",header=T)
+head(df)
+str(df)
+
+# trim the fat
+df<-df[,c(1:4)]
+str(df)
+
+# Clean up data
+levels(df$Lake)
+levels(df$Species)
+df$Date<-as.factor(df$Date)
+
+### Carp first
+Carp<-subset(df, Species == "COC" & TAG.NUM != "N/A")
+### Split by lake
+# Blue
+Blue.c<-subset(Carp, Lake == "Blue")
+Blue.c.2<-melt(Blue.c[,c(1,3)], id.vars = "TAG.NUM")
+Blue.c.cast<-dcast(Blue.c.2, TAG.NUM ~ value, fun.aggregate = length)
+Blue.CapHist<-capHistSum(Blue.c.cast, cols2use = 2:10)                  # Needs to be changed as master file is updated
+Blue.CapHist$caphist
+Blue.CapHist$sum
+Blue.c.Est<-mrClosed(Blue.CapHist, method = "Schnabel")
+Blue.Nhat<-summary(Blue.c.Est)
+Blue.Nhat<-cbind(Blue.Nhat,confint(Blue.c.Est))
+# Center
+Center.c<-subset(Carp, Lake == "Center")
+Center.c.2<-melt(Center.c[,c(1,3)], id.vars = "TAG.NUM")
+Center.c.cast<-dcast(Center.c.2, TAG.NUM ~ value, fun.aggregate = length)
+Center.CapHist<-capHistSum(Center.c.cast, cols2use = 2:17)                  # Needs to be changed as master file is updated
+Center.CapHist$caphist
+Center.CapHist$sum
+Center.c.Est<-mrClosed(Center.CapHist, method = "Schnabel")
+Center.Nhat<-summary(Center.c.Est)
+confint(Center.c.Est)
+Center.Nhat<-cbind(summary(Center.c.Est),confint(Center.c.Est))
+# Five Island 
+F.Island.c<-subset(Carp, Lake == "5 Island")
+F.Island.c.2<-melt(F.Island.c[,c(1,3)], id.vars = "TAG.NUM")
+F.Island.c.cast<-dcast(F.Island.c.2, TAG.NUM ~ value, fun.aggregate = length)
+F.Island.CapHist<-capHistSum(F.Island.c.cast, cols2use = 2:17)                  # Needs to be changed as master file is updated
+F.Island.CapHist$caphist
+F.Island.CapHist$sum
+F.Island.c.Est<-mrClosed(F.Island.CapHist, method = "Schnabel")
+summary(F.Island.c.Est)
+confint(F.Island.c.Est)
+F.Island.Nhat<-cbind(summary(F.Island.c.Est),confint(F.Island.c.Est))
+# N Twin
+NTwin.c<-subset(Carp, Lake == "N Twin")
+NTwin.c.2<-melt(NTwin.c[,c(1,3)], id.vars = "TAG.NUM")
+NTwin.c.cast<-dcast(NTwin.c.2, TAG.NUM ~ value, fun.aggregate = length)
+NTwin.CapHist<-capHistSum(NTwin.c.cast, cols2use = 2:15)                  # Needs to be changed as master file is updated
+NTwin.CapHist$caphist
+NTwin.CapHist$sum
+NTwin.c.Est<-mrClosed(NTwin.CapHist, method = "Schnabel")
+summary(NTwin.c.Est)
+confint(NTwin.c.Est)
+NTwin.Nhat<-cbind(summary(NTwin.c.Est),confint(NTwin.c.Est))
+# Silver
+Silver.c<-subset(Carp, Lake == "Silver")
+Silver.c.2<-melt(Silver.c[,c(1,3)], id.vars = "TAG.NUM")
+Silver.c.cast<-dcast(Silver.c.2, TAG.NUM ~ value, fun.aggregate = length)
+Silver.CapHist<-capHistSum(Silver.c.cast, cols2use = 2:15)                  # Needs to be changed as master file is updated
+Silver.CapHist$caphist
+Silver.CapHist$sum
+Silver.c.Est<-mrClosed(Silver.CapHist, method = "Schnabel")
+summary(Silver.c.Est)
+confint(Silver.c.Est)
+Silver.Nhat<-cbind(summary(Silver.c.Est),confint(Silver.c.Est))
+# S.Twin
+S.Twin.c<-subset(Carp, Lake == "S Twin")
+S.Twin.c.2<-melt(S.Twin.c[,c(1,3)], id.vars = "TAG.NUM")
+S.Twin.c.cast<-dcast(S.Twin.c.2, TAG.NUM ~ value, fun.aggregate = length)
+S.Twin.CapHist<-capHistSum(S.Twin.c.cast, cols2use = 2:10)                  # Needs to be changed as master file is updated
+S.Twin.CapHist$caphist
+S.Twin.CapHist$sum
+S.Twin.c.Est<-mrClosed(S.Twin.CapHist, method = "Schnabel")
+summary(S.Twin.c.Est)
+confint(S.Twin.c.Est)
+STwin.Nhat<-cbind(summary(S.Twin.c.Est),confint(S.Twin.c.Est))
+# Storm
+Storm.c<-subset(Carp, Lake == "Storm")
+Storm.c.2<-melt(Storm.c[,c(1,3)], id.vars = "TAG.NUM")
+Storm.c.cast<-dcast(Storm.c.2, TAG.NUM ~ value, fun.aggregate = length)
+Storm.CapHist<-capHistSum(Storm.c.cast, cols2use = 2:14)                  # Needs to be changed as master file is updated
+Storm.CapHist$caphist
+Storm.CapHist$sum
+Storm.c.Est<-mrClosed(Storm.CapHist, method = "Schnabel")
+summary(Storm.c.Est)
+confint(Storm.c.Est)
+Storm.Nhat<-cbind(summary(Storm.c.Est),confint(Storm.c.Est))
+###################################################################
+#
+# Aggregate the carp estimates and CIs
+#
+###################################################################
+carp.frame<-data.frame(rbind(Blue.Nhat,
+                         Center.Nhat,
+                         F.Island.Nhat,
+                         NTwin.Nhat,
+                         Silver.Nhat,
+                         STwin.Nhat,
+                         Storm.Nhat))
+rownames(carp.frame)<-c("Blue","Center","Five Island","North Twin","Silver","South Twin","Storm")
+colnames(carp.frame)<-c("N-hat","Lower 95CI","Upper 95CI")
+
+
+
+
+```
+
+```{r,}
+### Buffalo Second
+Buff<-subset(df, Species == "BIB")
+### Split by lake
+# Blue
+          # not available
+# Center
+Center.b<-subset(Buff, Lake == "Center" & TAG.NUM != "" & TAG.NUM != "N/A")
+Center.b.2<-melt(Center.b[,c(1,3)], id.vars = "TAG.NUM")
+Center.b.cast<-dcast(Center.b.2, TAG.NUM ~ value, fun.aggregate = length)
+Center.CapHist<-capHistSum(Center.b.cast, cols2use = 2:15)                  # Needs to be changed as master file is updated
+Center.CapHist$caphist
+Center.CapHist$sum
+Center.b.Est<-mrClosed(Center.CapHist, method = "Schnabel")
+Center.Nhat<-summary(Center.b.Est)
+confint(Center.b.Est)
+Center.Nhat<-cbind(summary(Center.b.Est),confint(Center.b.Est))
+# Five Island 
+F.Island.b<-subset(Buff, Lake == "5 Island" & TAG.NUM != "" & TAG.NUM != "N/A")
+F.Island.b.2<-melt(F.Island.b[,c(1,3)], id.vars = "TAG.NUM")
+F.Island.b.cast<-dcast(F.Island.b.2, TAG.NUM ~ value, fun.aggregate = length)
+F.Island.CapHist<-capHistSum(F.Island.b.cast, cols2use = 2:9)                  # Needs to be changed as master file is updated
+F.Island.CapHist$caphist
+F.Island.CapHist$sum
+F.Island.b.Est<-mrClosed(F.Island.CapHist, method = "Schnabel")
+summary(F.Island.b.Est)
+confint(F.Island.b.Est)
+F.Island.Nhat<-cbind(summary(F.Island.b.Est),confint(F.Island.b.Est))
+# N Twin
+NTwin.b<-subset(Buff, Lake == "N Twin")
+NTwin.b.2<-melt(NTwin.b[,c(1,3)], id.vars = "TAG.NUM")
+NTwin.b.cast<-dcast(NTwin.b.2, TAG.NUM ~ value, fun.aggregate = length)
+NTwin.CapHist<-capHistSum(NTwin.b.cast, cols2use = 2:15)                  # Needs to be changed as master file is updated
+NTwin.CapHist$caphist
+NTwin.CapHist$sum
+NTwin.b.Est<-mrClosed(NTwin.CapHist, method = "Schnabel")
+summary(NTwin.b.Est)
+confint(NTwin.b.Est)
+NTwin.Nhat<-cbind(summary(NTwin.b.Est),confint(NTwin.b.Est))
+# Silver
+Silver.b<-subset(Buff, Lake == "Silver")
+Silver.b.2<-melt(Silver.b[,c(1,3)], id.vars = "TAG.NUM")
+Silver.b.cast<-dcast(Silver.b.2, TAG.NUM ~ value, fun.aggregate = length)
+Silver.CapHist<-capHistSum(Silver.b.cast, cols2use = 2:14)                  # Needs to be changed as master file is updated
+Silver.CapHist$caphist
+Silver.CapHist$sum
+Silver.b.Est<-mrClosed(Silver.CapHist, method = "Schnabel")
+summary(Silver.b.Est)
+confint(Silver.b.Est)
+Silver.Nhat<-cbind(summary(Silver.b.Est),confint(Silver.b.Est))
+# S.Twin
+S.Twin.b<-subset(Buff, Lake == "S Twin")
+S.Twin.b.2<-melt(S.Twin.b[,c(1,3)], id.vars = "TAG.NUM")
+S.Twin.b.cast<-dcast(S.Twin.b.2, TAG.NUM ~ value, fun.aggregate = length)
+S.Twin.CapHist<-capHistSum(S.Twin.b.cast, cols2use = 2:10)                  # Needs to be changed as master file is updated
+S.Twin.CapHist$caphist
+S.Twin.CapHist$sum
+S.Twin.b.Est<-mrClosed(S.Twin.CapHist, method = "Schnabel")
+summary(S.Twin.b.Est)
+confint(S.Twin.b.Est)
+STwin.Nhat<-cbind(summary(S.Twin.b.Est),confint(S.Twin.b.Est))
+# Storm
+Storm.b<-subset(Buff, Lake == "Storm")
+Storm.b.2<-melt(Storm.b[,c(1,3)], id.vars = "TAG.NUM")
+Storm.b.cast<-dcast(Storm.b.2, TAG.NUM ~ value, fun.aggregate = length)
+Storm.CapHist<-capHistSum(Storm.b.cast, cols2use = 2:10)                  # Needs to be changed as master file is updated
+Storm.CapHist$caphist
+Storm.CapHist$sum
+Storm.b.Est<-mrClosed(Storm.CapHist, method = "Schnabel")
+summary(Storm.b.Est)
+confint(Storm.b.Est)
+Storm.Nhat<-cbind(summary(Storm.b.Est),confint(Storm.b.Est))
+###################################################################
+#
+# Aggregate the Buff estimates and CIs
+#
+###################################################################
+Buff.frame<-data.frame(rbind(Blue.Nhat,
+                         Center.Nhat,
+                         F.Island.Nhat,
+                         NTwin.Nhat,
+                         Silver.Nhat,
+                         STwin.Nhat,
+                         Storm.Nhat))
+rownames(Buff.frame)<-c("Blue","Center","Five Island","North Twin","Silver","South Twin","Storm")
+colnames(Buff.frame)<-c("N-hat","Lower 95CI","Upper 95CI")
+
+
+```
+
+
+```{r}
+carp.frame
+Buff.frame
+```
+
+
+A few notes on these estimates: 
+
+The upper CI limit is also often N-Hat. 
+
+The lower CI ranges never go below zero.
+
+Not all sample days represtented (buffalo) but more sample days than all where at least one buffalo was caught are included in buffalo estimates.
+
+In addition, most of the estimates provided by FSA package are over-estimates of schnabel estimates created in Google drive.
+
+Plots:
+
+```{r}
+
+```
+

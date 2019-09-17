@@ -1870,10 +1870,10 @@ lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
 ```{r}
 # subset by species then separate by lake
         #buff
-buff <- subset(ages, Species == "COC")
+carp <- subset(ages, Species == "COC")
 summary(buff)
 packages("ggplot2")
-ggplot(ages, aes(x=Otolith.MAS, y=Otolith.DRF, shape = Lake, colour = Lake))+geom_point(size=5)+
+ggplot(carp, aes(x=Otolith.MAS, y=Otolith.DRF, shape = Lake, colour = Lake))+geom_point(size=5)+
   geom_abline(slope = 1, intercept = 0)+
   ggtitle("Carp Age Estimates by Lake")
 
