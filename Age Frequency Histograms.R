@@ -95,7 +95,7 @@ Age.Hist<-ggplot(ages, aes(x=Spine.MAS, fill = Year))+
         axis.line = element_line(colour = "black"),
         legend.position = "bottom",
         legend.background = element_rect(colour="grey20"))+
-  scale_fill_grey(start = 0.1, end = 0.9, aesthetics = "fill")+
+  #scale_fill_grey(start = 0.4, end = 0.9, aesthetics = "fill")+
   labs(title = NULL,
        x = "Age",
        y = "Frequency")
