@@ -16,7 +16,7 @@ Given a data file on abundance of _Alseis blackiana_ in two habitats (OldHigh an
 Ignore habitat and find the MLE of mean and $\theta$, the overdispersion parameter. 
 
 ```{r}
-rm(list=ls())
+#rm(list=ls())
 ab<-read.csv("STAT534/Ab.csv",header=T)
 str(ab)
 

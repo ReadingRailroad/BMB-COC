@@ -1,0 +1,151 @@
+---
+title: "Chapter 2 - Mortality"
+author: "Marty Simonson"
+date: "September 25, 2019"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+---
+
+As of 9/25/2019 This file is meant to assemble all the code and plots relative to data analysis for Chapter 2. But let's start small, with the code relative to the 2020 Midwest FW Conference presentation. 
+
+Beginning abstract draft:
+
+# Title: Evaluating Additive Versus Compensatory Harvest Mortality in Common Carp and Bigmouth Buffalo
+
+Authors: Martin A. Simonson, Michael J. Weber
+Track: Contributed Oral - Fisheries
+
+Tags/Keywords: Harvest Mortality, Biomanipulation, Capture-Mark-Recapture, Recruitment
+
+## Abstract:
+Establishment of non-native species is a primary cause of drastic change in ecological processes through the disruption of ecosystem structure and function at multiple levels. Harvest-based management, or mechanical removal, is a common method of population management that may serve as a restoration strategy in disrupted systems by minimizing the ecological impact of nuisance species. However, biomanipulation may not be successful when organisms compensate for harvest and reductions in biomass are not proportional to biomass removed. We implemented a capture-mark-recapture study at seven lakes in northwest Iowa to evaluate mechanisms Common Carp and Bigmouth Buffalo may use to compensate for harvest mortality (e.g., increased recruitment and natural survival rate). Density dependence was tested by performing an ANOVA to examine differences in body condition (Wr) between harvested and non-harvested lakes. _Couple sentences about results, couple about discussion_
+
+
+## Additve vs. Compensatory Mortality
+
+We have the general equation:
+
+\[
+S_i = S_0(1-bK_i)
+\]
+
+where $S_i$ is the annual total survival rate in year i. $S_0$ is the annual natural mortality rate in the ABSENCE of harvest, $K_i$ is the annual harvest mortality rate in year i, and $b$ is the slope of the relationship between annual survival rate and annual harvest mortality rate, normalized such that 0 < b < 1.
+
+#### Harvest Mortality
+Now, to get the variables in the equation above and isolate $b$, we can first determine harvest mortality (Ki):
+
+\[
+K_i = \frac{f_{i.} * f_{.i}}{m_i * n_i}
+\]
+
+where $m_i$ is the number of fish marked at the start of period i, and 
+$f_{i.}$ is the number of fish marked in year i caught by fishers over all years, and
+$f_{.i}$ is the number of marked fish caught in year i regardless of when they were marked, and
+$n_i$ is the number of marked fish caught after year i of fish marked before year i.
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+#### Annual survival
+Pollock's robust design, may not be necessary. Equation 3.2.3 in proposal.
+
+\[
+S_i = \frac{M_{i+1}}{(M_i - m_i + R_i)}
+\]
+
+where $M_i$ is the number of marked fish in the population prior to the ith sample, and
+$m_i$ is the number of marked fish in sample i, and
+$R_i$ is the number of fish captured in the ith sample that are released.
+
+```{r}
+
+```
+
+
+Variance of $S_i$ is calculated by methods outlined in seber 1982:
+
+_put in equation for variance here!_
+
+where ____ is ____, and
+
+
+```{r}
+
+```
+
+#### b, the coefficient of harvest
+And so when annual harvest mortality ($K_i$) is 0, $S_i = S_0$. We now have all the variablees to isolate $b$:
+
+\[
+b = \frac{1-\frac{S_i}{S_0}}{K_i}
+\]
+
+When $b = 0$ there is a completely compensatory response to harvest, and if $b=1$ there is a totally additive response to harvest; $b$ may take any value between 0 and 1 in instances of partial compensation to harvest.
+
+_in particular, $b$ may be variable across the range of $K$, indicating a non-linear response to harvest and unequal compenstation depending on harvest rate_ but that might be too much to deal with for MWFWC.
+
+```{r}
+
+```
+
+
+## Annual Recruitment
+
+Using Pollock's (1982) annual recruitment estimator, we can estimate the difference between the population size at time i+1 and the expected number of survivers from i to i+1:
+
+\[
+\hat{B_t} = \hat{N_{t+1}} - S_i * (\hat{N_i}-n_i +R_i)
+\]
+
+where
+$N_{t+1}$ is the abundance estimate for that species j in lake k in 2019 (for MWFWC), and
+$S_i$ is the annual survival rate for species j in lake k for 2018 _calculated above_, and
+$N_i$ is the abundance estimate for species j in lake k for 2018, and
+$n_i$ is
+$R_i$ is the number of fish captured in the ith sample that are released _calculated above_.
+
+
+```{r}
+
+```
+
+
+## Condition
+
+Finally, populations may compensate for harvest through increased individual growth, meaning that the overall biomass does not change proportionally to the biomass removed. Therefore, we will test to see if the body condition of fish that survive a harvest increases more than fish who remain in non-harvested systems.
+
+\[
+W_r = \frac{W_i}{W_s}*100
+\]
+
+where $W_i$ is the individual fish weight, and 
+$W_s$ is a length-specific standard weight predicted from a weight-length regression developed to represent the body form of carp and buffalo along their geographical range (provided in Blackwell et al 2000). 
+
+```{r}
+
+```
+
+
+### Condition ANOVA 1: within lakes between years
+
+```{r}
+
+```
+
+### Condition ANOVA 2: within years between lakes
+
+```{r}
+
+```
+
+_do some head scratchin' about this one! we may be really only interested in the CHANGE in condition between years_
+
+
