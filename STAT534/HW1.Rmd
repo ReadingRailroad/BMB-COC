@@ -170,13 +170,42 @@ The test statistic is 0.461 with an associated p-value of 0.497, suggesting that
 
 ## g)
 
-Calculate a 95% _profile likelihood_ confidence interval for the difference in means. Note: this will require writing a function that enables finding the mle of one group's mean abundance and the shared overdispersion givena specified difference in means.
+Calculate a 95% _profile likelihood_ confidence interval for the difference in means. Note: this will require writing a function that enables finding the mle of one group's mean abundance and the shared overdispersion given a specified difference in means.
 
 ```{r}
 
 ```
 
 
-# 2
+# 3 Missouri Fish Communities
+
+The data in newfish.csv come from a study of fish communities in three wildlife refuges in Missouri. At each site(=refuge) data were collected in two habitats (main channel and chute). Fish were collected using 5 different gears = sampling techniques (EF: electrofishing, FN: Fyke nets, LH: large hoop nets, SH: small hoop nets, and SN: seine). Fyke nets were used in the chute habitat at site O, so there are no observations there. The intent was to get 4 samples for each combination of site, habitat, and gear, but there are fewer for some combinations.
+
+The data values are the count of each fish species in that sample. The version of newfish.csv that I’m providing you omits species found in less than 10% of the samples. The newfishenv.csv file has the information on refuge/habitat/gear for each sample. The data are sorted in the same order in both files (newfish.csv and newfishenv.csv).
+
+Gear is known to have a very large influence on the types of fish one collects. The biologists collecting the data expect differences between sites (refuges) and between habitats. They are very interested in the interaction between site and habitat. The biologists have asked you to analyze the data and provide them answers to the following questions:
+
+### (a) 
+
+Is there an interaction between site and habitat, i.e., is the difference between the two habitats similar (or not) at the three sites?
 
 
+
+
+
+### (b) 
+
+If there is an interaction, which species are significant contributors to that interaction?
+
+
+
+
+### Answer:
+
+Your answer to this question should be in the form of a partial scientific paper. That is:
+• A statistical methods section that describes the statistical approach you used and how
+you made any necessary decisions. This should be sufficiently detailed that a reader
+could recreate your results from the data file and your description of the analysis.
+• A results section that includes appropriate tables and/or figures. This should answer the
+biologist’s questions and may include additional interesting things you discovered.
+It is not necessary to repeat information provided here.
