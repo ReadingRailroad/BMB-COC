@@ -34,6 +34,7 @@ mu<-one.a$par[1]
 size<-one.a$par[2]
 
 theta<- ((mu+(mu^2/size))-mu)/mu^2
+one.a
 ```
 
 The overall numerical optimization of the maximum likelihood parameters $\mu$ and $\theta$ are 20.400 and 0.307, respectively.
@@ -94,9 +95,15 @@ The 95% normal approximation for the difference in means between habitat is betw
 Use results from this model (and perhaps other models) to construct a likelihood ratio test __LRT__ of the $H_0: \mu_{OldHigh} = \mu_{OldSlope}$. Report the value of the test statistic and and p-value.
 
 ```{r}
+# reduced - full model
+LRT1<- -2*(one.a$value - fit.b$value)
+LRT1
 
+pval.lrt1<-pchisq(LRT1, df=1, lower.tail=FALSE)
+pval.lrt1
 ```
 
+The test statistic is 13.507 with an associated p-value of 0.000238, leading us to the conclusion that there is evidence to reject hte null hypothesis that the mean counts between habitats are different.
 
 
 ## e)
@@ -104,10 +111,46 @@ Use results from this model (and perhaps other models) to construct a likelihood
 Fit a model (or models) that allows habitat-specific means and habitat specific overdispersion. Find the MLE's of the two means and the two overdispersion parameters.
 
 ```{r}
+NBlnl3<- function(beta, data) {
+  mu<-beta[1] + data$X*beta[2]
+  size <- beta[3] + data$X*beta[4]
+  sum(dnbinom(data$Count,size,mu=mu,log=T))
+}
+
+# We have 4 params, order is important (dummy variable X = 1 for Old High habitat)
+# beta1 is mu for Old Slope
+# beta2 is difference in mu between old slope and old high
+# beta3 is theta (size) for old Slope
+# beta4 is the difference in theta between old slope and old high
+
+fit.e<-optim(c(10, 10, 5, 1),
+             NBlnl3,
+             method='BFGS',
+             data=ab,
+             control=list(fnscale=-1),
+             hessian=T)
+fit.e
+
+
+mu.diff<-fit.e$par[2]
+theta.diff<-fit.e$par[4]
+
+
+theta.oldSlope<-1/fit.e$par[3]
+theta.oldHigh<-1/(fit.e$par[3] + theta.diff)
+
+theta.oldSlope
+theta.oldHigh
+
+mu.oldSlope<-fit.e$par[1]
+mu.oldHigh<-mu.oldSlope+mu.diff
+
+mu.oldSlope
+mu.oldHigh
 
 ```
 
-
+The MLE's for the mean in habitats Old Slope and Old High are 13.249 and 31.127, respectively. The MLE's for overdispersion in Old Slope and Old High habitats are 0.0997 and 0.181, respectively.
 
 
 ## f)
@@ -115,10 +158,15 @@ Fit a model (or models) that allows habitat-specific means and habitat specific 
 Use results from this model (and perhaps other models) to construct a likelihood ratio test of $H_0: \theta_{OldHigh} = \theta_{OldSlope}$. Report the value of your test statistic and a p-value.
 
 ```{r}
+# -2 * (reduced - full model)
+LRT2<- -2*(fit.b$value - fit.e$value)
+LRT2
 
+pval.lrt2<-pchisq(LRT2, df=1, lower.tail=FALSE)
+pval.lrt2
 ```
 
-
+The test statistic is 0.461 with an associated p-value of 0.497, suggesting that there is no evidence to support the alternative 
 
 ## g)
 
