@@ -1,0 +1,34 @@
+Lake,Year,Species,PopEst,Lower,Upper
+Blue,2017,Common Carp,60835,31993,113049
+Blue,2018,Common Carp,72140,60996,83284
+Blue,2019,Common Carp,25294,13588,36999
+Center,2017,Common Carp,8675,6769,11578
+Center,2018,Common Carp,6298,2865,9731
+Center,2019,Common Carp,1451,372,2531
+N. Twin,2017,Common Carp,2057,1231,3898
+N. Twin,2018,Common Carp,3816,1942,5690
+N. Twin,2019,Common Carp,2447,842,4052
+S. Twin,2017,Common Carp,23204,12227,41883
+S. Twin,2018,Common Carp,20661,13001,28320
+S. Twin,2019,Common Carp,16419,6207,26630
+Silver,2018,Common Carp,9755,6652,12858
+Silver,2019,Common Carp,9175,4521,13828
+Storm,2018,Common Carp,9252,6984,11519
+Storm,2019,Common Carp,15468,7873,23063
+Center,2017,Bigmouth Buffalo,12999,11243,15463
+Center,2018,Bigmouth Buffalo,3997,1216,6778
+Center,2019,Bigmouth Buffalo,3840,0,13796
+N. Twin,2017,Bigmouth Buffalo,12963,7276,23038
+N. Twin,2018,Bigmouth Buffalo,18776,8542,29009
+N. Twin,2019,Bigmouth Buffalo,17527,351,34704
+S. Twin,2017,Bigmouth Buffalo,6895,5535,8748
+S. Twin,2018,Bigmouth Buffalo,34277,18839,49715
+S. Twin,2019,Bigmouth Buffalo,8496,0,30523
+Silver,2018,Bigmouth Buffalo,12486,0,34069
+Silver,2019,Bigmouth Buffalo,3767,0,25917
+Storm,2018,Bigmouth Buffalo,13724,0,94421
+Storm,2019,Bigmouth Buffalo,158,0,1087
+Five Island,2018,Common Carp,25799,19573,32024
+Five Island,2019,Common Carp,29860,0,62378
+Five Island,2018,Bigmouth Buffalo,2300,0,4882
+Five Island,2019,Bigmouth Buffalo,311,0,2140

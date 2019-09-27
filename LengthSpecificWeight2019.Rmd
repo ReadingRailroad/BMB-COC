@@ -78,7 +78,9 @@ then subset with just COC and BIB, drop NAs, create length bins, and bin-specifi
 #
 # Carp:
 Blue.coc<-subset(Blue, Species =="COC")
+Blue.coc$Length..mm.[Blue.coc$Length..mm. == 0] <- NA
 Blue.coc<-subset(Blue.coc, !is.na(Blue.coc$Length..mm.))
+summary(Blue.coc$Length..mm.)
 summary(Blue.coc$Weight..g.)
 #Buffalo not needed for Blue
 
@@ -105,6 +107,9 @@ Blue.COC.50 <- Blue.coc %>%
 #       to reduce repitition, let's go with the 50mm (2") bins first.
 #       need 1 line of code to subset a new frame for each length bin, 
 #       then take mean weight.
+
+Blue.coc.temp<-subset(Blue.coc, Length..mm. >= 200 & Length..mm. < 250 & !is.na(Weight..g.))
+w0<-mean(Blue.coc.temp$Weight..g.)
 
 Blue.coc.temp<-subset(Blue.coc, Length..mm. >= 250 & Length..mm. < 300 & !is.na(Weight..g.))
 w1<-mean(Blue.coc.temp$Weight..g.)
@@ -133,13 +138,12 @@ w8<-mean(Blue.coc.temp$Weight..g.)
 Blue.coc.temp<-subset(Blue.coc, Length..mm. >= 650 & Length..mm. < 700 & !is.na(Weight..g.))
 w9<-mean(Blue.coc.temp$Weight..g.)
 
-Blue.COC.50$mweight<-c(w2,w2,w3,w4,w5,w6,w7,w8,w9) # changed w1 to w2 for one fish below 300
-
+Blue.COC.50$mweight<-c(w2,w2,w2,w3,w4,w5,w6,w7,w8,w9) 
 #######
 #
 # Calculate the total weight through a sum of fractional weights
 # 
-# Blue Population Estimates: 60996 - 72140 - 83284
+# Blue Population Estimates: 13588 - 25294 - 36999
 # Blue Lake area: 269 acres
 #
 # Convert to lbs
@@ -149,14 +153,14 @@ Blue.COC.50$mweight<-c(w2,w2,w3,w4,w5,w6,w7,w8,w9) # changed w1 to w2 for one fi
 
 Blue.COC.50$percent<-Blue.COC.50$percent/100 # percent to decimal
 
-Blue.COC.50$LowerBM<-Blue.COC.50$percent * Blue.COC.50$mweight * 60996 # multiply fraction, mean weight, lower pop.
+Blue.COC.50$LowerBM<-Blue.COC.50$percent * Blue.COC.50$mweight * 13588 # multiply fraction, mean weight, lower pop.
 C.L.BM<-sum(Blue.COC.50$LowerBM/453.592)
 
 
-Blue.COC.50$BMest<-Blue.COC.50$percent * Blue.COC.50$mweight * 72140 # multiply fraction, mean weight, pop. est
+Blue.COC.50$BMest<-Blue.COC.50$percent * Blue.COC.50$mweight * 25294 # multiply fraction, mean weight, pop. est
 C.BM<-sum(Blue.COC.50$BMest/453.592)
 
-Blue.COC.50$UpperBM<-Blue.COC.50$percent * Blue.COC.50$mweight * 83284 # multiply fraction, mean weight, upper pop.
+Blue.COC.50$UpperBM<-Blue.COC.50$percent * Blue.COC.50$mweight * 36999 # multiply fraction, mean weight, upper pop.
 C.U.BM<-sum(Blue.COC.50$UpperBM/453.592)
 
 C.L.BMDensity<-C.L.BM/269
@@ -254,7 +258,7 @@ Center.coc.temp<-subset(Center.coc, Length..mm. >= 750 & Length..mm. < 800 & !is
 w13<-mean(Center.coc.temp$Weight..g.)
 
 
-Center.COC.50$mweight<-c(w5,w5,w5,w5,w6,w7,w8,w9,w10,w11,w12,w13) #changed last two to w11 and first to w3 
+Center.COC.50$mweight<-c(w4,w4,w5,w6,w7,w8,w9,w10,w11,w12) 
 
 # Now Buffalo
 
@@ -277,10 +281,10 @@ Center.bib.50 <- Center.bib %>%
          cumfreq = cumsum(freq), cumpercent = cumsum(percent)) %>%
   ungroup()
 
-Center.bib.temp<-subset(Center.bib, Length..mm. >= 250 & Length..mm. < 300 & !is.na(Weight..g.))
+Center.bib.temp<-subset(Center.bib, Length..mm. >= 300 & Length..mm. < 350 & !is.na(Weight..g.))
 w1<-mean(Center.bib.temp$Weight..g.)
 
-Center.bib.temp<-subset(Center.bib, Length..mm. >= 300 & Length..mm. < 350 & !is.na(Weight..g.))
+Center.bib.temp<-subset(Center.bib, Length..mm. >= 350 & Length..mm. < 400 & !is.na(Weight..g.))
 w2<-mean(Center.bib.temp$Weight..g.)
 
 Center.bib.temp<-subset(Center.bib, Length..mm. >= 400 & Length..mm. < 450 & !is.na(Weight..g.))
@@ -301,20 +305,14 @@ w7<-mean(Center.bib.temp$Weight..g.)
 Center.bib.temp<-subset(Center.bib, Length..mm. >= 650 & Length..mm. < 700 & !is.na(Weight..g.))
 w8<-mean(Center.bib.temp$Weight..g.)
 
-Center.bib.temp<-subset(Center.bib, Length..mm. >= 700 & Length..mm. < 750 & !is.na(Weight..g.))
-w9<-mean(Center.bib.temp$Weight..g.)
-
-Center.bib.temp<-subset(Center.bib, Length..mm. >= 750 & Length..mm. < 800 & !is.na(Weight..g.))
-w10<-mean(Center.bib.temp$Weight..g.)
-
-Center.bib.50$mweight<-c(w3,w3,w3,w4,w5,w6,w7,w8,w9,w10) #changed last two to w11 and first to w3 
+Center.bib.50$mweight<-c(w1,w2,w3,w4,w5,w6,w7,w8) 
 
 #######
 #
 # Calculate the total weight through a sum of fractional weights
 # 
-# Center Carp Population Estimates: 2941 - 6466 - 9990
-# Center Buff Population Estimates: 1437 - 3529 - 5622
+# Center Carp Population Estimates: 372 - 1451 - 2531
+# Center Buff Population Estimates: 0 - 3840 - 13796
 # Center Lake area: 220 acres
 #
 # Convert to lbs
@@ -324,14 +322,14 @@ Center.bib.50$mweight<-c(w3,w3,w3,w4,w5,w6,w7,w8,w9,w10) #changed last two to w1
 
 Center.COC.50$percent<-Center.COC.50$percent/100 # percent to decimal
 
-Center.COC.50$LowerBM<-Center.COC.50$percent * Center.COC.50$mweight * 2941 # multiply fraction, mean weight, lower pop.
+Center.COC.50$LowerBM<-Center.COC.50$percent * Center.COC.50$mweight * 372 # multiply fraction, mean weight, lower pop.
 C.L.BM<-sum(Center.COC.50$LowerBM/453.592)
 
 
-Center.COC.50$BMest<-Center.COC.50$percent * Center.COC.50$mweight * 6466 # multiply fraction, mean weight, pop. est
+Center.COC.50$BMest<-Center.COC.50$percent * Center.COC.50$mweight * 1451 # multiply fraction, mean weight, pop. est
 C.BM<-sum(Center.COC.50$BMest/453.592)
 
-Center.COC.50$UpperBM<-Center.COC.50$percent * Center.COC.50$mweight * 9990 # multiply fraction, mean weight, upper pop.
+Center.COC.50$UpperBM<-Center.COC.50$percent * Center.COC.50$mweight * 2531 # multiply fraction, mean weight, upper pop.
 C.U.BM<-sum(Center.COC.50$UpperBM/453.592)
 
 C.L.BMDensity<-C.L.BM/220
@@ -340,13 +338,13 @@ C.U.BMDensity<-C.U.BM/220
 
 # now buffalo
 Center.bib.50$percent<-Center.bib.50$percent/100
-Center.bib.50$LowerBM<-Center.bib.50$percent * Center.bib.50$mweight * 1437 # multiply fraction, mean weight, lower pop.
+Center.bib.50$LowerBM<-Center.bib.50$percent * Center.bib.50$mweight * 0 # multiply fraction, mean weight, lower pop.
 B.L.BM<-sum(Center.bib.50$LowerBM/453.592)
 
-Center.bib.50$BMest<-Center.bib.50$percent * Center.bib.50$mweight * 3529 # multiply fraction, mean weight, pop. est
+Center.bib.50$BMest<-Center.bib.50$percent * Center.bib.50$mweight * 3840 # multiply fraction, mean weight, pop. est
 B.BM<-sum(Center.bib.50$BMest/453.592)
 
-Center.bib.50$UpperBM<-Center.bib.50$percent * Center.bib.50$mweight * 5622 # multiply fraction, mean weight, upper pop.
+Center.bib.50$UpperBM<-Center.bib.50$percent * Center.bib.50$mweight * 13796 # multiply fraction, mean weight, upper pop.
 B.U.BM<-sum(Center.bib.50$UpperBM/453.592)
 
 B.L.BMDensity<-B.L.BM/220
@@ -433,10 +431,8 @@ w11<-mean(FiveIsland.coc.temp$Weight..g.)
 FiveIsland.coc.temp<-subset(FiveIsland.coc, Length..mm. >= 800 & Length..mm. < 850 & !is.na(Weight..g.))
 w12<-mean(FiveIsland.coc.temp$Weight..g.)
 
-FiveIsland.coc.temp<-subset(FiveIsland.coc, Length..mm. >= 850 & Length..mm. < 900 & !is.na(Weight..g.))
-w13<-mean(FiveIsland.coc.temp$Weight..g.)
 
-FiveIsland.COC.50$mweight<-c(w3,w3,w4,w5,w6,w7,w8,w9,w10,w11,w11,w11) #changed last two to w11 and first to w3 
+FiveIsland.COC.50$mweight<-c(w2,w2,w5,w5,w6,w7,w8,w9,w10,w11,w12) 
 
 # Now Buffalo
 
@@ -462,14 +458,13 @@ FiveIsland.bib.50 <- FiveIsland.bib %>%
 #FiveIsland.bib.temp<-subset(FiveIsland.bib, Length..mm. >= 300 & Length..mm. < 350 & !is.na(Weight..g.))
 #w1<-mean(FiveIsland.bib.temp$Weight..g.)
 
-FiveIsland.bib.temp<-subset(FiveIsland.bib, Length..mm. >= 350 & Length..mm. < 400 & !is.na(Weight..g.))
+FiveIsland.bib.temp<-subset(FiveIsland.bib, Length..mm. >= 250 & Length..mm. < 300 & !is.na(Weight..g.))
 w2<-mean(FiveIsland.bib.temp$Weight..g.)
 
 FiveIsland.bib.temp<-subset(FiveIsland.bib, Length..mm. >= 400 & Length..mm. < 450 & !is.na(Weight..g.))
 w3<-mean(FiveIsland.bib.temp$Weight..g.)
 
-FiveIsland.bib.temp<-subset(FiveIsland.bib, Length..mm. >= 450 & Length..mm. < 500 & !is.na(Weight..g.))
-w4<-mean(FiveIsland.bib.temp$Weight..g.)
+
 
 FiveIsland.bib.temp<-subset(FiveIsland.bib, Length..mm. >= 500 & Length..mm. < 550 & !is.na(Weight..g.))
 w5<-mean(FiveIsland.bib.temp$Weight..g.)
@@ -486,24 +481,16 @@ w8<-mean(FiveIsland.bib.temp$Weight..g.)
 FiveIsland.bib.temp<-subset(FiveIsland.bib, Length..mm. >= 700 & Length..mm. < 750 & !is.na(Weight..g.))
 w9<-mean(FiveIsland.bib.temp$Weight..g.)
 
-FiveIsland.bib.temp<-subset(FiveIsland.bib, Length..mm. >= 750 & Length..mm. < 800 & !is.na(Weight..g.))
-w10<-mean(FiveIsland.bib.temp$Weight..g.)
 
-FiveIsland.bib.temp<-subset(FiveIsland.bib, Length..mm. >= 800 & Length..mm. < 850 & !is.na(Weight..g.))
-w11<-mean(FiveIsland.bib.temp$Weight..g.)
-
-FiveIsland.bib.temp<-subset(FiveIsland.bib, Length..mm. >= 850 & Length..mm. < 900 & !is.na(Weight..g.))
-w12<-mean(FiveIsland.bib.temp$Weight..g.)
-
-FiveIsland.bib.50$mweight<-c(w2,w3,w4,w5,w6,w7,w8,w9,w10,w11,w11) #changed last two to w11
+FiveIsland.bib.50$mweight<-c(w2,w3,w5,w6,w7,w8,w9) 
 
 
 #######
 #
 # Calculate the total weight through a sum of fractional weights
 # 
-# FiveIsland Carp Population Estimates: 19573 - 25798 - 32023
-# FiveIsland Buff Population Estimates: -281 - 2300 - 4882
+# FiveIsland Carp Population Estimates: 0 - 29860 - 62378
+# FiveIsland Buff Population Estimates: 0 - 311 - 2140
 # FiveIsland Lake area: 973 acres
 #
 # Convert to lbs
@@ -513,14 +500,14 @@ FiveIsland.bib.50$mweight<-c(w2,w3,w4,w5,w6,w7,w8,w9,w10,w11,w11) #changed last 
 
 FiveIsland.COC.50$percent<-FiveIsland.COC.50$percent/100 # percent to decimal
 
-FiveIsland.COC.50$LowerBM<-FiveIsland.COC.50$percent * FiveIsland.COC.50$mweight * 19573 # multiply fraction, mean weight, lower pop.
+FiveIsland.COC.50$LowerBM<-FiveIsland.COC.50$percent * FiveIsland.COC.50$mweight * 0 # multiply fraction, mean weight, lower pop.
 C.L.BM<-sum(FiveIsland.COC.50$LowerBM/453.592)
 
 
-FiveIsland.COC.50$BMest<-FiveIsland.COC.50$percent * FiveIsland.COC.50$mweight * 25798 # multiply fraction, mean weight, pop. est
+FiveIsland.COC.50$BMest<-FiveIsland.COC.50$percent * FiveIsland.COC.50$mweight * 29860 # multiply fraction, mean weight, pop. est
 C.BM<-sum(FiveIsland.COC.50$BMest/453.592)
 
-FiveIsland.COC.50$UpperBM<-FiveIsland.COC.50$percent * FiveIsland.COC.50$mweight * 32023 # multiply fraction, mean weight, upper pop.
+FiveIsland.COC.50$UpperBM<-FiveIsland.COC.50$percent * FiveIsland.COC.50$mweight * 62378 # multiply fraction, mean weight, upper pop.
 C.U.BM<-sum(FiveIsland.COC.50$UpperBM/453.592)
 
 C.L.BMDensity<-C.L.BM/973
@@ -529,13 +516,13 @@ C.U.BMDensity<-C.U.BM/973
 
 # now buffalo
 FiveIsland.bib.50$percent<-FiveIsland.bib.50$percent/100
-FiveIsland.bib.50$LowerBM<-FiveIsland.bib.50$percent * FiveIsland.bib.50$mweight * -281 # multiply fraction, mean weight, lower pop.
+FiveIsland.bib.50$LowerBM<-FiveIsland.bib.50$percent * FiveIsland.bib.50$mweight * 0 # multiply fraction, mean weight, lower pop.
 B.L.BM<-sum(FiveIsland.bib.50$LowerBM/453.592)
 
-FiveIsland.bib.50$BMest<-FiveIsland.bib.50$percent * FiveIsland.bib.50$mweight * 2300 # multiply fraction, mean weight, pop. est
+FiveIsland.bib.50$BMest<-FiveIsland.bib.50$percent * FiveIsland.bib.50$mweight * 311 # multiply fraction, mean weight, pop. est
 B.BM<-sum(FiveIsland.bib.50$BMest/453.592)
 
-FiveIsland.bib.50$UpperBM<-FiveIsland.bib.50$percent * FiveIsland.bib.50$mweight * 4882 # multiply fraction, mean weight, upper pop.
+FiveIsland.bib.50$UpperBM<-FiveIsland.bib.50$percent * FiveIsland.bib.50$mweight * 2140 # multiply fraction, mean weight, upper pop.
 B.U.BM<-sum(FiveIsland.bib.50$UpperBM/453.592)
 
 B.L.BMDensity<-B.L.BM/973
@@ -589,11 +576,6 @@ NTwin.COC.50 <- NTwin.coc %>%
 #       need 1 line of code to subset a new frame for each length bin, 
 #       then take mean weight.
 
-
-
-NTwin.coc.temp<-subset(NTwin.coc, Length..mm. >= 350 & Length..mm. < 400 & !is.na(Weight..g.))
-w5<-mean(NTwin.coc.temp$Weight..g.)
-
 NTwin.coc.temp<-subset(NTwin.coc, Length..mm. >= 400 & Length..mm. < 450 & !is.na(Weight..g.))
 w6<-mean(NTwin.coc.temp$Weight..g.)
 
@@ -621,10 +603,8 @@ w13<-mean(NTwin.coc.temp$Weight..g.)
 NTwin.coc.temp<-subset(NTwin.coc, Length..mm. >= 800 & Length..mm. < 850 & !is.na(Weight..g.))
 w14<-mean(NTwin.coc.temp$Weight..g.)
 
-NTwin.coc.temp<-subset(NTwin.coc, Length..mm. >= 850 & Length..mm. < 900 & !is.na(Weight..g.))
-w15<-mean(NTwin.coc.temp$Weight..g.)
 
-NTwin.COC.50$mweight<-c(w6,w6,w7,w8,w9,w10,w11,w12,w13,w14,w15)
+NTwin.COC.50$mweight<-c(w7,w7,w8,w9,w10,w11,w12,w13,w13)
 
 # Now Buffalo
 
@@ -647,17 +627,20 @@ NTwin.bib.50 <- NTwin.bib %>%
          cumfreq = cumsum(freq), cumpercent = cumsum(percent)) %>%
   ungroup()
 
-#NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 50 & Length..mm. < 100 & !is.na(Weight..g.))
-#w1<-mean(NTwin.bib.temp$Weight..g.)
+NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 0 & Length..mm. < 50 & !is.na(Weight..g.))
+w0<-mean(NTwin.bib.temp$Weight..g.)
 
-NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 100 & Length..mm. < 150 & !is.na(Weight..g.))
-w2<-mean(NTwin.bib.temp$Weight..g.)
+NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 50 & Length..mm. < 100 & !is.na(Weight..g.))
+w1<-mean(NTwin.bib.temp$Weight..g.)
 
-NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 150 & Length..mm. < 200 & !is.na(Weight..g.))
-w3<-mean(NTwin.bib.temp$Weight..g.)
+#NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 100 & Length..mm. < 150 & !is.na(Weight..g.))
+#w2<-mean(NTwin.bib.temp$Weight..g.)
 
-NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 350 & Length..mm. < 400 & !is.na(Weight..g.))
-w4<-mean(NTwin.bib.temp$Weight..g.)
+#NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 150 & Length..mm. < 200 & !is.na(Weight..g.))
+#w3<-mean(NTwin.bib.temp$Weight..g.)
+
+#NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 350 & Length..mm. < 400 & !is.na(Weight..g.))
+#w4<-mean(NTwin.bib.temp$Weight..g.)
 
 NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 400 & Length..mm. < 450 & !is.na(Weight..g.))
 w5<-mean(NTwin.bib.temp$Weight..g.)
@@ -689,18 +672,16 @@ w13<-mean(NTwin.bib.temp$Weight..g.)
 NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 850 & Length..mm. < 900 & !is.na(Weight..g.))
 w14<-mean(NTwin.bib.temp$Weight..g.)
 
-NTwin.bib.temp<-subset(NTwin.bib, Length..mm. >= 900 & Length..mm. < 950 & !is.na(Weight..g.))
-w15<-mean(NTwin.bib.temp$Weight..g.)
 
 
-NTwin.bib.50$mweight<-c(w2,w3,w5,w5,w6,w7,w8,w9,w10,w11,w12,w13,w13,w13) #changed last two to w11 and first to w3 
+NTwin.bib.50$mweight<-c(w6,w6,w6,w6,w7,w8,w9,w10,w11,w12,w13,w14) 
 
 #######
 #
 # Calculate the total weight through a sum of fractional weights
 # 
-# NTwin Carp Population Estimates: 1942 - 3816 - 5690
-# NTwin Buff Population Estimates: 8542 - 18776 - 29009
+# NTwin Carp Population Estimates: 842 - 2447 - 4052
+# NTwin Buff Population Estimates: 351 - 17527 - 34704
 # NTwin Lake area: 453 acres
 #
 # Convert to lbs
@@ -710,14 +691,14 @@ NTwin.bib.50$mweight<-c(w2,w3,w5,w5,w6,w7,w8,w9,w10,w11,w12,w13,w13,w13) #change
 
 NTwin.COC.50$percent<-NTwin.COC.50$percent/100 # percent to decimal
 
-NTwin.COC.50$LowerBM<-NTwin.COC.50$percent * NTwin.COC.50$mweight * 1942 # multiply fraction, mean weight, lower pop.
+NTwin.COC.50$LowerBM<-NTwin.COC.50$percent * NTwin.COC.50$mweight * 842 # multiply fraction, mean weight, lower pop.
 C.L.BM<-sum(NTwin.COC.50$LowerBM/453.592)
 
 
-NTwin.COC.50$BMest<-NTwin.COC.50$percent * NTwin.COC.50$mweight * 3816 # multiply fraction, mean weight, pop. est
+NTwin.COC.50$BMest<-NTwin.COC.50$percent * NTwin.COC.50$mweight * 2447 # multiply fraction, mean weight, pop. est
 C.BM<-sum(NTwin.COC.50$BMest/453.592)
 
-NTwin.COC.50$UpperBM<-NTwin.COC.50$percent * NTwin.COC.50$mweight * 5690 # multiply fraction, mean weight, upper pop.
+NTwin.COC.50$UpperBM<-NTwin.COC.50$percent * NTwin.COC.50$mweight * 4052 # multiply fraction, mean weight, upper pop.
 C.U.BM<-sum(NTwin.COC.50$UpperBM/453.592)
 
 C.L.BMDensity<-C.L.BM/453
@@ -726,13 +707,13 @@ C.U.BMDensity<-C.U.BM/453
 
 # now buffalo
 NTwin.bib.50$percent<-NTwin.bib.50$percent/100
-NTwin.bib.50$LowerBM<-NTwin.bib.50$percent * NTwin.bib.50$mweight * 8542 # multiply fraction, mean weight, lower pop.
+NTwin.bib.50$LowerBM<-NTwin.bib.50$percent * NTwin.bib.50$mweight * 351 # multiply fraction, mean weight, lower pop.
 B.L.BM<-sum(NTwin.bib.50$LowerBM/453.592)
 
-NTwin.bib.50$BMest<-NTwin.bib.50$percent * NTwin.bib.50$mweight * 18776 # multiply fraction, mean weight, pop. est
+NTwin.bib.50$BMest<-NTwin.bib.50$percent * NTwin.bib.50$mweight * 17527 # multiply fraction, mean weight, pop. est
 B.BM<-sum(NTwin.bib.50$BMest/453.592)
 
-NTwin.bib.50$UpperBM<-NTwin.bib.50$percent * NTwin.bib.50$mweight * 29009 # multiply fraction, mean weight, upper pop.
+NTwin.bib.50$UpperBM<-NTwin.bib.50$percent * NTwin.bib.50$mweight * 34704 # multiply fraction, mean weight, upper pop.
 B.U.BM<-sum(NTwin.bib.50$UpperBM/453.592)
 
 B.L.BMDensity<-B.L.BM/453
@@ -793,20 +774,23 @@ Silver.COC.50 <- Silver.coc %>%
 #       need 1 line of code to subset a new frame for each length bin, 
 #       then take mean weight.
 
-#Silver.coc.temp<-subset(Silver.coc, Length..mm. >= 50 & Length..mm. < 100 & !is.na(Weight..g.))
-#w1<-mean(Silver.coc.temp$Weight..g.)
+Silver.coc.temp<-subset(Silver.coc, Length..mm. >= 50 & Length..mm. < 100 & !is.na(Weight..g.))
+w0<-mean(Silver.coc.temp$Weight..g.)
+
+Silver.coc.temp<-subset(Silver.coc, Length..mm. >= 200 & Length..mm. < 250 & !is.na(Weight..g.))
+w1<-mean(Silver.coc.temp$Weight..g.)
 
 Silver.coc.temp<-subset(Silver.coc, Length..mm. >= 250 & Length..mm. < 300 & !is.na(Weight..g.))
 w2<-mean(Silver.coc.temp$Weight..g.)
 
-Silver.coc.temp<-subset(Silver.coc, Length..mm. >= 300 & Length..mm. < 350 & !is.na(Weight..g.))
-w3<-mean(Silver.coc.temp$Weight..g.)
+#Silver.coc.temp<-subset(Silver.coc, Length..mm. >= 300 & Length..mm. < 350 & !is.na(Weight..g.))
+#w3<-mean(Silver.coc.temp$Weight..g.)
 
-Silver.coc.temp<-subset(Silver.coc, Length..mm. >= 350 & Length..mm. < 400 & !is.na(Weight..g.))
-w4<-mean(Silver.coc.temp$Weight..g.)
+#Silver.coc.temp<-subset(Silver.coc, Length..mm. >= 350 & Length..mm. < 400 & !is.na(Weight..g.))
+#w4<-mean(Silver.coc.temp$Weight..g.)
 
-Silver.coc.temp<-subset(Silver.coc, Length..mm. >= 400 & Length..mm. < 450 & !is.na(Weight..g.))
-w5<-mean(Silver.coc.temp$Weight..g.)
+#Silver.coc.temp<-subset(Silver.coc, Length..mm. >= 400 & Length..mm. < 450 & !is.na(Weight..g.))
+#w5<-mean(Silver.coc.temp$Weight..g.)
 
 Silver.coc.temp<-subset(Silver.coc, Length..mm. >= 450 & Length..mm. < 500 & !is.na(Weight..g.))
 w6<-mean(Silver.coc.temp$Weight..g.)
@@ -835,10 +819,7 @@ w13<-mean(Silver.coc.temp$Weight..g.)
 Silver.coc.temp<-subset(Silver.coc, Length..mm. >= 850 & Length..mm. < 900 & !is.na(Weight..g.))
 w14<-mean(Silver.coc.temp$Weight..g.)
 
-Silver.coc.temp<-subset(Silver.coc, Length..mm. >= 900 & Length..mm. < 950 & !is.na(Weight..g.))
-w15<-mean(Silver.coc.temp$Weight..g.)
-
-Silver.COC.50$mweight<-c(w2,w3,w3,w3,w8,w8,w8,w9,w10,w11,w12,w13,w14,w14)
+Silver.COC.50$mweight<-c(w2,w2,w2,w6,w7,w8,w9,w10,w11,w12,w13,w14)
 
 # Now Buffalo
 
@@ -861,8 +842,8 @@ Silver.bib.50 <- Silver.bib %>%
          cumfreq = cumsum(freq), cumpercent = cumsum(percent)) %>%
   ungroup()
 
-Silver.bib.temp<-subset(Silver.bib, Length..mm. >= 250 & Length..mm. < 300 & !is.na(Weight..g.))
-w1<-mean(Silver.bib.temp$Weight..g.)
+#Silver.bib.temp<-subset(Silver.bib, Length..mm. >= 250 & Length..mm. < 300 & !is.na(Weight..g.))
+#w1<-mean(Silver.bib.temp$Weight..g.)
 
 Silver.bib.temp<-subset(Silver.bib, Length..mm. >= 300 & Length..mm. < 350 & !is.na(Weight..g.))
 w2<-mean(Silver.bib.temp$Weight..g.)
@@ -897,17 +878,14 @@ w11<-mean(Silver.bib.temp$Weight..g.)
 Silver.bib.temp<-subset(Silver.bib, Length..mm. >= 800 & Length..mm. < 850 & !is.na(Weight..g.))
 w12<-mean(Silver.bib.temp$Weight..g.)
 
-Silver.bib.temp<-subset(Silver.bib, Length..mm. >= 850 & Length..mm. < 900 & !is.na(Weight..g.))
-w13<-mean(Silver.bib.temp$Weight..g.)
-
-Silver.bib.50$mweight<-c(w1,w2,w3,w5,w5,w6,w7,w8,w9,w10,w11,w12,w12) 
+Silver.bib.50$mweight<-c(w2,w3,w4,w5,w6,w7,w8,w9,w10,w11,w12) 
 
 #######
 #
 # Calculate the total weight through a sum of fractional weights
 # 
-# Silver Carp Population Estimates: 6651 - 9755 - 12858
-# Silver Buff Population Estimates: -9096 - 12486 - 34068
+# Silver Carp Population Estimates: 4521 - 9175 - 13828
+# Silver Buff Population Estimates: 0 - 3767 - 25917
 # Silver Lake area: 1041 acres
 #
 # Convert to lbs
@@ -917,14 +895,14 @@ Silver.bib.50$mweight<-c(w1,w2,w3,w5,w5,w6,w7,w8,w9,w10,w11,w12,w12)
 
 Silver.COC.50$percent<-Silver.COC.50$percent/100 # percent to decimal
 
-Silver.COC.50$LowerBM<-Silver.COC.50$percent * Silver.COC.50$mweight * 6651 # multiply fraction, mean weight, lower pop.
+Silver.COC.50$LowerBM<-Silver.COC.50$percent * Silver.COC.50$mweight * 4521 # multiply fraction, mean weight, lower pop.
 C.L.BM<-sum(Silver.COC.50$LowerBM/453.592)
 
 
-Silver.COC.50$BMest<-Silver.COC.50$percent * Silver.COC.50$mweight * 9755 # multiply fraction, mean weight, pop. est
+Silver.COC.50$BMest<-Silver.COC.50$percent * Silver.COC.50$mweight * 9175 # multiply fraction, mean weight, pop. est
 C.BM<-sum(Silver.COC.50$BMest/453.592)
 
-Silver.COC.50$UpperBM<-Silver.COC.50$percent * Silver.COC.50$mweight * 12858 # multiply fraction, mean weight, upper pop.
+Silver.COC.50$UpperBM<-Silver.COC.50$percent * Silver.COC.50$mweight * 13828 # multiply fraction, mean weight, upper pop.
 C.U.BM<-sum(Silver.COC.50$UpperBM/453.592)
 
 C.L.BMDensity<-C.L.BM/1041
@@ -933,13 +911,13 @@ C.U.BMDensity<-C.U.BM/1041
 
 # now buffalo
 Silver.bib.50$percent<-Silver.bib.50$percent/100
-Silver.bib.50$LowerBM<-Silver.bib.50$percent * Silver.bib.50$mweight * -9096 # multiply fraction, mean weight, lower pop.
+Silver.bib.50$LowerBM<-Silver.bib.50$percent * Silver.bib.50$mweight * 0 # multiply fraction, mean weight, lower pop.
 B.L.BM<-sum(Silver.bib.50$LowerBM/453.592)
 
-Silver.bib.50$BMest<-Silver.bib.50$percent * Silver.bib.50$mweight * 12486 # multiply fraction, mean weight, pop. est
+Silver.bib.50$BMest<-Silver.bib.50$percent * Silver.bib.50$mweight * 3767 # multiply fraction, mean weight, pop. est
 B.BM<-sum(Silver.bib.50$BMest/453.592)
 
-Silver.bib.50$UpperBM<-Silver.bib.50$percent * Silver.bib.50$mweight * 34068 # multiply fraction, mean weight, upper pop.
+Silver.bib.50$UpperBM<-Silver.bib.50$percent * Silver.bib.50$mweight * 25917 # multiply fraction, mean weight, upper pop.
 B.U.BM<-sum(Silver.bib.50$UpperBM/453.592)
 
 B.L.BMDensity<-B.L.BM/1041
@@ -989,8 +967,8 @@ STwin.COC.50 <- STwin.coc %>%
 #       need 1 line of code to subset a new frame for each length bin, 
 #       then take mean weight.
 
-#STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 50 & Length..mm. < 100 & !is.na(Weight..g.))
-#w1<-mean(STwin.coc.temp$Weight..g.)
+STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 100 & Length..mm. < 150 & !is.na(Weight..g.))
+w000<-mean(STwin.coc.temp$Weight..g.)
 
 STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 150 & Length..mm. < 200 & !is.na(Weight..g.))
 w00<-mean(STwin.coc.temp$Weight..g.)
@@ -1022,16 +1000,7 @@ w7<-mean(STwin.coc.temp$Weight..g.)
 STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 600 & Length..mm. < 650 & !is.na(Weight..g.))
 w8<-mean(STwin.coc.temp$Weight..g.)
 
-STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 650 & Length..mm. < 700 & !is.na(Weight..g.))
-w10<-mean(STwin.coc.temp$Weight..g.)
-
-STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 700 & Length..mm. < 750 & !is.na(Weight..g.))
-w9<-mean(STwin.coc.temp$Weight..g.)
-
-STwin.coc.temp<-subset(STwin.coc, Length..mm. >= 750 & Length..mm. < 800 & !is.na(Weight..g.))
-w11<-mean(STwin.coc.temp$Weight..g.)
-
-STwin.COC.50$mweight<-c(w1,w1,w1,w2,w3,w4,w5,w6,w6,w6,w9,w9,w9)
+STwin.COC.50$mweight<-c(w000,w000,w1,w1,w2,w3,w4,w5,w7,w7,w7)
 
 # Now Buffalo
 
@@ -1054,11 +1023,11 @@ STwin.bib.50 <- STwin.bib %>%
          cumfreq = cumsum(freq), cumpercent = cumsum(percent)) %>%
   ungroup()
 
-#STwin.bib.temp<-subset(STwin.bib, Length..mm. >= 250 & Length..mm. < 300 & !is.na(Weight..g.))
-#w1<-mean(STwin.bib.temp$Weight..g.)
+STwin.bib.temp<-subset(STwin.bib, Length..mm. >= 0 & Length..mm. < 50 & !is.na(Weight..g.))
+w0<-mean(STwin.bib.temp$Weight..g.)
 
-STwin.bib.temp<-subset(STwin.bib, Length..mm. >= 300 & Length..mm. < 350 & !is.na(Weight..g.))
-w1<-mean(STwin.bib.temp$Weight..g.)
+#STwin.bib.temp<-subset(STwin.bib, Length..mm. >= 300 & Length..mm. < 350 & !is.na(Weight..g.))
+#w1<-mean(STwin.bib.temp$Weight..g.)
 
 STwin.bib.temp<-subset(STwin.bib, Length..mm. >= 350 & Length..mm. < 400 & !is.na(Weight..g.))
 w2<-mean(STwin.bib.temp$Weight..g.)
@@ -1081,21 +1050,16 @@ w7<-mean(STwin.bib.temp$Weight..g.)
 STwin.bib.temp<-subset(STwin.bib, Length..mm. >= 650 & Length..mm. < 700 & !is.na(Weight..g.))
 w8<-mean(STwin.bib.temp$Weight..g.)
 
-STwin.bib.temp<-subset(STwin.bib, Length..mm. >= 700 & Length..mm. < 750 & !is.na(Weight..g.))
-w9<-mean(STwin.bib.temp$Weight..g.)
-
-STwin.bib.temp<-subset(STwin.bib, Length..mm. >= 750 & Length..mm. < 800 & !is.na(Weight..g.))
-w10<-mean(STwin.bib.temp$Weight..g.)
 
 
-STwin.bib.50$mweight<-c(w2,w2,w3,w4,w5,w6,w7,w8,w8,w8) 
+STwin.bib.50$mweight<-c(w0,w3,w3,w4,w5,w6,w7,w8) 
 
 #######
 #
 # Calculate the total weight through a sum of fractional weights
 # 
-# STwin Carp Population Estimates: 13001 - 20661 - 28320
-# STwin Buff Population Estimates: 18839 - 34277 - 49715
+# STwin Carp Population Estimates: 6207 - 16419 - 26630
+# STwin Buff Population Estimates: 0 - 8496 - 30523
 # STwin Lake area: 600 acres
 #
 # Convert to lbs
@@ -1105,14 +1069,14 @@ STwin.bib.50$mweight<-c(w2,w2,w3,w4,w5,w6,w7,w8,w8,w8)
 
 STwin.COC.50$percent<-STwin.COC.50$percent/100 # percent to decimal
 
-STwin.COC.50$LowerBM<-STwin.COC.50$percent * STwin.COC.50$mweight * 13001 # multiply fraction, mean weight, lower pop.
+STwin.COC.50$LowerBM<-STwin.COC.50$percent * STwin.COC.50$mweight * 6207 # multiply fraction, mean weight, lower pop.
 C.L.BM<-sum(STwin.COC.50$LowerBM/453.592)
 
 
-STwin.COC.50$BMest<-STwin.COC.50$percent * STwin.COC.50$mweight * 20661 # multiply fraction, mean weight, pop. est
+STwin.COC.50$BMest<-STwin.COC.50$percent * STwin.COC.50$mweight * 16419 # multiply fraction, mean weight, pop. est
 C.BM<-sum(STwin.COC.50$BMest/453.592)
 
-STwin.COC.50$UpperBM<-STwin.COC.50$percent * STwin.COC.50$mweight * 28320 # multiply fraction, mean weight, upper pop.
+STwin.COC.50$UpperBM<-STwin.COC.50$percent * STwin.COC.50$mweight * 26630 # multiply fraction, mean weight, upper pop.
 C.U.BM<-sum(STwin.COC.50$UpperBM/453.592)
 
 C.L.BMDensity<-C.L.BM/600
@@ -1121,13 +1085,13 @@ C.U.BMDensity<-C.U.BM/600
 
 # now buffalo
 STwin.bib.50$percent<-STwin.bib.50$percent/100
-STwin.bib.50$LowerBM<-STwin.bib.50$percent * STwin.bib.50$mweight * 18839 # multiply fraction, mean weight, lower pop.
+STwin.bib.50$LowerBM<-STwin.bib.50$percent * STwin.bib.50$mweight * 0 # multiply fraction, mean weight, lower pop.
 B.L.BM<-sum(STwin.bib.50$LowerBM/453.592)
 
-STwin.bib.50$BMest<-STwin.bib.50$percent * STwin.bib.50$mweight * 34227 # multiply fraction, mean weight, pop. est
+STwin.bib.50$BMest<-STwin.bib.50$percent * STwin.bib.50$mweight * 8496 # multiply fraction, mean weight, pop. est
 B.BM<-sum(STwin.bib.50$BMest/453.592)
 
-STwin.bib.50$UpperBM<-STwin.bib.50$percent * STwin.bib.50$mweight * 49715 # multiply fraction, mean weight, upper pop.
+STwin.bib.50$UpperBM<-STwin.bib.50$percent * STwin.bib.50$mweight * 30523 # multiply fraction, mean weight, upper pop.
 B.U.BM<-sum(STwin.bib.50$UpperBM/453.592)
 
 B.L.BMDensity<-B.L.BM/600
@@ -1177,14 +1141,14 @@ Storm.COC.50 <- Storm.coc %>%
 #       need 1 line of code to subset a new frame for each length bin, 
 #       then take mean weight.
 
-Storm.coc.temp<-subset(Storm.coc, Length..mm. >= 150 & Length..mm. < 200 & !is.na(Weight..g.))
-w1<-mean(Storm.coc.temp$Weight..g.)
+#Storm.coc.temp<-subset(Storm.coc, Length..mm. >= 150 & Length..mm. < 200 & !is.na(Weight..g.))
+#w1<-mean(Storm.coc.temp$Weight..g.)
 
 Storm.coc.temp<-subset(Storm.coc, Length..mm. >= 250 & Length..mm. < 300 & !is.na(Weight..g.))
-w2<-mean(Storm.coc.temp$Weight..g.)
+w1<-mean(Storm.coc.temp$Weight..g.)
 
-#Storm.coc.temp<-subset(Storm.coc, Length..mm. >= 300 & Length..mm. < 350 & !is.na(Weight..g.))
-#w2<-mean(Storm.coc.temp$Weight..g.)
+Storm.coc.temp<-subset(Storm.coc, Length..mm. >= 300 & Length..mm. < 350 & !is.na(Weight..g.))
+w2<-mean(Storm.coc.temp$Weight..g.)
 
 Storm.coc.temp<-subset(Storm.coc, Length..mm. >= 350 & Length..mm. < 400 & !is.na(Weight..g.))
 w3<-mean(Storm.coc.temp$Weight..g.)
@@ -1213,7 +1177,7 @@ w10<-mean(Storm.coc.temp$Weight..g.)
 Storm.coc.temp<-subset(Storm.coc, Length..mm. >= 750 & Length..mm. < 800 & !is.na(Weight..g.))
 w11<-mean(Storm.coc.temp$Weight..g.)
 
-Storm.COC.50$mweight<-c(w3,w3,w3,w4,w5,w6,w7,w8,w9,w10,w10)
+Storm.COC.50$mweight<-c(w3,w3,w3,w4,w5,w6,w7,w8,w8,w8,w8)
 
 # Now Buffalo
 
@@ -1240,10 +1204,7 @@ Storm.bib.50 <- Storm.bib %>%
 #w1<-mean(Storm.bib.temp$Weight..g.)
 
 Storm.bib.temp<-subset(Storm.bib, Length..mm. >= 300 & Length..mm. < 350 & !is.na(Weight..g.))
-w1<-mean(Storm.bib.temp$Weight..g.) #NaN
-
-Storm.bib.temp<-subset(Storm.bib, Length..mm. >= 350 & Length..mm. < 400 & !is.na(Weight..g.))
-w2<-mean(Storm.bib.temp$Weight..g.) #NaN
+w1<-mean(Storm.bib.temp$Weight..g.)
 
 Storm.bib.temp<-subset(Storm.bib, Length..mm. >= 400 & Length..mm. < 450 & !is.na(Weight..g.))
 w3<-mean(Storm.bib.temp$Weight..g.) #NaN
@@ -1263,32 +1224,17 @@ w7<-mean(Storm.bib.temp$Weight..g.)
 Storm.bib.temp<-subset(Storm.bib, Length..mm. >= 650 & Length..mm. < 700 & !is.na(Weight..g.))
 w8<-mean(Storm.bib.temp$Weight..g.)
 
-Storm.bib.temp<-subset(Storm.bib, Length..mm. >= 700 & Length..mm. < 750 & !is.na(Weight..g.))
-w9<-mean(Storm.bib.temp$Weight..g.)
-
-Storm.bib.temp<-subset(Storm.bib, Length..mm. >= 750 & Length..mm. < 800 & !is.na(Weight..g.))
-w10<-mean(Storm.bib.temp$Weight..g.)
-
-Storm.bib.temp<-subset(Storm.bib, Length..mm. >= 800 & Length..mm. < 850 & !is.na(Weight..g.))
-w11<-mean(Storm.bib.temp$Weight..g.)
-
 Storm.bib.temp<-subset(Storm.bib, Length..mm. >= 850 & Length..mm. < 900 & !is.na(Weight..g.))
 w12<-mean(Storm.bib.temp$Weight..g.)
 
-Storm.bib.temp<-subset(Storm.bib, Length..mm. >= 900 & Length..mm. < 950 & !is.na(Weight..g.))
-w13<-mean(Storm.bib.temp$Weight..g.)
-
-Storm.bib.temp<-subset(Storm.bib, Length..mm. >= 950 & Length..mm. < 1000 & !is.na(Weight..g.))
-w14<-mean(Storm.bib.temp$Weight..g.) #NaN
-
-Storm.bib.50$mweight<-c(w4,w4,w4,w4,w5,w6,w7,w8,w9,w10,w11,w12,w13,w13) 
+Storm.bib.50$mweight<-c(w1,w3,w3,w5,w6,w6,w8,w8) 
 
 #######
 #
 # Calculate the total weight through a sum of fractional weights
 # 
-# Storm Carp Population Estimates: 6984 - 9251 - 11518
-# Storm Buff Population Estimates: -66973 - 13724 - 94421
+# Storm Carp Population Estimates: 7873 - 15468 - 23063
+# Storm Buff Population Estimates: 0 - 158 - 1087
 # Storm Lake area: 3097 acres
 #
 # Convert to lbs
@@ -1298,14 +1244,14 @@ Storm.bib.50$mweight<-c(w4,w4,w4,w4,w5,w6,w7,w8,w9,w10,w11,w12,w13,w13)
 
 Storm.COC.50$percent<-Storm.COC.50$percent/100 # percent to decimal
 
-Storm.COC.50$LowerBM<-Storm.COC.50$percent * Storm.COC.50$mweight * 6984 # multiply fraction, mean weight, lower pop.
+Storm.COC.50$LowerBM<-Storm.COC.50$percent * Storm.COC.50$mweight * 7873 # multiply fraction, mean weight, lower pop.
 C.L.BM<-sum(Storm.COC.50$LowerBM/453.592)
 
 
-Storm.COC.50$BMest<-Storm.COC.50$percent * Storm.COC.50$mweight * 9251 # multiply fraction, mean weight, pop. est
+Storm.COC.50$BMest<-Storm.COC.50$percent * Storm.COC.50$mweight * 15468 # multiply fraction, mean weight, pop. est
 C.BM<-sum(Storm.COC.50$BMest/453.592)
 
-Storm.COC.50$UpperBM<-Storm.COC.50$percent * Storm.COC.50$mweight * 11518 # multiply fraction, mean weight, upper pop.
+Storm.COC.50$UpperBM<-Storm.COC.50$percent * Storm.COC.50$mweight * 23063 # multiply fraction, mean weight, upper pop.
 C.U.BM<-sum(Storm.COC.50$UpperBM/453.592)
 
 C.L.BMDensity<-C.L.BM/3097
@@ -1314,13 +1260,13 @@ C.U.BMDensity<-C.U.BM/3097
 
 # now buffalo
 Storm.bib.50$percent<-Storm.bib.50$percent/100
-Storm.bib.50$LowerBM<-Storm.bib.50$percent * Storm.bib.50$mweight * -66973 # multiply fraction, mean weight, lower pop.
+Storm.bib.50$LowerBM<-Storm.bib.50$percent * Storm.bib.50$mweight * 0 # multiply fraction, mean weight, lower pop.
 B.L.BM<-sum(Storm.bib.50$LowerBM/453.592)
 
-Storm.bib.50$BMest<-Storm.bib.50$percent * Storm.bib.50$mweight * 13724 # multiply fraction, mean weight, pop. est
+Storm.bib.50$BMest<-Storm.bib.50$percent * Storm.bib.50$mweight * 158 # multiply fraction, mean weight, pop. est
 B.BM<-sum(Storm.bib.50$BMest/453.592)
 
-Storm.bib.50$UpperBM<-Storm.bib.50$percent * Storm.bib.50$mweight * 94421 # multiply fraction, mean weight, upper pop.
+Storm.bib.50$UpperBM<-Storm.bib.50$percent * Storm.bib.50$mweight * 1087 # multiply fraction, mean weight, upper pop.
 B.U.BM<-sum(Storm.bib.50$UpperBM/453.592)
 
 B.L.BMDensity<-B.L.BM/3097
@@ -1337,7 +1283,7 @@ Storm.BM.Density<-data.frame(cbind(C.L.BM,C.BM,C.U.BM,C.L.BMDensity,C.BMDensity,
 
 ```{r,}
 # Rbind each of the 7 lists of twelve (data frames)
-
+Lake<-factor(c("Blue","Center","Five Island","N Twin","Silver","S Twin","Storm"))
 All.biomass<-rbind(Blue.BM.Density,
                    Center.BM.Density,
                    FiveIsland.BM.Density,
@@ -1345,7 +1291,8 @@ All.biomass<-rbind(Blue.BM.Density,
                    Silver.BM.Density,
                    STwin.BM.Density,
                    Storm.BM.Density)
-write.csv(All.biomass,"2018_BiomassDensityEstimates.csv")
+All.biomass<-cbind(Lake,All.biomass)
+write.csv(All.biomass,"2019_BiomassDensityEstimates.csv")
 
 
 

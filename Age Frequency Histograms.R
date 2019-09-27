@@ -66,13 +66,18 @@ ages$Year<-as.factor(2017)
 
 # 2018 data
 str(ages2)
-ages2$Year<-as.factor(ages2$Year)
+ages2$Year<-as.factor(ages2$X)
 summary(ages2)
 
 age<-ages[,c(14,1,3,6)]
-age0<-ages2[,c(1,2,4,10)]
+age0<-ages2[,c(16,2,4,10)]
 head(age)
 colnames(age0)<-c("Year","Lake","Species","Spine.MAS")
+
+age0$Lake<-as.character(age0$Lake)
+age0$Lake[age0$Lake == "N. Twin"]<-"N Twin"
+age0$Lake<-factor(age0$Lake)
+
 
 ages<-rbind(age,age0)
 
@@ -85,10 +90,12 @@ ages$Species<-as.factor(ages$Species)
 
 summary(ages$Spine.MAS)
 
-Age.Hist<-ggplot(ages, aes(x=Spine.MAS, fill = Year))+
+ages.c<-droplevels(subset(ages, Species == "Common Carp"))
+
+Age.Hist.C<-ggplot(ages.c, aes(x=Spine.MAS))+
   geom_histogram(binwidth = 1,
                  colour = "white")+
-  facet_grid(Species~Lake)+
+  facet_grid(Year~Lake)+
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         panel.background = element_rect(fill="white",colour="grey50"), 
@@ -96,34 +103,28 @@ Age.Hist<-ggplot(ages, aes(x=Spine.MAS, fill = Year))+
         legend.position = "bottom",
         legend.background = element_rect(colour="grey20"))+
   #scale_fill_grey(start = 0.4, end = 0.9, aesthetics = "fill")+
-  labs(title = NULL,
+  labs(title = "Common Carp Age Frequency",
        x = "Age",
        y = "Frequency")
 
-Age.Hist
+Age.Hist.C
 
-df.c.m<-melt(df.c)
+ages.b<-droplevels(subset(ages, Species == "Bigmouth Buffalo"))
 
-all.lakes.Carp.lf<-ggplot(df.c.m, aes(x=value, fill = Gear))+
+Age.Hist.B<-ggplot(ages.b, aes(x=Spine.MAS))+
   geom_histogram(binwidth = 1,
-                 colour = "black",
-                 position = "stack")+
-  coord_cartesian(xlim = c(0,45))+
-  facet_grid(vars(Year), vars(Lake))+
+                 colour = "white")+
+  facet_grid(Year~Lake)+
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
         panel.background = element_rect(fill="white",colour="grey50"), 
         axis.line = element_line(colour = "black"),
         legend.position = "bottom",
         legend.background = element_rect(colour="grey20"))+
-  scale_fill_grey(start = 0.1, end = 0.9, aesthetics = "fill")+
-  labs(title = "2017 and 2018 Common Carp Length Frequencies",
-       x = "Length (inches)",
+  #scale_fill_grey(start = 0.4, end = 0.9, aesthetics = "fill")+
+  labs(title = "Bigmouth Buffalo Age Frequency",
+       x = "Age",
        y = "Frequency")
 
-all.lakes.Carp.lf
-
-grid.arrange(all.lakes.Buff.lf,all.lakes.Carp.lf,ncol=1)
-
-
+Age.Hist.B
 
