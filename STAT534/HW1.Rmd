@@ -17,6 +17,15 @@ Ignore habitat and find the MLE of mean and $\theta$, the overdispersion paramet
 
 ```{r}
 #rm(list=ls())
+
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
+
 ab<-read.csv("STAT534/Ab.csv",header=T)
 str(ab)
 
@@ -166,16 +175,7 @@ pval.lrt2<-pchisq(LRT2, df=1, lower.tail=FALSE)
 pval.lrt2
 ```
 
-The test statistic is 0.461 with an associated p-value of 0.497, suggesting that there is no evidence to support the alternative 
-
-## g)
-
-Calculate a 95% _profile likelihood_ confidence interval for the difference in means. Note: this will require writing a function that enables finding the mle of one group's mean abundance and the shared overdispersion given a specified difference in means.
-
-```{r}
-
-```
-
+The test statistic is 0.461 with an associated p-value of 0.497, suggesting that there is no evidence to support the alternative hypothesis.
 
 # 3 Missouri Fish Communities
 
@@ -189,8 +189,42 @@ Gear is known to have a very large influence on the types of fish one collects. 
 
 Is there an interaction between site and habitat, i.e., is the difference between the two habitats similar (or not) at the three sites?
 
+```{r}
+packages("mvabund")
+packages("vegan")
+fish.env<-read.csv("STAT534/newfishenv.csv")
+fish<-read.csv("STAT534/newfish.csv")
+str(fish) # columns are unique species, rows are sample events, cells are counts
+
+# set up matrix in mvabund form:
+fish.mva<-mvabund(fish)
 
 
+#first model: habitat
+fish.glm<-manyglm(fish.mva ~ habitat + site + gear + site*gear + gear*habitat + site*habitat, data = fish.env)
+
+# species-specific lnL and AIC
+logLik(fish.glm)
+AIC(fish.glm)
+
+# estimated overdispersion, as phi: Var = mu + phi*mu^2
+fish.glm$phi
+
+# residual plot
+plot(fish.glm)
+
+# resampling residuals maintaining rows 999 times
+anova(fish.glm)
+
+# resampling residuals maintaining rows including pairwise comparisons with a multiplicity adjustment
+# reduce number of bootsraps
+anova(fish.glm, pairwise.comp = habitat, nBoot = 499)
+
+# which species differ between habitats?
+fish.glm0<-manyglm(bci.mva ~ 1)
+
+plot(1:30)
+```
 
 
 ### (b) 
