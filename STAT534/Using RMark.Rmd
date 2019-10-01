@@ -1,0 +1,394 @@
+---
+title: "RMark 1 - Using RMark"
+author: "Marty Simonson - Philip Dixon"
+date: "October 1, 2019"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, width=8.5)
+```
+
+Program MARK
+
+* a powerful tool for fitting models to count data.
+* can estimate detection probability, population size, survival, immigration
+and lots of other useful things
+* 2015: fits 155 different models
+* one program and GUI that replaces a fleet of other programs
+* MARK.exe: compute engine, Mark\_Int.exe: GUI to setup the model
+
+But:
+
+* GUI requires specifying PIMs and design matrices manually
+* not reproducible (code => result)
+* easy to make errors
+
+RMark:
+
+* Replaces the GUI (Mark\_Int.exe)
+* Uses R to set up models, collect and organize results
+* Uses MARK to do the computations
+* Code is now reproducible
+* and often simpler to write
+* Written and maintained by Jeff Laake, NOAA Seattle
+
+What you need:
+
+* MARK downloaded and installed:  http://www.phidot.org/software/mark/
+* RMark package installed:  install.packages('RMark')
+  + RMark looks for MARK in program files (x86) folder
+  
+Lots of documentation:
+
+* MARK: Cooch and White online book (1000+ pages)
+* RMark: 
+  + Appendix C of Cooch and White
+  + ?ABeginnersGuide in RMark
+  + Jeff Laake RMark Workshop notes
+  + In http://www.phidot.org/software/mark/rmark/RMarkDocumentation.zip
+* This presentation based on Jeff's notes
+
+Example: Reid deer mice data set, 
+
+* closed population
+* subset of 38 individuals
+* 6 trapping occasions
+* data in www.public.iastate.edu/~pdixon/stat534/data/readCH.txt
+
+Just enough MARK to understand what RMark does
+
+* Data are capture histories
+  + 100111 means individual caught time 1, not twice, then caught last 3 times
+  + don't see 000000
+* If can estimate number of never seen (000000), have estimate of population size
+
+Various models for capture probability
+
+* one p
+* time dependent
+* recapture different from first capture (behavioral heterogeneity)
+* time + behavior
+* individual heterogeneity
+
+MARK parameterization
+
+* p: 6 first capture probabilities
+* c: 6 recapture probabilities
+* PIM: Parameter index matrix.  maps model parameters to real probabilities
+
+Model    | p1 | p2 | p3 | p4 | p5 | p6 | c2 | c3 | c4 | c5 | c6
+-------- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | --
+Constant |  1 |  1 |  1 |  1 |  1 |  1 |  1 |  1 |  1 |  1 |  1
+behavior |  1 |  1 |  1 |  1 |  1 |  1 |  2 |  2 |  2 |  2 |  2
+Time dep |  1 |  2 |  3 |  4 |  5 |  6 |  2 |  3 |  4 |  5 |  6
+TB       |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  7 |  7 |  7 |  7
+General  |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 10 | 11
+
+* Or use a design matrix and linear model to model real probabilities
++ General PIM, constant model: $f(\pi_{i}) = \beta_{0}$
++ Allows covariate-dependent models: $f(\pi_{i}) = \beta_{0} + \beta_{1} X_{i}$
+
+RMark uses design matrix approach so you don't touch PIMs
+
+* specify model using special variable names (e.g. time) or user-given covariates
+* covariates could be occasion-specific 
+* or individual-specific
+  + Huggins models for individual heterogeneity
+
+```{r}
+library(RMark)
+
+reid <- import.chdata("STAT534/reidCH.txt")
+head(reid)
+f0 <- list(formula=~1)
+mb <- mark(reid, model="Closed", model.parameters=list(p=f0, c=f0))
+```
+
+Explanation:
+
+* mark() actually calls 5 functions in sequence to process the data, make the design matrix, run the model (by writing a .inp file to the disk, then running MARK, which produces 3 output files), then collecting and organizing that output as R objects
+* arguments are the capture history data, the type of model, and the formulae for the two sets of parameters
+* the output contains coefficient estimates (on link scale), back transformed coefficients (as time-specific values), and model fit information
+* with big data sets want to run individual functions (only need to process the data once)
+* with occasion-specific covariates, need to run individual functions
+* create design matrix data, then add information about covariates to that  matrix.  see ?dipper for more info
+
+Data file format:
+
+* Just like a MARK .inp file except without ;'s
+* can use convert.inp() if have a .inp file
+* required variable is ch (capture history)
+* can have a freq variable if multiple animals with same capture history
+* 111111 7 is 7 animals seen every trapping night
+* Can have other variables (you choose names).  Need to add field.types= to import.chdata( ) to specify whether factor or numeric
+
+Preferred way to run multiple models in RMark
+
+* put all models into a dummy function
+* run that function
+* then can collect all information from all models 
+
+```{r, results="hide"}
+run.reid <- function() {
+  f0 <- list(formula=~1)
+  f0s <- list(formula=~1, share=TRUE)
+  ft <- list(formula=~time, share=TRUE)
+  fT <- list(formula=~Time, share=TRUE)
+  ftb <- list(formula=~time)
+  ftc <- list(formula=~time+c, share=TRUE) # overfit in model below
+  fc <- list(formula=~c)
+  
+# mark(ch, model family, parameters, specifying which model within family by specifying params
+  m0 <- mark(reid, model='Closed', model.parameters=list(p=f0s)) 
+  mt <- mark(reid, model='Closed', model.parameters=list(p=ft))
+  mT <- mark(reid, model='Closed', model.parameters=list(p=fT))
+  mb <- mark(reid, model='Closed', model.parameters=list(p=f0, c=f0))
+  mtb <- mark(reid, model='Closed', model.parameters=list(p=ftb, c=f0))
+  mtc <- mark(reid, model='Closed', model.parameters=list(p=ftc))
+  mc <- mark(reid, model = 'Closed', model.parameters = list(p=fc))
+  return(collect.models())
+}
+```
+Notes:
+
+* recommended practice is to separate the formula definitions from the actual model fit.  That cuts the size of the mark() call, allows you to reuse formulae, and usually improves clarity of code.
+* formula(=~time) specifies time as a factor.  time does not need to be in the data frame.  The correct columns of the design matrix are constructed by RMark automatically.
+* formula(=~Time) specifies time as a log-linear factor: f(param) = b0 + b1*Time
+* RMark uses a link function, f(), to connect the linear predictor (XB) to the parameter. Default is logit for probabilities and log for other parameters
+
+To fit the models specified in the run.reid() function:  
+```{r, results='hide'}
+reid.models <- run.reid()
+```
+The output is the result of the collect.models() function inside run.reid().  That creates a list (class=marklist, inherits from list) of all the models in the environment.
+```{r}
+print(model.table(reid.models), digits=4)
+print(model.table(reid.models, model.name=F), digits=4)
+model.average(reid.models)
+```
+
+Notes:
+
+* model.table() prints a compact table for all models - sorted by AIC
+* model.table(, model.name=F) uses the R list name to identify the models
+* the print( , digits=4) makes the output fit on one line.  Outside of RMarkdown, just make the console window larger.
+
+```{r}
+reid.models[[2]] # returns MARK output in notepad file for entire MARK processes
+summary(reid.models[[2]]) # subscripting for a list... looking at 2nd model
+```
+
+```{r}
+summary(reid.models[['mb']])
+```
+Notes:
+
+* summary([[n]]) extracts the summary for model n, can use number or name (in quotes)
+* print() of a Mark Model will open the MARK output file in NotePad 
+
+```{r, eval=FALSE}
+print(reid.models[['mb']])
+```
+
+Inspection of the estimates for the mtb model shows this is overparameterized
+```{r}
+summary(reid.models[['mtb']])
+```
+
+Three options for Mtb are: 
+
+* constrain last p to equal someother p: very arbitrary
+* model p using e.g., a logit linear model in time or as a function of some covariate suspected to influence capture probability
+* connect p and c: e.g. an additive offset for recapture probabilities logit(p_i) = b_i, logit(c_i) = b_i + c.  
+
+```{r}
+summary(reid.models[['mtb2']])
+```
+My opinions: 2nd makes most sense when you have detection covariates.  Last option is most common when you don't.  Can specify this by modifying design matrices or by using a poorly documented shortcut (see model mb2.  Both time and c are special variables).
+
+Model averaging: very easy once you have a list of models.
+```{r}
+model.average(reid.models)
+```
+Explanation:
+
+* parameters are listed by number in the biggest model.  Only f0 (number not yet seen) makes sense in this problem.  That's the last parameter in the list
+* model average estimates are on the link scale (log for a count)
+* In this case, model average of f0 not useful because it is not identified in model mtb.  Would want to rerun model list with mtb.
+
+Can (begin) to understand what RMark is doing for you by looking at the PIMS and the model matrix for a model.
+
+Time as a factor:
+```{r}
+PIMS(reid.models[['mt']], 'p', simplified=T)
+model.matrix(~time, reid.models$mt$design.data$p)
+```
+
+Time as a continuous variable:
+```{r}
+PIMS(reid.models[['mT']], 'p', simplified=T)
+model.matrix(~Time, reid.models$mT$design.data$p)
+```
+
+Mark is especially useful when data has groups or covariates.  ReidCHs.txt has a made up sex variable that defines groups in the analysis.  Continuous covariates need to be handled differently, e.g. by Huggins model.
+```{r}
+reids <- import.chdata("reidCHs.txt", field.types=c('f'))
+head(reids)
+```
+
+* header line names the variables: 
+*   ch required, freq optional, 
+*   others must be named and described by field.types=
+* field.types= specifies type for each variable (other than ch and freq).  'f' is factor, 'n' is numeric.  
+* e.g. field.types=c('f','n','f') specifies a factor, a number, a factor
+
+```{r}
+run.reid2 <- function() {
+  f0 <- list(formula=~1)
+  fs <- list(formula=~sex)
+
+  mb1 <- mark(reids, model='Closed', model.parameters=list(p=f0, c=f0),
+    groups=c('sex'), output=F)
+  mb2 <- mark(reids, model='Closed', model.parameters=list(p=f0, c=f0),
+    output=F)
+  mb3 <- mark(reids, model='Closed', model.parameters=list(p=f0, c=f0, f0=fs),
+    groups=c('sex'), output=F)
+  return(collect.models())
+}
+
+reid.models2 <- run.reid2()
+model.table(reid.models2, model.name=F)
+summary(reid.models2[[1]])
+```
+Using groups is very powerful, but requires care and more than a small amount of understanding MARK.
+
+* output=F suppresses the output from each model.  Especially useful when you're looking at many models
+* a gotcha: If fit some models with groups, all models need to have groups.  Compare mb1 and mb2.  The difference is because the log likelihood contributions associated with N and capture history counts are not the same in the grouped and ungrouped models. I haven't (yet) worked out why the parameter estimates are different.  
+* a second gotcha: what is the difference between mb2 and mb3?
+* I suggest only mb3 relevant.  Include group differences in N in all models.
+
+```{r}
+run.reid3 <- function() {
+  f0 <- list(formula=~1)
+  
+  fs <- list(formula=~-1+sex)
+  
+  mb1 <- mark(reids, model='Closed', model.parameters=list(p=f0, c=f0, f0=fs),
+    groups=c('sex'), output=F)
+  mb2 <- mark(reids, model='Closed', model.parameters=list(p=fs, c=f0, f0=fs),
+    groups=c('sex'), output=F)
+  mb3 <- mark(reids, model='Closed', model.parameters=list(p=f0, c=fs, f0=fs),
+    groups=c('sex'), output=F)
+  mb4 <- mark(reids, model='Closed', model.parameters=list(p=fs, c=fs, f0=fs),
+    groups=c('sex'), output=F)
+
+
+    return(collect.models())
+}
+
+reid.models3 <- run.reid3()
+model.table(reid.models3, model.name=F)
+coef(reid.models3[['mb3']])
+```
+
+Mark leaves lots of files in your working folder
+
+* Each time you run MARK, you get 4 files, even when rerunning the same model
+* some needed - those for "current" models.  rest are excess
+* cleanup() deletes excess files.  Will confirm each one unless you trust RMark and tell it not to ask
+
+```{r}
+cleanup(ask=F)
+```
+
+Models that MARK and RMark can fit
+
+* Conditional (Huggins) and unconditional (Otis) closed population models: population size
+* Pledger mixture models for individual heterogeneity
+* Cormack-Jolly-Seber: survival from live recaptures
+* Brownie: dead recoveries
+* reverse-time (Pradel): immigration / birth rate / lambda
+* robust design
+* multistate versions of most of above
+* many of above with random effects or mixtures
+* occupancy models
+* nest survival
+
+A full list with model names, parameter lists, and relevant examples is in MarkModels.pdf in the RMark folder (usually My Documents/R/win-library/version/RMark)  where version is the R version, e.g. 3.4.
+
+As of 2015, RMark can fit 97 of the 155 models that MARK will fit.  Most of the not-currently-supported models are generalizations of supported models that allow mis-identification of marks (e.g., genotyping error).
+
+Example: dipper data
+
+* classic Mark Recapture data set
+* 7 years
+* two sexes
+* flood in year 3, not going to worry about that here
+
+Cormack-Jolly-Seber (CJS) model for open population
+
+* Follows individuals after first capture
+  + survival from year to next year
+  + recapture probability
+  
+Described in detail in Jeff's workshop notes
+
+
+
+#######################################################################################################
+
+Skink models: 4 models total:
+
+# read in data
+```{r}
+# Skink setup: organize Skink data so can be used with RMark
+
+# data file has animal #, then 7 capture occasions, each in a separate column
+skink0 <- read.table('STAT534/skinksData.txt')
+
+head(skink0)
+skink0 <- skink0[,-1]
+
+skink <- data.frame(ch=apply(skink0, 1, function(x) {paste(x, collapse='')}) )
+skink$ch <- as.character(skink$ch)
+
+head(skink)
+```
+
+# define the four models
+
+```{r}
+run.skink <- function() {
+  f0 <- list(formula=~1)
+  f0s <- list(formula=~1, share=TRUE)
+  ft <- list(formula=~time, share=TRUE)
+  fm <- list(formula=~mixture, share = TRUE)
+  ftm<- list(formula=~time+mixture, share = TRUE)
+  ftmb<-list(formula = ~ time+c+mixture, share = TRUE)
+  ftb <- list(formula=~time)
+  
+# mark(ch, model family, parameters, specifying which model within family by specifying params
+  m0 <- mark(skink, model='FullHet', model.parameters=list(p=f0s)) 
+  mt <- mark(skink, model='FullHet', model.parameters=list(p=ft))
+  mb <- mark(skink, model='FullHet', model.parameters=list(p=f0, c=f0))
+  mtb <- mark(skink, model='FullHet', model.parameters=list(p=ftb))
+  mh <- mark(skink, model='FullHet', model.parameters=list(p=fm))
+  mth <- mark(skink, model = 'FullHet', model.parameters = list(p=ftmb))
+  return(collect.models())
+}
+```
+
+```{r}
+skink.fit<-run.skink()
+```
+
+```{r}
+print(model.table(skink.fit), digits=4)
+print(model.table(skink.fit, model.name=F), digits=4)
+model.average(skink.fit)
+```
+
