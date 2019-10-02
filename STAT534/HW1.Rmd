@@ -1,0 +1,245 @@
+---
+title: "Stat 534 Homework 1"
+author: "Marty Simonson"
+date: "September 24, 2019"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+---
+
+# 1.) 
+
+Given a data file on abundance of _Alseis blackiana_ in two habitats (OldHigh and OldSlope). Assume that the counts follow a Negative Binomial distribution, and paramaterize in terms of the mean $\mu$ and overdispersion parameter $\theta$.
+
+## a) 
+
+Ignore habitat and find the MLE of mean and $\theta$, the overdispersion parameter. 
+
+```{r}
+#rm(list=ls())
+
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
+
+ab<-read.csv("STAT534/Ab.csv",header=T)
+str(ab)
+
+NBlnl<- function(beta,data) {
+  mu <- beta[1]
+  size <- beta[2]
+  sum(dnbinom(data,size,mu=mu,log=t))
+}
+
+# Try for mu and theta
+
+one.a<-optim(c(20,5), NBlnl, method = 'BFGS', data = ab$Count,
+      control = list(fnscale=-1))
+mu<-one.a$par[1]
+size<-one.a$par[2]
+
+theta<- ((mu+(mu^2/size))-mu)/mu^2
+one.a
+```
+
+The overall numerical optimization of the maximum likelihood parameters $\mu$ and $\theta$ are 20.400 and 0.307, respectively.
+
+## b)
+
+Fit a model that allows habitat-specific means and shared overdispersion. Find the mle's of the difference in means (as OldHigh - OldSlope) and the overdispersion.
+
+```{r}
+
+NBlnl2<- function(beta, data) {
+  mu<-beta[1] + data$X*beta[2]
+  size <- beta[3]
+  sum(dnbinom(data$Count,size,mu=mu,log=T))
+}
+
+levels(ab$Habitat)
+ab$X[ab$Habitat == "OldSlope"]<-0
+ab$X[ab$Habitat == "OldHigh"]<-1
+
+fit.b<-optim(c(20,
+               20,
+               5),
+             NBlnl2,method='BFGS',data=ab,
+             control=list(fnscale=-1),
+             hessian=T)
+mu.difference<-fit.b$par[2]
+theta<-1/fit.b$par[3]
+
+mu.difference
+
+theta
+
+```
+
+The MLE for the difference in means between OldHigh - OldSlope is 17.875 and the MLE of the overdispersion parameter theta is 0.14
+
+
+## c) 
+
+Use the results from (b) to construct a normal approximation 95% confidence interval for the difference in means.
+
+```{r}
+betahat<-fit.b$par
+fit.b.vc<-solve(-fit.b$hessian)
+fit.b.se<-sqrt(diag(fit.b.vc))
+
+mu.difference.ci<-cbind(
+  lower = betahat - qnorm(0.975)*fit.b.se,
+  upper = betahat + qnorm(0.975)*fit.b.se)
+mu.difference.ci[2,]
+```
+
+The 95% normal approximation for the difference in means between habitat is between 8.255 to 27.494.
+
+## d)
+
+Use results from this model (and perhaps other models) to construct a likelihood ratio test __LRT__ of the $H_0: \mu_{OldHigh} = \mu_{OldSlope}$. Report the value of the test statistic and and p-value.
+
+```{r}
+# reduced - full model
+LRT1<- -2*(one.a$value - fit.b$value)
+LRT1
+
+pval.lrt1<-pchisq(LRT1, df=1, lower.tail=FALSE)
+pval.lrt1
+```
+
+The test statistic is 13.507 with an associated p-value of 0.000238, leading us to the conclusion that there is evidence to reject hte null hypothesis that the mean counts between habitats are different.
+
+
+## e)
+
+Fit a model (or models) that allows habitat-specific means and habitat specific overdispersion. Find the MLE's of the two means and the two overdispersion parameters.
+
+```{r}
+NBlnl3<- function(beta, data) {
+  mu<-beta[1] + data$X*beta[2]
+  size <- beta[3] + data$X*beta[4]
+  sum(dnbinom(data$Count,size,mu=mu,log=T))
+}
+
+# We have 4 params, order is important (dummy variable X = 1 for Old High habitat)
+# beta1 is mu for Old Slope
+# beta2 is difference in mu between old slope and old high
+# beta3 is theta (size) for old Slope
+# beta4 is the difference in theta between old slope and old high
+
+fit.e<-optim(c(10, 10, 5, 1),
+             NBlnl3,
+             method='BFGS',
+             data=ab,
+             control=list(fnscale=-1),
+             hessian=T)
+fit.e
+
+
+mu.diff<-fit.e$par[2]
+theta.diff<-fit.e$par[4]
+
+
+theta.oldSlope<-1/fit.e$par[3]
+theta.oldHigh<-1/(fit.e$par[3] + theta.diff)
+
+theta.oldSlope
+theta.oldHigh
+
+mu.oldSlope<-fit.e$par[1]
+mu.oldHigh<-mu.oldSlope+mu.diff
+
+mu.oldSlope
+mu.oldHigh
+
+```
+
+The MLE's for the mean in habitats Old Slope and Old High are 13.249 and 31.127, respectively. The MLE's for overdispersion in Old Slope and Old High habitats are 0.0997 and 0.181, respectively.
+
+
+## f)
+
+Use results from this model (and perhaps other models) to construct a likelihood ratio test of $H_0: \theta_{OldHigh} = \theta_{OldSlope}$. Report the value of your test statistic and a p-value.
+
+```{r}
+# -2 * (reduced - full model)
+LRT2<- -2*(fit.b$value - fit.e$value)
+LRT2
+
+pval.lrt2<-pchisq(LRT2, df=1, lower.tail=FALSE)
+pval.lrt2
+```
+
+The test statistic is 0.461 with an associated p-value of 0.497, suggesting that there is no evidence to support the alternative hypothesis.
+
+# 3 Missouri Fish Communities
+
+The data in newfish.csv come from a study of fish communities in three wildlife refuges in Missouri. At each site(=refuge) data were collected in two habitats (main channel and chute). Fish were collected using 5 different gears = sampling techniques (EF: electrofishing, FN: Fyke nets, LH: large hoop nets, SH: small hoop nets, and SN: seine). Fyke nets were used in the chute habitat at site O, so there are no observations there. The intent was to get 4 samples for each combination of site, habitat, and gear, but there are fewer for some combinations.
+
+The data values are the count of each fish species in that sample. The version of newfish.csv that I’m providing you omits species found in less than 10% of the samples. The newfishenv.csv file has the information on refuge/habitat/gear for each sample. The data are sorted in the same order in both files (newfish.csv and newfishenv.csv).
+
+Gear is known to have a very large influence on the types of fish one collects. The biologists collecting the data expect differences between sites (refuges) and between habitats. They are very interested in the interaction between site and habitat. The biologists have asked you to analyze the data and provide them answers to the following questions:
+
+### (a) 
+
+Is there an interaction between site and habitat, i.e., is the difference between the two habitats similar (or not) at the three sites?
+
+```{r}
+packages("mvabund")
+packages("vegan")
+fish.env<-read.csv("STAT534/newfishenv.csv")
+fish<-read.csv("STAT534/newfish.csv")
+str(fish) # columns are unique species, rows are sample events, cells are counts
+
+# set up matrix in mvabund form:
+fish.mva<-mvabund(fish)
+
+
+#first model: habitat
+fish.glm<-manyglm(fish.mva ~ habitat + site + gear + site*gear + gear*habitat + site*habitat, data = fish.env)
+
+# species-specific lnL and AIC
+logLik(fish.glm)
+AIC(fish.glm)
+
+# estimated overdispersion, as phi: Var = mu + phi*mu^2
+fish.glm$phi
+
+# residual plot
+plot(fish.glm)
+
+# resampling residuals maintaining rows 999 times
+anova(fish.glm)
+
+# resampling residuals maintaining rows including pairwise comparisons with a multiplicity adjustment
+# reduce number of bootsraps
+anova(fish.glm, pairwise.comp = habitat, nBoot = 499)
+
+# which species differ between habitats?
+fish.glm0<-manyglm(bci.mva ~ 1)
+
+plot(1:30)
+```
+
+
+### (b) 
+
+If there is an interaction, which species are significant contributors to that interaction?
+
+
+
+
+### Answer:
+
+Your answer to this question should be in the form of a partial scientific paper. That is:
+• A statistical methods section that describes the statistical approach you used and how
+you made any necessary decisions. This should be sufficiently detailed that a reader
+could recreate your results from the data file and your description of the analysis.
+• A results section that includes appropriate tables and/or figures. This should answer the
+biologist’s questions and may include additional interesting things you discovered.
+It is not necessary to repeat information provided here.

@@ -96,7 +96,7 @@ text(coords$Long,
      labels = coords$Name,
      pos=c(2,4,4,2,4,4,4),col='black',cex=1.75)
 # Adding a title
-# title(main="Carp & Buffalo Mgmt. Lakes")
+title(main="Carp & Buffalo Mgmt. Lakes")
 ```
 
 
@@ -1871,10 +1871,10 @@ lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
 ```{r}
 # subset by species then separate by lake
         #buff
-buff <- subset(ages, Species == "COC")
+carp <- subset(ages, Species == "COC")
 summary(buff)
 packages("ggplot2")
-ggplot(ages, aes(x=Otolith.MAS, y=Otolith.DRF, shape = Lake, colour = Lake))+geom_point(size=5)+
+ggplot(carp, aes(x=Otolith.MAS, y=Otolith.DRF, shape = Lake, colour = Lake))+geom_point(size=5)+
   geom_abline(slope = 1, intercept = 0)+
   ggtitle("Carp Age Estimates by Lake")
 
@@ -2040,17 +2040,17 @@ frame$L.BM<-frame$L.BM/1000
 frame$BM<-frame$BM/1000
 frame$U.BM<-frame$U.BM/1000
 require(ggplot2)
+dodge<-position_dodge(width=0.2)
 bm<-ggplot(frame, aes(x= Year, y = BM, ymin=L.BM, ymax=U.BM))+
                 geom_point(size=3, aes( shape = Species))+
-                geom_errorbar(width = 0.2) +
+                geom_errorbar(width = 0.2, position = dodge) +
                 facet_grid(Species ~ Lake)+
-                scale_y_continuous(labels = c("0","100","200","300"))+
                 theme(panel.grid.major = element_blank(), 
                       panel.grid.minor = element_blank(),
                       panel.background = element_rect(fill="white",colour="grey50"), 
                       axis.line = element_line(colour = "black"),
                       legend.position = "none")+
-                labs (title = "Change in Total Biomass 2017-2018", 
+                labs (title = "Change in Total Biomass 2017-2019", 
                     y = "Biomass Estimate (in thousands of pounds)")
 bm
 
@@ -2077,7 +2077,7 @@ bmD<-ggplot(frame, aes(x= Year, y = BMDensity, ymin=L.BMDensity, ymax=U.BMDensit
                       panel.background = element_rect(fill="white",colour="grey50"), 
                       axis.line = element_line(colour = "black"),
                       legend.position = "none")+
-                labs (title = "Change in Biomass Density 2017-2018", 
+                labs (title = "Change in Biomass Density 2017-2019", 
                     y = "Estimated Biomass Density (lbs. / acre)")
 bmD
 

@@ -1,0 +1,132 @@
+---
+title: "Untitled"
+author: "Martin Simonson"
+date: "September 27, 2019"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r,}
+#reading in data
+dframe<-read.csv("2019 and 2018 and 2017 Compiled Data.csv")
+dframe$Year<-as.factor(dframe$Year)
+str(dframe)
+# removing fyke catches
+levels(dframe$Gear)
+dframe$Gear[dframe$Gear=="Electrofishing"]<-"Electroshocking"
+dframe$Gear[dframe$Gear=="ElectroSchocking"]<-"Electroshocking"
+dframe<-droplevels(subset(dframe, Gear == "Electroshocking" |
+                                  Gear == "Commercial Seine"))
+
+# getting rid of unused columns
+str(dframe)
+dframe<-dframe[,-c(1,3,6:10,12:20)]
+head(dframe)
+
+# splitting data frame by Lakes
+levels(dframe$Lake)
+Blue <- subset(dframe, Lake == "Blue")
+Center<-subset(dframe, Lake == "Center")
+FiveIsland<-subset(dframe, Lake == "5 Island")
+NTwin<-subset(dframe, Lake == "N. Twin")
+Silver<-subset(dframe, Lake == "Silver")
+STwin<-subset(dframe, Lake == "S. Twin")
+Storm<-subset(dframe, Lake == "Storm")
+
+
+```
+
+- trying to make a single plot with facet.grid
+```{r}
+str(dframe$Length..mm.)
+dframe$Length..mm.[dframe$Length..mm. == ""] <- NA
+dframe$Length..mm.[dframe$Length..mm. == "0"] <- NA
+dframe$Length..mm.<-as.numeric(dframe$Length..mm.)
+# subsetting to remove NA
+df<-subset(dframe, !is.na(Length..mm.) & Species == "COC" |
+                   !is.na(Length..mm.) & Species == "BIB")
+#df<-subset(df, Lake != "Blue")
+
+# correcting names so they show up consistently on plot.
+levels(df$Lake)
+df$Lake<-as.character(df$Lake)
+df$Lake[df$Lake == "5 Island"] <- "Five Island"
+df$Lake[df$Lake == "N. Twin"] <- "N Twin"
+df$Lake[df$Lake == "S. Twin"] <- "S Twin"
+df$Lake<-as.factor(df$Lake)
+df$Species<-as.character(df$Species)
+df$Species[df$Species == "COC"] <- "Common Carp"
+df$Species[df$Species == "BIB"] <- "Bigmouth Buffalo"
+df$Species<-as.factor(df$Species)
+#switching to Inches
+df$Length.in<-df$Length..mm./25.4
+df<-df[,-3]
+
+
+df.b<-droplevels(subset(df, Species == "Bigmouth Buffalo"))
+df.c<-droplevels(subset(df, Species == "Common Carp"))
+
+df.b.m<-melt(df.b)
+
+all.lakes.Buff.lf<-ggplot(df.b.m, aes(x=value))+
+                         geom_histogram(binwidth = 1,
+                                        colour = "black",
+                                        position = "stack")+
+                         coord_cartesian(xlim = c(0,45))+
+                         facet_grid(vars(Year), vars(Lake))+
+                         theme(panel.grid.major = element_blank(), 
+                              panel.grid.minor = element_blank(),
+                              panel.background = element_rect(fill="white",colour="grey50"), 
+                              axis.line = element_line(colour = "black"),
+                              legend.position = "none",
+                              legend.background = element_rect(colour="grey20"))+
+                         scale_fill_grey(start = 0.1, end = 0.9, aesthetics = "fill")+
+                         labs(title = "Bigmouth Buffalo Length Frequencies 2017-2019",
+                              x = "Length (inches)",
+                              y = "Frequency")
+
+all.lakes.Buff.lf
+
+df.c.m<-melt(df.c)
+
+all.lakes.Carp.lf<-ggplot(df.c.m, aes(x=value))+
+                         geom_histogram(binwidth = 1,
+                                        colour = "black",
+                                        position = "stack")+
+                         coord_cartesian(xlim = c(0,45))+
+                         facet_grid(vars(Year), vars(Lake))+
+                         theme(panel.grid.major = element_blank(), 
+                              panel.grid.minor = element_blank(),
+                              panel.background = element_rect(fill="white",colour="grey50"), 
+                              axis.line = element_line(colour = "black"),
+                              legend.position = c(0.9,0.8),
+                              legend.title = element_blank(),
+                              legend.background = element_rect(colour="grey20"))+
+                         scale_fill_grey(start = 0.1, end = 0.9, aesthetics = "fill")+
+                         labs(title = "Common Carp Length Frequencies 2017-2019",
+                              x = "Length (inches)",
+                              y = "Frequency")
+
+all.lakes.Carp.lf
+
+grid.arrange(all.lakes.Buff.lf,all.lakes.Carp.lf,ncol=1)
+
+
+```
+
+```{r,}
+frame<-read.csv("Abundance 17-19.csv")
+frame$Year<-factor(frame$Year)
+str(frame)
+# total biomass plot
+bm<-ggplot(frame, aes(x= Year, y = PopEst, ymin=Lower, ymax=Upper))+
+                geom_point(size=4)+
+                geom_errorbar(width = 0.2) +
+                facet_grid(Species~Lake)+
+                theme_bw()+
+                labs (title = "Change in Abundance 2017-2019", 
+                    y = "Abundance")
+bm
+```
