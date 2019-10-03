@@ -236,7 +236,7 @@ model.matrix(~Time, reid.models$mT$design.data$p)
 
 Mark is especially useful when data has groups or covariates.  ReidCHs.txt has a made up sex variable that defines groups in the analysis.  Continuous covariates need to be handled differently, e.g. by Huggins model.
 ```{r}
-reids <- import.chdata("reidCHs.txt", field.types=c('f'))
+reids <- import.chdata("STAT534/reidCHs.txt", field.types=c('f')) # field types is further data passed on by a vector in R. see below.
 head(reids)
 ```
 
@@ -259,6 +259,10 @@ run.reid2 <- function() {
     groups=c('sex'), output=F)
   return(collect.models())
 }
+
+# mb1 and mb2 have two different log likelihoods: if a set of models have groups, they all need one. 
+# Basically estimates the unseen in *each group* differently. P and C are constant for all three models
+# mb2 is spurious and implemented wrong. only included as example of how to get 'better' model that wasn't coded right.
 
 reid.models2 <- run.reid2()
 model.table(reid.models2, model.name=F)
@@ -309,6 +313,8 @@ Models that MARK and RMark can fit
 
 * Conditional (Huggins) and unconditional (Otis) closed population models: population size
 * Pledger mixture models for individual heterogeneity
+  - FullHet will run all 8 models, HetClosed doesn't have behavioral heterogeneity in recapture
+  - Mh and Mth are fit by formula(~mixture) and formula(~mixture+time), respectively.
 * Cormack-Jolly-Seber: survival from live recaptures
 * Brownie: dead recoveries
 * reverse-time (Pradel): immigration / birth rate / lambda
@@ -337,6 +343,16 @@ Cormack-Jolly-Seber (CJS) model for open population
   
 Described in detail in Jeff's workshop notes
 
+
+############# Notes from 10-3-2019########
+# huggins models
+
+given data with an age column
+
+f.age<-list(formula(~age))
+p=f.age in model functions above.
+
+don't use likelihood for population size either.
 
 
 #######################################################################################################
