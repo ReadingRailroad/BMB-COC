@@ -392,3 +392,7 @@ print(model.table(skink.fit, model.name=F), digits=4)
 model.average(skink.fit)
 ```
 
+```{r}
+cleanup(ask=F)
+```
+

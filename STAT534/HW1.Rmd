@@ -16,7 +16,6 @@ Given a data file on abundance of _Alseis blackiana_ in two habitats (OldHigh an
 Ignore habitat and find the MLE of mean and $\theta$, the overdispersion parameter. 
 
 ```{r}
-#rm(list=ls())
 
 packages<-function(x, repos="http://cran.r-project.org", ...){
 x<-as.character(match.call()[[2]])
@@ -195,35 +194,39 @@ packages("vegan")
 fish.env<-read.csv("STAT534/newfishenv.csv")
 fish<-read.csv("STAT534/newfish.csv")
 str(fish) # columns are unique species, rows are sample events, cells are counts
-
+str(fish.env)
 # set up matrix in mvabund form:
 fish.mva<-mvabund(fish)
 
 
 #first model: habitat
 fish.glm<-manyglm(fish.mva ~ habitat + site + gear + site*gear + gear*habitat + site*habitat, data = fish.env)
+fish.glm0<-manyglm(fish.mva ~ habitat + site + gear + habitat*gear + gear*site, data = fish.env)
 
 # species-specific lnL and AIC
-logLik(fish.glm)
-AIC(fish.glm)
+#logLik(fish.glm)
+#AIC(fish.glm)
 
 # estimated overdispersion, as phi: Var = mu + phi*mu^2
-fish.glm$phi
+#fish.glm$phi
 
 # residual plot
-plot(fish.glm)
+#plot(fish.glm)
+```
 
+```{r, echo = F}
 # resampling residuals maintaining rows 999 times
 anova(fish.glm)
+```
 
-# resampling residuals maintaining rows including pairwise comparisons with a multiplicity adjustment
-# reduce number of bootsraps
-anova(fish.glm, pairwise.comp = habitat, nBoot = 499)
-
-# which species differ between habitats?
-fish.glm0<-manyglm(bci.mva ~ 1)
-
-plot(1:30)
+```{r, echo = F}
+# Plot the deviance, or -2lnL, or likelihood ratio test, between our full and reduced (nested) model.
+plot.new()
+plot(1:30, 2*(logLik(fish.glm)-logLik(fish.glm0)),
+     xlab = 'Fish Code',ylab='Deviance', main = 'Deviance between site:habitat model and reduced model',
+     ylim = c(0,15))
+abline(h=qchisq(1-(1-0.95)/30,2),lty=3)
+abline(h=qchisq(0.95,2),lty=5)
 ```
 
 
