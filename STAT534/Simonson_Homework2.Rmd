@@ -1,0 +1,242 @@
+---
+title: "Ecostats Homework 2"
+author: "Martin Simonson"
+date: "October 18, 2019"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+```{r,include=F}
+# Front matter
+rm(list=ls())  # removes objects from environment
+
+# Function to load and install packages
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
+
+# Setting Working Directory
+setwd("C:/Users/martysim/Documents/BMB-COC/STAT534/")
+
+# setting up packages
+packages(ggplot2)
+packages(rMark)
+```
+
+# 1.) Deer Mice
+
+These data come from a study of deer mice population in sagebrush steppe in Utah. Individuals were trapped on 5 nights. The usual notation for classical (Otis) closed population models is:
+
+- $t$: The number of trapping occasions
+- $n$: number of individuals caught on each trapping occasion (vector of length t)
+- $n.$: (ndot) the total number of captures, $n. = \Sigma_{i=1}^t n_i$
+- $M$: number of tags in popoulation just prior to occasion _i_, $M_i = \Sigma_{j=1}^{i-1}u_j$ except $M_1 = 0$
+- $M.$: (Mdot) $=\Sigma_{i=1}^t M_i$ Note this does not include $M_t+1$
+- $M_{t+1}$: Total number of unique individuals seen
+- $u$: number of unmarked individuals caught on each occasion (vector of length t)
+- $m$: number of marked individuals caught on each occasion (vector of length t)
+- $m.$ (mdot) total captures of marked individuals, $m. = \Sigma_{i=1}^t m_i$
+
+Note that $n_i = u_i+m_i$ for all $i$. Summary statistics for the mark-recapture study of deer mice are:
+
+Parameter     Trap Night 1     Trap Night 2       Trap Night 3    Trap Night 4    Trap Night 5
+----------    --------------   ----------------   -------------   -------------   --------------
+$n_i$         14               9                  12              11              10
+$u_i$         14               5                  11              7               5
+$m_i$         0                4                  1               4               5
+$M_i$         0                14                 19              30              37  
+----------    -------------   ----------------    -------------   -------------   --------------
+
+and $M_{t+1} = 42$. The Chao and Huggins reading has the summary-statistics version of the log-likelihood function for the $M_t$ model. Dr. Dixon's R function to compute the log likelihood is:
+
+```{r}
+lnlMt <- function(param, data) {
+  t <- data[1] # see note below
+  Mt1 <- data[2]
+  n <- data[-c(1:2)]
+  N <- param[1] # see note below
+  p <- param[-1]
+  
+  lfactorial(N)-lfactorial(N-Mt1) + sum(N*log(p)) + sum((N-n)*log(1-p))
+}
+```
+
+'param' is a vector with t+1 parameters: N followed by the t capture probabilities. 'data' is a vector with t+2 values: # capture occasions, Mt+1, followed by t occasion-specific # captured.
+
+## (a)
+
+Using results from fitting model $M_t$, calculate a Wald 95% confidence interval for $\hat{N}$
+
+```{r}
+
+```
+
+## (b)
+
+Rewrite the log-likelhiood function in terms of $log(N)$. Use log-transformed $N$ to calculate a Wald 95% confidence interval for $N$.
+
+```{r}
+
+```
+
+## (c)
+
+Write a profile log-likelihood function for $N$ (so the only parameter is $N$, $p$ is computed in your function). Use that model to calculate a 95% profile confidence interval for $\hat{N}$.
+
+```{r}
+
+```
+
+## (d)
+
+Look at the plots of profile loikelihood vs. $N$ and vs. $log(N)$. If you had to use a normal approximation, which is more appropriate? $N \approx normal$ or $log(N) \approx normal$? Briefly explain your choice and include your plot(or plots) of the profile likelihood.
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+## (e)
+
+Results from fitting 3 models ($M_0, M_t, M_b$) are:
+
+Model         AIC              $\hat{N}$        s.e.  
+----------    --------------   ---------------  -------------
+$M_0$         -13.51           75.88            14.77 
+$M_t$         -7.05            75.40            14.59  
+$M_b$         -11.90           61.65            17.67
+----------    -------------    ---------------  -------------
+
+Using AIC weights, compute the model-averaged estimate of $N$ and its standard error, using the Buckland s.e. formula.
+
+```{r}
+
+```
+
+## (f)
+
+Imagine you had three different studies of the same population. These are conducted by different people at slightly different times, but we will assume that the population remains closed across the three studies (so the true $N$ is the same for all three studies). The study results are:
+
+Study         $\hat{N}$        Var $\hat{N}$  
+----------    --------------   --------------
+A             145              30         
+B             147              30           
+C             143              30         
+----------    -------------    --------------
+
+The three studeis can be assumed to be independent estimates of $N$. If you average the results from these three studies, what is the pooled estimate ($\hat{N}$) and its associated standard error? _Note:_ These three studies are independent, so averaging them is just like calculating a sample mean and its precision.
+
+```{r}
+
+```
+
+## (g)
+
+Now imagine the same results were obtained form fitting three models to the results in from Study A. Those results, including model weights, are:
+
+Model         $\hat{N}$        Var $\hat{N}$    Weight  
+----------    --------------   ---------------  -------------
+A             145              30               1/3
+B             147              30               1/3  
+C             143              30               1/3
+----------    -------------    ---------------  -------------
+
+Compute the model-averaged estimate of $N$ and its standard error (Buckland formula is sufficient).
+
+## (h)
+
+In statistical terms, why are the results from question 1(g) not identical to those from question 1(f)? Note that at least some of the values should be different.
+
+- __Answer:__
+
+# 2.) Heterogeneity Models
+
+This problem explores models for heterogeneity. The data in _huggins2019.txt_ have capture histories for 97 animals and a measured covariate for each animal. The data are simulated and true population size will be shared by Dr. Dixon later.
+
+## (a)
+  
+Fit a variety of models including some that model heterogeneity using a mixture distribution (i.e. the Pledger approach) to the data. What model(s) seem reasonable? Do the data support heterogeneity between individuals? _Note:_ Dr. Dixon has ahad trouble using the 'HetClosed' for some models, so using the 'HetFull' class. Dr. Dixon will distribute an Intro to modeling heterogeneity guide.
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
+## (b)
+
+Fit a variety of models to the data, including some that model heterogenity as a function of the covariate X (i.e. the Huggins approach). What model(s) seem reasonable? Do the data support heterogeneity between individuals?
+```{r}
+
+```
+
+```{r}
+
+```
+
+## (c)
+
+How might you evaluate which of these two approaches is more reasonable for these data? _Note:_ This is a "think about what you have available" question. Likelihood __cannot__ be used because the Pledger and Huggins approaches are based on different data sets.
+
+- __Answer:__
+
+## (d)
+
+The annual report needs to make a statement about the number of individuals in this population. This will be read by the general public and legislators, so it needs to be succinct. What conclusions can be made?
+
+- __Answer:__
+
+# 3.) Bats
+
+This problem is a simplified version of something in regular use. Wind turbines kill birds and bats. The Fish and Wildlife Service cares (a lot) when those are endangered or threatened bats (because of the Endangered Species Act) or eagles (because of the Bald and Golden Eagle Protection Act). Hence, owners of wind turbine farms are required to
+estimate the number of killed bats and killed eagles. Eagle kill is mostly in the winter and an eagle carcass on snow is pretty easy to spot. Bat mortality is harder to estimate. Bat kill is mostly late summer and early fall. Dead bats are hard to spot; they are small, dark brown critters that fall on bare ground, grass/prairie, or in the middle of a crop field. The data to estimate bat kill are collected by trained technicians who search the ground around each turbine and identify each carcass they find. They search every week and sometimes more frequently. The number killed is larger than the number seen for three different reasons:
+
+- only a portion of the area is searched
+- scavengers, e.g. coyotes or raccoons, remove a carcass before the technician looks for it
+- the searcher doesn’t see a carcass that is in the search area and not scavenged.
+
+The portion of area searched, $\pi_a$, is a known constant. The searcher efficiency and scavenger removal rate are estimated by placing a known number of marked dead bats on the ground and seeing how many are found by the technician. In actual use, the searcher efficiency and scavenger removal rate are estimated by two different studies. I am simplifying this problem by combining the two rates into a single probability: $\pi_s$ is the probability that a carcass falling in the searched area is found by a searcher. $\pi_s$ can be estimated by
+placing a known number of marked dead bats in the search area, waiting a few days, then recording how many are found by a searcher.
+
+- Note: there is a temporal aspect to carcass removal (how many days has it been on the ground) that I am ignoring here to keep the problem from getting too complicated.
+
+The data for this problem are made up based on typical numbers for a non-endangered bat species at an Iowa wind farm with a very, very intensive monitoring program. The data are:
+
+- $Y = 23$: the number of unmarked bats (killed by turbines)
+
+There are two carcass detection trials. In each, 50 marked bats were placed in the search area. Searcher efficiency can be assumed to be the same in the two trials. The technicians found:
+
+- $Z_1 = 9$
+- $Z_2 = 12$
+
+The search area proportion is known to be:
+
+- $\pi_a = 0.2$
+
+A reasonable model for the searcher trials is:
+
+\[
+Z_i \sim Bin(50, \pi_s)
+\]
+
+A reasonable model for the tubrine mortality is 
+
+\[
+Y \sim Bin(N, \pi_a, \pi_s)
+\]

@@ -1,13 +1,13 @@
 ---
 title: "Stat 534 Homework 1"
 author: "Marty Simonson"
-date: "September 24, 2019"
+date: "October 3, 2019"
 output: pdf_document
 editor_options: 
   chunk_output_type: console
 ---
 
-# 1.) 
+# 1.) Alseis blackiana
 
 Given a data file on abundance of _Alseis blackiana_ in two habitats (OldHigh and OldSlope). Assume that the counts follow a Negative Binomial distribution, and paramaterize in terms of the mean $\mu$ and overdispersion parameter $\theta$.
 
@@ -15,7 +15,7 @@ Given a data file on abundance of _Alseis blackiana_ in two habitats (OldHigh an
 
 Ignore habitat and find the MLE of mean and $\theta$, the overdispersion parameter. 
 
-```{r}
+```{r,include=F}
 
 packages<-function(x, repos="http://cran.r-project.org", ...){
 x<-as.character(match.call()[[2]])
@@ -24,17 +24,18 @@ install.packages(pkgs=x, repos=repos, ...)
 require(x,character.only=TRUE)
 }
 }
-
+setwd("C:/Users/martysim/Documents/BMB-COC/")
 ab<-read.csv("STAT534/Ab.csv",header=T)
 str(ab)
-
+```
+```{r,echo=F}
 NBlnl<- function(beta,data) {
   mu <- beta[1]
   size <- beta[2]
   sum(dnbinom(data,size,mu=mu,log=t))
 }
 
-# Try for mu and theta
+# Numerical MLE for mu and theta
 
 one.a<-optim(c(20,5), NBlnl, method = 'BFGS', data = ab$Count,
       control = list(fnscale=-1))
@@ -42,7 +43,9 @@ mu<-one.a$par[1]
 size<-one.a$par[2]
 
 theta<- ((mu+(mu^2/size))-mu)/mu^2
-one.a
+
+mu
+theta
 ```
 
 The overall numerical optimization of the maximum likelihood parameters $\mu$ and $\theta$ are 20.400 and 0.307, respectively.
@@ -51,7 +54,7 @@ The overall numerical optimization of the maximum likelihood parameters $\mu$ an
 
 Fit a model that allows habitat-specific means and shared overdispersion. Find the mle's of the difference in means (as OldHigh - OldSlope) and the overdispersion.
 
-```{r}
+```{r,echo=F}
 
 NBlnl2<- function(beta, data) {
   mu<-beta[1] + data$X*beta[2]
@@ -59,7 +62,7 @@ NBlnl2<- function(beta, data) {
   sum(dnbinom(data$Count,size,mu=mu,log=T))
 }
 
-levels(ab$Habitat)
+#levels(ab$Habitat)
 ab$X[ab$Habitat == "OldSlope"]<-0
 ab$X[ab$Habitat == "OldHigh"]<-1
 
@@ -85,7 +88,7 @@ The MLE for the difference in means between OldHigh - OldSlope is 17.875 and the
 
 Use the results from (b) to construct a normal approximation 95% confidence interval for the difference in means.
 
-```{r}
+```{r,echo=F}
 betahat<-fit.b$par
 fit.b.vc<-solve(-fit.b$hessian)
 fit.b.se<-sqrt(diag(fit.b.vc))
@@ -118,7 +121,7 @@ The test statistic is 13.507 with an associated p-value of 0.000238, leading us 
 
 Fit a model (or models) that allows habitat-specific means and habitat specific overdispersion. Find the MLE's of the two means and the two overdispersion parameters.
 
-```{r}
+```{r, echo = F}
 NBlnl3<- function(beta, data) {
   mu<-beta[1] + data$X*beta[2]
   size <- beta[3] + data$X*beta[4]
@@ -137,7 +140,7 @@ fit.e<-optim(c(10, 10, 5, 1),
              data=ab,
              control=list(fnscale=-1),
              hessian=T)
-fit.e
+#fit.e
 
 
 mu.diff<-fit.e$par[2]
@@ -174,23 +177,18 @@ pval.lrt2<-pchisq(LRT2, df=1, lower.tail=FALSE)
 pval.lrt2
 ```
 
-The test statistic is 0.461 with an associated p-value of 0.497, suggesting that there is no evidence to support the alternative hypothesis.
+The test statistic is 0.461 with an associated p-value of 0.497, suggesting that there is no evidence to support the alternative hypothesis that there is a difference in $\theta$ between the two habitats.
 
 # 3 Missouri Fish Communities
 
-The data in newfish.csv come from a study of fish communities in three wildlife refuges in Missouri. At each site(=refuge) data were collected in two habitats (main channel and chute). Fish were collected using 5 different gears = sampling techniques (EF: electrofishing, FN: Fyke nets, LH: large hoop nets, SH: small hoop nets, and SN: seine). Fyke nets were used in the chute habitat at site O, so there are no observations there. The intent was to get 4 samples for each combination of site, habitat, and gear, but there are fewer for some combinations.
+- (a) Is there an interaction between site and habitat, i.e., is the difference between the two habitats similar (or not) at the three sites?
 
-The data values are the count of each fish species in that sample. The version of newfish.csv that I’m providing you omits species found in less than 10% of the samples. The newfishenv.csv file has the information on refuge/habitat/gear for each sample. The data are sorted in the same order in both files (newfish.csv and newfishenv.csv).
+- (b) If there is an interaction, which species are significant contributors to that interaction?
 
-Gear is known to have a very large influence on the types of fish one collects. The biologists collecting the data expect differences between sites (refuges) and between habitats. They are very interested in the interaction between site and habitat. The biologists have asked you to analyze the data and provide them answers to the following questions:
-
-### (a) 
-
-Is there an interaction between site and habitat, i.e., is the difference between the two habitats similar (or not) at the three sites?
-
-```{r}
+```{r, include = F}
 packages("mvabund")
 packages("vegan")
+setwd("C:/Users/martysim/Documents/BMB-COC/")
 fish.env<-read.csv("STAT534/newfishenv.csv")
 fish<-read.csv("STAT534/newfish.csv")
 str(fish) # columns are unique species, rows are sample events, cells are counts
@@ -204,45 +202,49 @@ fish.glm<-manyglm(fish.mva ~ habitat + site + gear + site*gear + gear*habitat + 
 fish.glm0<-manyglm(fish.mva ~ habitat + site + gear + habitat*gear + gear*site, data = fish.env)
 
 # species-specific lnL and AIC
-#logLik(fish.glm)
-#AIC(fish.glm)
+logLik(fish.glm)
+logLik(fish.glm0)
+AIC(fish.glm)
+AIC(fish.glm0)
 
 # estimated overdispersion, as phi: Var = mu + phi*mu^2
-#fish.glm$phi
+fish.glm$phi
 
 # residual plot
 #plot(fish.glm)
 ```
 
+## Answer:
+
+### Methods
+
+Missouri fish sampling was conducted where two habitats (main channel and chute) were sampled at each of three sites using five different gears. Species of fish found in fewer than 10% of samples have been omitted from the data. The objective is to test whether or not species abundance is affected by an interaction between site and habitat. If an interaction exists, we will determine which species are significant contributers to the observed interaction of site and habitat.
+
+I assume that since we are given count data that our models are overdispersed and will create a model under the negative binomial distribution. I further assume that each species is independent.
+
+The full model includes additive effects of habitat, site, and gear as well as interactions of site:gear, gear:habitat, and our parameter of interest site:habitat. The reduced (nested) model included the same individual effects of habitat, site, and gear but also had interactions of habitat:gear and gear:site. 
+
+Both models were implemented using the R packages "mvabund" and "vegan", particularly the function _manyglm()_ that is used to calculate parameter estimates of generalized linear models fitted to each of many variable simultaneously. A lon-link function was used with the default negative binomial distribution. Significance for the interaction between site and habitat was tested using in the full model using a bootstrap analysis of variance function set to 999 iterations (known as PIT-trap resampling). 
+
+Fish species that were significant contributors to any observed interaction between site and habitat were determined by plotting the deviance, or likelihood ratio test, between our full and reduced models for each species. The threshold for significance was determined first by a Bonferroni-corrected chi-square test and then by a traditional chi-square test, each with $\alpha = 0.05$ and two degrees of freedom.
+
+### Results
+
+The ANOVA for the full model showed that there was some evidence for an interaction between site and habitat (p-value ~ 0.05). The model for 'gear' was highly significant (p-value ~ 0.01) and models with 'site' and 'site:gear' were observed to be significant given the data.
 ```{r, echo = F}
 # resampling residuals maintaining rows 999 times
 anova(fish.glm)
 ```
 
+Plotting the deviance between models yielded zero species that significantly contributed to the observed interaction between site and habitat under the Bonferroni-adjusted chi-square test (dotted line). However, the traditional chi-square threshold (dahsed line) determined that there were four species that were likely significant contributors to the observed interaction between sample site and sample habitat.
 ```{r, echo = F}
 # Plot the deviance, or -2lnL, or likelihood ratio test, between our full and reduced (nested) model.
 plot.new()
 plot(1:30, 2*(logLik(fish.glm)-logLik(fish.glm0)),
      xlab = 'Fish Code',ylab='Deviance', main = 'Deviance between site:habitat model and reduced model',
      ylim = c(0,15))
-abline(h=qchisq(1-(1-0.95)/30,2),lty=3)
-abline(h=qchisq(0.95,2),lty=5)
+abline(h=qchisq(1-(1-0.95)/30,2),lty=3) # bonferroni adjustment
+abline(h=qchisq(0.95,2),lty=5) # traditional
 ```
 
-
-### (b) 
-
-If there is an interaction, which species are significant contributors to that interaction?
-
-
-
-
-### Answer:
-
-Your answer to this question should be in the form of a partial scientific paper. That is:
-• A statistical methods section that describes the statistical approach you used and how
-you made any necessary decisions. This should be sufficiently detailed that a reader
-could recreate your results from the data file and your description of the analysis.
-• A results section that includes appropriate tables and/or figures. This should answer the
-biologist’s questions and may include additional interesting things you discovered.
-It is not necessary to repeat information provided here.
+The four species that were common carp  _Cyprinus carpio_, channel catfish _Ictalurus punctatus_, red shiner _Cyprinella lutrensis_, and  and silver chub _Machrybopsis sotreriana_. The first two species are large-bodied bottom feeders, and may use habitat differently based on water current (chute vs. main channel). The other two species are small-bodied individuals and may not have the strength to withstand current in the main channel.
