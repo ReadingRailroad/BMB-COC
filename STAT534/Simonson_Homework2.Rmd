@@ -27,7 +27,8 @@ setwd("C:/Users/martysim/Documents/BMB-COC/STAT534/")
 
 # setting up packages
 packages(ggplot2)
-packages(rMark)
+packages(RMark)
+packages(gtools)
 ```
 
 # 1.) Deer Mice
@@ -46,7 +47,7 @@ These data come from a study of deer mice population in sagebrush steppe in Utah
 
 Note that $n_i = u_i+m_i$ for all $i$. Summary statistics for the mark-recapture study of deer mice are:
 
-Parameter     Trap Night 1     Trap Night 2       Trap Night 3    Trap Night 4    Trap Night 5
+              Trap Night 1     Trap Night 2       Trap Night 3    Trap Night 4    Trap Night 5
 ----------    --------------   ----------------   -------------   -------------   --------------
 $n_i$         14               9                  12              11              10
 $u_i$         14               5                  11              7               5
@@ -64,7 +65,7 @@ lnlMt <- function(param, data) {
   N <- param[1] # see note below
   p <- param[-1]
   
-  lfactorial(N)-lfactorial(N-Mt1) + sum(N*log(p)) + sum((N-n)*log(1-p))
+  lfactorial(N) - lfactorial(N-Mt1) + sum(n*log(p)) + sum((N-n)*log(1-p))
 }
 ```
 
@@ -75,8 +76,24 @@ lnlMt <- function(param, data) {
 Using results from fitting model $M_t$, calculate a Wald 95% confidence interval for $\hat{N}$
 
 ```{r}
+data<-c(5, 42, 14, 9, 12, 11, 10)
+param<-c(42, rep(0.6,5))
 
+fit.1a<-optim(param, lnlMt, method = 'BFGS',data = data, control = list(fnscale = -1), hessian = T)
+fit.1a$par
+
+
+betahat<-fit.1a$par
+fit.1a.vc<-solve(-fit.1a$hessian)
+fit.1a.se<-sqrt(diag(fit.1a.vc))
+
+betahat.ci<-cbind(
+  lower = betahat - qnorm(0.975)*fit.1a.se,
+  upper = betahat + qnorm(0.975)*fit.1a.se)
+betahat.ci[1,]
 ```
+
+Our estimate of N is 75.45, and our 95% confidence interval is bounded between 46.80 and 104.10.
 
 ## (b)
 
@@ -84,26 +101,160 @@ Rewrite the log-likelhiood function in terms of $log(N)$. Use log-transformed $N
 
 ```{r}
 
+data<- c(5, 42, 14, 9, 12, 11, 10)
+param<-c(log(42), rep(0.1,5))
+
+lnlMt2 <- function(param, data) {
+  t <- data[1] 
+  Mt1 <- data[2]
+  n <- data[-c(1:2)]
+  logN <- exp(param[1]) 
+  p <- param[-1]
+  
+  lfactorial(logN) - lfactorial(logN-Mt1) + sum(n*log(p)) + sum((logN-n)*log(1-p))
+}
+
+
+fit.1b<-optim(param, 
+              lnlMt2, 
+              method = 'BFGS',
+              data = data, 
+              control = list(fnscale = -1),
+              hessian = T)
+fit.1b$par
+exp(fit.1b$par[1])
+
+betahat<-fit.1b$par[1]
+fit.1b.vc<-solve(-fit.1b$hessian)
+fit.1b.se<-sqrt(diag(fit.1b.vc))
+
+betahat.ci<-cbind(
+  lower = betahat - qnorm(0.975)*fit.1b.se,
+  upper = betahat + qnorm(0.975)*fit.1b.se)
+exp(betahat.ci[1,])
 ```
+
+The estimate for log-transformation yielded an estimate of $N = 75.43$ and the 95% confidence interval is bounded between 51.60 and 110.25.
+
 
 ## (c)
 
-Write a profile log-likelihood function for $N$ (so the only parameter is $N$, $p$ is computed in your function). Use that model to calculate a 95% profile confidence interval for $\hat{N}$.
+Write a profile log-likelihood function for $N$ (so the only parameter is $\hat{N}$, $p$ is computed in your function). Use that model to calculate a 95% profile confidence interval for $\hat{N}$. 
 
 ```{r}
+# need to re-structure data vector to fit this function?
+data<- c(5, 42, 14, 9, 12, 11, 10)
+param<-c(75.42819, rep(0.3,5))
+
+lnlM0p <- function(param, data) {
+   N <- param[1]
+  # overall probability of capture is # seen / N*#times
+   p <- data[-c(1:2)]/(N)
+  # then call lnlMt with the provided N and calculated p
+   lnlMt(c(N,p), data)
+  }
+
+
+# maximize the fit in 1D
+optimize(lnlM0p, c(20,120), data=data, maximum=T)
+# arguments are the:
+#   function to maximize, first argument must be the parameter
+#   the interval to search.  Could also be lower=40, upper=100
+#   any additional arguments to the function, here the data
+#   default is to minimize, setting maximum=T looks for the maximum
+# gives you $maximum = location of maximum and $objective = lnl at max
+# generate values for the profile likelihood curve
+
+
+# finding a 95% confidence interval
+# approach: want to find X values such that 2*(lnl(mle) - lnl(X)) = 3.84
+#  do by finding roots of (lnl(mle) - lnl(X)) - 3.84/2 = 0
+
+# implement by defining a check function to calculate (lnl(X) - lnl(mle)) + 3.84
+# that's the negative, but this has the same roots, and matches shape of lnlN
+
+ciM0p <- function(X, mle, data, coverage = 0.95) {
+#  X is the argument
+#  mle is the estimated parameter
+#  coverage is the desired coverage, e.g. 0.95, 
+#    used to calculate the Chi-square quantile, e.g. 3.84
+#  and data is the capture history matrix
+
+  (lnlM0p(X, data=data) - lnlM0p(mle, data=data)) + qchisq(coverage,1)/2
+  }
+
+mleN <- optimize(lnlM0p, c(20,100), data=data, maximum=T)$maximum
+mleN
+
+lowerN <- uniroot(ciM0p, c(20, mleN), mle=mleN, data=data)
+# first argument is the function to find a root for
+# second is the interval to search in
+# since ciM0p requires an mle for N and a data set, 
+#   need to provide those by name in the call to uniroot
+
+lowerN$root
+# $root is the root, the rest is supplemental information
+
+# find upper ci endpoint by searching from mle to something large
+
+upperN <- uniroot(ciM0p, c(mleN, mleN*10), mle=mleN, data=data)
+upperN$root
+
+cat('95% ci')
+c(lowerN$root, upperN$root)
+
+# and if you don't like fractions of critters, 
+#   round lower down and upper up
+
+#c(floor(lowerN$root), ceiling(upperN$root) )
 
 ```
+
+The profile log-likelihood for $N$ results in a 95% confidence interval between 54.97 and 118.36.
+
 
 ## (d)
 
-Look at the plots of profile loikelihood vs. $N$ and vs. $log(N)$. If you had to use a normal approximation, which is more appropriate? $N \approx normal$ or $log(N) \approx normal$? Briefly explain your choice and include your plot(or plots) of the profile likelihood.
+Look at the plots of profile likelihood vs. $N$ and vs. $log(N)$. If you had to use a normal approximation, which is more appropriate? $N \approx normal$ or $log(N) \approx normal$? Briefly explain your choice and include your plot(or plots) of the profile likelihood.
 
 ```{r}
+checkN <- rep(NA, length(allN))
+for (i in 1:length(allN)) {
+  checkN[i] <- ciM0p(allN[i], mleN, data, 0.95)
+  }
+
+
+allN <- 20:120
+# from part a, the untransformed N
+N.a <- rep(NA, length(allN))
+for (i in 1:length(allN)) {
+  N.a[i] <- lnlMt(allN[i], data)
+}
+
+# from part b, the log-likelihood N
+allN2 <- log(allN)
+logN <- rep(NA, length(allN2))
+for (i in 1:length(allN2)) {
+  logN[i] <- lnlMt2(allN2[i], data)
+}
+
+# from part c, the profile log-likelihood N
+N.c <- rep(NA, length(allN))
+for (i in 1:length(allN)) {
+  N.c[i] <- lnlM0p(allN[i], data)
+}
+N.c
 
 ```
 
 ```{r}
-
+plot.new() # clear previous plots
+par(mfrow=c(1,2)) # set frame to show two plots at once, side by side
+par(mar=c(3,3,0,0)+0.2, mgp=c(2,0.8,0)) # setting margins, etc
+#plot 1: profile likelihood vs. N
+plot(N.c,N.a)
+#plot2: profile likelihood vs. log(N)
+plot(N.c, logN)
 ```
 
 ## (e)
@@ -117,7 +268,7 @@ $M_t$         -7.05            75.40            14.59
 $M_b$         -11.90           61.65            17.67
 ----------    -------------    ---------------  -------------
 
-Using AIC weights, compute the model-averaged estimate of $N$ and its standard error, using the Buckland s.e. formula.
+Using AIC weights, compute the model-averaged estimate of $N$ and its standard error, using the Buckland s.e. formula. Derive the AIC weights from AIC column. Variance needed in Buckland formula is the variance($\hat{N}$). Standard deviation is of observations, and standard error is of the estimate. Variance of observations and variance of estimate, in this problem we want to square the s.e. column to get the variance of the estimate. Fun fact: there is another distinction between sd and se, that is, se is an estimated variance of an estimate.
 
 ```{r}
 
@@ -168,6 +319,30 @@ This problem explores models for heterogeneity. The data in _huggins2019.txt_ ha
 Fit a variety of models including some that model heterogeneity using a mixture distribution (i.e. the Pledger approach) to the data. What model(s) seem reasonable? Do the data support heterogeneity between individuals? _Note:_ Dr. Dixon has ahad trouble using the 'HetClosed' for some models, so using the 'HetFull' class. Dr. Dixon will distribute an Intro to modeling heterogeneity guide.
 
 ```{r}
+huggins<-import.chdata("huggins2019.txt")
+head(huggins)
+
+# models:
+run.huggins <- function() {
+  f0 <- list(formula=~1, share = T)
+  ft <- list(formula=~time, share = T)
+  ftb<-list(formula=~time)
+  fh<-list(formula=~mixture)
+  fth<-list(formula=~mixture+time)
+  
+  m0 <-mark(huggins, model='FullHet', model.parameters = list(p=f0))
+  mt <-mark(huggins, model='FullHet', model.parameters = list(p=ft))
+  mtb <-mark(huggins, model='FullHet', model.parameters = list(p=ftb, c=f0))
+  mh <-mark(huggins, model='FullHet', model.parameters = list(p=fh,c=f0))
+  mtb<-mark(huggins, model='FullHet', model.parameters = list(p=ftb, c=f0))
+  mth<-mark(huggins,model='FullHet', model.parameters=list(p=fh,c=fh))
+  
+  return(collect.models)
+}
+
+pledger.models<-run.huggins()
+
+print(model.table(pledger.models), digits = 4)
 
 ```
 
@@ -240,3 +415,5 @@ A reasonable model for the tubrine mortality is
 \[
 Y \sim Bin(N, \pi_a, \pi_s)
 \]
+
+# 4.) 
