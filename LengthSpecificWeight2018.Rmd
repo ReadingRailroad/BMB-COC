@@ -66,7 +66,7 @@ data<-read.csv("2018_COC_BIB_CMR_Data.csv", header = T)
 levels(data$Lake)
 Blue <- subset(data, Lake == "Blue")
 Center<-subset(data, Lake == "Center")
-FiveIsland<-subset(data, Lake == "5 Island")
+FiveIsland<-subset(data, Lake == "Five Island")
 NTwin<-subset(data, Lake == "N. Twin")
 Silver<-subset(data, Lake == "Silver")
 STwin<-subset(data, Lake == "S. Twin")
@@ -751,6 +751,8 @@ NTwin.BM.Density<-data.frame(cbind(C.L.BM,C.BM,C.U.BM,C.L.BMDensity,C.BMDensity,
 
 ```
 
+
+
 # Hypothetical junk to see what biomass estimates would be if we had more recaps
 ```{r}
 
@@ -1350,6 +1352,9 @@ All.biomass<-rbind(Blue.BM.Density,
                    Silver.BM.Density,
                    STwin.BM.Density,
                    Storm.BM.Density)
+Lake<-c("Blue","Center","5 Island","N Twin","Silver","S Twin","Storm")
+Year<-c("2018","2018","2018","2018","2018","2018","2018")
+All.biomass<-cbind(Lake,Year,All.biomass)
 write.csv(All.biomass,"2018_BiomassDensityEstimates.csv")
 
 

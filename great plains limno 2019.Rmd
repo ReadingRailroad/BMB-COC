@@ -1,0 +1,68 @@
+---
+title: "great plains limno"
+author: "Marty Simonson"
+date: "October 16, 2019"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r,include=F}
+# front matter
+rm(list=ls())
+
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
+
+packages(vegan)
+packages(ggplot2)
+packages(reshape2)
+packages(nnet)
+packages(multcomp)
+packages(plyr)
+packages(rv)
+packages(arm)
+packages(lattice)
+packages(tikzDevice)
+packages(gridExtra)
+packages(dplyr)
+
+packages(FSA)
+
+```
+
+In the annual report there should be code to
+
+- put the biomass density of carp/buffalo on x axis, with error bars
+
+- annual report shows CPUE on Y, but we can put WQ data
+-- TN
+-- TP
+-- Algal Biomass
+-- Zoop Biomass
+
+Basically limited to 2017 and 2018 as of 10/2019... not all WQ data entered and QC'd yet
+
+# biomasses
+```{r,}
+setwd("~/BMB-COC")
+seventeen<-read.csv("2017_BiomassDensityEstimates.csv", header = T)
+eighteen<-read.csv("2018_BiomassDensityEstimates.csv",header=T)
+nineteen<-read.csv("2019_BiomassDensityEstimates.csv", header = T) # not needed yet
+# check that year col has been added to 2019
+
+bm.frame<-rbind(seventeen,eighteen)
+bm.frame<-bm.frame[,-1]
+bm.frame
+```
+
+# water quality
+```{r}
+wq<-read.csv()
+```
+

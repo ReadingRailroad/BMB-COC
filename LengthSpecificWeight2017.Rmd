@@ -775,7 +775,9 @@ All.biomass<-rbind(Blue.BM.Density,
                    Center.BM.Density,
                    NTwin.BM.Density,
                    STwin.BM.Density)
-
+Lake<-c("Blue","Center","N Twin","S Twin")
+Year<-c("2017","2017","2017","2017")
+All.biomass<-cbind(Lake,Year,All.biomass)
 write.csv(All.biomass,"2017_BiomassDensityEstimates.csv")
 
 dat<-read.csv("2017_BiomassDensityEstimates.csv")

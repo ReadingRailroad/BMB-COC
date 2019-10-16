@@ -49,7 +49,7 @@ subset by lakes after
 
 
 ```{r,}
-
+setwd("~/BMB-COC")
 data<-read.csv("2019 Tagging Data.csv", header = T)
 str(data)
 data$Length..mm.<-as.numeric(as.character(data$Length..mm.))
@@ -182,6 +182,7 @@ Blue.BM.Density
 ```
 
 #Center
+
 ```{r,}
 
 ###########################
@@ -362,6 +363,7 @@ Center.BM.Density
 ```
 
 #Five Island
+
 ```{r,}
 
 ###########################
