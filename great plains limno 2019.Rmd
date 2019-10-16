@@ -44,7 +44,6 @@ In the annual report there should be code to
 -- TN
 -- TP
 -- Algal Biomass
--- Zoop Biomass
 
 Basically limited to 2017 and 2018 as of 10/2019... not all WQ data entered and QC'd yet
 
@@ -62,7 +61,38 @@ bm.frame
 ```
 
 # water quality
+melt and reshape
 ```{r}
-wq<-read.csv()
-```
+blue<-read.csv("WaterQuality/BlueWQ.csv",header=T)
+center<-read.csv("WaterQuality/CenterWQ.csv",header=T)
+fiveisland<-read.csv("WaterQuality/FiveIslandWQ.csv",header=T)
+ntwin<-read.csv("WaterQuality/NTwinWQ.csv",header=T)
+silver<-read.csv("WaterQuality/SilverWQ.csv",header=T)
+stwin<-read.csv("WaterQuality/STwinWQ.csv",header=T)
+storm<-read.csv("WaterQuality/StormWQ.csv",header=T)
 
+##########################################################################################
+# S twin is simplist. This is ideal frame to get mean and ci
+head(stwin)
+
+
+
+
+# Start with Blue from Aquia format
+head(blue)
+# change date
+blue$sampleDate<-as.Date(blue$sampleDate)
+blue$Year<-factor(format(blue$sampleDate, "%Y"))
+summary(blue$Year)
+# subset for my three years
+blue<-droplevels(subset(blue, Year == "2017" |
+                   Year == "2018" |
+                   Year == "2019"))
+# now to trim the fat
+str(blue)
+blue<-blue[,c(3,7,10,11,27)]
+head(blue)
+# melt and cast
+blue.melt<-melt(blue)
+blue.c<-dcast(blue.melt, name+Year+analyte~)
+```
