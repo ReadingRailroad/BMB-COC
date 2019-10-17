@@ -52,12 +52,12 @@ Basically limited to 2017 and 2018 as of 10/2019... not all WQ data entered and 
 setwd("~/BMB-COC")
 seventeen<-read.csv("2017_BiomassDensityEstimates.csv", header = T)
 eighteen<-read.csv("2018_BiomassDensityEstimates.csv",header=T)
-nineteen<-read.csv("2019_BiomassDensityEstimates.csv", header = T) # not needed yet
-# check that year col has been added to 2019
+nineteen<-read.csv("2019_BiomassDensityEstimates.csv", header = T)
 
-bm.frame<-rbind(seventeen,eighteen)
+
+bm.frame<-rbind(seventeen,eighteen,nineteen)
 bm.frame<-bm.frame[,-1]
-bm.frame
+head(bm.frame)
 ```
 
 # water quality
@@ -72,12 +72,36 @@ stwin<-read.csv("WaterQuality/STwinWQ.csv",header=T)
 storm<-read.csv("WaterQuality/StormWQ.csv",header=T)
 
 ##########################################################################################
-# S twin is simplist. This is ideal frame to get mean and ci
+# S twin is simplest. 
+# I will take the obs here to make them matching to the lake/year rows from biomass
+# This is ideal frame to get mean and ci
 head(stwin)
+stwin$Year<-factor(as.character(stwin$Year))
+stwin.melt<-melt(stwin, na.rm = T)
 
+# cast mean result (measurement)
+stwin.c.m<-dcast(stwin.melt, LakeName+Year~variable, value.var = "value", fun.aggregate = mean, na.rm = T)
+stwin.c.m
+# cast standard deviation of the measuremnt
+stwin.c.sd<-dcast(stwin.melt, LakeName+Year~variable, value.var = "value", fun.aggregate = sd)
+stwin.c.sd
+# cast the number of observations, n
+stwin.c.n<-dcast(stwin.melt, LakeName+Year~variable, value.var = "value")
+stwin.c.n # note that as of 10/16/2019 this only includes 0 obs for 2019
+# cols are Lake, Year, TP, SRP, TSS, VSS, ISS, CHL.A, Phyco
 
+# new transformation is into [Lake],[Year],[Chl.A],[Phyco],[TSS]
+stwin.c<-stwin.c.m[,c(1,2,8,9,5)]
 
+# add -Chl.a- lower limit
+stwin.c$lower<-stwin.c[,3:5]-((1.96*stwin.c.sd[,3:5])/sqrt(stwin.c.n[,3:5]))
+# add -Chl.a- uper limit
+stwin.c$upper<-stwin.c[,3:5]+((1.96*stwin.c.sd[,3:5])/sqrt(stwin.c.n[,3:5]))
 
+stwin.c
+```
+
+```{r,}
 # Start with Blue from Aquia format
 head(blue)
 # change date
@@ -94,5 +118,38 @@ blue<-blue[,c(3,7,10,11,27)]
 head(blue)
 # melt and cast
 blue.melt<-melt(blue)
-blue.c<-dcast(blue.melt, name+Year+analyte~)
+# cast mean result (measurement)
+blue.c.m<-dcast(blue.melt, name+Year~analyte, value.var = "value", fun.aggregate = mean)
+blue.c.m
+# cast standard deviation of the measuremnt
+blue.c.sd<-dcast(blue.melt, name+Year~analyte, value.var = "value", fun.aggregate = sd)
+blue.c.sd
+# cast the number of observations, n
+blue.c.n<-dcast(blue.melt, name+Year~analyte, value.var = "value")
+blue.c.n # note that as of 10/16/2019 this only includes 1 observation for 2019
+
+# trim variables that don't match objectives.
+# again,
+# we want
+# Lake, Year, CHL.A, Phyco, tss. THEN: 3 cols lower and 3 cols upper. 
+# basically the south twin data frame 
+# we have a row for each lake/year
+# with chl.a (lower and upper), Phyco (lower and upper), TSS( lower and upper)
+
+# desired result is frame with 11 columns: str() below:
+
+  # Lake name
+  # Year
+  # CHL.A (ug/L)
+  # Phyco (ug/L)
+  # TSS (mg/L)
+
+  # 3 x lower bounds for chl.a, phyco, and tss
+  # 3 x upper boudns for chl.a, phyco, and tss
+
+  # let's figure this out: 5 initial cols, 3 of which each have an upper and a lower:
+
+
+
+
 ```

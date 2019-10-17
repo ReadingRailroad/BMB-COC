@@ -1286,6 +1286,7 @@ Storm.BM.Density<-data.frame(cbind(C.L.BM,C.BM,C.U.BM,C.L.BMDensity,C.BMDensity,
 ```{r,}
 # Rbind each of the 7 lists of twelve (data frames)
 Lake<-factor(c("Blue","Center","Five Island","N Twin","Silver","S Twin","Storm"))
+Year<-factor(rep("2019",7))
 All.biomass<-rbind(Blue.BM.Density,
                    Center.BM.Density,
                    FiveIsland.BM.Density,
@@ -1293,7 +1294,7 @@ All.biomass<-rbind(Blue.BM.Density,
                    Silver.BM.Density,
                    STwin.BM.Density,
                    Storm.BM.Density)
-All.biomass<-cbind(Lake,All.biomass)
+All.biomass<-cbind(Lake,Year,All.biomass)
 write.csv(All.biomass,"2019_BiomassDensityEstimates.csv")
 
 
