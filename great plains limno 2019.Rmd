@@ -31,7 +31,7 @@ packages(lattice)
 packages(tikzDevice)
 packages(gridExtra)
 packages(dplyr)
-
+packages(ggpmisc)
 packages(FSA)
 
 ```
@@ -58,6 +58,17 @@ nineteen<-read.csv("2019_BiomassDensityEstimates.csv", header = T)
 bm.frame<-rbind(seventeen,eighteen,nineteen)
 bm.frame<-bm.frame[,-1]
 head(bm.frame)
+
+levels(bm.frame$Lake)
+bm.frame$Lake[bm.frame$Lake == "5 Island"] <- "Five Island"
+bm.frame$Lake<-droplevels(bm.frame$Lake)
+bm.frame$Year<-as.factor(as.character(bm.frame$Year))
+
+# converting biomasses to KG
+
+bm.frame[,c(3,4,5,9,10,11)]<-bm.frame[,c(3,4,5,9,10,11)]*0.45359237
+# converting biomass density into KG/hectare
+bm.frame[,c(6,7,8,12,13,14)]<-bm.frame[,c(6,7,8,12,13,14)]*1.12085115619446
 ```
 
 # water quality
@@ -94,13 +105,22 @@ stwin.c.n # note that as of 10/16/2019 this only includes 0 obs for 2019
 stwin.c<-stwin.c.m[,c(1,2,8,9,5)]
 
 # add -Chl.a- lower limit
-stwin.c$lower<-stwin.c[,3:5]-((1.96*stwin.c.sd[,3:5])/sqrt(stwin.c.n[,3:5]))
+lower<-stwin.c[,c(3,4,5)]-
+                ((1.96*stwin.c.sd[,c(3,4,5)])/sqrt(stwin.c.n[,c(3,4,5)]))
 # add -Chl.a- uper limit
-stwin.c$upper<-stwin.c[,3:5]+((1.96*stwin.c.sd[,3:5])/sqrt(stwin.c.n[,3:5]))
+upper<-stwin.c[,c(3,4,5)]+
+                ((1.96*stwin.c.sd[,c(3,4,5)])/sqrt(stwin.c.n[,c(3,4,5)]))
 
-stwin.c
+
+str(stwin.c)
+stwinWQ<-cbind(stwin.c,lower,upper)
+colnames(stwinWQ)<-c("Lake","Year","Chla (ug/L)","Phycocyanin (ug/L)","TSS (mg/L)",
+                     "Lower Chla","Lower Phyco","Lower TSS",
+                     "Upper Chla","Upper Phyco","Upper TSS")
+head(stwinWQ)
 ```
 
+# Blue
 ```{r,}
 # Start with Blue from Aquia format
 head(blue)
@@ -149,7 +169,531 @@ blue.c.n # note that as of 10/16/2019 this only includes 1 observation for 2019
 
   # let's figure this out: 5 initial cols, 3 of which each have an upper and a lower:
 
+Lake<-factor(rep("Blue",3))
+blueWQ<-data.frame(Lake,blue.c.m$Year)
+head(blueWQ) # got the lake and year
+
+blueWQ<-cbind(blueWQ,blue.c.m[,c(6,20,24)],
+              (blue.c.m[,c(6,20,24)]-((1.96*blue.c.sd[,c(6,20,24)])/sqrt(blue.c.n[,c(6,20,24)]))), # lower bounds
+              (blue.c.m[,c(6,20,24)]+((1.96*blue.c.sd[,c(6,20,24)])/sqrt(blue.c.n[,c(6,20,24)])))  # upper bounds
+)
+
+
+colnames(blueWQ)<-c("Lake","Year","Chla (ug/L)","Phycocyanin (ug/L)","TSS (mg/L)",
+                     "Lower Chla","Lower Phyco","Lower TSS",
+                     "Upper Chla","Upper Phyco","Upper TSS")
+head(blueWQ)
+```
+
+#Center
+```{r}
+head(center)
+# Start with center from Aquia format
+head(center)
+# change date
+center$sampleDate<-as.Date(center$sampleDate)
+center$Year<-factor(format(center$sampleDate, "%Y"))
+summary(center$Year)
+# subset for my three years
+center<-droplevels(subset(center, Year == "2017" |
+                   Year == "2018" |
+                   Year == "2019"))
+# now to trim the fat
+str(center)
+center<-center[,c(3,7,10,11,27)]
+head(center)
+# melt and cast
+center.melt<-melt(center)
+# cast mean result (measurement)
+center.c.m<-dcast(center.melt, name+Year~analyte, value.var = "value", fun.aggregate = mean)
+center.c.m
+# cast standard deviation of the measuremnt
+center.c.sd<-dcast(center.melt, name+Year~analyte, value.var = "value", fun.aggregate = sd)
+center.c.sd
+# cast the number of observations, n
+center.c.n<-dcast(center.melt, name+Year~analyte, value.var = "value")
+center.c.n # note that as of 10/16/2019 this only includes 1 observation for 2019
+
+# trim variables that don't match objectives.
+# again,
+# we want
+# Lake, Year, CHL.A, Phyco, tss. THEN: 3 cols lower and 3 cols upper. 
+# basically the south twin data frame 
+# we have a row for each lake/year
+# with chl.a (lower and upper), Phyco (lower and upper), TSS( lower and upper)
+
+# desired result is frame with 11 columns: str() below:
+
+  # Lake name
+  # Year
+  # CHL.A (ug/L)
+  # Phyco (ug/L)
+  # TSS (mg/L)
+
+  # 3 x lower bounds for chl.a, phyco, and tss
+  # 3 x upper boudns for chl.a, phyco, and tss
+
+  # let's figure this out: 5 initial cols, 3 of which each have an upper and a lower:
+
+Lake<-factor(rep("Center",3))
+centerWQ<-data.frame(Lake,center.c.m$Year)
+head(centerWQ) # got the lake and year
+
+centerWQ<-cbind(centerWQ,center.c.m[,c(6,19,23)],
+              (center.c.m[,c(6,19,23)]-
+                 ((1.96*center.c.sd[,c(6,19,23)])/sqrt(center.c.n[,c(6,19,23)]))), # lower bounds
+              (center.c.m[,c(6,19,23)]+
+                 ((1.96*center.c.sd[,c(6,19,23)])/sqrt(center.c.n[,c(6,19,23)])))  # upper bounds
+)
+
+colnames(centerWQ)<-c("Lake","Year","Chla (ug/L)","Phycocyanin (ug/L)","TSS (mg/L)",
+                     "Lower Chla","Lower Phyco","Lower TSS",
+                     "Upper Chla","Upper Phyco","Upper TSS")
+
+head(centerWQ) 
+```
+
+# Five Island
+```{r}
+# Start with Five Island from Aquia format
+head(fiveisland)
+# change date
+fiveisland$sampleDate<-as.Date(fiveisland$sampleDate)
+fiveisland$Year<-factor(format(fiveisland$sampleDate, "%Y"))
+summary(fiveisland$Year)
+# subset for my three years
+fiveisland<-droplevels(subset(fiveisland, Year == "2017" |
+                   Year == "2018" |
+                   Year == "2019"))
+# now to trim the fat
+str(fiveisland)
+fiveisland<-fiveisland[,c(3,7,10,11,27)]
+head(fiveisland)
+# melt and cast
+fiveisland.melt<-melt(fiveisland)
+# cast mean result (measurement)
+fiveisland.c.m<-dcast(fiveisland.melt, name+Year~analyte, value.var = "value", fun.aggregate = mean)
+fiveisland.c.m
+# cast standard deviation of the measuremnt
+fiveisland.c.sd<-dcast(fiveisland.melt, name+Year~analyte, value.var = "value", fun.aggregate = sd)
+fiveisland.c.sd
+# cast the number of observations, n
+fiveisland.c.n<-dcast(fiveisland.melt, name+Year~analyte, value.var = "value")
+fiveisland.c.n # note that as of 10/16/2019 this only includes 1 observation for 2019
+
+# trim variables that don't match objectives.
+# again,
+# we want
+# Lake, Year, CHL.A, Phyco, tss. THEN: 3 cols lower and 3 cols upper. 
+# basically the south twin data frame 
+# we have a row for each lake/year
+# with chl.a (lower and upper), Phyco (lower and upper), TSS( lower and upper)
+
+# desired result is frame with 11 columns: str() below:
+
+  # Lake name
+  # Year
+  # CHL.A (ug/L)
+  # Phyco (ug/L)
+  # TSS (mg/L)
+
+  # 3 x lower bounds for chl.a, phyco, and tss
+  # 3 x upper boudns for chl.a, phyco, and tss
+
+  # let's figure this out: 5 initial cols, 3 of which each have an upper and a lower:
+
+Lake<-factor(rep("Five Island",3))
+fiveislandWQ<-data.frame(Lake,fiveisland.c.m$Year)
+head(fiveislandWQ) # got the lake and year
+
+fiveislandWQ<-cbind(fiveislandWQ,fiveisland.c.m[,c(6,19,23)],
+              (fiveisland.c.m[,c(6,19,23)]-
+                 ((1.96*fiveisland.c.sd[,c(6,19,23)])/sqrt(fiveisland.c.n[,c(6,19,23)]))), # lower bounds
+              (fiveisland.c.m[,c(6,19,23)]+
+                 ((1.96*fiveisland.c.sd[,c(6,19,23)])/sqrt(fiveisland.c.n[,c(6,19,23)])))  # upper bounds
+)
+
+colnames(fiveislandWQ)<-c("Lake","Year","Chla (ug/L)","Phycocyanin (ug/L)","TSS (mg/L)",
+                     "Lower Chla","Lower Phyco","Lower TSS",
+                     "Upper Chla","Upper Phyco","Upper TSS")
+
+head(fiveislandWQ) 
+```
+
+# North Twin
+
+```{r}
+# Start with North Twin from Aquia format
+head(ntwin)
+# change date
+ntwin$sampleDate<-as.Date(ntwin$sampleDate)
+ntwin$Year<-factor(format(ntwin$sampleDate, "%Y"))
+summary(ntwin$Year)
+# subset for my three years
+ntwin<-droplevels(subset(ntwin, Year == "2017" |
+                   Year == "2018" |
+                   Year == "2019"))
+# now to trim the fat
+str(ntwin)
+ntwin<-ntwin[,c(3,7,10,11,27)]
+head(ntwin)
+# melt and cast
+ntwin.melt<-melt(ntwin)
+# cast mean result (measurement)
+ntwin.c.m<-dcast(ntwin.melt, name+Year~analyte, value.var = "value", fun.aggregate = mean)
+ntwin.c.m
+# cast standard deviation of the measuremnt
+ntwin.c.sd<-dcast(ntwin.melt, name+Year~analyte, value.var = "value", fun.aggregate = sd)
+ntwin.c.sd
+# cast the number of observations, n
+ntwin.c.n<-dcast(ntwin.melt, name+Year~analyte, value.var = "value")
+ntwin.c.n # note that as of 10/16/2019 this only includes 1 observation for 2019
+
+# trim variables that don't match objectives.
+# again,
+# we want
+# Lake, Year, CHL.A, Phyco, tss. THEN: 3 cols lower and 3 cols upper. 
+# basically the south twin data frame 
+# we have a row for each lake/year
+# with chl.a (lower and upper), Phyco (lower and upper), TSS( lower and upper)
+
+# desired result is frame with 11 columns: str() below:
+
+  # Lake name
+  # Year
+  # CHL.A (ug/L)
+  # Phyco (ug/L)
+  # TSS (mg/L)
+
+  # 3 x lower bounds for chl.a, phyco, and tss
+  # 3 x upper boudns for chl.a, phyco, and tss
+
+  # let's figure this out: 5 initial cols, 3 of which each have an upper and a lower:
+
+Lake<-factor(rep("N Twin",3))
+ntwinWQ<-data.frame(Lake,ntwin.c.m$Year)
+head(ntwinWQ) # got the lake and year
+
+ntwinWQ<-cbind(ntwinWQ,ntwin.c.m[,c(6,20,24)],
+              (ntwin.c.m[,c(6,20,24)]-
+                 ((1.96*ntwin.c.sd[,c(6,20,24)])/sqrt(ntwin.c.n[,c(6,20,24)]))), # lower bounds
+              (ntwin.c.m[,c(6,20,24)]+
+                 ((1.96*ntwin.c.sd[,c(6,20,24)])/sqrt(ntwin.c.n[,c(6,20,24)])))  # upper bounds
+)
+
+colnames(ntwinWQ)<-c("Lake","Year","Chla (ug/L)","Phycocyanin (ug/L)","TSS (mg/L)",
+                     "Lower Chla","Lower Phyco","Lower TSS",
+                     "Upper Chla","Upper Phyco","Upper TSS")
+
+head(ntwinWQ) 
+```
+
+# Silver
+```{r}
+# Start with Silver from Aquia format
+head(silver)
+# change date
+silver$sampleDate<-as.Date(silver$sampleDate)
+silver$Year<-factor(format(silver$sampleDate, "%Y"))
+summary(silver$Year)
+# subset for my three years
+silver<-droplevels(subset(silver, Year == "2017" |
+                   Year == "2018" |
+                   Year == "2019"))
+# now to trim the fat
+str(silver)
+silver<-silver[,c(3,7,10,11,27)]
+head(silver)
+# melt and cast
+silver.melt<-melt(silver)
+# cast mean result (measurement)
+silver.c.m<-dcast(silver.melt, name+Year~analyte, value.var = "value", fun.aggregate = mean)
+silver.c.m
+# cast standard deviation of the measuremnt
+silver.c.sd<-dcast(silver.melt, name+Year~analyte, value.var = "value", fun.aggregate = sd)
+silver.c.sd
+# cast the number of observations, n
+silver.c.n<-dcast(silver.melt, name+Year~analyte, value.var = "value")
+silver.c.n # note that as of 10/16/2019 this only includes 1 observation for 2019
+
+# trim variables that don't match objectives.
+# again,
+# we want
+# Lake, Year, CHL.A, Phyco, tss. THEN: 3 cols lower and 3 cols upper. 
+# basically the south twin data frame 
+# we have a row for each lake/year
+# with chl.a (lower and upper), Phyco (lower and upper), TSS( lower and upper)
+
+# desired result is frame with 11 columns: str() below:
+
+  # Lake name
+  # Year
+  # CHL.A (ug/L)
+  # Phyco (ug/L)
+  # TSS (mg/L)
+
+  # 3 x lower bounds for chl.a, phyco, and tss
+  # 3 x upper boudns for chl.a, phyco, and tss
+
+  # let's figure this out: 5 initial cols, 3 of which each have an upper and a lower:
+
+Lake<-factor(rep("Silver",3))
+silverWQ<-data.frame(Lake,silver.c.m$Year)
+head(silverWQ) # got the lake and year
+
+silverWQ<-cbind(silverWQ,silver.c.m[,c(6,19,23)],
+              (silver.c.m[,c(6,19,23)]-
+                 ((1.96*silver.c.sd[,c(6,19,23)])/sqrt(silver.c.n[,c(6,19,23)]))), # lower bounds
+              (silver.c.m[,c(6,19,23)]+
+                 ((1.96*silver.c.sd[,c(6,19,23)])/sqrt(silver.c.n[,c(6,19,23)])))  # upper bounds
+)
+
+colnames(silverWQ)<-c("Lake","Year","Chla (ug/L)","Phycocyanin (ug/L)","TSS (mg/L)",
+                     "Lower Chla","Lower Phyco","Lower TSS",
+                     "Upper Chla","Upper Phyco","Upper TSS")
+
+head(silverWQ) 
+```
+
+# Storm
+```{r}
+# Start with Storm from Aquia format
+head(storm)
+# change date
+storm$sampleDate<-as.Date(storm$sampleDate)
+storm$Year<-factor(format(storm$sampleDate, "%Y"))
+summary(storm$Year)
+# subset for my three years
+storm<-droplevels(subset(storm, Year == "2017" |
+                   Year == "2018" |
+                   Year == "2019"))
+# now to trim the fat
+str(storm)
+storm<-storm[,c(3,7,10,11,27)]
+head(storm)
+# melt and cast
+storm.melt<-melt(storm)
+# cast mean result (measurement)
+storm.c.m<-dcast(storm.melt, name+Year~analyte, value.var = "value", fun.aggregate = mean)
+storm.c.m
+# cast standard deviation of the measuremnt
+storm.c.sd<-dcast(storm.melt, name+Year~analyte, value.var = "value", fun.aggregate = sd)
+storm.c.sd
+# cast the number of observations, n
+storm.c.n<-dcast(storm.melt, name+Year~analyte, value.var = "value")
+storm.c.n # note that as of 10/16/2019 this only includes 1 observation for 2019
+
+# trim variables that don't match objectives.
+# again,
+# we want
+# Lake, Year, CHL.A, Phyco, tss. THEN: 3 cols lower and 3 cols upper. 
+# basically the south twin data frame 
+# we have a row for each lake/year
+# with chl.a (lower and upper), Phyco (lower and upper), TSS( lower and upper)
+
+# desired result is frame with 11 columns: str() below:
+
+  # Lake name
+  # Year
+  # CHL.A (ug/L)
+  # Phyco (ug/L)
+  # TSS (mg/L)
+
+  # 3 x lower bounds for chl.a, phyco, and tss
+  # 3 x upper boudns for chl.a, phyco, and tss
+
+  # let's figure this out: 5 initial cols, 3 of which each have an upper and a lower:
+
+Lake<-factor(rep("Storm",3))
+stormWQ<-data.frame(Lake,storm.c.m$Year)
+head(stormWQ) # got the lake and year
+
+stormWQ<-cbind(stormWQ,storm.c.m[,c(6,20,24)],
+              (storm.c.m[,c(6,20,24)]-
+                 ((1.96*storm.c.sd[,c(6,20,24)])/sqrt(storm.c.n[,c(6,20,24)]))), # lower bounds
+              (storm.c.m[,c(6,20,24)]+
+                 ((1.96*storm.c.sd[,c(6,20,24)])/sqrt(storm.c.n[,c(6,20,24)])))  # upper bounds
+)
+
+colnames(stormWQ)<-c("Lake","Year","Chla (ug/L)","Phycocyanin (ug/L)","TSS (mg/L)",
+                     "Lower Chla","Lower Phyco","Lower TSS",
+                     "Upper Chla","Upper Phyco","Upper TSS")
+
+head(stormWQ) 
+```
+
+# concatenate
+
+```{r}
+wq<-rbind(blueWQ,
+          centerWQ,
+          fiveislandWQ,
+          ntwinWQ,
+          silverWQ,
+          stwinWQ,
+          stormWQ)
+
+summary(wq)
+wq$Lake<-droplevels(wq$Lake)
+# now to merge the water quality and biomass
+str(wq)
+str(bm.frame)
+
+frame<-merge(wq,bm.frame, by = c("Lake","Year"))
+
+# A quick description of the 'frame' above:
+str(frame)
+#'data.frame':	15 obs. of  23 variables:
+# $ Lake              : Factor w/ 7 levels (each lake is a level)
+# $ Year              : Factor w/ 3 levels "2017","2018","2019"
+
+# $ Chla (ug/L)       : num  mean chlorophyll a in micrograms/L
+# $ Phycocyanin (ug/L): num  mean phycocyanin in micrograms/L
+# $ TSS (mg/L)        : num  mean total suspended solids
+# $ Lower Chla        : num  lower bound of chlorophyll a as mu - 1.96*sd/sqrt(n)
+# $ Lower Phyco       : num  lower bound phycocyanin
+# $ Lower TSS         : num  lower bound total sustpended solids
+# $ Upper Chla        : num  upper bound chlorophyll a as mu + 1.96*sd/sqrt(n)
+# $ Upper Phyco       : num  upper bound phycocyanin
+# $ Upper TSS         : num  upper bound total suspended solids
+
+# $ C.L.BM            : num  carp lower total biomass in KG
+# $ C.BM              : num  carp length-specific biomass estimate in KG
+# $ C.U.BM            : num  carp upper biomass in kg
+# $ C.L.BMDensity     : num  carp lower biomass density in kg/hectare
+# $ C.BMDensity       : num  carp biomass density as length specific biomass / lake area
+# $ C.U.BMDensity     : num  carp upper biomass density in kg/hectare
+# $ B.L.BM            : num  buffalo lower biomass in kg
+# $ B.BM              : num  buffalo length-specific biomass estimate in KG
+# $ B.U.BM            : num  buffalo upper biomass in KG
+# $ B.L.BMDensity     : num  buffalo lower biomass density in kg/hectare
+# $ B.BMDensity       : num  buffalo biomass density as length-specific weight /lake area
+# $ B.U.BMDensity     : num  buffalo upper biomass density in kg/hectare
+```
+
+# plots
+## Chlorophyll a
+```{r}
+# visualize how Chlorophyll a changes as a function of biomass....
+
+mod<-lm(frame$`Chla (ug/L)` ~ frame$C.BMDensity, data = frame)
+summary(mod)
+R2<-format(summary(mod)$r.squared,digits=3)
+R2
+
+
+# Carp First
+carp<-ggplot(frame, aes(x=C.BMDensity, y=`Chla (ug/L)`)) +
+  xlim(0,600)+ # 
+  ylim(0,100)+ # 
+  geom_point(size=4) +
+  geom_errorbar(aes(ymax = frame$`Upper Chla`, ymin = frame$`Lower Chla`),width=10) +
+  geom_errorbarh(aes(xmax= C.U.BMDensity, xmin = C.L.BMDensity),height=4) +
+  annotate("text",x=c(520,184,187,67,96,61,11,550,550),y=c(220,5,40,8,70,30,50,90,80), 
+           label = c("Blue","Center","Five Island","N Twin","S Twin","Silver","Storm","R^2 = 0.0305","p = 0.006")) +
+  labs(title = "Common Carp Density and Chlorophyll a",
+       x = "Estimated Common Carp Density (Kg/hectare)",
+       y = "Chlorophyll a (ug/L)") +
+  theme_bw() + 
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
+  geom_smooth(method=lm,se=F) 
+carp
+
+# Buffalo Second
+
+mod2<-lm(B.MeanCPUE ~ BuffDensity, data = DF)
+summary(mod2)
+R22<-format(summary(mod2)$r.squared,digits=3)
+R22
+
+buff<-ggplot(DF, aes(x=BuffDensity, y=B.MeanCPUE)) +
+  xlim(0,650)+ 
+  ylim(0,50)+ 
+  geom_point(size=4) +
+  geom_errorbar(aes(ymax = B.CPUE.UL, ymin = B.CPUE.LL),width=5000) +
+  geom_errorbarh(aes(xmax=BuffDensity.UL, xmin = BuffDensity.LL),height=3) +
+  annotate("text",x=c(20,59,412,130,225,55,20,20),y=c(8,13,7,22,15,0,40,37), 
+           label = c("Five Island","Center","N Twin","S Twin","Silver","Storm","R^2 = 0.086","p = 0.573")) +
+  labs(title = "2018 Bigmouth Buffalo Density and CPUE",
+       x = "Estimated Bigmouth Buffalo Density (lbs./acre)",
+       y = "Catch per Unit Effort (fish/hour)") +
+  theme_bw() + 
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
+  geom_smooth(method=lm,se=F)
+
+# Problems here: when I remove the 0s from Blue Lake Buffalo, the regression is negative
+# And the plot certainly doesn't look linear
+
+grid.arrange(carp,buff,nrow=2,ncol=1)
+
 
 
 
 ```
+
+```{r,}
+
+# gonna split by species then use grid.arrange to put them together.
+
+# didn't work how I wanted :(
+BMD.plot.b<-ggplot(frame, aes(x= B.BMDensity,y=`Chla (ug/L)`))+
+                  geom_point(aes(shape = Lake),size=2)+
+                  scale_shape_manual(values = c(1,2,3,4,6,8))+
+                  facet_grid(Year~.)+
+                  labs( x = "Bigmouth Buffalo Biomass Density (kg/hectare)",
+                        y = "Mean Chlorophyll a (ug/L)",
+                        title = NULL)+
+                  geom_smooth(method = lm, se=F)+
+                  stat_poly_eq(formula = y~x,
+                               aes(label = paste(..eq.label..,..rr.label..,sep = "~~~")),
+                                         parse=T)+
+                  theme(panel.grid.major = element_blank(), 
+                       panel.grid.minor = element_blank(),
+                       panel.background = element_rect(fill="white",colour="gray50"), 
+                       axis.line = element_line(colour = "black"),
+                       legend.position= "none",
+                       legend.background = element_blank())
+
+
+BMD.plot.b
+
+
+DF2018.c<-droplevels(subset(DF2018, Species == "Common Carp"))
+BMD.plot.c<-ggplot(DF2018.c, aes(x= BMD,y=Mean))+
+                  geom_point(aes(shape = Lake),size=2)+
+                  scale_shape_manual(values = c(0,1,2,3,4,6,8))+
+                  facet_grid(Month~.)+
+                  labs( x = "Common Carp Biomass Density (lbs./acre)",
+                        y = "Mean Electrofishing CPUE (Fish/Hour)",
+                        title = NULL)+
+                  geom_smooth(method = lm, se=F)+
+                  stat_poly_eq(formula = y~x,
+                               aes(label = paste(..eq.label..,..rr.label..,sep = "~~~")),
+                                         parse=T)+
+                  theme(panel.grid.major = element_blank(), 
+                       panel.grid.minor = element_blank(),
+                       panel.background = element_rect(fill="white",colour="gray50"), 
+                       axis.line = element_line(colour = "black"),
+                       legend.position= "top",
+                       legend.direction = "horizontal",
+                       legend.title = element_blank(),
+                       legend.background = element_blank())+
+                  guides(shape = guide_legend(nrow=1))
+
+
+BMD.plot.c
+
+
+grid.arrange(BMD.plot.b,BMD.plot.c,ncol=2)
+
+
+
+
+
+
+
+```
+
+
