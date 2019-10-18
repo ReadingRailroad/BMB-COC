@@ -540,6 +540,7 @@ str(wq)
 str(bm.frame)
 
 frame<-merge(wq,bm.frame, by = c("Lake","Year"))
+summary(frame) # remove negative CI for Buffalo biomass density, lower chla and lower phyco
 
 # A quick description of the 'frame' above:
 str(frame)
@@ -584,116 +585,56 @@ R2
 
 # Carp First
 carp<-ggplot(frame, aes(x=C.BMDensity, y=`Chla (ug/L)`)) +
-  xlim(0,600)+ # 
-  ylim(0,100)+ # 
-  geom_point(size=4) +
+  geom_point(aes(shape=Lake, size = 2)) +
+  scale_shape_manual(values = c(0,1,2,16,17,6,8))+
+  facet_grid(Year~.)+
   geom_errorbar(aes(ymax = frame$`Upper Chla`, ymin = frame$`Lower Chla`),width=10) +
   geom_errorbarh(aes(xmax= C.U.BMDensity, xmin = C.L.BMDensity),height=4) +
-  annotate("text",x=c(520,184,187,67,96,61,11,550,550),y=c(220,5,40,8,70,30,50,90,80), 
-           label = c("Blue","Center","Five Island","N Twin","S Twin","Silver","Storm","R^2 = 0.0305","p = 0.006")) +
-  labs(title = "Common Carp Density and Chlorophyll a",
+  geom_smooth(method = lm, se=F)+
+  stat_poly_eq(formula = y~x,
+               aes(label = paste(..eq.label..,..rr.label..,sep = "~~~")),
+               parse=T)+
+  labs(title = "Common Carp Biomass Density and Chlorophyll a",
        x = "Estimated Common Carp Density (Kg/hectare)",
        y = "Chlorophyll a (ug/L)") +
   theme_bw() + 
-  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
-  geom_smooth(method=lm,se=F) 
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(fill="white",colour="gray50"), 
+        axis.line = element_line(colour = "black"),
+        legend.position= "none",
+        legend.background = element_blank())
 carp
 
 # Buffalo Second
 
-mod2<-lm(B.MeanCPUE ~ BuffDensity, data = DF)
-summary(mod2)
-R22<-format(summary(mod2)$r.squared,digits=3)
-R22
 
-buff<-ggplot(DF, aes(x=BuffDensity, y=B.MeanCPUE)) +
-  xlim(0,650)+ 
-  ylim(0,50)+ 
-  geom_point(size=4) +
-  geom_errorbar(aes(ymax = B.CPUE.UL, ymin = B.CPUE.LL),width=5000) +
-  geom_errorbarh(aes(xmax=BuffDensity.UL, xmin = BuffDensity.LL),height=3) +
-  annotate("text",x=c(20,59,412,130,225,55,20,20),y=c(8,13,7,22,15,0,40,37), 
-           label = c("Five Island","Center","N Twin","S Twin","Silver","Storm","R^2 = 0.086","p = 0.573")) +
-  labs(title = "2018 Bigmouth Buffalo Density and CPUE",
-       x = "Estimated Bigmouth Buffalo Density (lbs./acre)",
-       y = "Catch per Unit Effort (fish/hour)") +
+buff<-ggplot(frame, aes(x=B.BMDensity, y=`Chla (ug/L)`)) +
+  geom_point(size=4, shape = Lake) +
+  facet_grid(Year~.)+
+  geom_errorbar(aes(ymax = frame$`Upper Chla`, ymin = frame$`Lower Chla`),width=10) +
+  geom_errorbarh(aes(xmax= B.U.BMDensity, xmin = B.L.BMDensity),height=4) +
+  geom_smooth(method = lm, se=F)+
+  stat_poly_eq(formula = y~x,
+               aes(label = paste(..eq.label..,..rr.label..,sep = "~~~")),
+               parse=T)+
+  labs(title = "Bigmouth Buffalo Biomass Density and Chlorophyll a",
+       x = "Estimated Bigmouth Buffalo Density (Kg/hectare)",
+       y = "Chlorophyll a (ug/L)") +
   theme_bw() + 
-  theme(panel.border = element_blank(), panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black")) +
-  geom_smooth(method=lm,se=F)
-
-# Problems here: when I remove the 0s from Blue Lake Buffalo, the regression is negative
-# And the plot certainly doesn't look linear
-
-grid.arrange(carp,buff,nrow=2,ncol=1)
-
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(fill="white",colour="gray50"), 
+        axis.line = element_line(colour = "black"),
+        legend.position= "none",
+        legend.background = element_blank())
+buff
 
 
 
-```
-
-```{r,}
-
-# gonna split by species then use grid.arrange to put them together.
-
-# didn't work how I wanted :(
-BMD.plot.b<-ggplot(frame, aes(x= B.BMDensity,y=`Chla (ug/L)`))+
-                  geom_point(aes(shape = Lake),size=2)+
-                  scale_shape_manual(values = c(1,2,3,4,6,8))+
-                  facet_grid(Year~.)+
-                  labs( x = "Bigmouth Buffalo Biomass Density (kg/hectare)",
-                        y = "Mean Chlorophyll a (ug/L)",
-                        title = NULL)+
-                  geom_smooth(method = lm, se=F)+
-                  stat_poly_eq(formula = y~x,
-                               aes(label = paste(..eq.label..,..rr.label..,sep = "~~~")),
-                                         parse=T)+
-                  theme(panel.grid.major = element_blank(), 
-                       panel.grid.minor = element_blank(),
-                       panel.background = element_rect(fill="white",colour="gray50"), 
-                       axis.line = element_line(colour = "black"),
-                       legend.position= "none",
-                       legend.background = element_blank())
-
-
-BMD.plot.b
-
-
-DF2018.c<-droplevels(subset(DF2018, Species == "Common Carp"))
-BMD.plot.c<-ggplot(DF2018.c, aes(x= BMD,y=Mean))+
-                  geom_point(aes(shape = Lake),size=2)+
-                  scale_shape_manual(values = c(0,1,2,3,4,6,8))+
-                  facet_grid(Month~.)+
-                  labs( x = "Common Carp Biomass Density (lbs./acre)",
-                        y = "Mean Electrofishing CPUE (Fish/Hour)",
-                        title = NULL)+
-                  geom_smooth(method = lm, se=F)+
-                  stat_poly_eq(formula = y~x,
-                               aes(label = paste(..eq.label..,..rr.label..,sep = "~~~")),
-                                         parse=T)+
-                  theme(panel.grid.major = element_blank(), 
-                       panel.grid.minor = element_blank(),
-                       panel.background = element_rect(fill="white",colour="gray50"), 
-                       axis.line = element_line(colour = "black"),
-                       legend.position= "top",
-                       legend.direction = "horizontal",
-                       legend.title = element_blank(),
-                       legend.background = element_blank())+
-                  guides(shape = guide_legend(nrow=1))
-
-
-BMD.plot.c
-
-
-grid.arrange(BMD.plot.b,BMD.plot.c,ncol=2)
-
-
-
+grid.arrange(carp,buff,nrow=1,ncol=2)
 
 
 
 
 ```
-
-
