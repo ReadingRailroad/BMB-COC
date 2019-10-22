@@ -357,29 +357,42 @@ Fit a variety of models including some that model heterogeneity using a mixture 
 ```{r}
 huggins<-import.chdata("huggins2019.txt")
 head(huggins)
+```
 
+```{r,}
 # models:
 run.huggins <- function() {
-  f0 <- list(formula=~1, share = T)
+  f0 <- list(formula=~1)
+  f0s<- list(formula = ~1, share = TRUE) # shared probability of capture and recapture
   ft <- list(formula=~time, share = T)
-  ftb<-list(formula=~time)
-  fh<-list(formula=~mixture)
-  fth<-list(formula=~mixture+time)
+  fT <- list(formula = ~ Time, share = T)
+  ftb<- list(formula = ~ time+c, share = T)
+  fh<-list(formula=~mixture, share = T) # all 8 models
+  fht<-list(formula=~mixture+time, share = T) # hetreogeneity model + time effect
+  fbh <- list(formula =~mixture+c, share = T) # c = capture probability
+  fbht<-list(formula=~mixture+time+c, share = T)
   
-  m0 <-mark(huggins, model='FullHet', model.parameters = list(p=f0))
+  
+  
+  m0 <-mark(huggins, model='FullHet', model.parameters = list(p=f0s))
   mt <-mark(huggins, model='FullHet', model.parameters = list(p=ft))
+  mT <-mark(huggins, model='FullHet', model.parameters = list(p=fT))
+  mb <-mark(huggins, model='FullHet', model.parameters = list(p=f0,c=f0))
   mtb <-mark(huggins, model='FullHet', model.parameters = list(p=ftb, c=f0))
-  mh <-mark(huggins, model='FullHet', model.parameters = list(p=fh,c=f0))
-  mtb<-mark(huggins, model='FullHet', model.parameters = list(p=ftb, c=f0))
-  mth<-mark(huggins,model='FullHet', model.parameters=list(p=fh,c=fh))
+  mh <-mark(huggins, model='FullHet', model.parameters = list(p=fh))
+  mht<-mark(huggins,model='FullHet', model.parameters=list(p=fht))
+  mbh<-mark(huggins,model='FullHet', model.parameters=list(p=fbh,c=f0))
+  mbht<-mark(huggins,model='FullHet',model.parameters=list(p=fbht,c=f0))
   
   return(collect.models)
 }
 
-pledger.models<-run.huggins()
+huggins.models<-run.huggins()
+```
 
-print(model.table(pledger.models), digits = 4)
+```{r,}
 
+model.table(huggins.models,model.name=F)
 ```
 
 ```{r}
@@ -394,7 +407,33 @@ print(model.table(pledger.models), digits = 4)
 
 Fit a variety of models to the data, including some that model heterogenity as a function of the covariate X (i.e. the Huggins approach). What model(s) seem reasonable? Do the data support heterogeneity between individuals?
 ```{r}
+run.huggins2 <- function() {
+  f0 <- list(formula=~1)
+  f0s<- list(formula = ~1, share = TRUE) # shared probability of capture and recapture
+  ft <- list(formula=~time, share = T)
+  fT <- list(formula = ~ Time, share = T)
+  ftb<- list(formula = ~ time+c, share = T)
+  fc<-list(formula=~X, share = T) # all 8 models
+  fct<-list(formula=~X+time, share = T) # hetreogeneity model + time effect
+  fbc <- list(formula =~X+c, share = T) # c = capture probability
+  fbct<-list(formula=~X+time+c, share = T)
+  
+  
+  
+  m0 <-mark(huggins, model='Huggins', model.parameters = list(p=f0s))
+  mt <-mark(huggins, model='Huggins', model.parameters = list(p=ft))
+  mT <-mark(huggins, model='Huggins', model.parameters = list(p=fT))
+  mb <-mark(huggins, model='Huggins', model.parameters = list(p=f0,c=f0))
+  mtb <-mark(huggins, model='Huggins', model.parameters = list(p=ftb, c=f0))
+  mc <-mark(huggins, model='Huggins', model.parameters = list(p=fc))
+  mct<-mark(huggins,model='Huggins', model.parameters=list(p=fct))
+  mbc<-mark(huggins,model='Huggins', model.parameters=list(p=fbc,c=f0))
+  mbct<-mark(huggins,model='Huggins',model.parameters=list(p=fbct,c=f0))
+  
+  return(collect.models)
+}
 
+huggins.models2<-run.huggins2()
 ```
 
 ```{r}
