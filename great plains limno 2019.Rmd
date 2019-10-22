@@ -118,6 +118,10 @@ colnames(stwinWQ)<-c("Lake","Year","Chla (ug/L)","Phycocyanin (ug/L)","TSS (mg/L
                      "Lower Chla","Lower Phyco","Lower TSS",
                      "Upper Chla","Upper Phyco","Upper TSS")
 head(stwinWQ)
+stwinWQ$Lake<-as.character(stwinWQ$Lake)
+stwinWQ$Lake[stwinWQ$Lake == "South Twin"]<- "S Twin"
+stwinWQ$Lake<-as.factor(stwinWQ$Lake)
+str(stwinWQ)
 ```
 
 # Blue
@@ -542,6 +546,13 @@ str(bm.frame)
 frame<-merge(wq,bm.frame, by = c("Lake","Year"))
 summary(frame) # remove negative CI for Buffalo biomass density, lower chla and lower phyco
 
+# adjusting lower confidence intervals such that the lower bounds are cut off at zero
+frame$`Lower Chla`[frame$`Lower Chla`<=0] <- 0
+frame$`Lower Phyco`[frame$`Lower Phyco`<=0] <- 0
+frame$`Lower TSS`[frame$`Lower TSS`<=0] <- 0
+frame$B.L.BM[frame$B.L.BM<=0] <- 0
+frame$B.L.BMDensity[frame$B.L.BMDensity<=0] <- 0
+
 # A quick description of the 'frame' above:
 str(frame)
 #'data.frame':	15 obs. of  23 variables:
@@ -577,17 +588,13 @@ str(frame)
 ```{r}
 # visualize how Chlorophyll a changes as a function of biomass....
 
-mod<-lm(frame$`Chla (ug/L)` ~ frame$C.BMDensity, data = frame)
-summary(mod)
-R2<-format(summary(mod)$r.squared,digits=3)
-R2
-
 
 # Carp First
 carp<-ggplot(frame, aes(x=C.BMDensity, y=`Chla (ug/L)`)) +
   geom_point(aes(shape=Lake, size = 2)) +
   scale_shape_manual(values = c(0,1,2,16,17,6,8))+
   facet_grid(Year~.)+
+  xlim(0,1200)+
   geom_errorbar(aes(ymax = frame$`Upper Chla`, ymin = frame$`Lower Chla`),width=10) +
   geom_errorbarh(aes(xmax= C.U.BMDensity, xmin = C.L.BMDensity),height=4) +
   geom_smooth(method = lm, se=F)+
@@ -610,17 +617,19 @@ carp
 
 
 buff<-ggplot(frame, aes(x=B.BMDensity, y=`Chla (ug/L)`)) +
-  geom_point(size=4, shape = Lake) +
+  geom_point(size=4,aes( shape = Lake)) +
+  scale_shape_manual(values = c(0,1,2,16,17,6,8))+
   facet_grid(Year~.)+
+  xlim(0,1200)+
   geom_errorbar(aes(ymax = frame$`Upper Chla`, ymin = frame$`Lower Chla`),width=10) +
   geom_errorbarh(aes(xmax= B.U.BMDensity, xmin = B.L.BMDensity),height=4) +
   geom_smooth(method = lm, se=F)+
   stat_poly_eq(formula = y~x,
                aes(label = paste(..eq.label..,..rr.label..,sep = "~~~")),
                parse=T)+
-  labs(title = "Bigmouth Buffalo Biomass Density and Chlorophyll a",
+  labs(title = "Bigmouth Buffalo Density and Chlorophyll a",
        x = "Estimated Bigmouth Buffalo Density (Kg/hectare)",
-       y = "Chlorophyll a (ug/L)") +
+       y = NULL) +
   theme_bw() + 
   theme(panel.grid.major = element_blank(), 
         panel.grid.minor = element_blank(),
@@ -633,8 +642,289 @@ buff
 
 
 grid.arrange(carp,buff,nrow=1,ncol=2)
+```
+
+## Phycocyanin
+```{r}
+# visualize how Phycocyanin changes as a function of biomass....
+# Carp First
+carp<-ggplot(frame, aes(x=C.BMDensity, y=`Phycocyanin (ug/L)`)) +
+  geom_point(aes(shape=Lake, size = 2)) +
+  scale_shape_manual(values = c(0,1,2,16,17,6,8))+
+  facet_grid(Year~.)+
+  xlim(0,1200)+
+  geom_errorbar(aes(ymax = frame$`Upper Phyco`, ymin = frame$`Lower Phyco`),width=10) +
+  geom_errorbarh(aes(xmax= C.U.BMDensity, xmin = C.L.BMDensity),height=4) +
+  geom_smooth(method = lm, se=F)+
+  stat_poly_eq(formula = y~x,
+               aes(label = paste(..eq.label..,..rr.label..,sep = "~~~")),
+               parse=T)+
+  labs(title = "Common Carp Biomass Density and Phycocyanin",
+       x = "Estimated Common Carp Density (Kg/hectare)",
+       y = "Phycocyanin (ug/L)") +
+  theme_bw() + 
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(fill="white",colour="gray50"), 
+        axis.line = element_line(colour = "black"),
+        legend.position= "none",
+        legend.background = element_blank())
+carp
+
+# Buffalo Second
+
+
+buff<-ggplot(frame, aes(x=B.BMDensity, y=`Phycocyanin (ug/L)`)) +
+  geom_point(size=4,aes( shape = Lake)) +
+  scale_shape_manual(values = c(0,1,2,16,17,6,8))+
+  facet_grid(Year~.)+
+  xlim(0,1200)+
+  geom_errorbar(aes(ymax = frame$`Upper Phyco`, ymin = frame$`Lower Phyco`),width=10) +
+  geom_errorbarh(aes(xmax= B.U.BMDensity, xmin = B.L.BMDensity),height=4) +
+  geom_smooth(method = lm, se=F)+
+  stat_poly_eq(formula = y~x,
+               aes(label = paste(..eq.label..,..rr.label..,sep = "~~~")),
+               parse=T)+
+  labs(title = "Bigmouth Buffalo Biomass Density and Phycocyanin",
+       x = "Estimated Bigmouth Buffalo Density (Kg/hectare)",
+       y = NULL) +
+  theme_bw() + 
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(fill="white",colour="gray50"), 
+        axis.line = element_line(colour = "black"),
+        legend.position= "none",
+        legend.background = element_blank())
+buff
 
 
 
+grid.arrange(carp,buff,nrow=1,ncol=2)
+```
 
+## Total suspended solids
+```{r}
+# visualize how TSS changes as a function of biomass....
+# Carp First
+carp<-ggplot(frame, aes(x=C.BMDensity, y=`TSS (mg/L)`)) +
+  geom_point(aes(shape=Lake, size = 2)) +
+  scale_shape_manual(values = c(0,1,2,16,17,6,8))+
+  facet_grid(Year~.)+
+  xlim(0,1200)+
+  geom_errorbar(aes(ymax = frame$`Upper TSS`, ymin = frame$`Lower TSS`),width=10) +
+  geom_errorbarh(aes(xmax= C.U.BMDensity, xmin = C.L.BMDensity),height=4) +
+  geom_smooth(method = lm, se=F)+
+  stat_poly_eq(formula = y~x,
+               aes(label = paste(..eq.label..,..rr.label..,sep = "~~~")),
+               parse=T)+
+  labs(title = "Common Carp Biomass Density and Total Suspended Solids",
+       x = "Estimated Common Carp Density (Kg/hectare)",
+       y = "Total Suspended Solids (mg/L)") +
+  theme_bw() + 
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(fill="white",colour="gray50"), 
+        axis.line = element_line(colour = "black"),
+        legend.position= "none",
+        legend.background = element_blank())
+carp
+
+# Buffalo Second
+
+
+buff<-ggplot(frame, aes(x=B.BMDensity, y=`TSS (mg/L)`)) +
+  geom_point(size=4,aes( shape = Lake)) +
+  scale_shape_manual(values = c(0,1,2,16,17,6,8))+
+  facet_grid(Year~.)+
+  xlim(0,1200)+
+  geom_errorbar(aes(ymax = frame$`Upper TSS`, ymin = frame$`Lower TSS`),width=10) +
+  geom_errorbarh(aes(xmax= B.U.BMDensity, xmin = B.L.BMDensity),height=4) +
+  geom_smooth(method = lm, se=F)+
+  stat_poly_eq(formula = y~x,
+               aes(label = paste(..eq.label..,..rr.label..,sep = "~~~")),
+               parse=T)+
+  labs(title = "Bigmouth Buffalo Biomass Density and Total Suspended Solids",
+       x = "Estimated Bigmouth Buffalo Density (Kg/hectare)",
+       y = NULL) +
+  theme_bw() + 
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(fill="white",colour="gray50"), 
+        axis.line = element_line(colour = "black"),
+        legend.position= "none",
+        legend.background = element_blank())
+buff
+
+
+
+grid.arrange(carp,buff,nrow=1,ncol=2)
+```
+
+
+# NEXT: Biomanipuluation
+after practice talk with MJW:
+
+same plot format (people are already familiar) but with just a couple (harvested) lakes with variation by year (point types). That way the grid.arrange would be on a melted frame I think, so that each variable gets plotted in its own panel. We shall see:
+
+```{r}
+# choose lakes:
+### Center
+### Five Island
+### Silver?
+frame.2<-droplevels(subset(frame, Lake == "Center" ))
+# Melt so that the variables can pe put into facet.grid?
+
+
+
+synth.c<-ggplot(frame.2, aes(x=C.BMDensity, y=`Chla (ug/L)`)) +
+                geom_point(aes(shape=Year, colour = Year), size = 6) +
+                scale_shape_manual(values = c(12,16,17))+
+                facet_grid(Lake~.)+
+                ylim(0,55)+
+                xlim(0,500)+
+                geom_errorbarh(aes(xmax= C.U.BMDensity, xmin = C.L.BMDensity),height=4) +
+                geom_smooth(method = lm, se=F)+
+                stat_poly_eq(formula = y~x,
+                aes(label = paste(..eq.label..,..rr.label..,sep = "~~~")),
+                    parse=T)+
+                labs(title = "Change in Common Carp Biomass Density",
+                     x = "Estimated Common Carp Density (Kg/hectare)")+
+                theme_bw() + 
+                theme(panel.grid.major = element_blank(), 
+                      panel.grid.minor = element_blank(),
+                      panel.background = element_rect(fill="white",colour="gray50"), 
+                      axis.line = element_line(colour = "black"),
+                      legend.position= "bottom",
+                      legend.background = element_blank())
+synth.c
+
+synth.b<-ggplot(frame.2, aes(x=B.BMDensity, y=`Chla (ug/L)`)) +
+                geom_point(aes(shape=Year, colour = Year), size = 6) +
+                scale_shape_manual(values = c(12,16,17))+
+                facet_grid(Lake~.)+
+                ylim(0,55)+
+                xlim(0,500)+
+                geom_errorbarh(aes(xmax= B.U.BMDensity, xmin = B.L.BMDensity),height=4) +
+                geom_smooth(method = lm, se=F)+
+                stat_poly_eq(formula = y~x,
+                aes(label = paste(..eq.label..,..rr.label..,sep = "~~~")),
+                    parse=T)+
+                labs(title = "Change in Bigmouth Buffalo Biomass Density",
+                     x = "Estimated Bigmouth Buffalo Density (Kg/hectare)")+
+                theme_bw() + 
+                theme(panel.grid.major = element_blank(), 
+                      panel.grid.minor = element_blank(),
+                      panel.background = element_rect(fill="white",colour="gray50"), 
+                      axis.line = element_line(colour = "black"),
+                      legend.position= "bottom",
+                      legend.background = element_blank())
+synth.b
+
+grid.arrange(synth.c,synth.b,nrow=1,ncol=2)
+```
+
+```{r}
+# choose lakes:
+### Center
+
+
+
+synth.c<-ggplot(frame.2, aes(x=C.BMDensity, y=`Phycocyanin (ug/L)`)) +
+                geom_point(aes(shape=Year, colour = Year), size = 6) +
+                scale_shape_manual(values = c(12,16,17))+
+                facet_grid(Lake~.)+
+                ylim(0,70)+
+                xlim(0,500)+
+                geom_errorbarh(aes(xmax= C.U.BMDensity, xmin = C.L.BMDensity),height=4) +
+                geom_smooth(method = lm, se=F)+
+                stat_poly_eq(formula = y~x,
+                aes(label = paste(..eq.label..,..rr.label..,sep = "~~~")),
+                    parse=T)+
+                labs(title = "Change in Common Carp Biomass Density",
+                     x = "Estimated Common Carp Density (Kg/hectare)")+
+                theme_bw() + 
+                theme(panel.grid.major = element_blank(), 
+                      panel.grid.minor = element_blank(),
+                      panel.background = element_rect(fill="white",colour="gray50"), 
+                      axis.line = element_line(colour = "black"),
+                      legend.position= "bottom",
+                      legend.background = element_blank())
+synth.c
+
+synth.b<-ggplot(frame.2, aes(x=B.BMDensity, y=`Phycocyanin (ug/L)`)) +
+                geom_point(aes(shape=Year, colour = Year), size = 6) +
+                scale_shape_manual(values = c(12,16,17))+
+                facet_grid(Lake~.)+
+                ylim(0,70)+
+                xlim(0,500)+
+                geom_errorbarh(aes(xmax= B.U.BMDensity, xmin = B.L.BMDensity),height=4) +
+                geom_smooth(method = lm, se=F)+
+                stat_poly_eq(formula = y~x,
+                aes(label = paste(..eq.label..,..rr.label..,sep = "~~~")),
+                    parse=T)+
+                labs(title = "Change in Bigmouth Buffalo Biomass Density",
+                     x = "Estimated Bigmouth Buffalo Density (Kg/hectare)")+
+                theme_bw() + 
+                theme(panel.grid.major = element_blank(), 
+                      panel.grid.minor = element_blank(),
+                      panel.background = element_rect(fill="white",colour="gray50"), 
+                      axis.line = element_line(colour = "black"),
+                      legend.position= "bottom",
+                      legend.background = element_blank())
+synth.b
+
+grid.arrange(synth.c,synth.b,nrow=1,ncol=2)
+```
+
+```{r}
+# choose lakes:
+### Center
+
+
+
+synth.c<-ggplot(frame.2, aes(x=C.BMDensity, y=`TSS (mg/L)`)) +
+                geom_point(aes(shape=Year, colour = Year), size = 6) +
+                scale_shape_manual(values = c(12,16,17))+
+                facet_grid(Lake~.)+
+                ylim(0,50)+
+                xlim(0,500)+
+                geom_errorbarh(aes(xmax= C.U.BMDensity, xmin = C.L.BMDensity),height=4) +
+                geom_smooth(method = lm, se=F)+
+                stat_poly_eq(formula = y~x,
+                aes(label = paste(..eq.label..,..rr.label..,sep = "~~~")),
+                    parse=T)+
+                labs(title = "Change in Common Carp Biomass Density",
+                     x = "Estimated Common Carp Density (Kg/hectare)")+
+                theme_bw() + 
+                theme(panel.grid.major = element_blank(), 
+                      panel.grid.minor = element_blank(),
+                      panel.background = element_rect(fill="white",colour="gray50"), 
+                      axis.line = element_line(colour = "black"),
+                      legend.position= "bottom",
+                      legend.background = element_blank())
+synth.c
+
+synth.b<-ggplot(frame.2, aes(x=B.BMDensity, y=`TSS (mg/L)`)) +
+                geom_point(aes(shape=Year, colour = Year), size = 6) +
+                scale_shape_manual(values = c(12,16,17))+
+                facet_grid(Lake~.)+
+                ylim(0,50)+
+                xlim(0,500)+
+                geom_errorbarh(aes(xmax= B.U.BMDensity, xmin = B.L.BMDensity),height=4) +
+                geom_smooth(method = lm, se=F)+
+                stat_poly_eq(formula = y~x,
+                aes(label = paste(..eq.label..,..rr.label..,sep = "~~~")),
+                    parse=T)+
+                labs(title = "Change in Bigmouth Buffalo Biomass Density",
+                     x = "Estimated Bigmouth Buffalo Density (Kg/hectare)")+
+                theme_bw() + 
+                theme(panel.grid.major = element_blank(), 
+                      panel.grid.minor = element_blank(),
+                      panel.background = element_rect(fill="white",colour="gray50"), 
+                      axis.line = element_line(colour = "black"),
+                      legend.position= "bottom",
+                      legend.background = element_blank())
+synth.b
+
+grid.arrange(synth.c,synth.b,nrow=1,ncol=2)
 ```

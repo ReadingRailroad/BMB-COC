@@ -29,6 +29,8 @@ setwd("C:/Users/martysim/Documents/BMB-COC/STAT534/")
 packages(ggplot2)
 packages(RMark)
 packages(gtools)
+
+update.packages('RMark')
 ```
 
 # 1.) Deer Mice
@@ -354,12 +356,14 @@ This problem explores models for heterogeneity. The data in _huggins2019.txt_ ha
   
 Fit a variety of models including some that model heterogeneity using a mixture distribution (i.e. the Pledger approach) to the data. What model(s) seem reasonable? Do the data support heterogeneity between individuals? _Note:_ Dr. Dixon has ahad trouble using the 'HetClosed' for some models, so using the 'HetFull' class. Dr. Dixon will distribute an Intro to modeling heterogeneity guide.
 
-```{r}
+```{r, include = F}
 huggins<-import.chdata("huggins2019.txt")
 head(huggins)
+str(huggins)
+huggins$X<-as.numeric(as.character(huggins$X))
 ```
 
-```{r,}
+```{r,results = "hide"}
 # models:
 run.huggins <- function() {
   f0 <- list(formula=~1)
@@ -384,23 +388,14 @@ run.huggins <- function() {
   mbh<-mark(huggins,model='FullHet', model.parameters=list(p=fbh,c=f0))
   mbht<-mark(huggins,model='FullHet',model.parameters=list(p=fbht,c=f0))
   
-  return(collect.models)
+  return(collect.models())
 }
 
-huggins.models<-run.huggins()
+huggins.results<-run.huggins()
 ```
 
 ```{r,}
-
-model.table(huggins.models,model.name=F)
-```
-
-```{r}
-
-```
-
-```{r}
-
+model.table(huggins.results,model.name=F)
 ```
 
 ## (b)
@@ -430,14 +425,14 @@ run.huggins2 <- function() {
   mbc<-mark(huggins,model='Huggins', model.parameters=list(p=fbc,c=f0))
   mbct<-mark(huggins,model='Huggins',model.parameters=list(p=fbct,c=f0))
   
-  return(collect.models)
+  return(collect.models())
 }
 
 huggins.models2<-run.huggins2()
 ```
 
 ```{r}
-
+model.table(huggins.models2,model.name=F)
 ```
 
 ## (c)

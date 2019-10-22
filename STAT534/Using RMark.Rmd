@@ -102,7 +102,7 @@ RMark uses design matrix approach so you don't touch PIMs
 ```{r}
 library(RMark)
 
-reid <- import.chdata("STAT534/reidCH.txt")
+reid <- import.chdata("reidCH.txt")
 head(reid)
 f0 <- list(formula=~1)
 mb <- mark(reid, model="Closed", model.parameters=list(p=f0, c=f0))
