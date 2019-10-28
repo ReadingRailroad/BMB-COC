@@ -77,12 +77,12 @@ lnlMt <- function(param, data) {
 
 Using results from fitting model $M_t$, calculate a Wald 95% confidence interval for $\hat{N}$
 
-```{r}
+```{r, echo = FALSE}
 data<-c(5, 42, 14, 9, 12, 11, 10)
 param<-c(42, rep(0.6,5))
 
 fit.1a<-optim(param, lnlMt, method = 'BFGS',data = data, control = list(fnscale = -1), hessian = T)
-fit.1a$par
+fit.1a$par[1]
 
 
 betahat<-fit.1a$par
@@ -95,13 +95,13 @@ betahat.ci<-cbind(
 betahat.ci[1,]
 ```
 
-Our estimate of N is 75.45, and our 95% confidence interval is bounded between 46.80 and 104.10.
+Our estimate of $\hat{N}= 75.45$, and our 95% confidence interval is bounded between 46.80 and 104.10.
 
 ## (b)
 
 Rewrite the log-likelhiood function in terms of $log(N)$. Use log-transformed $N$ to calculate a Wald 95% confidence interval for $N$.
 
-```{r}
+```{r, echo = F}
 
 data<- c(5, 42, 14, 9, 12, 11, 10)
 param<-c(log(42), rep(0.1,5))
@@ -112,7 +112,6 @@ lnlMt2 <- function(param, data) {
   n <- data[-c(1:2)]
   logN <- exp(param[1]) 
   p <- param[-1]
-  
   lfactorial(logN) - lfactorial(logN-Mt1) + sum(n*log(p)) + sum((logN-n)*log(1-p))
 }
 
@@ -123,7 +122,7 @@ fit.1b<-optim(param,
               data = data, 
               control = list(fnscale = -1),
               hessian = T)
-fit.1b$par
+#fit.1b$par
 exp(fit.1b$par[1])
 
 betahat<-fit.1b$par[1]
@@ -136,14 +135,14 @@ betahat.ci<-cbind(
 exp(betahat.ci[1,])
 ```
 
-The estimate for log-transformation yielded an estimate of $N = 75.43$ and the 95% confidence interval is bounded between 51.60 and 110.25.
+The estimate for log-transformation yielded an estimate of $\hat{N} = 75.43$ and the 95% confidence interval is bounded between 51.60 and 110.25.
 
 
 ## (c)
 
 Write a profile log-likelihood function for $N$ (so the only parameter is $\hat{N}$, $p$ is computed in your function). Use that model to calculate a 95% profile confidence interval for $\hat{N}$. 
 
-```{r}
+```{r, echo = F}
 # need to re-structure data vector to fit this function?
 data<- c(5, 42, 14, 9, 12, 11, 10)
 param<-c(75.42819, rep(0.3,5))
@@ -255,33 +254,35 @@ $M_b$         -11.90           61.65            17.67
 Using AIC weights, compute the model-averaged estimate of $N$ and its standard error, using the Buckland s.e. formula. Derive the AIC weights from AIC column. Variance needed in Buckland formula is the variance($\hat{N}$). Standard deviation is of observations, and standard error is of the estimate. Variance of observations and variance of estimate, in this problem we want to square the s.e. column to get the variance of the estimate. Fun fact: there is another distinction between sd and se, that is, se is an estimated variance of an estimate.
 
 ```{r}
+# AIC to objects
 M0.AIC<- -13.51
 Mt.AIC<- -7.05
 Mb.AIC<- -11.90
-
+# assign change in AIC values
 M0.Delta.AIC<-1
 mt.Delta.AIC<-exp(-6.46/2)
 mb.Delta.AIC<-exp(-1.61/2)
-
+# determine sum of delta AIC
 AIC.sums<-sum(M0.Delta.AIC,mt.Delta.AIC,mb.Delta.AIC)
-
+# Assign model-specific AIC weights
 M0.w<-M0.Delta.AIC/AIC.sums
 Mt.w<-mt.Delta.AIC/AIC.sums
 Mb.w<-mb.Delta.AIC/AIC.sums
-
+# obtain variance for each model from SE
 M0.v<-14.77^2
 Mt.v<-14.59^2
 Mb.v<-17.67^2
-
+# sum variances
 v.sums<-sum(M0.v,Mt.v,Mb.v)
-
+# calculate theta as sum of weight*nhat
 theta<-(M0.w*75.88)+(Mt.w*75.40)+(Mb.w*61.65)
 theta
 
-SE<- (M0.w*(sqrt(M0.v+(75.88-theta)^2)))+(Mt.w*(sqrt(Mt.v+(75.4-theta)^2)))+(Mb.w*(sqrt(Mb.v+(61.65-theta)^2)))
+# Calculate error of the estimate
+SE<- (M0.w*(sqrt(M0.v+(75.88-theta)^2)))+
+  (Mt.w*(sqrt(Mt.v+(75.4-theta)^2)))+
+  (Mb.w*(sqrt(Mb.v+(61.65-theta)^2)))
 SE
-
-
 ```
 
 The model-averaged estimate of $\hat{N} = 71.59$ and the model-averaged $SE = 16.84$.
@@ -297,7 +298,7 @@ B             147              30
 C             143              30         
 ----------    -------------    --------------
 
-The three studies can be assumed to be independent estimates of $N$. If you average the results from these three studies, what is the pooled estimate ($\hat{N}$) and its associated standard error? _Note:_ These three studies are independent, so averaging them is just like calculating a sample mean and its precision.
+The three studies can be assumed to be independent estimates of $N$. If you average the results from these three studies, what is the pooled estimate ($\hat{N}$) and its associated standard error? __Note:__ These three studies are independent, so averaging them is just like calculating a sample mean and its precision. _I am taking this under the assumption that we can caluclate the precision as error around our $\hat{N}$, basically ignoring the Variance column above._
 
 ```{r}
 Nhat<- mean(145,147,143)
@@ -308,7 +309,7 @@ error<- sd(study)/sqrt(3)
 error
 ```
 
-The pooled estimate of $\hat{N} = 145$ and its associated standard error is $SE = 1.1547$.
+The pooled estimate of $\hat{N} = 145$ and its associated standard error is $SE = 1.1547$. The estimate of SE in this method is incorrect, and much lower than the true SE from all observations across all three studies.
 
 ## (g)
 
@@ -336,11 +337,13 @@ MC.v<-30
 theta<-(MA.w*145)+(MB.w*147)+(MC.w*143)
 theta
 
-SE<- (MA.w*(sqrt(MA.v+(145-theta)^2)))+(MB.w*(sqrt(MB.v+(147-theta)^2)))+(MC.w*(sqrt(MC.v+(143-theta)^2)))
+SE<- (MA.w*(sqrt(MA.v+(145-theta)^2)))+
+  (MB.w*(sqrt(MB.v+(147-theta)^2)))+
+  (MC.w*(sqrt(MC.v+(143-theta)^2)))
 SE
 ```
 
-Our estimate of $\hat{N} = 145$, which is the same as the pooled estimate in (f). The Buckland standard error formula yielded $SE=5.713$
+Our estimate of $\hat{N} = 145$, which is the same as the pooled estimate in (f). The Buckland standard error formula yielded $SE=5.713$. This error is more appropriate than the error obtained from (f).
 
 ## (h)
 
@@ -354,20 +357,21 @@ This problem explores models for heterogeneity. The data in _huggins2019.txt_ ha
 
 ## (a)
   
-Fit a variety of models including some that model heterogeneity using a mixture distribution (i.e. the Pledger approach) to the data. What model(s) seem reasonable? Do the data support heterogeneity between individuals? _Note:_ Dr. Dixon has ahad trouble using the 'HetClosed' for some models, so using the 'HetFull' class. Dr. Dixon will distribute an Intro to modeling heterogeneity guide.
+Fit a variety of models, including some that model heterogeneity using a mixture distribution (i.e. the Pledger approach) to the data. What model(s) seem reasonable? Do the data support heterogeneity between individuals? _Note:_ Dr. Dixon has had trouble using the 'HetClosed' for some models, so using the 'FullHet' class. Dr. Dixon will distribute an introductory modeling heterogeneity guide.
 
 ```{r, include = F}
 huggins<-import.chdata("huggins2019.txt")
 head(huggins)
-str(huggins)
+
 huggins$X<-as.numeric(as.character(huggins$X))
+str(huggins)
 ```
 
 ```{r,results = "hide"}
 # models:
 run.huggins <- function() {
   f0 <- list(formula=~1)
-  f0s<- list(formula = ~1, share = TRUE) # shared probability of capture and recapture
+  f0s<- list(formula = ~1, share = T) # shared probability of capture and recapture
   ft <- list(formula=~time, share = T)
   fT <- list(formula = ~ Time, share = T)
   ftb<- list(formula = ~ time+c, share = T)
@@ -398,9 +402,13 @@ huggins.results<-run.huggins()
 model.table(huggins.results,model.name=F)
 ```
 
+- __Answer:__ The models that seem most reasonable (4 lowest AIC values) are the mixture models that include heterogeneity. Therefore, I would conclude that the data support heterogeneity models. 
+
+
 ## (b)
 
 Fit a variety of models to the data, including some that model heterogenity as a function of the covariate X (i.e. the Huggins approach). What model(s) seem reasonable? Do the data support heterogeneity between individuals?
+
 ```{r}
 run.huggins2 <- function() {
   f0 <- list(formula=~1)
@@ -435,17 +443,29 @@ huggins.models2<-run.huggins2()
 model.table(huggins.models2,model.name=F)
 ```
 
+- __Answer:__ The four top models all included heterogeneity as modeled by the covariate $X$, and therefore I would conclude the data support models with heterogeneity.
+
 ## (c)
 
 How might you evaluate which of these two approaches is more reasonable for these data? _Note:_ This is a "think about what you have available" question. Likelihood __cannot__ be used because the Pledger and Huggins approaches are based on different data sets.
 
-- __Answer:__
+- __Answer Part 1:__ We do not know what the covariate $X$ is, however, the fact that it was collected usually means it is an attribute that varies among individuals. Further, this covariate may likely contribute to the capture probability of our study organism (e.g., the size of a fish is correlated with is susceptibility to electrofishing). Therefore, I would conclude that the Huggins approach is more appropriate for these data. 
+
+- __Answer Part 2:__ After conferring with other students in class, we discussed comparing the estimates of $\hat{N}$ and their associated standard error. The Pledger models had a lower population estimate and lower standard error (and consequently a narrower confidence interval). For this reason the Pledger models seem more reasonable, but the confidence intervals for both estimates overlap and it is difficult to say if the population estimates from both models are different.
+
+- __FINAL ANSWER:__ It all depnds on what type of organism this is, and if the covariate $X$ is exptected to be reasonably related to capture probabilities. Without that knowledge, I will commit to my first answer to this question (Huggins is better).
 
 ## (d)
 
 The annual report needs to make a statement about the number of individuals in this population. This will be read by the general public and legislators, so it needs to be succinct. What conclusions can be made?
 
-- __Answer:__
+```{r}
+huggins.results$mh$results$derived
+huggins.models2$mc$results$derived
+```
+
+
+- __Answer:__ The top models from both approaches differ in estimate of $\hat{N}$ by about 20 individuals. The Pledger approach had lower associated error, however, I am inclined to stand by my final answer to part (c). Therefore, my statement would be: _"The estimated pouplation size is approximately 132 individuals, with a 95% confidence interval between about 111 and 184 individuals."_
 
 # 3.) Bats
 
@@ -481,9 +501,38 @@ What are the expected values of $Y$, $Z_i$, and $Z_1+Z_2$?
 - $E[Y] = \Sigma Y * pdf(Y)$
 
 ```{r}
+E.y <- 
+```
+
+## (b)
+
+What is the method-of-moments estimate of $N$?
+
+```{r}
 
 ```
 
+## (c)
 
+What is the log likelihood function for the parameters $(N,\pi_s)$ given the data, $(Y,Z_1+Z_2)$ and known constant, $\pi_a$. Use the Binomial model for $Y$.
 
-# 4.) 
+```{r}
+
+```
+
+## (d)
+
+Find the mle's of $N$ and $\pi_s$ and their standard errors.
+
+```{r}
+
+```
+
+## (e)
+
+Find the mle's of $N$ and $\pi_s$ and their standard errors under the Poisson model for $Y$. That is, $Y \sim Pois(N,\pi_a,\pi_s)$. _Note:_ the searcher trial model remains a Binomial because the number of carcasses is not random.
+
+```{r}
+
+```
+
