@@ -1,7 +1,7 @@
 ---
 title: "Ecostats Homework 2"
 author: "Martin Simonson"
-date: "October 18, 2019"
+date: "October 31, 2019"
 output: pdf_document
 editor_options: 
   chunk_output_type: console
@@ -29,8 +29,6 @@ setwd("C:/Users/martysim/Documents/BMB-COC/STAT534/")
 packages(ggplot2)
 packages(RMark)
 packages(gtools)
-
-update.packages('RMark')
 ```
 
 # 1.) Deer Mice
@@ -77,7 +75,7 @@ lnlMt <- function(param, data) {
 
 Using results from fitting model $M_t$, calculate a Wald 95% confidence interval for $\hat{N}$
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning=FALSE}
 data<-c(5, 42, 14, 9, 12, 11, 10)
 param<-c(42, rep(0.6,5))
 
@@ -101,7 +99,7 @@ Our estimate of $\hat{N}= 75.45$, and our 95% confidence interval is bounded bet
 
 Rewrite the log-likelhiood function in terms of $log(N)$. Use log-transformed $N$ to calculate a Wald 95% confidence interval for $N$.
 
-```{r, echo = F}
+```{r, echo = F, warning=FALSE}
 
 data<- c(5, 42, 14, 9, 12, 11, 10)
 param<-c(log(42), rep(0.1,5))
@@ -142,7 +140,7 @@ The estimate for log-transformation yielded an estimate of $\hat{N} = 75.43$ and
 
 Write a profile log-likelihood function for $N$ (so the only parameter is $\hat{N}$, $p$ is computed in your function). Use that model to calculate a 95% profile confidence interval for $\hat{N}$. 
 
-```{r, echo = F}
+```{r, include = F, warning=FALSE}
 # need to re-structure data vector to fit this function?
 data<- c(5, 42, 14, 9, 12, 11, 10)
 param<-c(75.42819, rep(0.3,5))
@@ -200,7 +198,9 @@ lowerN$root
 
 upperN <- uniroot(ciM0p, c(mleN, mleN*10), mle=mleN, data=data)
 upperN$root
+```
 
+```{r, echo = F}
 cat('95% ci')
 c(lowerN$root, upperN$root)
 
@@ -218,7 +218,7 @@ The profile log-likelihood for $N$ results in a 95% confidence interval between 
 
 Look at the plots of profile likelihood vs. $N$ and vs. $log(N)$. If you had to use a normal approximation, which is more appropriate? $N \approx normal$ or $log(N) \approx normal$? Briefly explain your choice and include your plot(or plots) of the profile likelihood.
 
-```{r}
+```{r, warning= FALSE}
 # profile likelihood function
 allN <- 20:120
 lnlN<-rep(NA,length(allN))
@@ -227,7 +227,7 @@ for(i in 1:length(allN)){
 }
 ```
 
-```{r}
+```{r, echo = F}
 plot.new() # clear previous plots
 par(mfrow=c(1,2)) # set frame to show two plots at once, side by side
 par(mar=c(3,3,3,3)+0.2, mgp=c(2,0.8,0)) # setting margins, etc
@@ -251,9 +251,9 @@ $M_t$         -7.05            75.40            14.59
 $M_b$         -11.90           61.65            17.67
 ----------    -------------    ---------------  -------------
 
-Using AIC weights, compute the model-averaged estimate of $N$ and its standard error, using the Buckland s.e. formula. Derive the AIC weights from AIC column. Variance needed in Buckland formula is the variance($\hat{N}$). Standard deviation is of observations, and standard error is of the estimate. Variance of observations and variance of estimate, in this problem we want to square the s.e. column to get the variance of the estimate. Fun fact: there is another distinction between sd and se, that is, se is an estimated variance of an estimate.
+Using AIC weights, compute the model-averaged estimate of $N$ and its standard error, using the Buckland s.e. formula. Derive the AIC weights from AIC column. Variance needed in Buckland formula is the variance($\hat{N}$). Standard deviation is of observations, and standard error is of the estimate. 
 
-```{r}
+```{r, echo = F}
 # AIC to objects
 M0.AIC<- -13.51
 Mt.AIC<- -7.05
@@ -298,9 +298,9 @@ B             147              30
 C             143              30         
 ----------    -------------    --------------
 
-The three studies can be assumed to be independent estimates of $N$. If you average the results from these three studies, what is the pooled estimate ($\hat{N}$) and its associated standard error? __Note:__ These three studies are independent, so averaging them is just like calculating a sample mean and its precision. _I am taking this under the assumption that we can caluclate the precision as error around our $\hat{N}$, basically ignoring the Variance column above._
+The three studies can be assumed to be independent estimates of $N$. If you average the results from these three studies, what is the pooled estimate ($\hat{N}$) and its associated standard error? __Note:__ These three studies are independent, so averaging them is just like calculating a sample mean and its precision. _I am taking this under the assumption that we can caluclate the precision as error around our $\hat{N}$, basically ignoring the Variance column  in the table above._
 
-```{r}
+```{r, echo = F}
 Nhat<- mean(145,147,143)
 Nhat
 
@@ -309,7 +309,7 @@ error<- sd(study)/sqrt(3)
 error
 ```
 
-The pooled estimate of $\hat{N} = 145$ and its associated standard error is $SE = 1.1547$. The estimate of SE in this method is incorrect, and much lower than the true SE from all observations across all three studies.
+The pooled estimate of $\hat{N} = 145$ and its associated standard error is $SE = 1.1547$. The estimate of SE in this method is incorrect, and clearly much lower than the SE from across all three studies.
 
 ## (g)
 
@@ -324,7 +324,7 @@ C             143              30               1/3
 
 Compute the model-averaged estimate of $N$ and its standard error (Buckland formula is sufficient).
 
-```{r}
+```{r, echo = F}
 MA.w<-1/3
 MB.w<-1/3
 MC.w<-1/3
@@ -360,6 +360,7 @@ This problem explores models for heterogeneity. The data in _huggins2019.txt_ ha
 Fit a variety of models, including some that model heterogeneity using a mixture distribution (i.e. the Pledger approach) to the data. What model(s) seem reasonable? Do the data support heterogeneity between individuals? _Note:_ Dr. Dixon has had trouble using the 'HetClosed' for some models, so using the 'FullHet' class. Dr. Dixon will distribute an introductory modeling heterogeneity guide.
 
 ```{r, include = F}
+library(RMark)
 huggins<-import.chdata("huggins2019.txt")
 head(huggins)
 
@@ -367,7 +368,7 @@ huggins$X<-as.numeric(as.character(huggins$X))
 str(huggins)
 ```
 
-```{r,results = "hide"}
+```{r,include = F}
 # models:
 run.huggins <- function() {
   f0 <- list(formula=~1)
@@ -398,7 +399,7 @@ run.huggins <- function() {
 huggins.results<-run.huggins()
 ```
 
-```{r,}
+```{r, warning= FALSE}
 model.table(huggins.results,model.name=F)
 ```
 
@@ -409,7 +410,7 @@ model.table(huggins.results,model.name=F)
 
 Fit a variety of models to the data, including some that model heterogenity as a function of the covariate X (i.e. the Huggins approach). What model(s) seem reasonable? Do the data support heterogeneity between individuals?
 
-```{r}
+```{r, include = F}
 run.huggins2 <- function() {
   f0 <- list(formula=~1)
   f0s<- list(formula = ~1, share = TRUE) # shared probability of capture and recapture
@@ -467,72 +468,85 @@ huggins.models2$mc$results$derived
 
 - __Answer:__ The top models from both approaches differ in estimate of $\hat{N}$ by about 20 individuals. The Pledger approach had lower associated error, however, I am inclined to stand by my final answer to part (c). Therefore, my statement would be: _"The estimated pouplation size is approximately 132 individuals, with a 95% confidence interval between about 111 and 184 individuals."_
 
-# 3.) Bats
+# 3.) Newts
 
-This problem is a simplified version of something in regular use. Wind turbines kill birds and bats. The Fish and Wildlife Service cares (a lot) when those are endangered or threatened bats (because of the Endangered Species Act) or eagles (because of the Bald and Golden Eagle Protection Act). Hence, owners of wind turbine farms are required to estimate the number of killed bats and killed eagles. Eagle kill is mostly in the winter and an eagle carcass on snow is pretty easy to spot. Bat mortality is harder to estimate. Bat kill is mostly late summer and early fall. Dead bats are hard to spot; they are small, dark brown critters that fall on bare ground, grass/prairie, or in the middle of a crop field. The data to estimate bat kill are collected by trained technicians who search the ground around each turbine and identify each carcass they find. They search every week and sometimes more frequently. The number killed is larger than the number seen for three different reasons:
+This is a “major data question”. The data in newt.txt are from a study to estimate the number of an adult rare amphibian resident in an area soon to be developed. Adults can be individually identified by the pattern of spots on their belly. Individuals were caught on 12 nights, identified and sexed. The population can be assumed closed over the 12 capture occasions. The data in newtB.txt are the capture histories and sex (1 or 2) for each individual.
 
-- only a portion of the area is searched
-- scavengers, e.g. coyotes or raccoons, remove a carcass before the technician looks for it
-- the searcher doesn’t see a carcass that is in the search area and not scavenged.
+Your goal is to provide an estimate of the number of newts in the population. At a minimum, you need to provide an estimate and standard error. A confidence interval would be nice.
 
-The portion of area searched, $\pi_a$, is a known constant. The searcher efficiency and scavenger removal rate are estimated by placing a known number of marked dead bats on the ground and seeing how many are found by the technician. In actual use, the searcher efficiency and scavenger removal rate are estimated by two different studies. I am simplifying this problem by combining the two rates into a single probability: $\pi_s$ is the probability that a carcass falling in the searched area is found by a searcher. $\pi_s$ can be estimated by placing a known number of marked dead bats in the search area, waiting a few days, then recording how many are found by a searcher.
+_Notes:_ You should consider at least some models that include heterogeneity (e.g., between sexes and/or between individuals). I suggest you avoid model Mtb (time + behavior dependent capture probabilities with time as a categorical factor) because the population size is not identifiable in that model (at least for these data). A model with linear effects of time may be reasonable.
 
-- Note: there is a temporal aspect to carcass removal (how many days has it been on the ground) that I am ignoring here to keep the problem from getting too complicated.
+## Answer:
 
-The data for this problem are made up based on typical numbers for a non-endangered bat species at an Iowa wind farm with a very, very intensive monitoring program. The data are:
+__Methods:__
 
-- $Y = 23$: the number of unmarked bats (killed by turbines)
+We estimated newt abundance in two ways. In both approaches, the population was assumed to be closed to births, deaths, immigration and emigration over the entire samping period of 12 capture occasions, and marks were assumed to be individually unique based on spot pattern on the newts' underside. Therefore, marks could not be 'lost' and the assumption that tagging does not affect survival did not apply. Newt gender was identified and coded as either 1 or 2 in the capture history.
 
-There are two carcass detection trials. In each, 50 marked bats were placed in the search area. Searcher efficiency can be assumed to be the same in the two trials. The technicians found:
+The first approach to estimate newt abundance did not use gender as a grouping variable, and as such the models were isolated from models that were grouped by gender. This is due to the fact that different data sets were used with and without gender, and therefore the models are not nested and AIC model evaluation is not appropriate for non-nested models. The three models run for estimating newt abundance without grouping for gender were the null model (denoted _m0_, where capture probability is constant), the time-based model (denoted _mt_, where capture probability varies by capture occasion), and the linear time model (denoted _mT_, where capture probability is a linear function of capture occasion). The second approach to estimate newt abundance grouped the species by gender, thus resulting in two estimates of abundance (one for each gender). The same set of three models ($m0, mt, mT$) were run in the second approach.
 
-- $Z_1 = 9$
-- $Z_2 = 12$
+In both cases, models were ranced according to Aikike's Information Criterion corrected for small sample size (AICc) and models were run in the R programming language using RStudio and RMark. RMark is a package for R that calls the GUI Program MARK to compute and derive results, but in a faster and more efficient way than Program MARK alone. Paramaters of $\hat{N}$ with associated standard error and 95% confidence intervals were derived from RMark model outputs. 
 
-The search area proportion is known to be:
+__Results:__
 
-- $\pi_a = 0.2$
+For both approaches, the $mt$ model was ranked highest, indicating an observed effect of different capture probabilities during each sample occasion. The derived results for both approaches yielded abundance estimates (e.g., $\hat{N}$) that were much closer to the lower end of the 95% confidence interval, which is likely a function of the logit transformation ocurring in each model. The results for the first approach are:
 
-A reasonable model for the searcher trials is: $Z_i \sim Bin(50, \pi_s)$, and a reasonable model for the tubrine mortality is $Y \sim Bin(N, \pi_a, \pi_s)$. At the end of the problem, we will consider a different model for turbine mortality where $Y \sim Pois(N,\pi_a,\pi_s)$.
-
-## (a)
-
-What are the expected values of $Y$, $Z_i$, and $Z_1+Z_2$?
-
-- $E[Y] = \Sigma Y * pdf(Y)$
-
-```{r}
-E.y <- 
+```{r, include = F}
+library(RMark)
+newt<-import.chdata('newtB.txt', field.types = c('n','f'))
+head(newt)
 ```
 
-## (b)
+```{r, include = F}
+## No groups ##
 
-What is the method-of-moments estimate of $N$?
+run.newt<-function(){
+  f0<-list(formula= ~1)
+  f0s<-list(formula=~1, share=TRUE)
+  ft<- list(formula=~time, share=TRUE)
+  fT<- list(formula=~Time, share=TRUE)
+  
+  m0<-mark(newt, model = "Closed", model.parameters = list(p=f0s,f0=f0), output = F)
+  mt<-mark(newt, model='Closed',  model.parameters= list(p=ft, f0=f0), output = F)
+  mT<-mark(newt, model = 'Closed', model.parameters =list(p=fT, f0=f0), output=F)
+  
+  return(collect.models())
+}
 
-```{r}
-
+newt.model<-run.newt()
+model.table(newt.model, model.name = F)
 ```
 
-## (c)
-
-What is the log likelihood function for the parameters $(N,\pi_s)$ given the data, $(Y,Z_1+Z_2)$ and known constant, $\pi_a$. Use the Binomial model for $Y$.
-
-```{r}
-
+```{r,}
+# mt is top model
+newt.model$mt$results$derived
 ```
 
-## (d)
+For the set of three models run without adding an effect of gender, the model with time-dependent capture probability had the lowest AICc value and lowest deviance. The other two models tested (linear time effect, 25 AICc units difference; null model, 101 AICc units difference) did not perform as well despite having fewer parameters estimated. The top model yielded an estimate of $\hat{N} = 110$ and a 95% confidence limit bounded between 109 and 117. The results for the second approach are:
 
-Find the mle's of $N$ and $\pi_s$ and their standard errors.
+```{r, include = F}
+## Groups ##
+run.newtb<-function(){
+  f0<-list(formula= ~1)
+  fs<-list(formula=~sex)
+  f0s<-list(formula=~1, share=TRUE)
+  ft<- list(formula=~time, share=TRUE)
+  fT<- list(formula=~Time, share=TRUE)
+ 
+  m0<-mark(newt, model = "Closed", model.parameters = list(p=f0s,f0=fs), groups=c('sex'), output = F)
+  mt<-mark(newt, model='Closed',  model.parameters= list(p=ft, f0=fs), groups=c('sex'), output = F)
+  mT<-mark(newt, model = 'Closed', model.parameters =list(p=fT, f0=fs), groups=c('sex'), output=F)
 
-```{r}
+  return(collect.models())
+}
 
+newtb.model<-run.newtb()
+model.table(newtb.model, model.name=F)
 ```
 
-## (e)
-
-Find the mle's of $N$ and $\pi_s$ and their standard errors under the Poisson model for $Y$. That is, $Y \sim Pois(N,\pi_a,\pi_s)$. _Note:_ the searcher trial model remains a Binomial because the number of carcasses is not random.
-
-```{r}
-
+```{r,}
+# mt is still top model
+newtb.model$mt$results$derived
 ```
+
+For the set of  3 models run where data was grouped by gender, the model with time-dependent capture probability had the lowest AICc value and lowest deviance. The other two models tested (linear time effect, 24 AICc units difference; null model, 101 AICc units difference) did not perform as well despite having fewer parameters estimated. The top model yielded an abundance estimate for gender 1 of $\hat{N_1} = 59$ with a 95% confidence interval between 58 and 65, and the abundance estimate for gender 2 was $\hat{N_2} = 51$ with a 95% confidence interval between 50 and 57. The sum of both abundance estimates in the second (grouped) approach equalled the single abundance estimate in the first (ungrouped) approach. 
 
