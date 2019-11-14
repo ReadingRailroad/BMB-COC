@@ -41,6 +41,8 @@ packages(devtools)
 packages(dplyr)
 packages(tidyr)
 packages(rcompanion)
+
+setwd("~/BMB-COC")
 ```
 
 # Per MJW Request:
@@ -1008,6 +1010,294 @@ buff<-ggplot(DF, aes(x=BuffBiomass, y=B.MeanCPUE)) +
 grid.arrange(carp,buff,nrow=2,ncol=1)
 
 ```
+
+
+
+### 2019 CPUE data wrangling
+
+objective is to create a dataframe with the following columns:
+
+Date, Lake, Species, CPUE, Transect #
+
+
+```{r}
+# load in data
+frame2019<-read.csv("2019/2019 CPUE efishing data.csv", header = T)
+str(frame2019)
+
+# trim the fat
+
+frame2019<-frame2019[,c(1,2,4,10:13,17)]
+
+# try to set the date column
+frame2019$Date <- as.Date(frame2019$Date , "%m/%d/%y")
+str(frame2019)
+
+# sort lake names:
+levels(frame2019$Lake)
+frame2019$Lake[frame2019$Lake == "5 Island "] <- "5 Island"
+droplevels(frame2019$Lake)
+
+# subset the species we want, carp buffalo, and dummy
+levels(frame2019$Species)
+frame2019<-droplevels(subset(frame2019, Species == "dummy" |
+                                        Species == "COC" |
+                                        Species == "BIB"))
+levels(frame2019$Species)
+
+# electrofishing only
+levels(frame2019$Gear)
+frame2019<-droplevels(subset(frame2019, Gear != "Seine "))
+
+# sort out the standard transects
+levels(frame2019$Start.Latitude)
+
+stdRuns<-droplevels(subset(frame2019, Start.Latitude == "5 Island  trans. 3" |
+                             Start.Latitude == "5 Island tans. 4"   |
+                             Start.Latitude == "5 Island trans 1"   |
+                             Start.Latitude == "5 Island trans 2"   |
+                             Start.Latitude == "5 Island trans 3"   |
+                             Start.Latitude == "5 Island trans 4"   |
+                             Start.Latitude == "5 Island trans 5"   |
+                             Start.Latitude == "5 Island trans 5 "  |
+                             Start.Latitude == "5 Island trans. 1"  |
+                             Start.Latitude == "5 Island trans. 2"  |
+                             Start.Latitude == "5 island trans. 3"  |
+                             Start.Latitude == "5 Island trans. 3"  |
+                             Start.Latitude == "5 island trans. 4"  |
+                             Start.Latitude == "5 Island trans. 4"  |
+                             Start.Latitude == "5 island trans. 5"  |
+                             Start.Latitude == "5 Island trans. 5"  |
+                             Start.Latitude == "5I tans 2"          |
+                             Start.Latitude == "5I trans 1"         |
+                             Start.Latitude == "5I trans 3"         |
+                             Start.Latitude == "5I trans 4"         |
+                             Start.Latitude == "5I trans 5"         |
+                             Start.Latitude == "Blue trans. 1"      |
+                             Start.Latitude == "Blue trans. 2"      |
+                             Start.Latitude == "Blue trans. 3"      |
+                             Start.Latitude == "Blue trans. 4"      |
+                             Start.Latitude == "Center trans 1"     |
+                             Start.Latitude == "Center trans 2"     |
+                             Start.Latitude == "Center trans 3"     |
+                             Start.Latitude == "Center trans 4"     |
+                             Start.Latitude == "Center trans 5"     |
+                             Start.Latitude == "Center trans. 1"    |
+                             Start.Latitude == "Center trans. 2"    |
+                             Start.Latitude == "Center trans. 3"    |
+                             Start.Latitude == "Center trans. 4"    |
+                             Start.Latitude == "Center trans. 5"    |
+                             Start.Latitude == "Center trans.4"     |
+                             Start.Latitude == "N Twin Std. 1"      |
+                             Start.Latitude == "N Twin Std. 2"      |
+                             Start.Latitude == "N Twin Std. 3"      |
+                             Start.Latitude == "N Twin Std. 4"      |
+                             Start.Latitude == "N. Twin trans. 1"   |
+                             Start.Latitude == "N. Twin trans. 2"   |
+                             Start.Latitude == "S. Twin trans. 1"   |
+                             Start.Latitude == "S. Twin trans. 2"   |
+                             Start.Latitude == "S. Twin trans. 3"   |
+                             Start.Latitude == "S. Twin trans. 4"   |
+                             Start.Latitude == "Siliver trans. 1"   |
+                             Start.Latitude == "SIliver trans. 2"   |
+                             Start.Latitude == "Silver tans 2"      |
+                             Start.Latitude == "Silver trans 1"     |
+                             Start.Latitude == "Silver trans 3"     |
+                             Start.Latitude == "Silver trans 4"     |
+                             Start.Latitude == "Silver trans 5"     |
+                             Start.Latitude == "Silver trans 6"     |
+                             Start.Latitude == "Silver trans. 1"    |
+                             Start.Latitude == "Silver trans. 2"    |
+                             Start.Latitude == "Silver trans. 3"    |
+                             Start.Latitude == "SIlver trans. 3"    |
+                             Start.Latitude == "Silver trans. 4"    |
+                             Start.Latitude == "Silver trans. 5"    |
+                             Start.Latitude == "SIlver trans. 5"    |
+                             Start.Latitude == "Silver trans. 5 "   |
+                             Start.Latitude == "Silver trans. 6"    |
+                             Start.Latitude == "SIlver trans. 6"    |
+                             Start.Latitude == "Silverr trans. 6"   |
+                             Start.Latitude == "Slver trans. 2"     |
+                             Start.Latitude == "Slver trans. 2 "    |
+                             Start.Latitude == "STD 1 by fen"       |
+                             Start.Latitude == "STD 1 start"        |
+                             Start.Latitude == "STD 2"              |
+                             Start.Latitude == "Std 2 start"        |
+                             Start.Latitude == "STD 2 start"        |
+                             Start.Latitude == "Std 3 start"        |
+                             Start.Latitude == "Std 4 start"        |
+                             Start.Latitude == "Std 5 start"        |
+                             Start.Latitude == "Std1 start"         |
+                             Start.Latitude == "Storm  trans 5"     |
+                             Start.Latitude == "Storm tans 7"       |
+                             Start.Latitude == "Storm trans 2"      |
+                             Start.Latitude == "Storm trans 4"      |
+                             Start.Latitude == "Storm trans 9"      |
+                             Start.Latitude == "Storm trans. 1"     |
+                             Start.Latitude == "Storm trans. 2"     |
+                             Start.Latitude == "Storm trans. 2 "    |
+                             Start.Latitude == "Storm trans. 3"     |
+                             Start.Latitude == "Storm trans. 4"     |
+                             Start.Latitude == "Storm trans. 5"     |
+                             Start.Latitude == "Storm trans. 6"     |
+                             Start.Latitude == "Storm trans. 7"     |
+                             Start.Latitude == "Storm trans. 9"     |
+                             Start.Latitude == "Strom trans 1"      |
+                             Start.Latitude == "Strom trans 4 "     |
+                             Start.Latitude == "Strom trans 5"      |
+                             Start.Latitude == "Strom trans. 4"     |
+                             Start.Latitude == "Strom trans. 7"     |
+                             Start.Latitude == "Strom trans. 9" ))
+
+levels(stdRuns$Transect)
+stdRuns$Transect[stdRuns$Transect == "11"] <- "2"
+stdRuns<-droplevels(subset(stdRuns, Transect != "Bonus 1" ))
+stdRuns<-droplevels(subset(stdRuns, Transect != "Bonus 2" ))
+stdRuns<-droplevels(subset(stdRuns, Transect != "Bonus 4" ))
+
+# set transect levels to be consistent among lakes and years
+levels(stdRuns$Transect)
+
+stdRuns$Transect[stdRuns$Transect == "Standard 2"] <- "2"
+stdRuns$Transect[stdRuns$Transect == "Standard 3"] <- "3"
+stdRuns$Transect[stdRuns$Transect == "Standard 4"] <- "4"
+stdRuns$Transect[stdRuns$Transect == "Standard 5"] <- "5"
+stdRuns$Transect[stdRuns$Transect == "Standard1"] <- "1"
+stdRuns$Transect[stdRuns$Transect == "Std 1"] <- "1"
+stdRuns$Transect[stdRuns$Transect == "Std 2"] <- "2"
+stdRuns$Transect[stdRuns$Transect == "Std 3"] <- "3"
+stdRuns$Transect[stdRuns$Transect == "Std 4"] <- "4"
+stdRuns$Transect[stdRuns$Transect == "Std 5"] <- "5"
+stdRuns$Transect[stdRuns$Transect == "Storm  trans 5"] <- "5"
+stdRuns$Transect[stdRuns$Transect == "Storm 5"] <- "5"
+stdRuns$Transect[stdRuns$Transect == "Storm 7"] <- "7"
+stdRuns$Transect[stdRuns$Transect == "Storm trans 2"] <- "2"
+stdRuns$Transect[stdRuns$Transect == "Storm trans 4"] <- "4"
+stdRuns$Transect[stdRuns$Transect == "Storm trans 9"] <- "9"
+stdRuns$Transect[stdRuns$Transect == "Strom trans 1"] <- "1"
+stdRuns$Transect<-droplevels(stdRuns$Transect)
+levels(stdRuns$Transect)
+
+# trim out notes and gear and start latitude columns
+stdRuns<-stdRuns[,-c(4,5,7)]
+
+# check that the on-time in seconds is approximately 900 seconds
+summary(stdRuns$On.time..s.)
+# center lake transect 1 on 5-14-2019
+stdRuns<-droplevels(subset(stdRuns, On.time..s. != 1909))
+# north twin lake on 5-17
+stdRuns<-droplevels(subset(stdRuns, On.time..s. != 1430))
+stdRuns<-droplevels(subset(stdRuns, On.time..s. != 1069))
+stdRuns<-droplevels(subset(stdRuns, On.time..s. != 678))
+summary(stdRuns$On.time..s.)
+
+# adding a dummy variable for observation as "count" of species
+stdRuns$Obs<-1
+
+# melt and cast to get total count of fish by species in each run
+library(reshape2)
+stdRuns.melt<-melt(stdRuns, id.vars = c("Date","Lake","Transect"))
+
+CPUE<-dcast(stdRuns.melt, Date+Lake+Transect~variable)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 New plot for prairie lakes conference:
 
