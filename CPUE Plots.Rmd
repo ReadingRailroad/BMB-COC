@@ -1194,11 +1194,17 @@ summary(stdRuns$On.time..s.)
 # adding a dummy variable for observation as "count" of species
 stdRuns$Obs<-1
 
-# melt and cast to get total count of fish by species in each run
-library(reshape2)
-stdRuns.melt<-melt(stdRuns, id.vars = c("Date","Lake","Transect"))
+# adding an effort column, the on-time divided by an hour (3600 seconds)
+stdRuns$Effort<-stdRuns$On.time..s./3600
 
-CPUE<-dcast(stdRuns.melt, Date+Lake+Transect~variable)
+cpue<-aggregate(Obs~Date+Lake+Transect+Species+Effort, data = stdRuns, sum, na.action=NULL)
+cpue$cpue<-cpue$Obs/cpue$Effort
+# so now I have the cpue per each date/lake/transect combo 
+# for two species and "dummy" for goose eggs
+head(cpue)
+
+# OK I'm gonna send this to Sarah for now, and see what she thinks and needs it to change.
+write.csv(cpue, "2019 Raw CPUE Data.csv", row.names = F)
 ```
 
 
