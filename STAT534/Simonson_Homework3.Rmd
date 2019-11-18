@@ -1,0 +1,189 @@
+---
+title: "Ecostats Homework 3"
+date: "11/18/2019"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+```{r,include=F}
+# Front matter
+rm(list=ls())  # removes objects from environment
+
+# Function to load and install packages
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
+
+# Setting Working Directory
+setwd("C:/Users/martysim/Documents/BMB-COC/STAT534/")
+
+# setting up packages
+packages(ggplot2)
+packages(RMark)
+packages(gtools)
+```
+
+# 1) Cormorant Band Recovery 
+
+Use data from _cormorantLD.txt_ to create a model of cormorant survival probabilities. 
+
+## (a) 
+
+The Seber parameterization is the more appropriate approach fot these data because the Seber paramterization uses the recover parameter _r_, which is the probability that dead marked individuals are reported during each period between releases and where death is not necessarily related to harvest. In comparison, the Brownie parameterization uses the recovery parameter _f_, which is the product of the probabilities that a marked individual is killed and harvested, retrieved, and reported. Cormorants are not hunted, therefore, the Brownie approach does not apply.
+
+## (b)
+
+```{r, include = F}
+cormorant<-import.chdata("cormorantLD.txt")
+str(cormorant)
+cormorant$freq<-as.numeric(as.character(cormorant$freq))
+
+cormorant_proc<-process.data(cormorant, model = "Recovery")
+
+cormorant_ddl<-make.design.data(cormorant_proc)
+cormorant_ddl$S
+cormorant_ddl$r
+
+f0<-list(formula=~1)
+ft<-list(formula=~time)
+
+S0_rt<- mark(data = cormorant_proc,
+              ddl = cormorant_ddl,
+              model.parameters = list (S=f0, r = ft),
+              invisible = F,
+              model.name = "Recovery")
+S0_rt$results$real
+
+```
+
+- The estimate for survival is $\hat{S}=0.51$, with a 95% confidence interval between 0.45 and 0.58
+
+## (c)
+
+```{r, include = F}
+St_rt<- mark(data = cormorant_proc,
+              ddl = cormorant_ddl,
+              model.parameters = list (S=ft, r = ft),
+              invisible = F,
+              model.name = "Recovery")
+St_rt$results$real
+```
+
+- Let $S_{years}$ represent the year-specific survival rate of cormorants. $S_{82-83} = 0.95$, $S_{83-84} = 0.05$, and $S_{84-85} = 0.43$
+
+## (d)
+
+```{r, include = F}
+fT<-list(formula=~Time)
+
+ST_rt<- mark(data = cormorant_proc,
+             ddl = cormorant_ddl,
+             model.parameters = list(S=fT, r = ft),
+             model.name = "Recovery")
+ST_rt$results$real
+```
+
+- Let $S_{years}$ represent the year-specific survival rate of cormorants. $S_{82-83} = 0.83$, $S_{83-84} = 0.88$, $S_{84-85} = 0.92$, and $S_{85-86} = 0.95$
+
+## (e)
+
+```{r, include = F}
+cormorant_results <- collect.models(lx = NULL,
+                                    type = 'Recovery',
+                                    table = TRUE,
+                                    adjust = TRUE)
+cormorant_model_table <- model.table(cormorant_results, model.name = F)
+cormorant_model_table #St_rt has the lowest AIC and all the weight
+```
+
+- The most-supported model is where both survival and capture probabilities are time-specific ($S_tr_t$). This model was the top-ranked model using AICc and it received nearly all the model weight. Our other two models (where Survival did not vary across capture occasions, and where Survival was modeled as a linear time effect) had $\Delta AIC_c >800$. 
+
+# 3) Fun with Fisheries CJS models
+
+## (a)
+
+- A: $\phi_1(1-p_2)\phi_2p_3\phi_3p_4$
+- B: $\phi_1(1-p_2)\phi_2(1-p_3)\phi_3p_4$
+- C: $\phi_1(1-p_2)\phi_2p_3[\phi_3(1-p_4)+(1-\phi_3)]$
+
+## (b)
+
+- A: $e^{r(D_3-D_1)}p_3e^{r(D_4-D_3)}p_4$
+- B: $e^{r(D_4-D_1)}p_4$
+- C: $e^{r(D_3-D_1)}p_3[e^{r(D_4-D_3)}(1-p_4)+(1-e^{r(D_4-D_3)})]$
+
+## (c)
+
+```{r, include = F}
+fish <- import.chdata("fishdaily.txt", header = T)
+
+#3C
+fish_proc <- process.data(fish, model = 'CJS')
+fish_ddl <- make.design.data(fish_proc)
+
+ft <- list(formula=~time)
+Phit_pt <- mark(data = fish_proc, 
+              ddl = fish_ddl,
+              model.parameters= list (Phi=ft, p=ft),
+              invisible = FALSE,
+              model.name = 'CJS')
+Phit_pt$results$real
+```
+
+- $\phi_1 = 0.92$
+- $\phi_2 = 0.52$
+
+## (d)
+
+```{r, include = F}
+fish_proc_int <- process.data(fish, model = 'CJS', time.intervals = c(5,14,10))
+
+fish_ddl_int <- make.design.data(fish_proc_int)
+fish_ddl_int$Phi
+f0 <- list(formula=~1)
+DAY <- mark(data = fish_proc_int, 
+                    ddl = fish_ddl_int,
+                    model.parameters= list (Phi=f0, p=ft),
+                    invisible = FALSE,
+                    model.name = 'CJS')
+DAY$results$real #daily survival= 0.964 SE= 0.018
+```
+
+- $r = 0.96$ with a 95% confidence interval between $(0.91, 0.99)$.
+
+## (e)
+
+```{r, include = F}
+fish_proc_day <- process.data(fish, model = 'CJS') #5,14,10 are the differences in julian days between occasions
+fish_ddl_day <- make.design.data(fish_proc_day)
+fish_ddl_day$Phi
+fish_ddl_day$Phi$day <- c(5,14,10,14,10,10)
+fday <- list(formula=~-1 + day, link='log')
+
+Phiday_pt <- mark(data = fish_proc_day, 
+                    ddl = fish_ddl_day,
+                    model.parameters= list (Phi=fday, p=ft), #fday tells the model to look at the difference in days for a survival estimate
+                    invisible = FALSE,
+                    model.name = 'CJS',
+                    time.intervals = c(5,14,10))
+Phiday_pt$results$real
+```
+
+- $\phi_1 = 0.83$
+- $\phi_2 = 0.60$
+- $\phi_3 = 0.69$
+
+## (f)
+
+The DAY model is the better approach for these data, because it takes into account that the time interval between sampling occasions is variable, and estimates survival based on the number of days in each interval. Also, when comparing DAY and CJS models using Aikike's Information Criterion, the DAY model receives more than 90% of the model weight and a majority of the support. The DAY model would be expected to be better as survival probabilities between each sampling occasion should be different because the length of time between each sampling occasion is different.
+
+## (g)
+
+The biggest apparent advantage of the DAY model over the usual CJS model is that the survival for the third and final interval is estimable; in the usual CJS model this parameter would be confounded and not estimable. 
