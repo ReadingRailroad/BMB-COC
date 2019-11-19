@@ -50,23 +50,24 @@ lambda1
 ```{r, include = F}
 u<-Re(ev$vectors[,1]) # associated real eigenvector
 u<-u/sum(u)
-u
+round(u,2)
 ```
 
 - The stable age distribution for stages 1-8 are 0.28, 0.03, 0.53, 0.01, 0.06, 0.06, 0.02, and 0.01, respectively.
 
-## (c) Stable age distribution ignoring seeds
+## (c) Stable stage distribution ignoring seeds
 
 ```{r, include = F}
+shrub.noseed<-shrub[-1,-1]
+ev<-eigen(shrub.noseed)
 uc<-Re(ev$vectors[,1]) # associated real eigenvector
 uc
-uc<-uc[-1]
 uc<-uc/sum(uc)
 sum(uc)
-uc
+round(uc,2)
 ```
 
-- The stable age distribution for stages 2-8 (ignoring seeds) is 0.04, 0.73, 0.02, 0.08, 0.09, 0.02, and 0.01, respectively
+- The stable stage distribution for stages 2-8 (ignoring seeds) is 0.00, 0.00, 0.00, 0.00, 0.46, 0.23, and 0.31, respectively.
 
 ## (d) Increasing matrix elements
 
@@ -84,13 +85,29 @@ v <- v/sum(v);
 # sensitivity matrix
 s <- outer(v,u) / sum(v*u)
 s # element row 5 col 3 is largest
-# but that does not correspond to a non-zero element in the shrub matrix
-# that's OK according to one resource
-# it's like making sub-adults reproduce or something
-s[5,3]
+l <- Re(ev$values[1])	# lambda, convert to real
+
+# elasticity matrix
+e<-shrub*s/l
+e
+# the largest value in the elasticity matrix is [5,5]
+# 0.3178
+
+# 10% increase of element [5,5] according to the elatsicity matrix, is
+1.1*e[5,5]
+
+# now change that value in the original shrub
+shrub.d<-shrub
+new.param<-shrub.d[5,5]*1.1
+shrub.d[5,5]<-new.param
+# new lambda
+ev<-eigen(shrub.d)
+lambda.d<-Re(ev$values[1])
+lambda.d
+lambda.d-lambda1
 ```
 
-- The largest element in the sensitivity matrix is row 5, column 3: 2.90. Since this is a rate(slope), changing that element by 110% (1.1) would result in a change in $\lambda$ of 3.19.
+- The largest element in the sensitivity matrix is row 5, column 5: 0.35. The new lambda is 1.01, which is an increase of 0.06 from the first lambda in part (a).
 
 ## (e) Effect of canopy cover
 
@@ -98,19 +115,22 @@ s[5,3]
 # function LTRE from package 'popbio'
 shrub25<-read.csv("shrub25.csv",header=T)
 str(shrub25)
-g<-LTRE(shrub25,shrub)
-
-## the sensitivity matrix approach
 ev<-eigen(shrub25)
+lambda.e<-Re(ev$values[1])
+lambda.e
+
+a.star<-(shrub+shrub25)/2
+a.star
+
+ev<-eigen(a.star)
 u<-Re(ev$vectors[,1]) # associated real eigenvector
 
-lambda2<-Re(ev$values[1])
-lambda2
+
 
 u<-u/sum(u)
 u
 # then repeat for transpose of a to get left eigen vectors
-ev <- eigen(t(shrub25));
+ev <- eigen(t(a.star));
 
 v <- Re(ev$vectors[,1])
 v <- v/sum(v);
@@ -119,37 +139,37 @@ v <- v/sum(v);
 s <- outer(v,u) / sum(v*u)
 s
 
+rcm<-(shrub25-shrub)*s
+rcm
+sum(rcm)
 ```
 
-The elements [8,1] = 237; [7,1] = 160; [8,7] = 89 are the three highest values in the sensitivity matrix.
+The elements [4,3] = 0.241; [1,5] = 0.087; [1,4] = 0.084 are the three highest values in the relative contribution to lambda matrix.
 
 ## (f) part one: LTRE and lambda
 
 ```{r, include = F}
-difference<-lambda2-lambda1
+difference<-lambda.e-lambda1
 difference
-
-sum(s)
+sum(rcm)
+difference-sum(rcm)
 ```
 
-not even a little close to each other
+These values are fairly close: the calculated difference between lambda for both transition matrices equals 0.618, while the estimated difference in lambda from the LTRE is 0.560. These values differ by about 0.058.
 
 ## (f) part two: transition matrix logic
 
-```{r}
-shrub
-```
-
-well, the matrix as given shows a plant that flowered in 2010 was a seed in 2011 that had to transition to seedling with 0.1 in 2012. So two years. CONTRARY to reasoning as seeds produced in 2010 would become seedlings in 2011.
+Well, the matrix as given shows a plant that flowered in 2010 was a seed in 2011 that had to transition to seedling with 0.1 in 2012. So it takes two years.
 
 ## (g) re-written transition matrix
 
 ```{r}
 # my idea is to multiply fecundity by 0.1 for sm-vlg
-shrub2<-shrub[1,]*0.1
-shrub2<-rbind(shrub2,shrub[2:8,])
+shrub.f<-shrub[1,]*0.1
+shrub2<-shrub[2:8,]
+shrub2[1,]<-shrub.f
 # trim first column and second row
-shrub2<-shrub2[-2,-1]
+shrub2<-shrub2[-1]
 shrub2
 ```
 
@@ -172,8 +192,6 @@ round(u2,2)
 ```{r}
 round(uc-u2, 4)
 ```
-
-The stable age distributions between 1(c) and 1(h) are very similar, in fact the ratios are only off by a few hudredths at most. The largest difference is the method from part (h) has more 3% more 'lg' in the stable age distribution.
 
 # 2) Shrubs and hurricanes
 
@@ -243,16 +261,16 @@ rand.env <- function(B,allA,nburn=100,nsim=1000) {
    meanlogl = meanlogl, varlogl = varlogl)
 }
 
-one.a<-rand.env(hurricane,allA,nburn=100,nsim=1000)
-exp(one.a$meanlogl)
+one.a<-rand.env(hurricane,allA,nburn=10000,nsim=100000)
+one.a$meanlogl
 one.a$varlogl
 ```
 
-The population seems to be growing by about 4.35% annually.
+The population seems to be growing by about 5% annually.
 
 ## (b) variance of lambda
 
-The variance of stochastic log lambda reports the precision of year to year variability, since it is a function of the log-transformed lamda values. This is the squared standard deviation of the distribution of mean lambdas.
+The variance of the stochastic log lambda, which are estimated from the data and therefore this is a standard error of the estimate.
 
 ## (c) Re-written environmental variability matrix
 
