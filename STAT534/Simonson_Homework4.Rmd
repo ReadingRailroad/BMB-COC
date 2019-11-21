@@ -334,7 +334,7 @@ one.e<-rand.env(hurricane4,allA,nburn=10000,nsim=100000)
 
 ```{r,}
 hurricane4
-one.d$meanlogl
-one.d$varlogl
+one.e$meanlogl
+one.e$varlogl
 ```
 
