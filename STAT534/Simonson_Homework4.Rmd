@@ -270,7 +270,7 @@ The population seems to be growing by about 5% annually.
 
 ## (b) variance of lambda
 
-The variance of the stochastic log lambda, which are estimated from the data and therefore this is a standard error of the estimate.
+The variance of the stochastic log lambda is estimated from the data and therefore this is a standard error of the estimate.
 
 ## (c) Re-written environmental variability matrix
 
@@ -278,10 +278,63 @@ The variance of the stochastic log lambda, which are estimated from the data and
 # get new hurricane matrix that allows hurricanes to affect any site
 hurricane
 
-hurricane2<-hurricane[]
-
+hurricane2<-hurricane
+hurricane2[1,2]<-0.95
+hurricane2[4,2]<-0.05
+hurricane2[2,3]<-0.95
+hurricane2[4,3]<-0.05
+hurricane2[3,4]<-0.95
+hurricane2[4,4]<-0.05
 #
+one.c<-rand.env(hurricane2,allA,nburn=10000,nsim=100000)
+```
+```{r,}
+hurricane2
+one.c$meanlogl
+one.c$varlogl
+```
 
+# (d)
 
+```{r, include = F}
+hurricane
+
+hurricane3<-hurricane
+hurricane3[1,1]<-0.99
+hurricane3[4,1]<-0.01
+hurricane3[1,2]<-0.99
+hurricane3[4,2]<-0.01
+hurricane3[2,3]<-0.99
+hurricane3[4,3]<-0.01
+hurricane3[3,4]<-0.99
+hurricane3[4,4]<-0.01
+
+one.d<-rand.env(hurricane3,allA,nburn=10000,nsim=100000)
+```
+
+```{r,}
+hurricane3
+one.d$meanlogl
+one.d$varlogl
+```
+
+# (e)
+
+```{r,}
+hurricane4<-hurricane2
+hurricane4
+
+hurricane4[1,4]<-0.5
+hurricane4[2,4]<-0.45
+hurricane4[3,4]<-0
+hurricane4[4,4]<-0.05
+
+one.e<-rand.env(hurricane4,allA,nburn=10000,nsim=100000)
+```
+
+```{r,}
+hurricane4
+one.d$meanlogl
+one.d$varlogl
 ```
 
