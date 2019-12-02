@@ -276,15 +276,15 @@ rand.env <- function(B,allA,nburn=100,nsim=1000) {
 one.a<-rand.env(hurricane,allA,nburn=10000,nsim=100000)
 ```
 ```{r}
-one.a$meanlogl
-one.a$varlogl
+round(one.a$meanlogl, 2)
+round(one.a$varlogl, 2)
 ```
 
-The population seems to be growing by about 5% annually.
+The population seems to be growing by about 6% annually.
 
 ## (b) variance of lambda
 
-The variance of the stochastic log lambda is estimated from the data and therefore this is a standard error of the estimate. The standard error concerns variability in an estimator (mean stochastic log lambda) from sample to sample.
+The variance of the stochastic log lambda is estimated from the collection of 90,000 lambda values of all simulated years, which captures year-to-year variability. It does not factor in sample size, which would be needed for standard error.  
 
 ## (c) Re-written environmental variability matrix
 
@@ -304,8 +304,8 @@ one.c<-rand.env(hurricane2,allA,nburn=10000,nsim=100000)
 ```
 ```{r,}
 hurricane2
-one.c$meanlogl
-one.c$varlogl
+round(one.c$meanlogl, 2)
+round(one.c$varlogl,2)
 ```
 
 ## (d)
@@ -328,8 +328,8 @@ one.d<-rand.env(hurricane3,allA,nburn=10000,nsim=100000)
 
 ```{r,}
 hurricane3
-one.d$meanlogl
-one.d$varlogl
+round(one.d$meanlogl,2)
+round(one.d$varlogl,2)
 ```
 
 ## (e)
@@ -348,7 +348,7 @@ one.e<-rand.env(hurricane4,allA,nburn=10000,nsim=100000)
 
 ```{r,}
 hurricane4
-one.e$meanlogl
-one.e$varlogl
+round(one.e$meanlogl,2)
+round(one.e$varlogl,2)
 ```
 
