@@ -8,7 +8,7 @@ editor_options:
 ---
 
 ```{r}
-
+setwd("~/BMB-COC")
 df<-read.csv("2018/2018 Raw CPUE Data.csv", header = T)
 str(df)
 
@@ -59,3 +59,30 @@ blue.cpue
 write.csv(blue.cpue, "Ecostats Project - CPUE.csv", row.names = F)
 ```
 
+# North Twin 2018
+
+```{r}
+
+df<-read.csv("2018/2018 Raw CPUE Data.csv", header = T)
+str(df)
+
+blue<-droplevels(subset(df, Lake == "N Twin"))
+blue<-blue[,-1]
+str(blue)
+head(blue)
+
+blue$Date<-as.Date(with(df, paste(blue$Year,blue$Month,blue$Day, sep = "-")), "%Y-%m-%d")
+
+blue2<-data.frame(blue$Date, blue$Run, blue$Effort, blue$n)
+head(blue2)
+
+effort<-aggregate(blue2["blue.Effort"], by = blue2["blue.Date"],sum)
+catch<-aggregate(blue2["blue.n"], by = blue2["blue.Date"],sum)
+
+cpue<-cbind(effort, catch$blue.n)
+cpue
+
+blue.cpue<-data.frame(cpue$blue.Date, cpue$`catch$blue.n`/cpue$blue.Effort)
+colnames(blue.cpue)<- c("Date", "CPUE")
+blue.cpue
+```
