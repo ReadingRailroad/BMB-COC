@@ -131,24 +131,61 @@ datframe$Gear[datframe$Gear == "Seine "] <- "Seine"
 datframe$Gear<-droplevels(datframe$Gear)
 levels(datframe$Gear)
 
+```
+
 
 # remove data collected by IA DNR
 #### look at google sheets where ISU actually sampled blue or twin(s)... then subset
+Blue Lake exclude all except: 5/30/2019 & 6-27-2019
+North Twin exclude all except: 5-17-2019 & 5-21-2019 
+-- Note that  11-3-2019 seine was estimated number of fish removed by seine, not handled by me
+-- 11-10-2019 tagging not included on google sheets due to previous week's violation of closure.
 
 
 
+```{r,}
+levels(datframe$Date)
+
+# Blue Lake
+datframe$Lake[datframe$Date == "5/30/19"]
+datframe2<-droplevels(subset(datframe, Lake == "Blue" &
+                                       Date == "5/30/19" |
+                                       Lake == "Blue" &
+                                       Date == "6/27/19"))
+datframe<-subset(datframe, Lake != "Blue")
+datframe<-rbind(datframe,datframe2)
+
+
+# N Twin Lake
+datframe$Lake[datframe$Date == "5/17/19"]
+datframe$Lake[datframe$Date == "5/21/19"]
+datframe$Lake[datframe$Date == "11/10/19"] # legitly 
+datframe3<-droplevels(subset(datframe, Lake == "N Twin" &
+                                       Date == "11/10/19" |
+                                       Lake == "N Twin" &
+                                       Date == "5/21/19" |
+                                       Lake == "N Twin" &
+                                       Date == "5/17/19"))
+datframe<-subset(datframe, Lake != "N Twin")
+datframe<-rbind(datframe,datframe3)
+
+```
+
+# final counts
+
+```{r,}
 # Released Alive 2019
-Alive<-subset(datframe, Notes != "euthanized")
-A.melt<-melt(Alive, id.var = c("Species","Gear"),
+Alive<-droplevels(subset(datframe, Notes != "euthanized"))
+A.melt<-melt(Alive, id.var = c("Species","Gear","Lake"),
               measure.vars = "detect")
-AliveTotal<-dcast(A.melt,Species~Lake)
+AliveTotal<-dcast(A.melt,Species+Lake~Gear)
 AliveTotal
 
 # Euthanized 2018
-Euth<-subset(datframe, Notes == "euthanized")
-E.melt<-melt(Euth, id.var = c("Species","Gear"),
+Euth<-droplevels(subset(datframe, Notes == "euthanized"))
+E.melt<-melt(Euth, id.var = c("Species","Gear","Lake"),
              measure.vars = "detect")
-EuthTotal<-dcast(E.melt, Species~Lake)
+EuthTotal<-dcast(E.melt, Species+Lake~Gear)
 EuthTotal
 
 ```
