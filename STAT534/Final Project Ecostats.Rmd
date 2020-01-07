@@ -8,7 +8,7 @@ editor_options:
 ---
 
 ```{r}
-
+setwd("~/BMB-COC")
 df<-read.csv("2018/2018 Raw CPUE Data.csv", header = T)
 str(df)
 
@@ -57,5 +57,78 @@ blue.cpue
 
 # write csv
 write.csv(blue.cpue, "Ecostats Project - CPUE.csv", row.names = F)
+```
+
+# North Twin 2018
+
+```{r}
+
+df<-read.csv("2018/2018 Raw CPUE Data.csv", header = T)
+str(df)
+# Despite objects being named 'blue' everything from this line onward is actually North Twin
+blue<-droplevels(subset(df, Lake == "N. Twin"))
+blue<-blue[,-1]
+# and we need to split by species or add that variable....
+levels(blue$Species)
+
+
+str(blue)
+head(blue)
+
+blue$Date<-as.Date(with(df, paste(blue$Year,blue$Month,blue$Day, sep = "-")), "%Y-%m-%d")
+
+blue2<-data.frame(blue$Date, blue$Run, blue$Effort, blue$n, blue$Species)
+head(blue2)
+
+effort<-aggregate(blue2["blue.Effort"], by = blue2[c("blue.Date","blue.Species")],sum)
+catch<-aggregate(blue2["blue.n"], by = blue2[c("blue.Date","blue.Species")],sum)
+
+cpue<-cbind(effort, catch$blue.n)
+cpue
+
+blue.cpue<-data.frame(cpue$blue.Date,cpue$blue.Species, cpue$`catch$blue.n`/cpue$blue.Effort)
+colnames(blue.cpue)<- c("Date","Species", "CPUE")
+ntwin.cpue<-blue.cpue
+ntwin.cpue
+```
+
+## North Twin covariates
+
+```{r}
+# water temps from data
+watertemp<-read.csv("2018_COC_BIB_CMR_Data.csv")
+levels(watertemp$Lake)
+levels(watertemp$Gear)
+watertemp<-droplevels(subset(watertemp, Lake == "N. Twin"))
+watertemp<-droplevels(subset(watertemp, Gear == "Electroshocking"))
+watertemp<-watertemp[,c(1,4,18)]
+watertemp<-droplevels(subset(watertemp, Species == "BIB" | Species == "COC"))
+summary(watertemp$Water.Temp..C.) # GREAT! 
+WaterTemp<-aggregate(watertemp["Water.Temp..C."], 
+                     by = watertemp[c("Date","Species")],mean) # vector of length 17 here
+# see if we can't paste that Ish to the CPUE dataframe
+ntwin.cpue<-cbind(ntwin.cpue,WaterTemp)
+ntwin.cpue
+# see that dates and species match up, so we gone cut out cols 4 and 5
+ntwin.cpue<-ntwin.cpue[,-c(4,5)]
+
+
+# air temps from weather underground (farenheit at noon)
+ntwin.cpue$AirTemp<-rep(c(72,80,81,81,85,88,79,78,81,77,82,86,73,73,48,41,55),2)
+
+# wind from weather underground (noon MPH)
+ntwin.cpue$Wind<-rep(c(7,6,17,3,9,8,5,5,14,5,8,17,8,7,18,7,3),2)
+
+# changing farenheit to celcius
+ntwin.cpue$AirTemp<-round((ntwin.cpue$AirTemp-32)*(5/9),1)
+ntwin.cpue
+
+# split by species, for two .csv data files
+ntwin.18.cpue.coc<-droplevels(subset(ntwin.cpue, Species == "COC"))
+ntwin.18.cpue.bib<-droplevels(subset(ntwin.cpue, Species == "BIB"))
+
+# write csv files
+write.csv(ntwin.18.cpue.bib, "NTwin18CPUEbuff.csv", row.names = F)
+write.csv(ntwin.18.cpue.coc, "NTwin18CPUEcarp.csv", row.names = F)
 ```
 

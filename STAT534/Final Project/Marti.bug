@@ -1,0 +1,25 @@
+model
+{
+# process model
+for (i in 1:n) {
+  logcatch[i] <- b0 + b1*(AirTemp[i] - 20) + b2*(Wind[i]-10)
+  ElogCPUE[i] <- logcatch[i] + logN
+  }
+  
+# data model
+for (i in 1:n) {
+  logCPUE[i] ~ dnorm(ElogCPUE[i], tau)
+  }
+logPop ~ dnorm(logN, tauN)
+tauN <- pow(sdlogPop, -2)
+
+# priors
+logN ~ dnorm(18, 0.01)
+b0 ~ dnorm(-3, 0.1)
+b1 ~ dnorm(0, 0.1)
+b2 ~ dnorm(0, 0.1)
+tau <- pow(sd, -2)
+sd ~ dunif(0,5)
+}
+  
+ 
