@@ -169,6 +169,10 @@ datframe3<-droplevels(subset(datframe, Lake == "N Twin" &
 datframe<-subset(datframe, Lake != "N Twin")
 datframe<-rbind(datframe,datframe3)
 
+# S Twin Lake
+datframe<-subset(datframe, Lake != "S Twin")
+
+
 ```
 
 # final counts
