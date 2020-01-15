@@ -1,0 +1,195 @@
+---
+title: "Scientific Collection Permit Reporting"
+author: "Martin Simonson"
+date: "1/6/2020"
+output: pdf_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r,include=FALSE}
+rm(list=ls())
+
+
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
+
+#remove.packages(c("ggplot2", "data.table"))
+#install.packages('Rcpp', dependencies = TRUE)
+#install.packages('ggplot2', dependencies = TRUE)
+#install.packages('data.table', dependencies = TRUE)
+
+#packages(rcompanion)
+#packages(vegan)
+packages(ggplot2)
+packages(gridExtra)
+packages(reshape2)
+packages(FSA)
+packages(nnet)
+#packages(multcomp)
+#packages(plyr)
+#packages(rv)
+packages(arm)
+packages(lattice)
+packages(tikzDevice)
+packages(FSAdata)
+#packages(nlstools)
+#packages(GGally)
+packages(wesanderson)
+#packages(DescTools)
+#packages(mvnormtest)
+#packages(HH)
+#packages(biotools)
+#packages(car)
+#packages(psych)
+#packages(GPArotation)
+#packages(doBy)
+packages(dplyr)
+packages(tidyr)
+packages(rcompanion)
+#packages(GISTools)
+#packages(maps)
+#packages(mapproj)
+```
+
+# code from "2019 annual report.rmd"
+
+# DNR Permit data
+
+```{r, include = F}
+datframe<-read.csv("2019 Carp and Buffalo Data Entry - Jan 2020.csv", header = T)
+str(datframe)
+
+
+
+# Lakes
+levels(datframe$Lake)
+datframe$Lake[datframe$Lake == "5 Island "] <- "5 Island"
+datframe$Lake[datframe$Lake == "N. Twin"] <- "N Twin"
+datframe$detect<-1
+junk<-melt(datframe, id.var = c("Species","Lake"),
+           measure.vars = "detect")
+LakeTotals<-dcast(junk,Species~Lake)
+# this is good for overall total catch, HOWEVER:
+#   For DNR permit (and probably subsequent IACUC) 
+#   I need to split by released alive and euthanized
+str(LakeTotals)
+
+
+
+
+levels(datframe$Notes)
+length(datframe$Species[datframe$Notes == "euthanized"])
+datframe$Notes[datframe$Notes == "euthanized -  cut tail"] <- "euthanized"
+datframe$Notes<-droplevels(datframe$Notes)
+levels(datframe$Notes)
+length(datframe$Species[datframe$Notes == "euthanized"])
+
+# standardize/fix species names
+levels(datframe$Species)
+datframe$Species<-as.character(datframe$Species)
+datframe$Species[datframe$Species == "Bullhead"] <- "BBH" # Brown Bullhead
+datframe$Species[datframe$Species == "BLK CRP"] <- "BLC" # Black Crappie
+datframe$Species[datframe$Species == "CCF "] <- "CCF" # Channel Catfish
+datframe$Species[datframe$Species == "CFF"] <- "CCF" # channel catfish
+datframe$Species[datframe$Species == "Crappie"] <- "BLC" # Black crappie in center lake
+datframe$Species[datframe$Species == "dummy"] <- "" # used as placeholder for 0 fish transects
+datframe$Species[datframe$Species == "GNSF"] <- "GSF" # green sunfish
+datframe$Species[datframe$Species == "Green Sunfish"] <- "GSF" # green sunfish
+datframe$Species[datframe$Species == "NOP not silver"] <- "NOP" # northern pike
+datframe$Species[datframe$Species == "NOP silver"] <- "NOP" # northern pike, formerly stocked as 'silver' phenotype
+datframe$Species[datframe$Species == "P-seed"] <- "PSD" # pumpkinseed
+datframe$Species[datframe$Species == "Pumpkin seed"] <- "PSD" # pumpkinseed
+datframe$Species[datframe$Species == "Spot tail shiner"] <- "Spottail Shiner"
+datframe$Species[datframe$Species == "Spot Tail Shiner"] <- "Spottail Shiner"
+datframe$Species[datframe$Species == "Spot tal shiner"] <- "Spottail Shiner"
+datframe$Species[datframe$Species == "Spotted Shiner"] <- "Spottail Shiner"
+datframe$Species[datframe$Species == "Sucker"] <- "WHS" # white sucker
+datframe$Species[datframe$Species == "WCRP"] <- "WHC" # white crappie
+datframe$Species[datframe$Species == "White Bass"] <- "WHB" # white bass
+datframe$Species[datframe$Species == "WHT bass"] <- "WHB" # white bass
+datframe$Species[datframe$Species == "WHT CRP"] <- "WHC" # white crappie
+datframe$Species[datframe$Species == "Yellow Bull Head"] <- "YBH" # yellow bullhead
+datframe$Species[datframe$Species == "Yellow Bullhead"] <- "YBH" # yellow bullhead
+datframe$Species<-as.factor(datframe$Species)
+datframe$Species<-droplevels(datframe$Species)
+levels(datframe$Species)
+
+
+# Gear
+levels(datframe$Gear)
+datframe$Gear[datframe$Gear == "Electrofishing "] <- "Electroshocking"
+datframe$Gear[datframe$Gear == "Electrofishing"] <- "Electroshocking"
+datframe$Gear[datframe$Gear == "Electroschocking"] <- "Electroshocking"
+datframe$Gear[datframe$Gear == "Fyke Net"] <- "Fyke"
+datframe$Gear[datframe$Gear == "Seine "] <- "Seine"
+datframe$Gear<-droplevels(datframe$Gear)
+levels(datframe$Gear)
+
+```
+
+
+# remove data collected by IA DNR
+#### look at google sheets where ISU actually sampled blue or twin(s)... then subset
+Blue Lake exclude all except: 5/30/2019 & 6-27-2019
+North Twin exclude all except: 5-17-2019 & 5-21-2019 
+-- Note that  11-3-2019 seine was estimated number of fish removed by seine, not handled by me
+-- 11-10-2019 tagging not included on google sheets due to previous week's violation of closure.
+
+
+
+```{r,}
+levels(datframe$Date)
+
+# Blue Lake
+datframe$Lake[datframe$Date == "5/30/19"]
+datframe2<-droplevels(subset(datframe, Lake == "Blue" &
+                                       Date == "5/30/19" |
+                                       Lake == "Blue" &
+                                       Date == "6/27/19"))
+datframe<-subset(datframe, Lake != "Blue")
+datframe<-rbind(datframe,datframe2)
+
+
+# N Twin Lake
+datframe$Lake[datframe$Date == "5/17/19"]
+datframe$Lake[datframe$Date == "5/21/19"]
+datframe$Lake[datframe$Date == "11/10/19"] # legitly 
+datframe3<-droplevels(subset(datframe, Lake == "N Twin" &
+                                       Date == "11/10/19" |
+                                       Lake == "N Twin" &
+                                       Date == "5/21/19" |
+                                       Lake == "N Twin" &
+                                       Date == "5/17/19"))
+datframe<-subset(datframe, Lake != "N Twin")
+datframe<-rbind(datframe,datframe3)
+
+# S Twin Lake
+datframe<-subset(datframe, Lake != "S Twin")
+
+
+```
+
+# final counts
+
+```{r,}
+# Released Alive 2019
+Alive<-droplevels(subset(datframe, Notes != "euthanized"))
+A.melt<-melt(Alive, id.var = c("Species","Gear","Lake"),
+              measure.vars = "detect")
+AliveTotal<-dcast(A.melt,Species+Lake~Gear)
+AliveTotal
+
+# Euthanized 2018
+Euth<-droplevels(subset(datframe, Notes == "euthanized"))
+E.melt<-melt(Euth, id.var = c("Species","Gear","Lake"),
+             measure.vars = "detect")
+EuthTotal<-dcast(E.melt, Species+Lake~Gear)
+EuthTotal
+
+```
