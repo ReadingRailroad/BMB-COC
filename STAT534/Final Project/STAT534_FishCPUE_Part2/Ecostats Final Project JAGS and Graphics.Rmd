@@ -74,6 +74,37 @@ traplot(cpue.i, parms = c('b1'))
 
 ```{r,}
 # extracting a parameter, plotting it's confidence region
+
+# beta 0: intercept
+varnames(cpue.i) # reference variables in model
+str(cpue.i) # structure of lists
+beta0.out <- cbind(cpue.i[[1]][,1], cpue.i[[2]][,1], cpue.i[[3]][,1]) # subsetting for beta1 mcmc output
+attributes(beta0.out) <- NULL # dropping attributes
+dens.beta0 <- density(beta0.out) # density
+q25.beta0 <- quantile(beta0.out, .025) # lower quantile
+q975.beta0 <- quantile(beta0.out, .975) # upper quantile
+dd.beta0 <- with(dens.beta0, data.frame(x,y)) # density dataframe
+
+beta0<-qplot(x, y, data = dd.beta0, geom = "line", ylab = "", xlab = "") +
+  geom_ribbon(data = subset(dd.beta0, x>q25.beta0 & x<q975.beta0),
+              aes(ymax = y), ymin = 0, fill = "red", colour = NA, alpha = 0.5)+
+  theme_classic()+
+  theme(axis.text=element_text(size=12),
+        axis.title=element_text(size=14,face="bold"))+
+  xlab("Beta 0 - Intercept")+
+  ylab("Density of Beta 0")+
+  ggtitle("Blue Lake Carp Model: Intercept")
+beta0
+
+
+
+
+
+
+
+
+
+
 # beta 1: air temp
 varnames(cpue.i) # reference variables in model
 str(cpue.i) # structure of lists
@@ -118,7 +149,7 @@ beta2
 # BETA 2 DOES NOT APPEAR TO HAVE STRONG EFFECT
 
 ## Combine two plots
-grid.arrange(beta1,beta2,ncol=2)
+grid.arrange(beta0,beta1,beta2,ncol=3)
 ```
 
 # new model *without* wind, and subsequent regression plot and expected vs. observed cpue plot
@@ -313,6 +344,21 @@ plot(cpue.1)
 # Much much better trace plots.  
 
 summary(cpue.1)
+
+
+
+# another model outputting logcatch
+
+update(cpue.c, 5000) # burn-in of 5000 samples
+
+cpue.extra <- coda.samples(cpue.c, # model
+  c('logcatch'), # parameters we want back (posterior distributions of priors)
+  5000) # number of samples
+
+
+summary(cpue.extra)
+
+exp(summary(cpue.extra[[1]][c(1:15)]))
 ```
 
 ## Part 2 *CARP* diagnostic plots
