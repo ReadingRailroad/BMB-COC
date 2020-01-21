@@ -1,0 +1,40 @@
+model 
+{
+
+# process model
+
+l[1] <- l0 
+my[1] ~ dnorm(l[1], taul)
+
+for (i in 2:n) {
+
+  l[i] <- my[i-1] + b0 
+  my[i] ~ dnorm(l[i], taul)
+  }
+
+# observation model
+
+for (i in 1:n) {
+  y[i] ~ dnorm(my[i], tauy)
+  }
+  
+# priors  
+
+# normals are specified as (mean, precision)
+l0 ~ dnorm(0, 0.001)
+b0 ~ dnorm(0, 0.001)
+
+# these are Gelman's sd ~ uniform priors for a variance
+# tau is the precision = 1/variance = 1/sd^2 for each component
+
+taul <- pow(sl, -2)
+sl ~ dunif(0,10)
+
+tauy <- pow(sy, -2)
+sy ~ dunif(0,10)
+
+sigma[1] <- 1/sqrt(taul)
+sigma[2] <- 1/sqrt(tauy)
+
+}
+
