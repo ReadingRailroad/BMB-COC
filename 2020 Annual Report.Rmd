@@ -72,8 +72,118 @@ dat.frame$Year<-as.factor(dat.frame$Year)
 dat.frame$detect<-1
 str(dat.frame)
 
+dat.frame2<-read.csv("2019 Carp and Buffalo Data Entry - Jan 2020.csv", header = T)
+dat.frame2$Year<-as.factor(dat.frame2$Year)
+dat.frame2$detect<-1
+str(dat.frame2)
 
 
+names(dat.frame)
+names(dat.frame2)
+setdiff(names(dat.frame),names(dat.frame2))
+dat.frame<-rbind(dat.frame, dat.frame2)
+
+# cleaning, setting column formats (numeric, factor, etc)
+str(dat.frame)
+
+# Date:
+dat.frame$Date<-as.Date(dat.frame$Date, "%m/%d/%Y")
+str(dat.frame$Date)
+
+# Lake
+levels(dat.frame$Lake)
+dat.frame$Lake[dat.frame$Lake == "N. Twin"] <- "N Twin"
+dat.frame$Lake[dat.frame$Lake == "S. Twin"] <- "S Twin"
+dat.frame$Lake[dat.frame$Lake == "5 Island "] <- "5 Island"
+dat.frame$Lake<-droplevels(dat.frame$Lake)
+str(dat.frame$Lake)
+
+# Tag Number
+str(dat.frame$TAG.NUMBER) # factor OK here
+
+# Species
+levels(dat.frame$Species)
+dat.frame$Species[dat.frame$Species == "BLGxGSF"]<-"HSX"
+dat.frame$Species[dat.frame$Species == "GNSF"]<-"GSF"
+dat.frame$Species[dat.frame$Species == "BLK CRP"]<-"BLC"
+dat.frame$Species[dat.frame$Species == "Green Sunfish"]<-"GSF"
+dat.frame$Species[dat.frame$Species == "NOP not silver"]<-"NOP"
+dat.frame$Species[dat.frame$Species == "NOP silver"]<-"NOP"
+dat.frame$Species[dat.frame$Species == "Pumpkin seed"]<-"Pumpkinseed"
+dat.frame$Species[dat.frame$Species == "Painted turtle"]<-"Painted Turtle"
+dat.frame$Species[dat.frame$Species == "Spot tail shiner"]<-"Spottail shiner"
+dat.frame$Species[dat.frame$Species == "Spot Tail Shiner"]<-"Spottail shiner"
+dat.frame$Species[dat.frame$Species == "Spot tal shiner"]<-"Spottail shiner"
+dat.frame$Species[dat.frame$Species == "Spottail Shiner"]<-"Spottail shiner"
+dat.frame$Species[dat.frame$Species == "Sucker"]<-"WHS"
+dat.frame$Species[dat.frame$Species == "WCRP"]<-"WHC"
+dat.frame$Species[dat.frame$Species == "White bass"]<-"WHB"
+dat.frame$Species[dat.frame$Species == "White Bass"]<-"WHB"
+dat.frame$Species[dat.frame$Species == "WHT bass"]<-"WHB"
+dat.frame$Species[dat.frame$Species == "WHT CRP"]<-"WHC"
+dat.frame$Species[dat.frame$Species == "Yellow Bull Head"]<-"YLB"
+dat.frame$Species[dat.frame$Species == "Yellow Bullhead"]<-"YLB"
+dat.frame$Species[dat.frame$Species == "CCF "]<-"CCF"
+dat.frame$Species<-droplevels(dat.frame$Species)
+levels(dat.frame$Species)
+
+# Length (mm)
+str(dat.frame$Length..mm.)
+dat.frame$Length..mm.<-as.numeric(dat.frame$Length..mm.)
+summary(dat.frame$Length..mm.) # not terrible. Lots of all-species runs with over 300 fish left many fish without length measurements. (DNR)
+
+# Weight (g)
+str(dat.frame$Weight..g.)
+dat.frame$Weight..g.<-as.numeric(dat.frame$Weight..g.)
+summary(dat.frame$Weight..g.) # confirmed a 1 gram BLG this year. I mean doubtful but wtf
+
+# Recap
+str(dat.frame$Recap)
+dat.frame$Recap<-as.factor(dat.frame$Recap)
+levels(dat.frame$Recap)
+
+
+# Tag Loss
+dat.frame$Tag.Loss<-as.factor(dat.frame$Tag.Loss)
+str(dat.frame$Tag.Loss)
+
+# Fin Clipped
+str(dat.frame$Fin.Clipped)
+
+# Notes
+str(dat.frame$Notes)
+
+# Gear
+str(dat.frame$Gear)
+levels(dat.frame$Gear)
+dat.frame$Gear[dat.frame$Gear == "Commercial Seine"] <- "Seine"
+dat.frame$Gear[dat.frame$Gear == "electrofishing"] <- "Electroshocking"
+dat.frame$Gear[dat.frame$Gear == "Electrofishing"] <- "Electroshocking"
+dat.frame$Gear[dat.frame$Gear == "electrofishing "] <- "Electroshocking"
+dat.frame$Gear[dat.frame$Gear == "Electrofishing "] <- "Electroshocking"
+dat.frame$Gear[dat.frame$Gear == "Electroschocking"] <- "Electroshocking"
+dat.frame$Gear[dat.frame$Gear == "Fyke Net"] <- "Fyke"
+dat.frame$Gear[dat.frame$Gear == "Seine "] <- "Seine"
+dat.frame$Gear<-droplevels(dat.frame$Gear)
+levels(dat.frame$Gear)
+
+# Site / Transect
+str(dat.frame$Site.Transect)
+levels(dat.frame$Site.Transect)
+
+########################
+# Ignoring lat/long
+########################
+
+# On Time (seconds)
+
+# Water Temp (celcius)
+
+# Secchi (meters actually!!)
+
+# Year
+
+# detect: just 1 because it is an observation. sum/average these in later analyses
 
 
 
@@ -190,12 +300,6 @@ __ Update 2/24/2018 __ need to add in 2017 catch as well. Switching dat.frame to
 
 ```{r,}
 ##########################################################################
-# 2017 and 2018 catch
-dat.frame<-read.csv("2018 and 2017 Compiled Data.csv", header = T)
-dat.frame$Year<-as.factor(dat.frame$Year)
-dat.frame$detect<-1
-str(dat.frame)
-
 catch.melt<-melt(dat.frame, id.var = c("Species","Lake"),
               measure.vars = "detect")
 TotalCatch<-dcast(catch.melt,Species~Lake)
