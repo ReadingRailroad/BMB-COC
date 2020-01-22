@@ -965,44 +965,44 @@ Date,Lake,TAG.NUMBER,Species,Length (mm),Weight (g),Recap,Tag Loss,Fin Clipped,N
 5/30/2019,Blue,28632,COC,354,,,,L Pelvic,,Electroshocking,Bonus,42 2.414,96 9.780,42 2.070,96 9.789,936,19.2,0.9,"Partly Cloudy, NW wind 5 mph, 65 F",2019
 5/30/2019,Blue,28633,COC,549,,,,L Pelvic,Ulcer,Electroshocking,Bonus,42 2.414,96 9.780,42 2.070,96 9.789,936,19.2,0.9,"Partly Cloudy, NW wind 5 mph, 65 F",2019
 5/30/2019,Blue,28634,COC,404,,,,L Pelvic,fungal infection?,Electroshocking,Bonus,42 2.414,96 9.780,42 2.070,96 9.789,936,19.2,0.9,"Partly Cloudy, NW wind 5 mph, 65 F",2019
-5/31/2019,Storm,28650,COC,555,,,,L Pelvic,,Electroshocking,std 1,Storm trans. 4,Storm trans. 4,Storm trans. 4,Storm trans. 4,898,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,18593,COC,484,,1,,,2018 Recap,Electroshocking,std 1,Storm trans. 4,Storm trans. 4,Storm trans. 4,Storm trans. 4,898,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,24267,COC,488,,1,,,2018 Recap Mirror,Electroshocking,std 1,Storm trans. 4,Storm trans. 4,Storm trans. 4,Storm trans. 4,898,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28651,COC,546,,,,L Pelvic,,Electroshocking,std 2,42 37.361,95 13.590,42 36.994,95 13.385,1089,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28652,COC,520,,,,L Pelvic,,Electroshocking,std 2,42 37.361,95 13.590,42 36.994,95 13.385,1089,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28653,COC,554,,,,L Pelvic,,Electroshocking,std 2,42 37.361,95 13.590,42 36.994,95 13.385,1089,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28654,COC,487,,,,L Pelvic,,Electroshocking,std 3,Storm trans. 5,Storm trans. 5,Storm trans. 5,Storm trans. 5,989,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28655,COC,449,,,,L Pelvic,,Electroshocking,std 3,Storm trans. 5,Storm trans. 5,Storm trans. 5,Storm trans. 5,989,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28656,COC,475,,,,L Pelvic,,Electroshocking,std 3,Storm trans. 5,Storm trans. 5,Storm trans. 5,Storm trans. 5,989,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28650,COC,555,,,,L Pelvic,,Electroshocking,Std 4,Storm trans. 4,Storm trans. 4,Storm trans. 4,Storm trans. 4,898,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,18593,COC,484,,1,,,2018 Recap,Electroshocking,Std 4,Storm trans. 4,Storm trans. 4,Storm trans. 4,Storm trans. 4,898,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,24267,COC,488,,1,,,2018 Recap Mirror,Electroshocking,Std 4,Storm trans. 4,Storm trans. 4,Storm trans. 4,Storm trans. 4,898,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28651,COC,546,,,,L Pelvic,,Electroshocking,Bonus 1,42 37.361,95 13.590,42 36.994,95 13.385,1089,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28652,COC,520,,,,L Pelvic,,Electroshocking,Bonus 1,42 37.361,95 13.590,42 36.994,95 13.385,1089,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28653,COC,554,,,,L Pelvic,,Electroshocking,Bonus 1,42 37.361,95 13.590,42 36.994,95 13.385,1089,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28654,COC,487,,,,L Pelvic,,Electroshocking,Std 5,Storm trans. 5,Storm trans. 5,Storm trans. 5,Storm trans. 5,989,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28655,COC,449,,,,L Pelvic,,Electroshocking,Std 5,Storm trans. 5,Storm trans. 5,Storm trans. 5,Storm trans. 5,989,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28656,COC,475,,,,L Pelvic,,Electroshocking,Std 5,Storm trans. 5,Storm trans. 5,Storm trans. 5,Storm trans. 5,989,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
 5/31/2019,Storm,28657,COC,533,,,,L Pelvic,,Electroshocking,Bonus 4,42 36.640,95 12.805,42 3.732,95 12.167,1210,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
 5/31/2019,Storm,28658,COC,657,,,,L Pelvic,,Electroshocking,Bonus 4,42 36.640,95 12.805,42 3.732,95 12.167,1210,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
 5/31/2019,Storm,28659,COC,657,,,,L Pelvic,,Electroshocking,Bonus 4,42 36.640,95 12.805,42 3.732,95 12.167,1210,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
 5/31/2019,Storm,28660,COC,545,,,,L Pelvic,,Electroshocking,Bonus 4,42 36.640,95 12.805,42 3.732,95 12.167,1210,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
 5/31/2019,Storm,28661,COC,570,,,,L Pelvic,,Electroshocking,Bonus 5,42 37.309,95 11.915,42 31.311,95 11.986,706,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
 5/31/2019,Storm,28662,COC,575,,,,L Pelvic,Turbo,Electroshocking,Bonus 5,42 37.309,95 11.915,42 31.311,95 11.986,706,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28663,COC,518,,,,L Pelvic,,Electroshocking,std 6,Storm trans. 9,Storm trans. 9,Storm trans. 9,Storm trans. 9,886,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28664,COC,540,,,,L Pelvic,,Electroshocking,std 6,Storm trans. 9,Storm trans. 9,Storm trans. 9,Storm trans. 9,886,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28665,COC,627,,,,L Pelvic,,Electroshocking,std 6,Storm trans. 9,Storm trans. 9,Storm trans. 9,Storm trans. 9,886,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28666,COC,522,,,,L Pelvic,,Electroshocking,std 6,Storm trans. 9,Storm trans. 9,Storm trans. 9,Storm trans. 9,886,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28667,COC,518,,,,L Pelvic,,Electroshocking,std 6,Storm trans. 9,Storm trans. 9,Storm trans. 9,Storm trans. 9,886,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28668,COC,524,,1,1,L Pelvic,2018 Tag Loss,Electroshocking,std 6,Storm trans. 9,Storm trans. 9,Storm trans. 9,Storm trans. 9,886,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28669,COC,539,,,,L Pelvic,,Electroshocking,std 6,Storm trans. 9,Storm trans. 9,Storm trans. 9,Storm trans. 9,886,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,N/A,COC,N/A,,,,,Fumble,Electroshocking,std 6,Storm trans. 9,Storm trans. 9,Storm trans. 9,Storm trans. 9,886,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,20399,COC,552,,1,,,2018 Recap,Electroshocking,std 7,Storm trans. 7,Storm trans. 7,Storm trans. 7,Storm trans. 7,900,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28663,COC,518,,,,L Pelvic,,Electroshocking,Std 9,Storm trans. 9,Storm trans. 9,Storm trans. 9,Storm trans. 9,886,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28664,COC,540,,,,L Pelvic,,Electroshocking,Std 9,Storm trans. 9,Storm trans. 9,Storm trans. 9,Storm trans. 9,886,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28665,COC,627,,,,L Pelvic,,Electroshocking,Std 9,Storm trans. 9,Storm trans. 9,Storm trans. 9,Storm trans. 9,886,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28666,COC,522,,,,L Pelvic,,Electroshocking,Std 9,Storm trans. 9,Storm trans. 9,Storm trans. 9,Storm trans. 9,886,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28667,COC,518,,,,L Pelvic,,Electroshocking,Std 9,Storm trans. 9,Storm trans. 9,Storm trans. 9,Storm trans. 9,886,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28668,COC,524,,1,1,L Pelvic,2018 Tag Loss,Electroshocking,Std 9,Storm trans. 9,Storm trans. 9,Storm trans. 9,Storm trans. 9,886,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28669,COC,539,,,,L Pelvic,,Electroshocking,Std 9,Storm trans. 9,Storm trans. 9,Storm trans. 9,Storm trans. 9,886,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,N/A,COC,N/A,,,,,Fumble,Electroshocking,Std 9,Storm trans. 9,Storm trans. 9,Storm trans. 9,Storm trans. 9,886,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,20399,COC,552,,1,,,2018 Recap,Electroshocking,Std 7,Storm trans. 7,Storm trans. 7,Storm trans. 7,Storm trans. 7,900,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
 5/31/2019,Storm,28670,COC,517,,,,L Pelvic,,Electroshocking,Bonus 8,42 37.931,95 10.935,42 38.013,95 11.139,449,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
 5/31/2019,Storm,28671,COC,556,,,,L Pelvic,herpes,Electroshocking,Bonus 8,42 37.931,95 10.935,42 38.013,95 11.139,449,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28672,COC,580,,,,L Pelvic,,Electroshocking,\,Storm trans. 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,900,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28673,COC,452,,1,1,L Pelvic,2018 Tag Loss,Electroshocking,std 9,Storm trans. 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,900,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28674,COC,460,,,,L Pelvic,,Electroshocking,std 9,Storm trans. 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,900,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28675,COC,516,,1,1,L Pelvic,2018 Tag Loss,Electroshocking,std 9,Storm trans. 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,900,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28676,COC,531,,,,L Pelvic,Male,Electroshocking,std 9,Storm trans. 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,900,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28677,COC,494,,,,L Pelvic,,Electroshocking,std 9,Storm trans. 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,900,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28678,COC,571,,,,L Pelvic,,Electroshocking,std 9,Storm trans. 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,900,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28679,COC,575,,,,L Pelvic,,Electroshocking,std 9,Storm trans. 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,900,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28680,COC,543,,,,L Pelvic,,Electroshocking,std 9,Storm trans. 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,900,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28681,COC,546,,,,L Pelvic,,Electroshocking,std 9,Storm trans. 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,900,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28682,COC,513,,,,L Pelvic,,Electroshocking,std 9,Storm trans. 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,900,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28683,COC,525,,1,1,L Pelvic,2018 Tag Loss Chubbs,Electroshocking,std 9,Storm trans. 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,900,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28672,COC,580,,,,L Pelvic,,Electroshocking,Std 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,900,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28673,COC,452,,1,1,L Pelvic,2018 Tag Loss,Electroshocking,Std 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,900,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28674,COC,460,,,,L Pelvic,,Electroshocking,Std 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,900,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28675,COC,516,,1,1,L Pelvic,2018 Tag Loss,Electroshocking,Std 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,900,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28676,COC,531,,,,L Pelvic,Male,Electroshocking,Std 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,900,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28677,COC,494,,,,L Pelvic,,Electroshocking,Std 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,900,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28678,COC,571,,,,L Pelvic,,Electroshocking,Std 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,900,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28679,COC,575,,,,L Pelvic,,Electroshocking,Std 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,900,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28680,COC,543,,,,L Pelvic,,Electroshocking,Std 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,900,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28681,COC,546,,,,L Pelvic,,Electroshocking,Std 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,900,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28682,COC,513,,,,L Pelvic,,Electroshocking,Std 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,900,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28683,COC,525,,1,1,L Pelvic,2018 Tag Loss Chubbs,Electroshocking,Std 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,Storm trans. 1,900,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
 5/31/2019,Storm,28684,COC,595,,,,L Pelvic,,Electroshocking,Bonus 10,42 38.223,95 12.638,42 38.418,95 12.832,904,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
 5/31/2019,Storm,28685,COC,504,,,,L Pelvic,,Electroshocking,Bonus 10,42 38.223,95 12.638,42 38.418,95 12.832,904,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
 5/31/2019,Storm,28686,COC,461,,,,L Pelvic,,Electroshocking,Bonus 10,42 38.223,95 12.638,42 38.418,95 12.832,904,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
@@ -1011,26 +1011,26 @@ Date,Lake,TAG.NUMBER,Species,Length (mm),Weight (g),Recap,Tag Loss,Fin Clipped,N
 5/31/2019,Storm,28689,COC,571,,,,L Pelvic,,Electroshocking,Bonus 10,42 38.223,95 12.638,42 38.418,95 12.832,904,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
 5/31/2019,Storm,28690,COC,478,,,,L Pelvic,,Electroshocking,Bonus 10,42 38.223,95 12.638,42 38.418,95 12.832,904,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
 5/31/2019,Storm,,GZS,,,,,,Photos maybe VHSU,Electroshocking,Bonus 10,42 38.223,95 12.638,42 38.418,95 12.832,904,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28691,COC,491,,,,L Pelvic,,Electroshocking,std 11,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28692,COC,459,,,,L Pelvic,female,Electroshocking,std 11,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28693,COC,529,,,,L Pelvic,,Electroshocking,std 11,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28694,COC,489,,,,L Pelvic,,Electroshocking,std 11,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28695,COC,546,,,,L Pelvic,,Electroshocking,std 11,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28696,COC,563,,,,L Pelvic,,Electroshocking,std 11,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28697,COC,525,,,,L Pelvic,,Electroshocking,std 11,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28698,COC,548,,,,L Pelvic,,Electroshocking,std 11,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28699,COC,480,,,,L Pelvic,,Electroshocking,std 11,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28700,COC,564,,,,L Pelvic,,Electroshocking,std 11,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28701,COC,456,,,,L Pelvic,,Electroshocking,std 11,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28702,BIB,507,,,,L Pelvic,Buff Buff Buffy Buff BUFF,Electroshocking,std 11,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28703,COC,511,,,,L Pelvic,,Electroshocking,std 11,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28704,COC,510,,,,L Pelvic,,Electroshocking,std 11,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28705,COC,502,,,,L Pelvic,fatty chubs,Electroshocking,std 11,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28706,COC,597,,,,L Pelvic,,Electroshocking,std 11,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28707,COC,533,,,,L Pelvic,,Electroshocking,std 11,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28708,COC,716,,,,L Pelvic,Big boy,Electroshocking,std 11,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28709,COC,509,,,,L Pelvic,,Electroshocking,std 11,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
-5/31/2019,Storm,28710,COC,445,,,,L Pelvic,,Electroshocking,std 11,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28691,COC,491,,,,L Pelvic,,Electroshocking,Std 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28692,COC,459,,,,L Pelvic,female,Electroshocking,Std 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28693,COC,529,,,,L Pelvic,,Electroshocking,Std 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28694,COC,489,,,,L Pelvic,,Electroshocking,Std 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28695,COC,546,,,,L Pelvic,,Electroshocking,Std 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28696,COC,563,,,,L Pelvic,,Electroshocking,Std 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28697,COC,525,,,,L Pelvic,,Electroshocking,Std 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28698,COC,548,,,,L Pelvic,,Electroshocking,Std 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28699,COC,480,,,,L Pelvic,,Electroshocking,Std 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28700,COC,564,,,,L Pelvic,,Electroshocking,Std 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28701,COC,456,,,,L Pelvic,,Electroshocking,Std 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28702,BIB,507,,,,L Pelvic,Buff Buff Buffy Buff BUFF,Electroshocking,Std 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28703,COC,511,,,,L Pelvic,,Electroshocking,Std 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28704,COC,510,,,,L Pelvic,,Electroshocking,Std 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28705,COC,502,,,,L Pelvic,fatty chubs,Electroshocking,Std 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28706,COC,597,,,,L Pelvic,,Electroshocking,Std 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28707,COC,533,,,,L Pelvic,,Electroshocking,Std 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28708,COC,716,,,,L Pelvic,Big boy,Electroshocking,Std 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28709,COC,509,,,,L Pelvic,,Electroshocking,Std 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
+5/31/2019,Storm,28710,COC,445,,,,L Pelvic,,Electroshocking,Std 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,Storm trans. 2,985,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
 5/31/2019,Storm,28711,BIB,590,,,,L Pelvic,,Electroshocking,Bonus 12,42 37.601,95 14.128,42 37.453,95 13.931,865,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
 5/31/2019,Storm,28712,COC,586,,,,L Pelvic,,Electroshocking,Bonus 12,42 37.601,95 14.128,42 37.453,95 13.931,865,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
 5/31/2019,Storm,28713,COC,478,,,,L Pelvic,,Electroshocking,Bonus 12,42 37.601,95 14.128,42 37.453,95 13.931,865,18.4,0.8,"Sunny 65-85 F, W wind 10-15 mph",2019
@@ -2516,174 +2516,174 @@ Date,Lake,TAG.NUMBER,Species,Length (mm),Weight (g),Recap,Tag Loss,Fin Clipped,N
 7/24/2019,5 Island,29223,COC,511,,,,L Pelvic,cracked opercle,Electroshocking,std 4,43 9.379,94 39.205,43 8.531,94 39.779,3251,25.1,,sunny high 77 calm S wind 0-10 mph,2019
 7/24/2019,5 Island,29224,COC,456,,,,L Pelvic,cracked opercle,Electroshocking,std 4,43 9.379,94 39.205,43 8.531,94 39.779,3251,25.1,,sunny high 77 calm S wind 0-10 mph,2019
 7/24/2019,5 Island,29225,COC,580,,,,L Pelvic,,Electroshocking,std 5,43 8.413,94 40.506,43 7.950,94 40.506,1200,25.1,,sunny high 77 calm S wind 0-10 mph,2019
-7/25/2019,Storm,29301,COC,639,,,,L Pelvic,,Electroshocking,std 1,42 38.021,95 11.134,42 36.868,95 10.912,3000,76.3,,cloudy windy ssw @15  high 75,2019
-7/25/2019,Storm,29302,COC,488,,1,1,L Pelvic,2018 tag loss,Electroshocking,std 1,42 38.021,95 11.134,42 36.868,95 10.912,3000,76.3,,cloudy windy ssw @15  high 75,2019
-7/25/2019,Storm,29303,COC,497,,,,L Pelvic,,Electroshocking,std 1,42 38.021,95 11.134,42 36.868,95 10.912,3000,76.3,,cloudy windy ssw @15  high 75,2019
-7/25/2019,Storm,29304,COC,569,,,,L Pelvic,,Electroshocking,std 1,42 38.021,95 11.134,42 36.868,95 10.912,3000,76.3,,cloudy windy ssw @15  high 75,2019
-7/25/2019,Storm,NA,COC,NA,,,,L Pelvic,Fumble,Electroshocking,std 1,42 38.021,95 11.134,42 36.868,95 10.912,3000,76.3,,cloudy windy ssw @15  high 75,2019
-7/25/2019,Storm,29305,COC,510,,,,L Pelvic,Cracked opercle,Electroshocking,std 1,42 38.021,95 11.134,42 36.868,95 10.912,3000,76.3,,cloudy windy ssw @15  high 75,2019
-7/25/2019,Storm,29306,COC,472,,,,L Pelvic,,Electroshocking,std 2,42 36.868,95 10.964,42 36746,95 12.153,3201,76.3,,cloudy windy ssw @15  high 75,2019
-7/25/2019,Storm,39307,COC,580,,,,L Pelvic,,Electroshocking,std 2,42 36.868,95 10.964,42 36746,95 12.153,3201,76.3,,cloudy windy ssw @15  high 75,2019
-7/25/2019,Storm,25060,COC,592,,1,,,2019 Recap,Electroshocking,std 2,42 36.868,95 10.964,42 36746,95 12.153,3201,76.3,,cloudy windy ssw @15  high 75,2019
-7/25/2019,Storm,29308,COC,608,,,,L Pelvic,,Electroshocking,std 2,42 36.868,95 10.964,42 36746,95 12.153,3201,76.3,,cloudy windy ssw @15  high 75,2019
-7/25/2019,Storm,29309,COC,564,,,,L Pelvic,,Electroshocking,std 2,42 36.868,95 10.964,42 36746,95 12.153,3201,76.3,,cloudy windy ssw @15  high 75,2019
-7/25/2019,Storm,29310,COC,543,,,,L Pelvic,,Electroshocking,std 2,42 36.868,95 10.964,42 36746,95 12.153,3201,76.3,,cloudy windy ssw @15  high 75,2019
-7/25/2019,Storm,29311,COC,468,,,,L Pelvic,,Electroshocking,std 2,42 36.868,95 10.964,42 36746,95 12.153,3201,76.3,,cloudy windy ssw @15  high 75,2019
-7/25/2019,Storm,29312,COC,590,,,,L Pelvic,,Electroshocking,std 2,42 36.868,95 10.964,42 36746,95 12.153,3201,76.3,,cloudy windy ssw @15  high 75,2019
-7/25/2019,Center,29313,BIB,498,2047,,,"L Pelvic, Spine",,Electroshocking,std 1,43 24.832,95 8.446,43 24.757,95 8.538,6346,74.5,,windy cloudy just rained SE winds 15-25 mph,2019
-7/25/2019,Center,29314,BIB,630,3624,,,"L Pelvic, Spine",,Electroshocking,std 1,43 24.832,95 8.446,43 24.757,95 8.538,6346,74.5,,windy cloudy just rained SE winds 15-25 mph,2019
-7/25/2019,Center,29315,BIB,528,2470,,,"L Pelvic, Spine",,Electroshocking,std 1,43 24.832,95 8.446,43 24.757,95 8.538,6346,74.5,,windy cloudy just rained SE winds 15-25 mph,2019
-7/25/2019,Center,20600,BIB,496,2328,1,, Spine,2018 recap,Electroshocking,std 1,43 24.832,95 8.446,43 24.757,95 8.538,6346,74.5,,windy cloudy just rained SE winds 15-25 mph,2019
-7/25/2019,Center,29316,BIB,535,2681,1,, Spine,2018 Recap,Electroshocking,std 1,43 24.832,95 8.446,43 24.757,95 8.538,6346,74.5,,windy cloudy just rained SE winds 15-25 mph,2019
-7/25/2019,Center,29317,BIB,558,2868,,,"L Pelvic, Spine",,Electroshocking,std 1,43 24.832,95 8.446,43 24.757,95 8.538,6346,74.5,,windy cloudy just rained SE winds 15-25 mph,2019
-7/25/2019,Center,29318,BIB,447,NA,1,1,"L Pelvic, Spine",2017 tag loss,Electroshocking,std 1,43 24.832,95 8.446,43 24.757,95 8.538,6346,74.5,,windy cloudy just rained SE winds 15-25 mph,2019
-7/25/2019,Center,29319,BIB,498,2038,,,"L Pelvic, Spine",,Electroshocking,std 1,43 24.832,95 8.446,43 24.757,95 8.538,6346,74.5,,windy cloudy just rained SE winds 15-25 mph,2019
-7/25/2019,Center,16135,COC,482,,,,"L Pelvic, Spine",,Electroshocking,std 1,43 24.832,95 8.446,43 24.757,95 8.538,6346,74.5,,windy cloudy just rained SE winds 15-25 mph,2019
-7/17/2019,Center,25685,COC,591,2420,,,"L Pelvic, Spine",,Electroshocking,Bonus 1,43 24.746,95 8.53,43 24.507,95 8.329,1812,79.4,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
-7/17/2019,Center,25686,COC,408,1028,,,"L Pelvic, Spine",,Electroshocking,Bonus 1,43 24.746,95 8.53,43 24.507,95 8.329,1812,79.4,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
-7/17/2019,Center,25687,COC,567,2273,,,"L Pelvic, Spine",,Electroshocking,Bonus 1,43 24.746,95 8.53,43 24.507,95 8.329,1812,79.4,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
-7/17/2019,Center,25688,COC,500,1536,,1,L Pelvic,"2017 Tag Loss, Male",Electroshocking,Bonus 1,43 24.746,95 8.53,43 24.507,95 8.329,1812,79.4,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
-7/17/2019,Center,25689,BIB,471,1592,,,"L Pelvic, Spine",,Electroshocking,Bonus 1,43 24.746,95 8.53,43 24.507,95 8.329,1812,79.4,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
-7/17/2019,Center,25690,COC,493,1553,,,"L Pelvic, Spine",,Electroshocking,Bonus 1,43 24.746,95 8.53,43 24.507,95 8.329,1812,79.4,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
-7/17/2019,Center,28089,COC,612,3130,1,,Spine,2019 Recap,Electroshocking,Bonus 1,43 24.746,95 8.53,43 24.507,95 8.329,1812,79.4,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
-7/17/2019,Center,20225,COC,501,1735,1,,Spine,2018 Recap,Electroshocking,Bonus 1,43 24.746,95 8.53,43 24.507,95 8.329,1812,79.4,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
-7/17/2019,Center,25691,BIB,492,1814,,,"L Pelvic, Spine",,Electroshocking,Bonus 2,43 24.507,95 8.329,43 24.803,95 7.712,1797,79.4,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
-7/17/2019,Center,25692,BIB,480,1790,,,"L Pelvic, Spine",,Electroshocking,Bonus 2,43 24.507,95 8.329,43 24.803,95 7.712,1797,79.4,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
-7/17/2019,Center,25693,COC,433,1162,,,"L Pelvic, Spine",,Electroshocking,Bonus 2,43 24.507,95 8.329,43 24.803,95 7.712,1797,79.4,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
-7/17/2019,Center,25694,BIB,471,1686,,,"L Pelvic, Spine",,Electroshocking,Bonus 2,43 24.507,95 8.329,43 24.803,95 7.712,1797,79.4,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
-7/17/2019,Center,25695,BIB,650,4426,,,"L Pelvic, Spine",Disease,Electroshocking,Bonus 2,43 24.507,95 8.329,43 24.803,95 7.712,1797,79.4,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
-7/17/2019,Center,25696,COC,439,1321,,,"L Pelvic, Spine",,Electroshocking,Bonus 2,43 24.507,95 8.329,43 24.803,95 7.712,1797,79.4,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
-7/17/2019,Center,25697,COC,574,2691,,,"L Pelvic, Spine",,Electroshocking,Bonus 2,43 24.507,95 8.329,43 24.803,95 7.712,1797,79.4,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
-7/17/2019,Center,25698,BIB,465,1568,,,"L Pelvic, Spine",,Electroshocking,Bonus 3,43 24.826,95 7.733,43 24.803,95 7.712,2112,79.4,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
-7/17/2019,Center,25699,BIB,459,1592,,,"L Pelvic, Spine",,Electroshocking,Bonus 3,43 24.826,95 7.733,43 24.803,95 7.712,2112,79.4,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
-7/17/2019,Center,25700,BIB,480,1904,,,"L Pelvic, Spine",,Electroshocking,Bonus 3,43 24.826,95 7.733,43 24.803,95 7.712,2112,79.4,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
-7/17/2019,Center,20595,BIB,500,2025,1,,Spine,,Electroshocking,Bonus 3,43 24.826,95 7.733,43 24.803,95 7.712,2112,79.4,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
-7/17/2019,Center,25826,BIB,538,3260,,,"L Pelvic, Spine",,Electroshocking,Bonus 3,43 24.826,95 7.733,43 24.803,95 7.712,2112,79.4,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
-7/17/2019,Center,25827,COC,526,2405,,,"L Pelvic, Spine",,Electroshocking,Bonus 3,43 24.826,95 7.733,43 24.803,95 7.712,2112,79.4,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
-7/17/2019,Center,25828,BIB,445,1502,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,Sunken island,,South Bay,,1200,79.4,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
-7/17/2019,5 Island,25682,COC,548,2084,,,"L Pelvic, Spine",,Electroshocking,Bonus 1,43 8.969,94 39.575,43 8.357,94 39.735,1838,80.3,,Cloudy/foggy scattered storms high 90ºF,2019
-7/17/2019,5 Island,25683,COC,332,556,,,"L Pelvic, Spine",,Electroshocking,Bonus 1,43 8.969,94 39.575,43 8.357,94 39.735,1838,80.3,,Cloudy/foggy scattered storms high 90ºF,2019
-7/17/2019,5 Island,25684,COC,621,3093,,,"L Pelvic, Spine",,Electroshocking,Bonus 1,43 8.969,94 39.575,43 8.357,94 39.735,1838,80.3,,Cloudy/foggy scattered storms high 90ºF,2019
-7/12/2019,Center,25934,BIB,565,3265,,,"L Pelvic, Spine",,Electroshocking,Bonus 1,STD 1 start,,Dock,,1769,82,,Sunny 85ºF SW wind about 10mph,2019
-7/12/2019,Center,25935,COC,563,2485,,,"L Pelvic, Spine",Feisty butt smacker,Electroshocking,Bonus 1,STD 1 start,,Dock,,1769,82,,Sunny 85ºF SW wind about 10mph,2019
-7/12/2019,Center,25936,BIB,465,1766,,,"L Pelvic, Spine",,Electroshocking,Bonus 2,STD 1 start,,STD 2 End,,1800,82,,Sunny 85ºF SW wind about 10mph,2019
-7/12/2019,Center,,BIB,482,,,,,"Juped from boat, no tag",Electroshocking,Bonus 2,STD 1 start,,STD 2 End,,1800,82,,Sunny 85ºF SW wind about 10mph,2019
-7/12/2019,Center,25937,BIB,519,2380,,,"L Pelvic, Spine",,Electroshocking,Bonus 2,STD 1 start,,STD 2 End,,1800,82,,Sunny 85ºF SW wind about 10mph,2019
-7/12/2019,Center,25938,BIB,507,1967,,,"L Pelvic, Spine",,Electroshocking,Bonus 2,STD 1 start,,STD 2 End,,1800,82,,Sunny 85ºF SW wind about 10mph,2019
-7/12/2019,Center,25939,COC,466,1326,,,"L Pelvic, Spine",,Electroshocking,Bonus 2,STD 1 start,,STD 2 End,,1800,82,,Sunny 85ºF SW wind about 10mph,2019
-7/12/2019,Center,25940,COC,391,907,,,"L Pelvic, Spine",,Electroshocking,Bonus 3,Sunken island,,,,750,82,,Sunny 85ºF SW wind about 10mph,2019
-7/12/2019,Center,25941,COC,692,4597,,,"L Pelvic, Spine",,Electroshocking,Bonus 3,Sunken island,,,,750,82,,Sunny 85ºF SW wind about 10mph,2019
-7/12/2019,Center,25942,BIB,524,2956,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,STD 2,,Fish barrier,,1808,82,,Sunny 85ºF SW wind about 10mph,2019
-7/12/2019,Center,25943,COC,581,2358,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,STD 2,,Fish barrier,,1808,82,,Sunny 85ºF SW wind about 10mph,2019
-7/12/2019,Center,25944,COC,398,895,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,STD 2,,Fish barrier,,1808,82,,Sunny 85ºF SW wind about 10mph,2019
-7/12/2019,Center,25945,COC,610,2453,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,STD 2,,Fish barrier,,1808,82,,Sunny 85ºF SW wind about 10mph,2019
-7/12/2019,Center,25946,COC,596,2869,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,STD 2,,Fish barrier,,1808,82,,Sunny 85ºF SW wind about 10mph,2019
-7/12/2019,Center,25947,COC,538,2185,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,STD 2,,Fish barrier,,1808,82,,Sunny 85ºF SW wind about 10mph,2019
-7/12/2019,Center,25948,COC,508,1847,,,"L Pelvic, Spine",Bloody Kamikaze,Electroshocking,Bonus 4,STD 2,,Fish barrier,,1808,82,,Sunny 85ºF SW wind about 10mph,2019
-7/12/2019,Center,25949,COC,556,2054,,,"R Pelvic, Spine","Spine sampling loss, R pelvic clip",Electroshocking,Bonus 4,STD 2,,Fish barrier,,1808,82,,Sunny 85ºF SW wind about 10mph,2019
-7/12/2019,Center,25950,COC,496,1476,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,STD 2,,Fish barrier,,1808,82,,Sunny 85ºF SW wind about 10mph,2019
-7/12/2019,Center,25951,COC,539,2151,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,STD 2,,Fish barrier,,1808,82,,Sunny 85ºF SW wind about 10mph,2019
-7/12/2019,Center,25952,COC,520,1805,,,"L Pelvic, Spine",,Electroshocking,Bonus 5,Fish barrier,,Outlet/Launch,,1516,82,,Sunny 85ºF SW wind about 10mph,2019
-7/12/2019,Center,25953,COC,597,2565,,1,"L Pelvic, Spine","R Pelvic, 2017 tag loss",Electroshocking,Bonus 5,Fish barrier,,Outlet/Launch,,1516,82,,Sunny 85ºF SW wind about 10mph,2019
-7/15/2019,Silver,25954,COC,696,4133,,,"L Pelvic, Spine",2-3 other carp seen but esxaped,Electroshocking,Bonus 1,STD 1 by fen,,43 28.261,95 21.652,1834,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25955,COC,719,4437,,,"L Pelvic, Spine","1 buffalo seen about 400m, 2 other COC seen not netted",Electroshocking,Bonus 2,43 26.320,45 21.461,43 26.428,95 20.835,1830,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25956,COC,678,4692,,,"L Pelvic, Spine",,Electroshocking,Bonus 3,43 26.465,95 20.659,43 26.054,95 20.542,1815,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25957,COC,706,4668,,,"L Pelvic, Spine",,Electroshocking,Bonus 3,43 26.465,95 20.659,43 26.054,95 20.542,1815,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25958,COC,679,4089,,,"L Pelvic, Spine",,Electroshocking,Bonus 3,43 26.465,95 20.659,43 26.054,95 20.542,1815,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25959,COC,711,4159,,1,"L Pelvic, Spine",2018 tag loss,Electroshocking,Bonus 3,43 26.465,95 20.659,43 26.054,95 20.542,1815,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25960,COC,755,5589,,,"L Pelvic, Spine",,Electroshocking,Bonus 3,43 26.465,95 20.659,43 26.054,95 20.542,1815,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25961,COC,706,4435,,,"L Pelvic, Spine",,Electroshocking,Bonus 3,43 26.465,95 20.659,43 26.054,95 20.542,1815,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25962,BIB,722,6459,,,"L Pelvic, Spine","Prop strike, might die",Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25964,COC,665,3945,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25965,COC,676,4105,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25966,COC,785,7318,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25967,COC,795,6154,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25968,COC,483,1675,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,26055,COC,705,4409,,,Spine,2019 recap,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25969,COC,704,4706,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25970,COC,684,4285,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25971,COC,759,5565,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25972,COC,774,5789,,,"L Pelvic, Spine",Chonk,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25973,COC,645,3282,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25974,COC,723,5704,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25975,COC,704,428,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25978,COC,723,5056,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25979,COC,690,3734,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25980,COC,649,3441,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25981,COC,698,4664,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25982,COC,643,4004,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25984,COC,678,5065,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25985,COC,748,7556,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25986,COC,712,5105,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25987,BIB,690,5312,,,"L Pelvic, Spine",,Electroshocking,Bonus 5,43 26.661,95 19.742,43 26.083,95 20.061,1861,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25988,BIB,733,7475,,,"L Pelvic, Spine",Rotund,Electroshocking,Bonus 5,43 26.661,95 19.742,43 26.083,95 20.061,1861,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25990,BIB,827,1187,,,"L Pelvic, Spine",Rotudest,Electroshocking,Bonus 5,43 26.661,95 19.742,43 26.083,95 20.061,1861,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25991,BIB,687,6383,,,"L Pelvic, Spine",,Electroshocking,Bonus 6,43 26.047,95 20.218,43 25.994,95 20.417,1926,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25992,BIB,666,4731,,,"L Pelvic, Spine",Uneven caudal lobes,Electroshocking,Bonus 6,43 26.047,95 20.218,43 25.994,95 20.417,1926,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25993,BIB,488,2380,,,"L Pelvic, Spine",Dorsal clip livewell (found),Electroshocking,Bonus 6,43 26.047,95 20.218,43 25.994,95 20.417,1926,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25994,COC,696,4452,,,"L Pelvic, Spine",,Electroshocking,Bonus 6,43 26.047,95 20.218,43 25.994,95 20.417,1926,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25995,COC,759,6854,,,"L Pelvic, Spine",,Electroshocking,Bonus 6,43 26.047,95 20.218,43 25.994,95 20.417,1926,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25997,BIB,632,4742,,,"L Pelvic, Spine",25997 buffalo bent tag,Electroshocking,Bonus 6,43 26.047,95 20.218,43 25.994,95 20.417,1926,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,25998,COC,741,7109,,,"L Pelvic, Spine",uneven coudal lobes,Electroshocking,Bonus 6,43 26.047,95 20.218,43 25.994,95 20.417,1926,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,26000,COC,654,3772,,1,"L Pelvic, Spine","2018 tag loss, new tag 26000",Electroshocking,Bonus 6,43 26.047,95 20.218,43 25.994,95 20.417,1926,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/15/2019,Silver,28376,COC,738,5835,,,"L Pelvic, Spine",,Electroshocking,Bonus 6,43 26.047,95 20.218,43 25.994,95 20.417,1926,83,,High 98ºF S winds 20mph partly cloudy,2019
-7/16/2019,Storm,28377,COC,482,,,,L Pelvic,Mirror carp,Electroshocking,Bonus 1,Casino bay,,,,1980,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,28378,COC,555,,,,L Pelvic,,Electroshocking,Bonus 1,Casino bay,,,,1980,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,22314,COC,452,,1,,,2018 recap,Electroshocking,Bonus 1,Casino bay,,,,1980,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,28380,COC,486,,,1,L Pelvic,2018 tag loss,Electroshocking,Bonus 1,Casino bay,,,,1980,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,28381,COC,511,,,,L Pelvic,,Electroshocking,Bonus 1,Casino bay,,,,1980,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,28382,COC,584,,,,L Pelvic,,Electroshocking,Bonus 1,Casino bay,,,,1980,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,20385,COC,500,,1,,,2018 recap,Electroshocking,Bonus 1,Casino bay,,,,1980,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/15/2019,Silver,28383,COC,532,,,,L Pelvic,,Electroshocking,Bonus 2,STD 2 start,,Little Storm Lake inlet,,1811,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/15/2019,Silver,28384,COC,496,,,,L Pelvic,,Electroshocking,Bonus 2,STD 2 start,,Little Storm Lake inlet,,1811,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/15/2019,Silver,28385,COC,500,,,1,L Pelvic,2018 tag loss,Electroshocking,Bonus 2,STD 2 start,,Little Storm Lake inlet,,1811,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/15/2019,Silver,28386,COC,505,,,,L Pelvic,,Electroshocking,Bonus 2,STD 2 start,,Little Storm Lake inlet,,1811,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,28387,COC,546,,,,L Pelvic,,Electroshocking,Bonus 2,STD 2 start,,Little Storm Lake inlet,,1811,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,28388,COC,505,,,,L Pelvic,,Electroshocking,Bonus 2,STD 2 start,,Little Storm Lake inlet,,1811,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,28389,COC,504,,,,L Pelvic,,Electroshocking,Bonus 2,STD 2 start,,Little Storm Lake inlet,,1811,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,28391,COC,581,,,,L Pelvic,gravid,Electroshocking,Bonus 2,STD 2 start,,Little Storm Lake inlet,,1811,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,28392,COC,623,,,,L Pelvic,,Electroshocking,Bonus 2,STD 2 start,,Little Storm Lake inlet,,1811,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,28393,COC,545,,,,L Pelvic,,Electroshocking,Bonus 2,STD 2 start,,Little Storm Lake inlet,,1811,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,28394,COC,573,,,,L Pelvic,Fiesty,Electroshocking,Bonus 2,STD 2 start,,Little Storm Lake inlet,,1811,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,28395,BIB,660,4650,,,"L Pelvic, Spine",Buffalo!,Electroshocking,Bonus 3,42 37.887,95 10.724,42 38.113,95 11.622,2080,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,28396,COC,558,,,,L Pelvic,,Electroshocking,Bonus 3,42 37.887,95 10.724,42 38.113,95 11.622,2080,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,28397,COC,641,,,,L Pelvic,,Electroshocking,Bonus 3,42 37.887,95 10.724,42 38.113,95 11.622,2080,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,28398,COC,573,,,,L Pelvic,,Electroshocking,Bonus 3,42 37.887,95 10.724,42 38.113,95 11.622,2080,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,28399,COC,526,,,,L Pelvic,,Electroshocking,Bonus 4,42 38.217,95 12.566,42 38.517,95 13.131,1813,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,28400,COC,504,,,,L Pelvic,,Electroshocking,Bonus 4,42 38.217,95 12.566,42 38.517,95 13.131,1813,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25876,COC,555,,,,L Pelvic,,Electroshocking,Bonus 4,42 38.217,95 12.566,42 38.517,95 13.131,1813,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25877,COC,524,,,,L Pelvic,,Electroshocking,Bonus 4,42 38.217,95 12.566,42 38.517,95 13.131,1813,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25878,COC,582,,,,L Pelvic,,Electroshocking,Bonus 4,42 38.217,95 12.566,42 38.517,95 13.131,1813,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25879,COC,500,,,,L Pelvic,,Electroshocking,Bonus 4,42 38.217,95 12.566,42 38.517,95 13.131,1813,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,20747,COC,585,,1,,,2018 recap,Electroshocking,Bonus 4,42 38.217,95 12.566,42 38.517,95 13.131,1813,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25880,COC,453,,,,L Pelvic,,Electroshocking,Bonus 4,42 38.217,95 12.566,42 38.517,95 13.131,1813,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25881,COC,480,,,,L Pelvic,,Electroshocking,Bonus 4,42 38.217,95 12.566,42 38.517,95 13.131,1813,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25882,COC,557,,,,L Pelvic,,Electroshocking,Bonus 4,42 38.217,95 12.566,42 38.517,95 13.131,1813,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25883,COC,446,,,,L Pelvic,,Electroshocking,Bonus 4,42 38.217,95 12.566,42 38.517,95 13.131,1813,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25884,COC,605,,,,L Pelvic,Might die,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25885,COC,565,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25886,COC,480,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25887,COC,514,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25888,COC,435,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,20615,COC,460,,1,,,2018 recap,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25889,COC,450,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25890,COC,525,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25892,COC,546,,,,L Pelvic,Bent tag,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25893,COC,620,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25894,COC,507,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25895,COC,560,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25896,COC,540,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25897,COC,504,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25898,COC,488,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25899,COC,476,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25900,COC,549,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25676,COC,514,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25677,COC,597,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25678,COC,483,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25679,COC,489,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25680,COC,485,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,25681,COC,473,,1,,,2018 recap,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
-7/16/2019,Storm,20768,COC,465,,,,"L Pelvic, Spine ",,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,78.7,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/25/2019,Storm,29301,COC,639,,,,L Pelvic,,Electroshocking,std 1,42 38.021,95 11.134,42 36.868,95 10.912,3000,24.61111111,,cloudy windy ssw @15  high 75,2019
+7/25/2019,Storm,29302,COC,488,,1,1,L Pelvic,2018 tag loss,Electroshocking,std 1,42 38.021,95 11.134,42 36.868,95 10.912,3000,24.61111111,,cloudy windy ssw @15  high 75,2019
+7/25/2019,Storm,29303,COC,497,,,,L Pelvic,,Electroshocking,std 1,42 38.021,95 11.134,42 36.868,95 10.912,3000,24.61111111,,cloudy windy ssw @15  high 75,2019
+7/25/2019,Storm,29304,COC,569,,,,L Pelvic,,Electroshocking,std 1,42 38.021,95 11.134,42 36.868,95 10.912,3000,24.61111111,,cloudy windy ssw @15  high 75,2019
+7/25/2019,Storm,NA,COC,NA,,,,L Pelvic,Fumble,Electroshocking,std 1,42 38.021,95 11.134,42 36.868,95 10.912,3000,24.61111111,,cloudy windy ssw @15  high 75,2019
+7/25/2019,Storm,29305,COC,510,,,,L Pelvic,Cracked opercle,Electroshocking,std 1,42 38.021,95 11.134,42 36.868,95 10.912,3000,24.61111111,,cloudy windy ssw @15  high 75,2019
+7/25/2019,Storm,29306,COC,472,,,,L Pelvic,,Electroshocking,std 2,42 36.868,95 10.964,42 36746,95 12.153,3201,24.61111111,,cloudy windy ssw @15  high 75,2019
+7/25/2019,Storm,39307,COC,580,,,,L Pelvic,,Electroshocking,std 2,42 36.868,95 10.964,42 36746,95 12.153,3201,24.61111111,,cloudy windy ssw @15  high 75,2019
+7/25/2019,Storm,25060,COC,592,,1,,,2019 Recap,Electroshocking,std 2,42 36.868,95 10.964,42 36746,95 12.153,3201,24.61111111,,cloudy windy ssw @15  high 75,2019
+7/25/2019,Storm,29308,COC,608,,,,L Pelvic,,Electroshocking,std 2,42 36.868,95 10.964,42 36746,95 12.153,3201,24.61111111,,cloudy windy ssw @15  high 75,2019
+7/25/2019,Storm,29309,COC,564,,,,L Pelvic,,Electroshocking,std 2,42 36.868,95 10.964,42 36746,95 12.153,3201,24.61111111,,cloudy windy ssw @15  high 75,2019
+7/25/2019,Storm,29310,COC,543,,,,L Pelvic,,Electroshocking,std 2,42 36.868,95 10.964,42 36746,95 12.153,3201,24.61111111,,cloudy windy ssw @15  high 75,2019
+7/25/2019,Storm,29311,COC,468,,,,L Pelvic,,Electroshocking,std 2,42 36.868,95 10.964,42 36746,95 12.153,3201,24.61111111,,cloudy windy ssw @15  high 75,2019
+7/25/2019,Storm,29312,COC,590,,,,L Pelvic,,Electroshocking,std 2,42 36.868,95 10.964,42 36746,95 12.153,3201,24.61111111,,cloudy windy ssw @15  high 75,2019
+7/25/2019,Center,29313,BIB,498,2047,,,"L Pelvic, Spine",,Electroshocking,std 1,43 24.832,95 8.446,43 24.757,95 8.538,6346,23.61111111,,windy cloudy just rained SE winds 15-25 mph,2019
+7/25/2019,Center,29314,BIB,630,3624,,,"L Pelvic, Spine",,Electroshocking,std 1,43 24.832,95 8.446,43 24.757,95 8.538,6346,23.61111111,,windy cloudy just rained SE winds 15-25 mph,2019
+7/25/2019,Center,29315,BIB,528,2470,,,"L Pelvic, Spine",,Electroshocking,std 1,43 24.832,95 8.446,43 24.757,95 8.538,6346,23.61111111,,windy cloudy just rained SE winds 15-25 mph,2019
+7/25/2019,Center,20600,BIB,496,2328,1,, Spine,2018 recap,Electroshocking,std 1,43 24.832,95 8.446,43 24.757,95 8.538,6346,23.61111111,,windy cloudy just rained SE winds 15-25 mph,2019
+7/25/2019,Center,29316,BIB,535,2681,1,, Spine,2018 Recap,Electroshocking,std 1,43 24.832,95 8.446,43 24.757,95 8.538,6346,23.61111111,,windy cloudy just rained SE winds 15-25 mph,2019
+7/25/2019,Center,29317,BIB,558,2868,,,"L Pelvic, Spine",,Electroshocking,std 1,43 24.832,95 8.446,43 24.757,95 8.538,6346,23.61111111,,windy cloudy just rained SE winds 15-25 mph,2019
+7/25/2019,Center,29318,BIB,447,NA,1,1,"L Pelvic, Spine",2017 tag loss,Electroshocking,std 1,43 24.832,95 8.446,43 24.757,95 8.538,6346,23.61111111,,windy cloudy just rained SE winds 15-25 mph,2019
+7/25/2019,Center,29319,BIB,498,2038,,,"L Pelvic, Spine",,Electroshocking,std 1,43 24.832,95 8.446,43 24.757,95 8.538,6346,23.61111111,,windy cloudy just rained SE winds 15-25 mph,2019
+7/25/2019,Center,16135,COC,482,,,,"L Pelvic, Spine",,Electroshocking,std 1,43 24.832,95 8.446,43 24.757,95 8.538,6346,23.61111111,,windy cloudy just rained SE winds 15-25 mph,2019
+7/17/2019,Center,25685,COC,591,2420,,,"L Pelvic, Spine",,Electroshocking,Bonus 1,43 24.746,95 8.53,43 24.507,95 8.329,1812,26.33333333,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
+7/17/2019,Center,25686,COC,408,1028,,,"L Pelvic, Spine",,Electroshocking,Bonus 1,43 24.746,95 8.53,43 24.507,95 8.329,1812,26.33333333,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
+7/17/2019,Center,25687,COC,567,2273,,,"L Pelvic, Spine",,Electroshocking,Bonus 1,43 24.746,95 8.53,43 24.507,95 8.329,1812,26.33333333,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
+7/17/2019,Center,25688,COC,500,1536,,1,L Pelvic,"2017 Tag Loss, Male",Electroshocking,Bonus 1,43 24.746,95 8.53,43 24.507,95 8.329,1812,26.33333333,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
+7/17/2019,Center,25689,BIB,471,1592,,,"L Pelvic, Spine",,Electroshocking,Bonus 1,43 24.746,95 8.53,43 24.507,95 8.329,1812,26.33333333,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
+7/17/2019,Center,25690,COC,493,1553,,,"L Pelvic, Spine",,Electroshocking,Bonus 1,43 24.746,95 8.53,43 24.507,95 8.329,1812,26.33333333,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
+7/17/2019,Center,28089,COC,612,3130,1,,Spine,2019 Recap,Electroshocking,Bonus 1,43 24.746,95 8.53,43 24.507,95 8.329,1812,26.33333333,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
+7/17/2019,Center,20225,COC,501,1735,1,,Spine,2018 Recap,Electroshocking,Bonus 1,43 24.746,95 8.53,43 24.507,95 8.329,1812,26.33333333,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
+7/17/2019,Center,25691,BIB,492,1814,,,"L Pelvic, Spine",,Electroshocking,Bonus 2,43 24.507,95 8.329,43 24.803,95 7.712,1797,26.33333333,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
+7/17/2019,Center,25692,BIB,480,1790,,,"L Pelvic, Spine",,Electroshocking,Bonus 2,43 24.507,95 8.329,43 24.803,95 7.712,1797,26.33333333,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
+7/17/2019,Center,25693,COC,433,1162,,,"L Pelvic, Spine",,Electroshocking,Bonus 2,43 24.507,95 8.329,43 24.803,95 7.712,1797,26.33333333,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
+7/17/2019,Center,25694,BIB,471,1686,,,"L Pelvic, Spine",,Electroshocking,Bonus 2,43 24.507,95 8.329,43 24.803,95 7.712,1797,26.33333333,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
+7/17/2019,Center,25695,BIB,650,4426,,,"L Pelvic, Spine",Disease,Electroshocking,Bonus 2,43 24.507,95 8.329,43 24.803,95 7.712,1797,26.33333333,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
+7/17/2019,Center,25696,COC,439,1321,,,"L Pelvic, Spine",,Electroshocking,Bonus 2,43 24.507,95 8.329,43 24.803,95 7.712,1797,26.33333333,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
+7/17/2019,Center,25697,COC,574,2691,,,"L Pelvic, Spine",,Electroshocking,Bonus 2,43 24.507,95 8.329,43 24.803,95 7.712,1797,26.33333333,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
+7/17/2019,Center,25698,BIB,465,1568,,,"L Pelvic, Spine",,Electroshocking,Bonus 3,43 24.826,95 7.733,43 24.803,95 7.712,2112,26.33333333,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
+7/17/2019,Center,25699,BIB,459,1592,,,"L Pelvic, Spine",,Electroshocking,Bonus 3,43 24.826,95 7.733,43 24.803,95 7.712,2112,26.33333333,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
+7/17/2019,Center,25700,BIB,480,1904,,,"L Pelvic, Spine",,Electroshocking,Bonus 3,43 24.826,95 7.733,43 24.803,95 7.712,2112,26.33333333,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
+7/17/2019,Center,20595,BIB,500,2025,1,,Spine,,Electroshocking,Bonus 3,43 24.826,95 7.733,43 24.803,95 7.712,2112,26.33333333,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
+7/17/2019,Center,25826,BIB,538,3260,,,"L Pelvic, Spine",,Electroshocking,Bonus 3,43 24.826,95 7.733,43 24.803,95 7.712,2112,26.33333333,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
+7/17/2019,Center,25827,COC,526,2405,,,"L Pelvic, Spine",,Electroshocking,Bonus 3,43 24.826,95 7.733,43 24.803,95 7.712,2112,26.33333333,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
+7/17/2019,Center,25828,BIB,445,1502,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,Sunken island,,South Bay,,1200,26.33333333,,80ºF S. winds 20-30 sunny but clouds due to AM storms,2019
+7/17/2019,5 Island,25682,COC,548,2084,,,"L Pelvic, Spine",,Electroshocking,Bonus 1,43 8.969,94 39.575,43 8.357,94 39.735,1838,26.83333333,,Cloudy/foggy scattered storms high 90ºF,2019
+7/17/2019,5 Island,25683,COC,332,556,,,"L Pelvic, Spine",,Electroshocking,Bonus 1,43 8.969,94 39.575,43 8.357,94 39.735,1838,26.83333333,,Cloudy/foggy scattered storms high 90ºF,2019
+7/17/2019,5 Island,25684,COC,621,3093,,,"L Pelvic, Spine",,Electroshocking,Bonus 1,43 8.969,94 39.575,43 8.357,94 39.735,1838,26.83333333,,Cloudy/foggy scattered storms high 90ºF,2019
+7/12/2019,Center,25934,BIB,565,3265,,,"L Pelvic, Spine",,Electroshocking,Bonus 1,STD 1 start,,Dock,,1769,27.77777778,,Sunny 85ºF SW wind about 10mph,2019
+7/12/2019,Center,25935,COC,563,2485,,,"L Pelvic, Spine",Feisty butt smacker,Electroshocking,Bonus 1,STD 1 start,,Dock,,1769,27.77777778,,Sunny 85ºF SW wind about 10mph,2019
+7/12/2019,Center,25936,BIB,465,1766,,,"L Pelvic, Spine",,Electroshocking,Bonus 2,STD 1 start,,STD 2 End,,1800,27.77777778,,Sunny 85ºF SW wind about 10mph,2019
+7/12/2019,Center,,BIB,482,,,,,"Juped from boat, no tag",Electroshocking,Bonus 2,STD 1 start,,STD 2 End,,1800,27.77777778,,Sunny 85ºF SW wind about 10mph,2019
+7/12/2019,Center,25937,BIB,519,2380,,,"L Pelvic, Spine",,Electroshocking,Bonus 2,STD 1 start,,STD 2 End,,1800,27.77777778,,Sunny 85ºF SW wind about 10mph,2019
+7/12/2019,Center,25938,BIB,507,1967,,,"L Pelvic, Spine",,Electroshocking,Bonus 2,STD 1 start,,STD 2 End,,1800,27.77777778,,Sunny 85ºF SW wind about 10mph,2019
+7/12/2019,Center,25939,COC,466,1326,,,"L Pelvic, Spine",,Electroshocking,Bonus 2,STD 1 start,,STD 2 End,,1800,27.77777778,,Sunny 85ºF SW wind about 10mph,2019
+7/12/2019,Center,25940,COC,391,907,,,"L Pelvic, Spine",,Electroshocking,Bonus 3,Sunken island,,,,750,27.77777778,,Sunny 85ºF SW wind about 10mph,2019
+7/12/2019,Center,25941,COC,692,4597,,,"L Pelvic, Spine",,Electroshocking,Bonus 3,Sunken island,,,,750,27.77777778,,Sunny 85ºF SW wind about 10mph,2019
+7/12/2019,Center,25942,BIB,524,2956,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,STD 2,,Fish barrier,,1808,27.77777778,,Sunny 85ºF SW wind about 10mph,2019
+7/12/2019,Center,25943,COC,581,2358,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,STD 2,,Fish barrier,,1808,27.77777778,,Sunny 85ºF SW wind about 10mph,2019
+7/12/2019,Center,25944,COC,398,895,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,STD 2,,Fish barrier,,1808,27.77777778,,Sunny 85ºF SW wind about 10mph,2019
+7/12/2019,Center,25945,COC,610,2453,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,STD 2,,Fish barrier,,1808,27.77777778,,Sunny 85ºF SW wind about 10mph,2019
+7/12/2019,Center,25946,COC,596,2869,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,STD 2,,Fish barrier,,1808,27.77777778,,Sunny 85ºF SW wind about 10mph,2019
+7/12/2019,Center,25947,COC,538,2185,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,STD 2,,Fish barrier,,1808,27.77777778,,Sunny 85ºF SW wind about 10mph,2019
+7/12/2019,Center,25948,COC,508,1847,,,"L Pelvic, Spine",Bloody Kamikaze,Electroshocking,Bonus 4,STD 2,,Fish barrier,,1808,27.77777778,,Sunny 85ºF SW wind about 10mph,2019
+7/12/2019,Center,25949,COC,556,2054,,,"R Pelvic, Spine","Spine sampling loss, R pelvic clip",Electroshocking,Bonus 4,STD 2,,Fish barrier,,1808,27.77777778,,Sunny 85ºF SW wind about 10mph,2019
+7/12/2019,Center,25950,COC,496,1476,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,STD 2,,Fish barrier,,1808,27.77777778,,Sunny 85ºF SW wind about 10mph,2019
+7/12/2019,Center,25951,COC,539,2151,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,STD 2,,Fish barrier,,1808,27.77777778,,Sunny 85ºF SW wind about 10mph,2019
+7/12/2019,Center,25952,COC,520,1805,,,"L Pelvic, Spine",,Electroshocking,Bonus 5,Fish barrier,,Outlet/Launch,,1516,27.77777778,,Sunny 85ºF SW wind about 10mph,2019
+7/12/2019,Center,25953,COC,597,2565,,1,"L Pelvic, Spine","R Pelvic, 2017 tag loss",Electroshocking,Bonus 5,Fish barrier,,Outlet/Launch,,1516,27.77777778,,Sunny 85ºF SW wind about 10mph,2019
+7/15/2019,Silver,25954,COC,696,4133,,,"L Pelvic, Spine",2-3 other carp seen but esxaped,Electroshocking,Bonus 1,STD 1 by fen,,43 28.261,95 21.652,1834,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25955,COC,719,4437,,,"L Pelvic, Spine","1 buffalo seen about 400m, 2 other COC seen not netted",Electroshocking,Bonus 2,43 26.320,45 21.461,43 26.428,95 20.835,1830,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25956,COC,678,4692,,,"L Pelvic, Spine",,Electroshocking,Bonus 3,43 26.465,95 20.659,43 26.054,95 20.542,1815,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25957,COC,706,4668,,,"L Pelvic, Spine",,Electroshocking,Bonus 3,43 26.465,95 20.659,43 26.054,95 20.542,1815,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25958,COC,679,4089,,,"L Pelvic, Spine",,Electroshocking,Bonus 3,43 26.465,95 20.659,43 26.054,95 20.542,1815,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25959,COC,711,4159,,1,"L Pelvic, Spine",2018 tag loss,Electroshocking,Bonus 3,43 26.465,95 20.659,43 26.054,95 20.542,1815,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25960,COC,755,5589,,,"L Pelvic, Spine",,Electroshocking,Bonus 3,43 26.465,95 20.659,43 26.054,95 20.542,1815,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25961,COC,706,4435,,,"L Pelvic, Spine",,Electroshocking,Bonus 3,43 26.465,95 20.659,43 26.054,95 20.542,1815,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25962,BIB,722,6459,,,"L Pelvic, Spine","Prop strike, might die",Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25964,COC,665,3945,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25965,COC,676,4105,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25966,COC,785,7318,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25967,COC,795,6154,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25968,COC,483,1675,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,26055,COC,705,4409,,,Spine,2019 recap,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25969,COC,704,4706,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25970,COC,684,4285,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25971,COC,759,5565,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25972,COC,774,5789,,,"L Pelvic, Spine",Chonk,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25973,COC,645,3282,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25974,COC,723,5704,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25975,COC,704,428,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25978,COC,723,5056,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25979,COC,690,3734,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25980,COC,649,3441,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25981,COC,698,4664,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25982,COC,643,4004,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25984,COC,678,5065,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25985,COC,748,7556,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25986,COC,712,5105,,,"L Pelvic, Spine",,Electroshocking,Bonus 4,43 26.093,95 26.525,43 26.033,95 20.297,1767,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25987,BIB,690,5312,,,"L Pelvic, Spine",,Electroshocking,Bonus 5,43 26.661,95 19.742,43 26.083,95 20.061,1861,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25988,BIB,733,7475,,,"L Pelvic, Spine",Rotund,Electroshocking,Bonus 5,43 26.661,95 19.742,43 26.083,95 20.061,1861,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25990,BIB,827,1187,,,"L Pelvic, Spine",Rotudest,Electroshocking,Bonus 5,43 26.661,95 19.742,43 26.083,95 20.061,1861,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25991,BIB,687,6383,,,"L Pelvic, Spine",,Electroshocking,Bonus 6,43 26.047,95 20.218,43 25.994,95 20.417,1926,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25992,BIB,666,4731,,,"L Pelvic, Spine",Uneven caudal lobes,Electroshocking,Bonus 6,43 26.047,95 20.218,43 25.994,95 20.417,1926,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25993,BIB,488,2380,,,"L Pelvic, Spine",Dorsal clip livewell (found),Electroshocking,Bonus 6,43 26.047,95 20.218,43 25.994,95 20.417,1926,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25994,COC,696,4452,,,"L Pelvic, Spine",,Electroshocking,Bonus 6,43 26.047,95 20.218,43 25.994,95 20.417,1926,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25995,COC,759,6854,,,"L Pelvic, Spine",,Electroshocking,Bonus 6,43 26.047,95 20.218,43 25.994,95 20.417,1926,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25997,BIB,632,4742,,,"L Pelvic, Spine",25997 buffalo bent tag,Electroshocking,Bonus 6,43 26.047,95 20.218,43 25.994,95 20.417,1926,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,25998,COC,741,7109,,,"L Pelvic, Spine",uneven coudal lobes,Electroshocking,Bonus 6,43 26.047,95 20.218,43 25.994,95 20.417,1926,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,26000,COC,654,3772,,1,"L Pelvic, Spine","2018 tag loss, new tag 26000",Electroshocking,Bonus 6,43 26.047,95 20.218,43 25.994,95 20.417,1926,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/15/2019,Silver,28376,COC,738,5835,,,"L Pelvic, Spine",,Electroshocking,Bonus 6,43 26.047,95 20.218,43 25.994,95 20.417,1926,28.33333333,,High 98ºF S winds 20mph partly cloudy,2019
+7/16/2019,Storm,28377,COC,482,,,,L Pelvic,Mirror carp,Electroshocking,Bonus 1,Casino bay,,,,1980,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,28378,COC,555,,,,L Pelvic,,Electroshocking,Bonus 1,Casino bay,,,,1980,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,22314,COC,452,,1,,,2018 recap,Electroshocking,Bonus 1,Casino bay,,,,1980,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,28380,COC,486,,,1,L Pelvic,2018 tag loss,Electroshocking,Bonus 1,Casino bay,,,,1980,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,28381,COC,511,,,,L Pelvic,,Electroshocking,Bonus 1,Casino bay,,,,1980,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,28382,COC,584,,,,L Pelvic,,Electroshocking,Bonus 1,Casino bay,,,,1980,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,20385,COC,500,,1,,,2018 recap,Electroshocking,Bonus 1,Casino bay,,,,1980,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/15/2019,Silver,28383,COC,532,,,,L Pelvic,,Electroshocking,Bonus 2,STD 2 start,,Little Storm Lake inlet,,1811,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/15/2019,Silver,28384,COC,496,,,,L Pelvic,,Electroshocking,Bonus 2,STD 2 start,,Little Storm Lake inlet,,1811,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/15/2019,Silver,28385,COC,500,,,1,L Pelvic,2018 tag loss,Electroshocking,Bonus 2,STD 2 start,,Little Storm Lake inlet,,1811,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/15/2019,Silver,28386,COC,505,,,,L Pelvic,,Electroshocking,Bonus 2,STD 2 start,,Little Storm Lake inlet,,1811,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,28387,COC,546,,,,L Pelvic,,Electroshocking,Bonus 2,STD 2 start,,Little Storm Lake inlet,,1811,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,28388,COC,505,,,,L Pelvic,,Electroshocking,Bonus 2,STD 2 start,,Little Storm Lake inlet,,1811,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,28389,COC,504,,,,L Pelvic,,Electroshocking,Bonus 2,STD 2 start,,Little Storm Lake inlet,,1811,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,28391,COC,581,,,,L Pelvic,gravid,Electroshocking,Bonus 2,STD 2 start,,Little Storm Lake inlet,,1811,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,28392,COC,623,,,,L Pelvic,,Electroshocking,Bonus 2,STD 2 start,,Little Storm Lake inlet,,1811,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,28393,COC,545,,,,L Pelvic,,Electroshocking,Bonus 2,STD 2 start,,Little Storm Lake inlet,,1811,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,28394,COC,573,,,,L Pelvic,Fiesty,Electroshocking,Bonus 2,STD 2 start,,Little Storm Lake inlet,,1811,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,28395,BIB,660,4650,,,"L Pelvic, Spine",Buffalo!,Electroshocking,Bonus 3,42 37.887,95 10.724,42 38.113,95 11.622,2080,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,28396,COC,558,,,,L Pelvic,,Electroshocking,Bonus 3,42 37.887,95 10.724,42 38.113,95 11.622,2080,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,28397,COC,641,,,,L Pelvic,,Electroshocking,Bonus 3,42 37.887,95 10.724,42 38.113,95 11.622,2080,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,28398,COC,573,,,,L Pelvic,,Electroshocking,Bonus 3,42 37.887,95 10.724,42 38.113,95 11.622,2080,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,28399,COC,526,,,,L Pelvic,,Electroshocking,Bonus 4,42 38.217,95 12.566,42 38.517,95 13.131,1813,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,28400,COC,504,,,,L Pelvic,,Electroshocking,Bonus 4,42 38.217,95 12.566,42 38.517,95 13.131,1813,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25876,COC,555,,,,L Pelvic,,Electroshocking,Bonus 4,42 38.217,95 12.566,42 38.517,95 13.131,1813,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25877,COC,524,,,,L Pelvic,,Electroshocking,Bonus 4,42 38.217,95 12.566,42 38.517,95 13.131,1813,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25878,COC,582,,,,L Pelvic,,Electroshocking,Bonus 4,42 38.217,95 12.566,42 38.517,95 13.131,1813,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25879,COC,500,,,,L Pelvic,,Electroshocking,Bonus 4,42 38.217,95 12.566,42 38.517,95 13.131,1813,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,20747,COC,585,,1,,,2018 recap,Electroshocking,Bonus 4,42 38.217,95 12.566,42 38.517,95 13.131,1813,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25880,COC,453,,,,L Pelvic,,Electroshocking,Bonus 4,42 38.217,95 12.566,42 38.517,95 13.131,1813,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25881,COC,480,,,,L Pelvic,,Electroshocking,Bonus 4,42 38.217,95 12.566,42 38.517,95 13.131,1813,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25882,COC,557,,,,L Pelvic,,Electroshocking,Bonus 4,42 38.217,95 12.566,42 38.517,95 13.131,1813,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25883,COC,446,,,,L Pelvic,,Electroshocking,Bonus 4,42 38.217,95 12.566,42 38.517,95 13.131,1813,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25884,COC,605,,,,L Pelvic,Might die,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25885,COC,565,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25886,COC,480,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25887,COC,514,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25888,COC,435,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,20615,COC,460,,1,,,2018 recap,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25889,COC,450,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25890,COC,525,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25892,COC,546,,,,L Pelvic,Bent tag,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25893,COC,620,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25894,COC,507,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25895,COC,560,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25896,COC,540,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25897,COC,504,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25898,COC,488,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25899,COC,476,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25900,COC,549,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25676,COC,514,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25677,COC,597,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25678,COC,483,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25679,COC,489,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25680,COC,485,,,,L Pelvic,,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,25681,COC,473,,1,,,2018 recap,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
+7/16/2019,Storm,20768,COC,465,,,,"L Pelvic, Spine ",,Electroshocking,Bonus 5,Little Storm Lake outlet,,Cacino Bay,,2700,25.94444444,,Just rained heavy mostly cloudy w. wind 10-18mph,2019
 7/18/2019,5 Island,25829,COC,587,2539,,,"L Pelvic, Spine ",,Electroshocking,Bonus 1,43 8.240,94 39.726,43 8.870,94 39.370,1801,25.83,,"Mostly Cloudy high 90+ , 70F at start, calm winds",2019
 7/18/2019,5 Island,25830,COC,596,2328,,,"L Pelvic, Spine ",,Electroshocking,Bonus 1,43 8.240,94 39.726,43 8.870,94 39.370,1801,25.83,,"Mostly Cloudy high 90+ , 70F at start, calm winds",2019
 7/18/2019,5 Island,25831,COC,640,3624,,,"L Pelvic, Spine ",,Electroshocking,Bonus 1,43 8.240,94 39.726,43 8.870,94 39.370,1801,25.83,,"Mostly Cloudy high 90+ , 70F at start, calm winds",2019
@@ -14719,8 +14719,10 @@ Date,Lake,TAG.NUMBER,Species,Length (mm),Weight (g),Recap,Tag Loss,Fin Clipped,N
 10/1/2019,S Twin,,WHC,,,,,,white crappie,Fyke,Fyke Net 1,,,,,,18.8,,60F 10MPH SW winds,2019
 10/1/2019,S Twin,,WHC,,,,,,white crappie,Fyke,Fyke Net 1,,,,,,18.8,,60F 10MPH SW winds,2019
 10/1/2019,S Twin,,WHC,,,,,,white crappie,Fyke,Fyke Net 1,,,,,,18.8,,60F 10MPH SW winds,2019
-10/1/2019,S Twin,,BLB,51,,,,,black bullhead,Fyke,Fyke Net 1,,,,,,18.8,,60F 10MPH SW winds,2019
-10/1/2019,S Twin,,BLB,51,,,,,black bullhead,Fyke,Fyke Net 1,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 1,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 1,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 1,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 1,,,,,,18.8,,60F 10MPH SW winds,2019
 10/1/2019,S Twin,,FWD,135,32,,,,freshwater drum,Fyke,Fyke Net 1,,,,,,18.8,,60F 10MPH SW winds,2019
 10/1/2019,S Twin,,YEP,147,41,,,,yellow perch,Fyke,Fyke Net 1,,,,,,18.8,,60F 10MPH SW winds,2019
 10/1/2019,S Twin,,NOP,744,2585,,,,northern pike,Fyke,Fyke Net 1,,,,,,18.8,,60F 10MPH SW winds,2019
@@ -14789,11 +14791,166 @@ Date,Lake,TAG.NUMBER,Species,Length (mm),Weight (g),Recap,Tag Loss,Fin Clipped,N
 10/1/2019,S Twin,,WHC,,,,,,white crappie,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
 10/1/2019,S Twin,,WHC,,,,,,white crappie,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
 10/1/2019,S Twin,,WHC,,,,,,white crappie,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
-10/1/2019,S Twin,,BLB,152,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
-10/1/2019,S Twin,,BLB,160,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
-10/1/2019,S Twin,,BLB,254,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
-10/1/2019,S Twin,,BLB,127,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
-10/1/2019,S Twin,,BLB,56,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
+10/1/2019,S Twin,,BLB,,,,,,black bullhead,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
 10/1/2019,S Twin,,COC,284,308,,,,common carp,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
 10/1/2019,S Twin,,COC,325,417,,,,common carp,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019
 10/1/2019,S Twin,,COC,267,227,,,,common carp,Fyke,Fyke Net 2,,,,,,18.8,,60F 10MPH SW winds,2019

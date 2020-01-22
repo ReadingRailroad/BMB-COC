@@ -99,7 +99,7 @@ dat.frame$Lake<-droplevels(dat.frame$Lake)
 str(dat.frame$Lake)
 
 # Tag Number
-str(dat.frame$TAG.NUMBER) # factor OK here
+str(dat.frame$TAG.NUMBER) # factor OK here for non-carp and non-buffalo species this is an envelope number
 
 # Species
 levels(dat.frame$Species)
@@ -130,7 +130,7 @@ levels(dat.frame$Species)
 # Length (mm)
 str(dat.frame$Length..mm.)
 dat.frame$Length..mm.<-as.numeric(dat.frame$Length..mm.)
-summary(dat.frame$Length..mm.) # not terrible. Lots of all-species runs with over 300 fish left many fish without length measurements. (DNR)
+summary(dat.frame$Length..mm.) # not terrible. Lots of all-species surveys with over 300 fish left many fish without length measurements. (DNR)
 
 # Weight (g)
 str(dat.frame$Weight..g.)
@@ -170,25 +170,66 @@ levels(dat.frame$Gear)
 # Site / Transect
 str(dat.frame$Site.Transect)
 levels(dat.frame$Site.Transect)
+dat.frame$Site.Transect<-as.character(dat.frame$Site.Transect)
+dat.frame$Site.Transect[dat.frame$Site.Transect == "Strom trans 1"] <- "Std 1"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "Storm trans 9"] <- "Std 9"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "Storm trans 4"] <- "Std 4"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "Storm trans 2"] <- "Std 2"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "Storm 7"] <- "Std 7"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "Storm 5"] <- "Std 5"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "Storm  trans 5"] <- "Std 5"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "std 8"] <- "Std 8"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "STD 7"] <- "Std 7"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "STD 6"] <- "Std 6"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "STD 5"] <- "Std 5"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "STD 4"] <- "Std 4"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "STD 3/4"] <- "Std 3"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "STD 3"] <- "Std 3"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "STD 2"] <- "Std 2"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "std 11"] <- "Bonus 11"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "STD 1"] <- "Std 1"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "std  1"] <- "Std 1"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "Standard1"] <- "Std 1"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "Standard 5"] <- "Std 5"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "Standard 4"] <- "Std 4"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "Standard 3"] <- "Std 3"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "Standard 2"] <- "Std 2"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "std3"] <- "Std 3"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "std 9"] <- "Std 9"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "std 7"] <- "Std 7"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "std 6"] <- "Std 6"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "std 5"] <- "Std 5"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "std 4"] <- "Std 4"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "std 3"] <- "Std 3"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "std 2"] <- "Std 2"
+dat.frame$Site.Transect[dat.frame$Site.Transect == "std 1"] <- "Std 1"
+dat.frame$Site.Transect<-droplevels(as.factor(dat.frame$Site.Transect))
+levels(dat.frame$Site.Transect) # all standard runs denoted by Std and others left as they are
+
 
 ########################
-# Ignoring lat/long
+# Ignoring lat/long cause that's some really messed up data
 ########################
 
 # On Time (seconds)
+str(dat.frame$On.Time..s.)
+dat.frame$On.Time..s.<-as.numeric(dat.frame$On.Time..s.)
+summary(dat.frame$On.Time..s.) # high time checks out: comined all EF runs one day with two boats.
 
 # Water Temp (celcius)
+str(dat.frame$Water.Temp..C.) #numeric is good
+summary(dat.frame$Water.Temp..C.) # range is good
 
 # Secchi (meters actually!!)
 
 # Year
+str(dat.frame$Year)
 
-# detect: just 1 because it is an observation. sum/average these in later analyses
+# detect: just 1 because each row is an observation. sum/average these in later analyses
 
+str(dat.frame)
 
-
-
-
+write.csv(dat.frame,"2017-2020 Compiled Data.csv",row.names = F)
 ```
 
 
