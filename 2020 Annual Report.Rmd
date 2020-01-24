@@ -228,7 +228,9 @@ str(dat.frame$Year)
 # detect: just 1 because each row is an observation. sum/average these in later analyses
 
 str(dat.frame)
+```
 
+```{r,}
 write.csv(dat.frame,"2017-2020 Compiled Data.csv",row.names = F)
 ```
 
@@ -241,6 +243,7 @@ write.csv(dat.frame,"2017-2020 Compiled Data.csv",row.names = F)
 
 dev.off()
 # blank state of Iowa
+
 map('state','iowa',fill=T,col="grey95",mar=c(0,1,1.1,1))
 # now add cities
 data(us.cities)
