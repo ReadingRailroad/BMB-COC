@@ -467,7 +467,7 @@ groupwiseMean(CPUE~Lake+Species,cpue)
 
 
 #######################################################################################
-# 2018 Length Frequencies
+# 2019 Length Frequencies
 - Reading in data
 - splitting up the lakes
 - split by gear too and exclude fyke nets
@@ -589,71 +589,106 @@ grid.arrange(all.lakes.Buff.lf,all.lakes.Carp.lf,ncol=1)
 
 ```
 
+
+
+## Figure 4
+
+Mean cpue for both species from all EF runs in each lake in 2019, split by month
+
 ```{r}
+df<-read.csv("2017-2020 Compiled Data.csv")
+str(df)
+
+# only carp and buffalo cpue
+df<-droplevels(subset(df, Species == "COC" |
+                          Species == "BIB" |
+                          Species == "dummy"))
 
 
-df.b<-droplevels(subset(df, Species == "Bigmouth Buffalo"))
-df.c<-droplevels(subset(df, Species == "Common Carp"))
-
-# for AFS newsletter project update:
-# length-frequencies of my 17-18 comparison lakes (center, twins)
-df.b<-droplevels(subset(df.b, Lake == "Center" |
-                              Lake == "N. Twin"|
-                              Lake == "S. Twin"))
-df.c<-droplevels(subset(df.c, Lake == "Center" |
-                              Lake == "N. Twin"|
-                              Lake == "S. Twin"))
+# Only electrofishing
+levels(df$Gear)
+df2<-droplevels(subset(df, Gear == "Electroshocking"))
 
 
-df.b.m<-melt(df.b)
+# only 2019
+df2$Year<-as.factor(df2$Year)
+df2<-droplevels(subset(df2, Year == "2019"))
+# New month column
+df2$Date<-as.Date(df2$Date, "%m/%d/%Y")
+str(df2$Date)
+df2$Month<-factor(format(df2$Date, "%m"))
 
-all.lakes.Buff.lf<-ggplot(df.b.m, aes(x=value))+
-                         geom_histogram(binwidth = 1,
-                                        colour = "black",
-                                        position = "stack")+
-                         coord_cartesian(xlim = c(0,40))+
-                         facet_grid(vars(Year), vars(Lake))+
-                         theme(panel.grid.major = element_blank(), 
-                              panel.grid.minor = element_blank(),
-                              panel.background = element_rect(fill="white",colour="grey50"), 
-                              axis.line = element_line(colour = "black"),
-                              legend.position = "none",
-                              legend.background = element_rect(colour="grey20"))+
-                         scale_fill_grey(start = 0.1, end = 0.9, aesthetics = "fill")+
-                         labs(title = "2017 and 2018 Bigmouth Buffalo Length Frequencies",
-                              x = "Length (inches)",
-                              y = "Frequency")
+str(df2$On.Time..s.)
+df2$On.Time..s.<-as.numeric(df2$On.Time..s.)
+catch.df<-dcast(df2, Date+Lake+Month+Site.Transect+On.Time..s.+Species~ detect)
 
-all.lakes.Buff.lf
+# good so far.
+str(catch.df)
 
-df.c.m<-melt(df.c)
+#delete date column
+catch.df<-droplevels(catch.df[,-1])
+str(catch.df)
 
-all.lakes.Carp.lf<-ggplot(df.c.m, aes(x=value))+
-                         geom_histogram(binwidth = 1,
-                                        colour = "black",
-                                        position = "stack")+
-                         coord_cartesian(xlim = c(0,40))+
-                         facet_grid(vars(Year), vars(Lake))+
-                         theme(panel.grid.major = element_blank(), 
-                              panel.grid.minor = element_blank(),
-                              panel.background = element_rect(fill="white",colour="grey50"), 
-                              axis.line = element_line(colour = "black"),
-                              legend.position = c(0.9,0.8),
-                              legend.title = element_blank(),
-                              legend.background = element_rect(colour="grey20"))+
-                         scale_fill_grey(start = 0.1, end = 0.9, aesthetics = "fill")+
-                         labs(title = "2017 and 2018 Common Carp Length Frequencies",
-                              x = "Length (inches)",
-                              y = "Frequency")
+# remove NA from on.time
+catch.df<-subset(catch.df, !is.na(catch.df$On.Time..s.))
 
-all.lakes.Carp.lf
 
-grid.arrange(all.lakes.Buff.lf,all.lakes.Carp.lf,ncol=1)
+# how to handle 'dummy' variables??
+# here's a hack at it:::::
+    # gonna subset all dummy to a new df, set those species names to bib
+dummy.df<-droplevels(subset(catch.df, Species == "dummy"))
+dummy.df$`1`[dummy.df$Species == "dummy"]<-0
+dummy.df<-droplevels(subset(dummy.df, Lake != "Blue")) # no blue buffalo
+dummy.df$Species<-as.character(dummy.df$Species)
+dummy.df$Species[dummy.df$Species == "dummy"]<-"BIB"
+    # then take catch.df and set those dummy species to coc
+catch.df$`1`[catch.df$Species == "dummy"] <- 0
+catch.df$Species<-as.character(catch.df$Species)
+catch.df$Species[catch.df$Species == "dummy"]<-"COC"
+    # then rbind the bib dataset to catch.df
+catch.df<-rbind(catch.df,dummy.df)
 
+# potential problem with the cast function!!
+
+
+
+catch.df$CPUE<-catch.df$`1`/(catch.df$On.Time..s./3600)
+
+# clean up some labels
+catch.df$Species[catch.df$Species == "COC"] <-"Common Carp"
+catch.df$Species[catch.df$Species == "BIB"] <-"Bigmouth Buffalo"
+catch.df$Species<-droplevels(as.factor(catch.df$Species))
+#
+catch.df$Lake<-as.character(catch.df$Lake)
+catch.df$Lake[catch.df$Lake == "5 Island"] <- "Five Island"
+catch.df$Lake<-droplevels(as.factor(catch.df$Lake))
+
+
+
+
+DF.boxplot<-ggplot(catch.df, aes(x=Month, y=CPUE))+
+  geom_boxplot(aes(fill = Lake),
+               stat = "boxplot",
+               position = "dodge2")+
+  scale_fill_brewer(palette = "Greens")+
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(fill="white",colour="grey50"), 
+        axis.line = element_line(colour = "black"),
+        legend.position = "none")+
+  labs(y = "Mean Electrofishing CPUE (Number of fish / Hour)")+
+  guides(fill = guide_legend(nrow=1))+
+  facet_grid(Species~Lake, scales = "free")
+DF.boxplot
 ```
 
+
+
+
+
+
 #############################################################################
-# CPUE and Biomass Density
+# CPUE and Biomass Density - Figure 5
 
 Code here comes from CPUE plots with the source 2017 and 2018 plots.
 - note that 2017 used total biomass and not biomass density
@@ -682,7 +717,7 @@ DF$Lake[DF$Lake == "S. Twin"] <- "S Twin"
 DF$Lake[DF$Lake == "5 Island"]<- "Five Island"
 DF$Lake<-droplevels(as.factor(DF$Lake))
 
-DF2018<-groupwiseMean(cpue ~ Lake + Species,
+DF2019<-groupwiseMean(cpue ~ Lake + Species,
                     data = DF,
                     conf = 0.95,
                     digits = 3)
@@ -866,10 +901,6 @@ BM<-read.csv("2019_BiomassDensityEstimates.csv",header = T)
 BM<-BM[,-1]
 levels(BM$Lake)
 
-levels(cpue$Lake)
-cpue$Lake<-as.character(cpue$Lake)
-cpue$Lake[cpue$Lake == "5 Island"]<-"Five Island"
-cpue$Lake<-droplevels(as.factor(cpue$Lake))
 
 DF2019<-groupwiseMean(CPUE~Lake+Species,cpue)
 DF2019<-droplevels(subset(DF2019, Species == "COC" |
@@ -998,8 +1029,9 @@ DF.17.18.19<-rbind(DF.17.18,DF2019)
 - whew that was a doozy. got the data frame though!
 
 
-Now to create 4 plots, with regression lines (YAY!)
+Now to create 6 plots, with regression lines (YAY!)
 
+# Figure 5
 ```{r,}
 
 # visualize how CPUE changes as a function of biomass....
@@ -1029,7 +1061,7 @@ CPUE.Plot<-ggplot(DF.17.18.19, aes(x=BMD, y=Mean, label = Lake)) +
                                   x = "Estimated Common Carp Biomass Density (lbs. / acre)",
                                   y = "Catch per Unit Effort (fish/hour)") +
                             facet_grid(vars(Species),vars(Year),
-                                       scales = "free")+ 
+                                       scales = "fixed")+ 
                             theme(panel.grid.major = element_blank(), 
                                   panel.grid.minor = element_blank(),
                                   panel.background = element_rect(fill="white",colour="grey50"),
@@ -1047,138 +1079,8 @@ CPUE.Plot
 
 
 
-
-
-more specifically, let's say that I should
-(1) plot with month as discrete x variable and CPUE as y axis variable and 6-7 dots for each month. BONUS if I can add the variance. side by side for each species
-
-```{r}
-# 95% CI stats... 
-CI95<-groupwiseMean(cpue ~ Lake + Month + Species,
-                    data = DF,
-                    conf = 0.95,
-                    digits = 3)
-# results in lots of negative numbers for confidence interval, especially in late fall :(
-
-CI95$Month<-as.character(CI95$Month)
-CI95$Month[CI95$Month == "5"] <- "May"
-CI95$Month[CI95$Month == "6"] <- "June"
-CI95$Month[CI95$Month == "7"] <- "July"
-CI95$Month[CI95$Month == "8"] <- "August"
-CI95$Month[CI95$Month == "9"] <- "September"
-CI95$Month[CI95$Month == "10"] <- "October"
-CI95$Month[CI95$Month == "11"] <- "November"
-CI95$Month<-as.factor(CI95$Month)
-CI95$Lake<-as.character(CI95$Lake)
-CI95$Lake[CI95$Lake == "5 Island"] <- "Five Island"
-CI95$Lake<-as.factor(CI95$Lake)
-CI95$Month<- ordered(CI95$Month, levels = c("May","June","July","August",
-                                            "September","October","November"))
-
-
-
-
-
-CI95.plot<-ggplot(CI95, aes(x=Month, y=Mean))+
-  geom_jitter(aes(shape = Lake, colour = Lake),
-              size=5, width = 0.25)+
-  scale_shape_manual(values = c(0,1,2,3,4,6,8))+
-  theme_bw()+
-  theme(panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(),
-        panel.background = element_rect(fill="white",colour="grey50"), 
-        axis.line = element_line(colour = "black"),
-        legend.position = "bottom",
-        legend.title = element_text(size=12,face="bold"))+
-  facet_grid(Species ~ . , scales = "free_y")+
-  labs(x=NULL,
-       y="Mean Electrofishing CPUE (# fish / hour)",
-       title = NULL)
-
-CI95.plot
-
-
-# trying now with DF instead of computed means. get an idea of distribution
-str(DF)
-DF$Month<-as.character(DF$Month)
-DF$Month[DF$Month == "5"] <- "May"
-DF$Month[DF$Month == "6"] <- "June"
-DF$Month[DF$Month == "7"] <- "July"
-DF$Month[DF$Month == "8"] <- "August"
-DF$Month[DF$Month == "9"] <- "September"
-DF$Month[DF$Month == "10"] <- "October"
-DF$Month[DF$Month == "11"] <- "November"
-DF$Month<-as.factor(DF$Month)
-DF$Lake<-as.character(DF$Lake)
-DF$Lake[DF$Lake == "5 Island"] <- "Five Island"
-DF$Lake<-as.factor(DF$Lake)
-DF$Species<-as.character(DF$Species)
-DF$Species[DF$Species == "COC"] <- "Common Carp"
-DF$Species[DF$Species == "BIB"] <- "Bigmouth Buffalo"
-DF$Species<-as.factor(DF$Species)
-DF$Month<- ordered(DF$Month, levels = c("May","June","July","August",
-                                            "September","October","November"))
-str(DF)
-
-DF.boxplot<-ggplot(DF, aes(x=Lake, y=cpue))+
-  geom_boxplot(aes(fill = Lake),
-               stat = "boxplot",
-               position = "dodge2")+
-  scale_fill_brewer(palette = "Greens")+
-  theme(panel.grid.major = element_blank(), 
-        panel.grid.minor = element_blank(),
-        panel.background = element_rect(fill="white",colour="grey50"), 
-        axis.line = element_line(colour = "black"),
-        legend.position = c(0.5,0.4),
-        legend.title = element_blank(),
-        legend.direction = "horizontal",
-        legend.key.width = unit(0.5,"cm"),
-        legend.background = element_rect(fill = "white", colour ="black"),
-        axis.text.x = element_blank())+
-  labs(y = "Mean Electrofishing CPUE (Number of fish / Hour)")+
-  guides(fill = guide_legend(nrow=1))+
-  facet_grid(Species~Month, scales = "free_y")
-DF.boxplot
-
-# split by lake, and using entire df for more accurate distribution
-
-DF.plot<-ggplot(DF, aes(x=Month, y=cpue))+
-  geom_boxplot(aes(colour = Species),
-              size=1)+
-  theme_bw()+
-  theme(legend.position = c(.9,.9),
-        legend.title = element_text(size=12,face="bold"))+
-    facet_grid(Lake ~ .)
-
-
-DF.plot
-
-# try again without blue
-DF2<-subset(DF, Lake != "Blue")
-
-DF2.plot<-ggplot(DF2, aes(x=Month, y=cpue))+
-  geom_boxplot(aes(colour = Species),
-              size=1)+
-  theme_bw()+
-  theme(legend.position = c(.9,.9),
-        legend.title = element_text(size=12,face="bold"))+
-    facet_grid(Lake ~ .)
-
-
-DF2.plot
-```
-
-- come back to these. show MJW and ask. 
-
-
-
-
+# Figure 6
 (2) stacked plots with each month as a panel in one column, biomass density on x axis and CPUE in the multiple y-axes. side by side for each species first but maybe also split by STD and Run-n-Gun within each species.  
-
-```{r}
-
-
-```
 
 - plots
 -- x axis: biomass density in lbs/acre
@@ -1193,178 +1095,172 @@ __leaving in the blue lake may observation of cpue__ because data is data and le
 
 ```{r}
 # front matter
-DF<-read.csv("2018 Raw CPUE Data.csv",header=T)
-str(DF)
-DF<-DF[,-1]
-DF[,1]<-as.factor(as.character(DF[,1]))
-DF[,2]<-as.factor(DF[,2])
-DF[,3]<-as.factor(as.character(DF[,3]))
-DF$n<-as.numeric(DF$n)
-levels(DF$Lake)
+##################################### Now add 2019 biomass density estimates from length specific weight
+BM<-read.csv("2019_BiomassDensityEstimates.csv",header = T)
+BM<-BM[,-1]
+levels(BM$Lake)
+
+str(cpue)
+
+cpue$Month<-factor(format(cpue$Date, "%m"))
+DF2019<-groupwiseMean(CPUE~Lake+Month+Species,cpue)
+warnings()
+DF2019<-droplevels(subset(DF2019, Species == "COC" |
+                                  Species == "BIB"))
 
 
-DF2018<-groupwiseMean(cpue ~ Lake + Species + Month,
-                    data = DF,
-                    conf = 0.95,
-                    digits = 3)
-
-# loading in data frame
-denframe<-read.csv("2018_BiomassDensityEstimates.csv",header=T)
-denframe[,1]<-factor(c("Blue","Center","5 Island","N. Twin","Silver","S. Twin","Storm"))
-head(denframe)
-str(denframe)
-
-# CarpBiomass - avg from 2018 length specific biomass density estimates (IN POUNDS)
-BM<-denframe
-colnames(BM)[1] <- "Lake"
-
-# adding carp
-BM$CarpN <- c(72140,6466,25798,3816,9755,20661,9251) # est carp abundance for 7 lakes as of 12/18/2018
-
-# Buff pop estimates
-BM$BuffN<- c(NA,3530,2300,18776,12486,34278,13724)
+DF2019$Lake<-as.character(DF2019$Lake)
+DF2019$Lake[DF2019$Lake == "5 Island"]<-"Five Island"
+DF2019$Lake<-as.factor(DF2019$Lake)
 
 
-# step 1 add biomass density with density limits
-# probably using Merge?
-head(BM)
-head(DF2018)
-# meh I'll just subset rather than wrangle another function
 #                     lower biomass density limit - carp
-DF2018$L.BMD[DF2018$Lake == "Blue" &
-             DF2018$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "Blue"]
-DF2018$L.BMD[DF2018$Lake == "5 Island" &
-             DF2018$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "5 Island"]
-DF2018$L.BMD[DF2018$Lake == "Center" &
-             DF2018$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "Center"]
-DF2018$L.BMD[DF2018$Lake == "N. Twin" &
-             DF2018$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "N. Twin"]
-DF2018$L.BMD[DF2018$Lake == "Silver" &
-             DF2018$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "Silver"]
-DF2018$L.BMD[DF2018$Lake == "S. Twin" &
-             DF2018$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "S. Twin"]
-DF2018$L.BMD[DF2018$Lake == "Storm" &
-             DF2018$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "Storm"]
+DF2019$L.BMD[DF2019$Lake == "Blue" &
+             DF2019$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "Blue"]
+DF2019$L.BMD[DF2019$Lake == "Five Island" &
+             DF2019$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "Five Island"]
+DF2019$L.BMD[DF2019$Lake == "Center" &
+             DF2019$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "Center"]
+DF2019$L.BMD[DF2019$Lake == "N Twin" &
+             DF2019$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "N Twin"]
+DF2019$L.BMD[DF2019$Lake == "Silver" &
+             DF2019$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "Silver"]
+DF2019$L.BMD[DF2019$Lake == "S Twin" &
+             DF2019$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "S Twin"]
+DF2019$L.BMD[DF2019$Lake == "Storm" &
+             DF2019$Species == "COC"] <-BM$C.L.BMDensity[BM$Lake == "Storm"]
                                                      
 
 #                     biomass density estimate - carp
-DF2018$BMD[DF2018$Lake == "Blue" &
-             DF2018$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "Blue"]
-DF2018$BMD[DF2018$Lake == "5 Island" &
-             DF2018$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "5 Island"]
-DF2018$BMD[DF2018$Lake == "Center" &
-             DF2018$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "Center"]
-DF2018$BMD[DF2018$Lake == "N. Twin" &
-             DF2018$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "N. Twin"]
-DF2018$BMD[DF2018$Lake == "Silver" &
-             DF2018$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "Silver"]
-DF2018$BMD[DF2018$Lake == "S. Twin" &
-             DF2018$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "S. Twin"]
-DF2018$BMD[DF2018$Lake == "Storm" &
-             DF2018$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "Storm"]
+DF2019$BMD[DF2019$Lake == "Blue" &
+             DF2019$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "Blue"]
+DF2019$BMD[DF2019$Lake == "Five Island" &
+             DF2019$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "Five Island"]
+DF2019$BMD[DF2019$Lake == "Center" &
+             DF2019$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "Center"]
+DF2019$BMD[DF2019$Lake == "N Twin" &
+             DF2019$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "N Twin"]
+DF2019$BMD[DF2019$Lake == "Silver" &
+             DF2019$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "Silver"]
+DF2019$BMD[DF2019$Lake == "S Twin" &
+             DF2019$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "S Twin"]
+DF2019$BMD[DF2019$Lake == "Storm" &
+             DF2019$Species == "COC"] <-BM$C.BMDensity[BM$Lake == "Storm"]
 
 
 #                     upper biomass density estimate - carp
-DF2018$U.BMD[DF2018$Lake == "Blue" &
-             DF2018$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "Blue"]
-DF2018$U.BMD[DF2018$Lake == "5 Island" &
-             DF2018$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "5 Island"]
-DF2018$U.BMD[DF2018$Lake == "Center" &
-             DF2018$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "Center"]
-DF2018$U.BMD[DF2018$Lake == "N. Twin" &
-             DF2018$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "N. Twin"]
-DF2018$U.BMD[DF2018$Lake == "Silver" &
-             DF2018$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "Silver"]
-DF2018$U.BMD[DF2018$Lake == "S. Twin" &
-             DF2018$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "S. Twin"]
-DF2018$U.BMD[DF2018$Lake == "Storm" &
-             DF2018$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "Storm"]
+DF2019$U.BMD[DF2019$Lake == "Blue" &
+             DF2019$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "Blue"]
+DF2019$U.BMD[DF2019$Lake == "Five Island" &
+             DF2019$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "Five Island"]
+DF2019$U.BMD[DF2019$Lake == "Center" &
+             DF2019$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "Center"]
+DF2019$U.BMD[DF2019$Lake == "N Twin" &
+             DF2019$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "N Twin"]
+DF2019$U.BMD[DF2019$Lake == "Silver" &
+             DF2019$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "Silver"]
+DF2019$U.BMD[DF2019$Lake == "S Twin" &
+             DF2019$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "S Twin"]
+DF2019$U.BMD[DF2019$Lake == "Storm" &
+             DF2019$Species == "COC"] <-BM$C.U.BMDensity[BM$Lake == "Storm"]
 
 ############################################################################
 #                     lower biomass density limit - BUFFALO
-DF2018$L.BMD[DF2018$Lake == "Blue" &
-             DF2018$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "Blue"]
-DF2018$L.BMD[DF2018$Lake == "5 Island" &
-             DF2018$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "5 Island"]
-DF2018$L.BMD[DF2018$Lake == "Center" &
-             DF2018$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "Center"]
-DF2018$L.BMD[DF2018$Lake == "N. Twin" &
-             DF2018$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "N. Twin"]
-DF2018$L.BMD[DF2018$Lake == "Silver" &
-             DF2018$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "Silver"]
-DF2018$L.BMD[DF2018$Lake == "S. Twin" &
-             DF2018$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "S. Twin"]
-DF2018$L.BMD[DF2018$Lake == "Storm" &
-             DF2018$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "Storm"]
+DF2019$L.BMD[DF2019$Lake == "Blue" &
+             DF2019$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "Blue"]
+DF2019$L.BMD[DF2019$Lake == "Five Island" &
+             DF2019$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "Five Island"]
+DF2019$L.BMD[DF2019$Lake == "Center" &
+             DF2019$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "Center"]
+DF2019$L.BMD[DF2019$Lake == "N Twin" &
+             DF2019$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "N Twin"]
+DF2019$L.BMD[DF2019$Lake == "Silver" &
+             DF2019$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "Silver"]
+DF2019$L.BMD[DF2019$Lake == "S Twin" &
+             DF2019$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "S Twin"]
+DF2019$L.BMD[DF2019$Lake == "Storm" &
+             DF2019$Species == "BIB"] <-BM$B.L.BMDensity[BM$Lake == "Storm"]
                                                      
 
 #                     biomass density estimate - BUFFALO
-DF2018$BMD[DF2018$Lake == "Blue" &
-             DF2018$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "Blue"]
-DF2018$BMD[DF2018$Lake == "5 Island" &
-             DF2018$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "5 Island"]
-DF2018$BMD[DF2018$Lake == "Center" &
-             DF2018$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "Center"]
-DF2018$BMD[DF2018$Lake == "N. Twin" &
-             DF2018$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "N. Twin"]
-DF2018$BMD[DF2018$Lake == "Silver" &
-             DF2018$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "Silver"]
-DF2018$BMD[DF2018$Lake == "S. Twin" &
-             DF2018$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "S. Twin"]
-DF2018$BMD[DF2018$Lake == "Storm" &
-             DF2018$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "Storm"]
+DF2019$BMD[DF2019$Lake == "Blue" &
+             DF2019$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "Blue"]
+DF2019$BMD[DF2019$Lake == "Five Island" &
+             DF2019$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "Five Island"]
+DF2019$BMD[DF2019$Lake == "Center" &
+             DF2019$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "Center"]
+DF2019$BMD[DF2019$Lake == "N Twin" &
+             DF2019$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "N Twin"]
+DF2019$BMD[DF2019$Lake == "Silver" &
+             DF2019$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "Silver"]
+DF2019$BMD[DF2019$Lake == "S Twin" &
+             DF2019$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "S Twin"]
+DF2019$BMD[DF2019$Lake == "Storm" &
+             DF2019$Species == "BIB"] <-BM$B.BMDensity[BM$Lake == "Storm"]
 
 
 #                     upper biomass density estimate - BUFFALO
-DF2018$U.BMD[DF2018$Lake == "Blue" &
-             DF2018$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "Blue"]
-DF2018$U.BMD[DF2018$Lake == "5 Island" &
-             DF2018$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "5 Island"]
-DF2018$U.BMD[DF2018$Lake == "Center" &
-             DF2018$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "Center"]
-DF2018$U.BMD[DF2018$Lake == "N. Twin" &
-             DF2018$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "N. Twin"]
-DF2018$U.BMD[DF2018$Lake == "Silver" &
-             DF2018$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "Silver"]
-DF2018$U.BMD[DF2018$Lake == "S. Twin" &
-             DF2018$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "S. Twin"]
-DF2018$U.BMD[DF2018$Lake == "Storm" &
-             DF2018$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "Storm"]
+DF2019$U.BMD[DF2019$Lake == "Blue" &
+             DF2019$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "Blue"]
+DF2019$U.BMD[DF2019$Lake == "Five Island" &
+             DF2019$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "Five Island"]
+DF2019$U.BMD[DF2019$Lake == "Center" &
+             DF2019$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "Center"]
+DF2019$U.BMD[DF2019$Lake == "N Twin" &
+             DF2019$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "N Twin"]
+DF2019$U.BMD[DF2019$Lake == "Silver" &
+             DF2019$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "Silver"]
+DF2019$U.BMD[DF2019$Lake == "S Twin" &
+             DF2019$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "S Twin"]
+DF2019$U.BMD[DF2019$Lake == "Storm" &
+             DF2019$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "Storm"]
 
-DF2018$Lake<-as.character(DF2018$Lake)
-DF2018$Lake[DF2018$Lake == "5 Island"]<-"Five Island"
-DF2018$Lake<-as.factor(DF2018$Lake)
+DF2019<-DF2019[,-c(4,6)] # removing sample size for mean and confidence level
+DF2019$Year<-as.factor("2019")
+
+DF2019$Species<-as.character(DF2019$Species)
+DF2019$Species[DF2019$Species == "BIB"]<- "Bigmouth Buffalo"
+DF2019$Species[DF2019$Species == "COC"]<- "Common Carp"
+DF2019$Species<-as.factor(DF2019$Species)
+
+summary(DF2019)
 
 
-DF2018$Month<-as.character(DF2018$Month)
-DF2018$Month[DF2018$Month == "5"] <- "May"
-DF2018$Month[DF2018$Month == "6"] <- "June"
-DF2018$Month[DF2018$Month == "7"] <- "July"
-DF2018$Month[DF2018$Month == "8"] <- "August"
-DF2018$Month[DF2018$Month == "9"] <- "September"
-DF2018$Month[DF2018$Month == "10"] <- "October"
-DF2018$Month[DF2018$Month == "11"] <- "November"
-DF2018$Month<-as.factor(DF2018$Month)
-DF2018$Lake<-as.character(DF2018$Lake)
-DF2018$Lake[DF2018$Lake == "5 Island"] <- "Five Island"
-DF2018$Lake<-as.factor(DF2018$Lake)
-DF2018$Month<- ordered(DF2018$Month, levels = c("May","June","July","August",
+str(DF2019) # # have to figure out how to do this appropriately. Why do I have uneven carp/buff runs....
+
+
+
+
+
+DF2019$Month<-as.character(DF2019$Month)
+DF2019$Month[DF2019$Month == "5"] <- "May"
+DF2019$Month[DF2019$Month == "6"] <- "June"
+DF2019$Month[DF2019$Month == "7"] <- "July"
+DF2019$Month[DF2019$Month == "8"] <- "August"
+DF2019$Month[DF2019$Month == "9"] <- "September"
+DF2019$Month[DF2019$Month == "10"] <- "October"
+DF2019$Month[DF2019$Month == "11"] <- "November"
+DF2019$Month<-as.factor(DF2019$Month)
+DF2019$Lake<-as.character(DF2019$Lake)
+DF2019$Lake[DF2019$Lake == "5 Island"] <- "Five Island"
+DF2019$Lake<-as.factor(DF2019$Lake)
+DF2019$Month<- ordered(DF2019$Month, levels = c("May","June","July","August",
                                             "September","October","November"))
 
 
-head(DF2018)
+head(DF2019)
 
 
-levels(DF2018$Species)
-DF2018$Species<-as.character((DF2018$Species))
-DF2018$Species[DF2018$Species == "BIB"]<-"Bigmouth Buffalo"
-DF2018$Species[DF2018$Species == "COC"]<-"Common Carp"
-DF2018$Species<-as.factor(DF2018$Species)
+levels(DF2019$Species)
+DF2019$Species<-as.character((DF2019$Species))
+DF2019$Species[DF2019$Species == "BIB"]<-"Bigmouth Buffalo"
+DF2019$Species[DF2019$Species == "COC"]<-"Common Carp"
+DF2019$Species<-as.factor(DF2019$Species)
 
 
 
 
-BMD.plot<-ggplot(DF2018, aes(x= BMD,y=Mean))+
+BMD.plot<-ggplot(DF2019, aes(x= BMD,y=Mean))+
                   geom_point(aes(shape = Lake),size=2)+
                   scale_shape_manual(values = c(0,1,2,3,4,6,8))+
                   facet_grid(Month~Species)+
@@ -1395,9 +1291,9 @@ BMD.plot
 # gonna split by species then use grid.arrange to put them together.
 
 # didn't work how I wanted :(
-DF2018.b<-droplevels(subset(DF2018, Species == "Bigmouth Buffalo"))
+DF2019.b<-droplevels(subset(DF2019, Species == "Bigmouth Buffalo"))
 
-BMD.plot.b<-ggplot(DF2018.b, aes(x= BMD,y=Mean))+
+BMD.plot.b<-ggplot(DF2019.b, aes(x= BMD,y=Mean))+
                   geom_point(aes(shape = Lake),size=2)+
                   scale_shape_manual(values = c(1,2,3,4,6,8))+
                   facet_grid(Month~.)+
@@ -1419,8 +1315,8 @@ BMD.plot.b<-ggplot(DF2018.b, aes(x= BMD,y=Mean))+
 BMD.plot.b
 
 
-DF2018.c<-droplevels(subset(DF2018, Species == "Common Carp"))
-BMD.plot.c<-ggplot(DF2018.c, aes(x= BMD,y=Mean))+
+DF2019.c<-droplevels(subset(DF2019, Species == "Common Carp"))
+BMD.plot.c<-ggplot(DF2019.c, aes(x= BMD,y=Mean))+
                   geom_point(aes(shape = Lake),size=2)+
                   scale_shape_manual(values = c(0,1,2,3,4,6,8))+
                   facet_grid(Month~.)+

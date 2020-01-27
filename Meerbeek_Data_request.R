@@ -1,5 +1,7 @@
 # meerbeek data request January 23, 2020
-library(rcompanion)
+
+rm(list=ls())
+
 df<-read.csv("2017-2020 Compiled Data.csv")
 str(df)
 
@@ -11,8 +13,9 @@ df<-droplevels(subset(df, Species == "COC" |
 # Only electrofishing
 levels(df$Gear)
 df2<-droplevels(subset(df, Gear == "Electroshocking"))
+
 # August - October only
-df2$Date<-as.Date(df2$Date, "%Y-%m-%d")
+df2$Date<-as.Date(df2$Date, "%m/%d/%Y")
 str(df2$Date)
 df2$Month<-factor(format(df2$Date, "%m"))
 df2<-droplevels(subset(df2, Month == "08" |
@@ -36,14 +39,7 @@ str(df2)
 groupwiseMean(Weight..g.~Lake + Year,
               data = df2)
 
-# checking to see the most weights we can get:
 
-df3<-droplevels(subset(df, Month == "06" |
-                           Month == "07" |
-                           Month == "08" |
-                           Month == "09" |
-                           Month == "10"))
-groupwiseMean(Weight..g.~Lake + Year, data = df3)
 ###################################
 # Jonathan meerbeek says using the L-W regression from spring weights on lengths of fall fish is OK
 ###################################
@@ -339,13 +335,19 @@ average.est.19<-mean(est.19, na.rm = T)
 library(reshape2)
 str(df2$On.Time..s.)
 df2$On.Time..s.<-as.numeric(df2$On.Time..s.)
-catch.df<-dcast(df2, Lake+Year+Site.Transect+On.Time..s.+Species~ detect)
+catch.df<-dcast(df2, Date+Lake+Year+Site.Transect+On.Time..s.+Species~ detect)
 
 # good so far.
 # Need to add 0 catches from 2018 ('dummy' species represents 0 catches in 2019)
 ## none for blue lake or five island. Other five lakes are here:
-
+catch.df$Year<-as.factor(catch.df$Year)
 str(catch.df)
+catch.df$`1`[catch.df$Species == "dummy"]<-0
+catch.df$Species[catch.df$Species == "dummy"]<-"COC"
+#delete date column
+catch.df<-droplevels(catch.df[,-1])
+str(catch.df)
+
 #center lake
 a<-c("Center","2018","Std 1",1003,"COC",0)
 b<-c("Center","2018","Std 4",870,"COC",0)
@@ -395,7 +397,7 @@ str(add.on)
 cpue.df<-rbind(catch.df,add.on)
 
 cpue.df$CPUE<-cpue.df$`1`/(cpue.df$On.Time..s./3600)
-
+str(cpue.df)
 groupwiseMean(CPUE~ Lake+Year,
               cpue.df)
 # looking good, son!
