@@ -1,0 +1,188 @@
+
+   Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Mar 2018     3-Oct-2019 16:01:26    Page  001
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+   This version was compiled by GCC version 7.2.0 using the options: 
+     -cpp -iprefix C:/Program Files/mingw-w64/x86_64-7.2.0-posix-seh-rt_v5-rev1/
+     mingw64/bin/../lib/gcc/x86_64-w64-mingw32/7.2.0/ -D_MT -D_REENTRANT
+     -U_REENTRANT -D IEEE -D DBLEPRECISION -m64 -mtune=core2 -march=nocona -mthreads
+     -O2 -fimplicit-none -fbounds-check -funroll-loops -ftree-vectorize
+     -ffpe-summary=invalid,zero,overflow,underflow -fno-unsafe-math-optimizations
+     -frounding-math -fsignaling-nans -fopenmp.
+
+   This problem will use 3 of 4 possible threads.
+
+
+  INPUT --- proc title ;
+
+   CPU Time for the last procedure was 0.01 seconds.     
+
+
+  INPUT --- proc chmatrix occasions= 6 groups= 2 etype= Closed Nodes= 
+  INPUT --- 101 ICMeans NoHist hist= 30  ;
+
+  INPUT ---    time interval 1 1 1 1 1 ;
+
+  INPUT ---    glabel(1)=sexf;
+
+  INPUT ---    glabel(2)=sexm;
+
+   * *  WARNING  * *   At least a pair of the encounter histories are duplicates. 
+
+      Number of unique encounter histories read was 24.
+
+      Number of individual covariates read was 0.
+      Time interval lengths are all equal to 1.
+
+      Data type number is 5
+      Data type is Full Likelihhood p and c                                                                            
+
+   CPU Time for the last procedure was 0.01 seconds.     
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Mar 2018     3-Oct-2019 16:01:26    Page  002
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+
+
+  INPUT --- proc estimate link=Parm-Specific NOLOOP varest=2ndPart    ;
+
+
+  INPUT --- model={ p(~-1 + sex)c(~1)f0(~-1 + sex) };
+
+  INPUT ---    group=1 p    rows=1 cols=6 Square ;
+  INPUT ---        1 1 1 1 1 1 ;
+
+  INPUT ---    group=2 p    rows=1 cols=6 Square ;
+  INPUT ---        2 2 2 2 2 2 ;
+
+  INPUT ---    group=1 c    rows=1 cols=5 Square ;
+  INPUT ---        3 3 3 3 3 ;
+
+  INPUT ---    group=2 c    rows=1 cols=5 Square ;
+  INPUT ---        3 3 3 3 3 ;
+
+  INPUT ---    group=1 f0    rows=1 cols=1 Square ;
+  INPUT ---        4 ;
+
+  INPUT ---    group=2 f0    rows=1 cols=1 Square ;
+  INPUT ---        5 ;
+
+  INPUT ---    design matrix constraints=5 covariates=5 identity;
+
+  INPUT ---    links=5;
+
+  INPUT ---    Logit;
+
+  INPUT ---    Logit;
+
+  INPUT ---    Logit;
+
+  INPUT ---    Log;
+
+  INPUT ---    Log;
+  INPUT ---       blabel(1)=p:sexf;
+  INPUT ---       blabel(2)=p:sexm;
+  INPUT ---       blabel(3)=c:(Intercept);
+  INPUT ---       blabel(4)=f0:sexf;
+  INPUT ---       blabel(5)=f0:sexm;
+  INPUT ---       rlabel(1)=p gf t1;
+  INPUT ---       rlabel(2)=p gm t1;
+  INPUT ---       rlabel(3)=c gf t2;
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Mar 2018     3-Oct-2019 16:01:26    Page  003
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+  INPUT ---       rlabel(4)=f0 gf a0 t1;
+  INPUT ---       rlabel(5)=f0 gm a0 t1;
+
+ Link Function Used is PARM-SPECIFIC
+
+ Variance Estimation Procedure Used is 2ndPart 
+
+ M(t+1):
+      20     18
+
+
+ -2logL(saturated) = 44.239841     
+ Effective Sample Size = 228
+
+ Number of function evaluations was 18 for 5 parameters.
+ Time for numerical optimization was 0.01 seconds.     
+ -2logL { p(~-1 + sex)c(~1)f0(~-1 + sex) } = 147.69090     
+ Penalty { p(~-1 + sex)c(~1)f0(~-1 + sex) } = 0.0000000     
+ Gradient { p(~-1 + sex)c(~1)f0(~-1 + sex) }:
+  0.2308495E-05 -0.4067697E-05   0.000000      0.3151537E-05 -0.9161062E-06
+ Maximum ABS(G) { p(~-1 + sex)c(~1)f0(~-1 + sex) } = 0.4067697E-05 
+ S Vector { p(~-1 + sex)c(~1)f0(~-1 + sex) }:
+   31.82089      13.65113      10.86682     0.2864229     0.5756541E-01
+ Time to compute number of parameters was 0.02 seconds.     
+ Ratio Threshold = 50.000000       Max Gap (3/4) = 37.939764       Next Max Gap (4/5) = 4.9756066     
+ Gap Method for Num. of Estimated Parameters { p(~-1 + sex)c(~1)f0(~-1 + sex) } = 5          
+ Threshold { p(~-1 + sex)c(~1)f0(~-1 + sex) } = 0.8135395E-05                 
+ Numerical Threshold Method for Num. of Estimated Parameters { p(~-1 + sex)c(~1)f0(~-1 + sex) } = 5          
+ Number of Estimated Parameters { p(~-1 + sex)c(~1)f0(~-1 + sex) } = 5          
+ DEVIANCE { p(~-1 + sex)c(~1)f0(~-1 + sex) } = 103.45106                     
+ DEVIANCE Degrees of Freedom { p(~-1 + sex)c(~1)f0(~-1 + sex) } = 25            
+ c-hat { p(~-1 + sex)c(~1)f0(~-1 + sex) } = 4.1380423                     
+ AIC { p(~-1 + sex)c(~1)f0(~-1 + sex) } = 157.69090                  
+ AICc { p(~-1 + sex)c(~1)f0(~-1 + sex) } = 157.96117                    
+ BIC { p(~-1 + sex)c(~1)f0(~-1 + sex) } = 174.83763                    
+ Pearson Chisquare { p(~-1 + sex)c(~1)f0(~-1 + sex) } = 135.11061                  
+ Possible Encounter Histories { p(~-1 + sex)c(~1)f0(~-1 + sex) } = 126             
+ Pearson Chisquare df { p(~-1 + sex)c(~1)f0(~-1 + sex) } = 119        
+ Pearson chat { p(~-1 + sex)c(~1)f0(~-1 + sex) } = 1.1353833                  
+ Sum(Observed/Expected) { p(~-1 + sex)c(~1)f0(~-1 + sex) } = 128.63317                  
+ Fletcher chat { p(~-1 + sex)c(~1)f0(~-1 + sex) } = 1.1121416                  
+
+
+              PARM-SPECIFIC Link Function Parameters of { p(~-1 + sex)c(~1)f0(~-1 + sex) }
+                                                              95% Confidence Interval
+ Parameter                    Beta         Standard Error      Lower           Upper
+ -------------------------  --------------  --------------  --------------  --------------
+    1:p:sexf                -0.6524609       0.4484295      -1.5313827       0.2264610    
+    2:p:sexm                -0.4067039       0.4362119      -1.2616793       0.4482714    
+    3:c:(Intercept)          0.4554755       0.1772735       0.1080194       0.8029316    
+    4:f0:sexf                0.2104245       1.8339865      -3.3841892       3.8050381    
+    5:f0:sexm               -1.0820171       4.1561141      -9.2280009       7.0639667    
+
+
+              Real Function Parameters of { p(~-1 + sex)c(~1)f0(~-1 + sex) }
+                                                               95% Confidence Interval
+  Parameter                  Estimate       Standard Error      Lower           Upper
+ --------------------------  --------------  --------------  --------------  --------------
+     1:p gf t1                0.3424352       0.1009744       0.1777915       0.5563745                          
+     2:p gm t1                0.3997027       0.1046649       0.2206850       0.6102282                          
+     3:c gf t2                0.6119403       0.0420970       0.5269786       0.6906012                          
+     4:f0 gf a0 t1            1.2342019       2.2635096       0.1143381       13.322372                          
+     5:f0 gm a0 t1            0.3389112       1.4085537       0.0119993       9.5722843                          
+
+  Program  MARK  - Survival Rate Estimation with Capture-Recapture Data
+   gfortran(dble) Vers. 9.0 Mar 2018     3-Oct-2019 16:01:26    Page  004
+ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ 
+
+
+                     Estimates of Derived Parameters
+        Population Estimates of { p(~-1 + sex)c(~1)f0(~-1 + sex) }
+                                                95% Confidence Interval
+ Grp. Sess.     N-hat        Standard Error      Lower           Upper
+ ---- -----  --------------  --------------  --------------  --------------
+   1     1    21.234202       2.2635096       20.114338       33.322372    
+   2     1    18.338911       1.4085537       18.011999       27.572284    
+
+   CPU Time for the last procedure was 0.02 seconds.     
+
+
+  INPUT --- proc stop;
+
+     CPU Time in minutes for this job was 0.00
+
+     Time Start = 16:01:26.724   Time End = 16:01:26.882
+
+     Wall Clock Time in minutes for this job was 0.00
+
+
+          E X E C U T I O N   S U C C E S S F U L 
