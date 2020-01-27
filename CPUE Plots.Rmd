@@ -76,7 +76,7 @@ DF2017<-data.frame(Lakes,CarpBiomass,BuffBiomass,CarpBM.LL,CarpBM.UL,BuffBM.LL,B
 
 summary(DF2017)
 
-
+write.csv(DF2017, "2017/2017 Raw CPUE Data.csv",row.names = F)
 
 
 ```
