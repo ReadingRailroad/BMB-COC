@@ -5,39 +5,76 @@ rm(list=ls())
 df<-read.csv("2017-2020 Compiled Data.csv")
 str(df)
 
-# only carp
+# only carp and buffalo cpue
 df<-droplevels(subset(df, Species == "COC" |
-                          Species == "dummy"))
+                        Species == "BIB" |
+                        Species == "dummy"))
 
 
 # Only electrofishing
 levels(df$Gear)
 df2<-droplevels(subset(df, Gear == "Electroshocking"))
 
-# August - October only
+
+# only 2019
+df2$Year<-as.factor(df2$Year)
+df2<-droplevels(subset(df2, Year == "2019"))
+# New month column
 df2$Date<-as.Date(df2$Date, "%m/%d/%Y")
 str(df2$Date)
 df2$Month<-factor(format(df2$Date, "%m"))
+
+str(df2$On.Time..s.)
+df2$On.Time..s.<-as.numeric(df2$On.Time..s.)
+
 df2<-droplevels(subset(df2, Month == "08" |
-                          Month == "09" |
-                          Month == "10"))
+                         Month == "09" |
+                         Month == "10"))
 
 # standard runs only:
 levels(df2$Site.Transect)
 df2<-droplevels(subset(df2, Site.Transect == "Std 1" |
-                          Site.Transect == "Std 2" |
-                          Site.Transect == "Std 3" |
-                          Site.Transect == "Std 4" |
-                          Site.Transect == "Std 5" |
-                          Site.Transect == "Std 6" |
-                          Site.Transect == "Std 7" |
-                          Site.Transect == "Std 9"))
+                         Site.Transect == "Std 2" |
+                         Site.Transect == "Std 3" |
+                         Site.Transect == "Std 4" |
+                         Site.Transect == "Std 5" |
+                         Site.Transect == "Std 6" |
+                         Site.Transect == "Std 7" |
+                         Site.Transect == "Std 9"))
+
+# no longer need months
+df2<-df2[,-23]
+
+catch.df<-dcast(df2, Date+Lake+Site.Transect+On.Time..s. ~ Species + detect)
+
+# good so far.
+str(catch.df)
+
+#delete date column
+#catch.df<-droplevels(catch.df[,-1])
+#str(catch.df)
+
+# remove NA from on.time
+catch.df<-subset(catch.df, !is.na(catch.df$On.Time..s.))
 
 
-# average weight by lake and year
-str(df2)
-groupwiseMean(Weight..g.~Lake + Year,
-              data = df2)
+
+
+catch.df$`Common Carp CPUE`<-catch.df$COC_1/(catch.df$On.Time..s./3600)
+
+# clean up some labels
+catch.df$Lake<-as.character(catch.df$Lake)
+catch.df$Lake[catch.df$Lake == "5 Island"] <- "Five Island"
+catch.df$Lake<-droplevels(as.factor(catch.df$Lake))
+
+# Need to figure out how to melt again so there's a species column:
+# first, delete dummy column:
+catch.df<-catch.df[,-c(4:7)]
+# try to remove date
+catch.df<-catch.df[,-1]
+
+groupwiseMean(`Common Carp CPUE`~Lake,
+              catch.df)
 
 
 ###################################
@@ -328,8 +365,8 @@ average.est.19<-mean(est.19, na.rm = T)
 
 
 #######################################################################
-# average CPUE by lake and year
-# using df2 from above
+# average CPUE by lake and year 
+# using df2 from above ---------- not exactly, changed above 1/28/2020
 
 # need to aggregate data by lake and year, then also average catch per hour for all transects in that aggregation?
 library(reshape2)

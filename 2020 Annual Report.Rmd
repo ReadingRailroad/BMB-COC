@@ -10,7 +10,9 @@ editor_options:
 
 ```{r,include=FALSE}
 rm(list=ls())
+```
 
+```{r,}
 
 packages<-function(x, repos="http://cran.r-project.org", ...){
 x<-as.character(match.call()[[2]])
@@ -433,34 +435,67 @@ effort.cast<-dcast(effort.melt, Lake + Site.Transect+Date ~ ., mean,)
 
 ```
 
-### Mean CPUE
+### Mean CPUE - This is corrected as of 1/28/2019
+
 ```{r}
-# will use effort cast from above, but basically merge new column of catch inststead of on time
-dat.frame<-read.csv("2017-2020 Compiled Data.csv",header = T)
-dat.frame$Year<-as.factor(dat.frame$Year)
-dat.frame$Date<-as.Date(dat.frame$Date, "%m/%d/%Y")
-dat.frame$On.Time..s.<-as.numeric(dat.frame$On.Time..s.)
-str(dat.frame)
+df<-read.csv("2017-2020 Compiled Data.csv")
+str(df)
 
-dat.frame<-droplevels(subset(dat.frame, Gear == "Electroshocking"))
-dat.frame<-droplevels(subset(dat.frame, Year == "2019"))
-dat.frame<-droplevels(subset(dat.frame, !is.na(dat.frame$On.Time..s.)))
-dat.frame<-droplevels(subset(dat.frame, Species == "COC" |
-                                        Species == "BIB" |
-                                        Species == "dummy"))
-effort.melt<-melt(dat.frame, id.var = c("Lake","Site.Transect","Date","Species"),
-              measure.vars = "On.Time..s.")
-effort.cast<-dcast(effort.melt, Lake + Site.Transect + Date + Species ~ ., mean,)
-catch.melt<-melt(dat.frame, id.var = c("Lake","Site.Transect","Date","Species"),
-              measure.vars = "detect")
-catch.cast<-dcast(catch.melt, Lake + Site.Transect + Date + Species ~ ., sum)
+# only carp and buffalo cpue
+df<-droplevels(subset(df, Species == "COC" |
+                          Species == "BIB" |
+                          Species == "dummy"))
 
-cpue<-cbind(effort.cast,catch.cast$.)
 
-cpue$hours<-cpue$./3600
+# Only electrofishing
+levels(df$Gear)
+df2<-droplevels(subset(df, Gear == "Electroshocking"))
 
-cpue$CPUE<-cpue$`catch.cast$.`/cpue$hours
-groupwiseMean(CPUE~Lake+Species,cpue)
+
+# only 2019
+df2$Year<-as.factor(df2$Year)
+df2<-droplevels(subset(df2, Year == "2019"))
+# New month column
+df2$Date<-as.Date(df2$Date, "%m/%d/%Y")
+str(df2$Date)
+df2$Month<-factor(format(df2$Date, "%m"))
+
+str(df2$On.Time..s.)
+df2$On.Time..s.<-as.numeric(df2$On.Time..s.)
+catch.df<-dcast(df2, Date+Lake+Site.Transect+On.Time..s. ~ Species + detect)
+
+# good so far.
+str(catch.df)
+
+#delete date column
+#catch.df<-droplevels(catch.df[,-1])
+#str(catch.df)
+
+# remove NA from on.time
+catch.df<-subset(catch.df, !is.na(catch.df$On.Time..s.))
+
+
+
+
+catch.df$`Bigmouth Buffalo CPUE`<-catch.df$BIB_1/(catch.df$On.Time..s./3600)
+catch.df$`Common Carp CPUE`<-catch.df$COC_1/(catch.df$On.Time..s./3600)
+
+# clean up some labels
+catch.df$Lake<-as.character(catch.df$Lake)
+catch.df$Lake[catch.df$Lake == "5 Island"] <- "Five Island"
+catch.df$Lake<-droplevels(as.factor(catch.df$Lake))
+
+# Need to figure out how to melt again so there's a species column:
+# first, delete dummy column:
+catch.df<-catch.df[,-c(4:7)]
+# try to remove date
+catch.df<-catch.df[,-1]
+# try to melt that frame
+catch.df.m<-melt(catch.df)
+
+groupwiseMean(value~variable+Lake,
+              catch.df.m)
+
 ```
 
 
@@ -620,53 +655,38 @@ df2$Month<-factor(format(df2$Date, "%m"))
 
 str(df2$On.Time..s.)
 df2$On.Time..s.<-as.numeric(df2$On.Time..s.)
-catch.df<-dcast(df2, Date+Lake+Month+Site.Transect+On.Time..s.+Species~ detect)
+catch.df<-dcast(df2, Date+Lake+Month+Site.Transect+On.Time..s. ~ Species + detect)
 
 # good so far.
 str(catch.df)
 
 #delete date column
-catch.df<-droplevels(catch.df[,-1])
-str(catch.df)
+#catch.df<-droplevels(catch.df[,-1])
+#str(catch.df)
 
 # remove NA from on.time
 catch.df<-subset(catch.df, !is.na(catch.df$On.Time..s.))
 
 
-# how to handle 'dummy' variables??
-# here's a hack at it:::::
-    # gonna subset all dummy to a new df, set those species names to bib
-dummy.df<-droplevels(subset(catch.df, Species == "dummy"))
-dummy.df$`1`[dummy.df$Species == "dummy"]<-0
-dummy.df<-droplevels(subset(dummy.df, Lake != "Blue")) # no blue buffalo
-dummy.df$Species<-as.character(dummy.df$Species)
-dummy.df$Species[dummy.df$Species == "dummy"]<-"BIB"
-    # then take catch.df and set those dummy species to coc
-catch.df$`1`[catch.df$Species == "dummy"] <- 0
-catch.df$Species<-as.character(catch.df$Species)
-catch.df$Species[catch.df$Species == "dummy"]<-"COC"
-    # then rbind the bib dataset to catch.df
-catch.df<-rbind(catch.df,dummy.df)
-
-# potential problem with the cast function!!
 
 
-
-catch.df$CPUE<-catch.df$`1`/(catch.df$On.Time..s./3600)
+catch.df$`Bigmouth Buffalo CPUE`<-catch.df$BIB_1/(catch.df$On.Time..s./3600)
+catch.df$`Common Carp CPUE`<-catch.df$COC_1/(catch.df$On.Time..s./3600)
 
 # clean up some labels
-catch.df$Species[catch.df$Species == "COC"] <-"Common Carp"
-catch.df$Species[catch.df$Species == "BIB"] <-"Bigmouth Buffalo"
-catch.df$Species<-droplevels(as.factor(catch.df$Species))
-#
 catch.df$Lake<-as.character(catch.df$Lake)
 catch.df$Lake[catch.df$Lake == "5 Island"] <- "Five Island"
 catch.df$Lake<-droplevels(as.factor(catch.df$Lake))
 
+# Need to figure out how to melt again so there's a species column:
+# first, delete dummy column:
+catch.df<-catch.df[,-c(5:8)]
+# try to remove date
+catch.df<-catch.df[,-1]
+# try to melt that frame
+catch.df.m<-melt(catch.df)
 
-
-
-DF.boxplot<-ggplot(catch.df, aes(x=Month, y=CPUE))+
+DF.boxplot<-ggplot(catch.df.m, aes(x=Month, y=value))+
   geom_boxplot(aes(fill = Lake),
                stat = "boxplot",
                position = "dodge2")+
@@ -676,11 +696,12 @@ DF.boxplot<-ggplot(catch.df, aes(x=Month, y=CPUE))+
         panel.background = element_rect(fill="white",colour="grey50"), 
         axis.line = element_line(colour = "black"),
         legend.position = "none")+
-  labs(y = "Mean Electrofishing CPUE (Number of fish / Hour)")+
+  labs(y = "Electrofishing CPUE (Number of fish / Hour)")+
   guides(fill = guide_legend(nrow=1))+
-  facet_grid(Species~Lake, scales = "free")
+  facet_grid(variable~Lake, scales = "free")
 DF.boxplot
 ```
+
 
 
 
@@ -705,10 +726,8 @@ __Update 2/24/2019__ need to add 2017 data as well.
 # front matter
 DF<-read.csv("2018/2018 Raw CPUE Data.csv",header=T)
 str(DF)
-DF<-DF[,-1]
-DF[,1]<-as.factor(as.character(DF[,1]))
-DF[,2]<-as.factor(DF[,2])
-DF[,3]<-as.factor(as.character(DF[,3]))
+DF[,3]<-as.factor(DF[,3])
+DF[,4]<-as.factor(as.character(DF[,4]))
 DF$n<-as.numeric(DF$n)
 levels(DF$Lake)
 DF$Lake<-as.character(DF$Lake)
@@ -717,10 +736,6 @@ DF$Lake[DF$Lake == "S. Twin"] <- "S Twin"
 DF$Lake[DF$Lake == "5 Island"]<- "Five Island"
 DF$Lake<-droplevels(as.factor(DF$Lake))
 
-DF2019<-groupwiseMean(cpue ~ Lake + Species,
-                    data = DF,
-                    conf = 0.95,
-                    digits = 3)
 
 # loading in data frame
 denframe<-read.csv("2018_BiomassDensityEstimates.csv",header=T)
@@ -731,7 +746,7 @@ str(denframe)
 # CarpBiomass - avg from 2018 length specific biomass density estimates (IN POUNDS)
 BM<-denframe
 colnames(BM)[1] <- "Lake"
-
+BM<-BM[,-2]
 # adding carp
 BM$CarpN <- c(25662,1452,19739,2487,9175,14896,15468) # est carp abundance for 7 lakes as of 1/26/2020
 
@@ -742,7 +757,16 @@ BM$BuffN<- c(NA,3840,1303,20424,3767,11648,158)
 # step 1 add biomass density with density limits
 # probably using Merge?
 head(BM)
+head(DF)
+DF2018<-groupwiseMean(cpue~Lake+Species,
+                      DF)
+
+
+head(DF2017)
 head(DF2018)
+# delete n and conf level
+DF2018<-DF2018[,-c(3,5)]
+
 # meh I'll just subset rather than wrangle another function
 #                     lower biomass density limit - carp
 DF2018$L.BMD[DF2018$Lake == "Blue" &
@@ -866,7 +890,7 @@ DF2017$Year<-as.factor("2017")
 summary(DF2017)
 
 head(DF2018)
-DF2018<-DF2018[,-c(3,5)] # removing sample size for mean
+
 DF2018$Year<-as.factor("2018")
 summary(DF2018)
 
@@ -889,22 +913,38 @@ DF.17.18$Species<-as.factor(DF.17.18$Species)
 # BMD = biomass density estimate in lbs per acre
 # U.BMD = upper biomass density estimate
 #############################################
-DF.17.18
-str(DF.17.18)
 
 
+```
 
-
-
+# 2019 CPUE
+```{r,}
 ##################################### Now add 2019 biomass density estimates from length specific weight
 BM<-read.csv("2019_BiomassDensityEstimates.csv",header = T)
 BM<-BM[,-1]
 levels(BM$Lake)
 
+##### and cpue frame from figure 4
+cpue<-catch.df.m
 
-DF2019<-groupwiseMean(CPUE~Lake+Species,cpue)
-DF2019<-droplevels(subset(DF2019, Species == "COC" |
-                                  Species == "BIB"))
+summary(cpue)
+cpue$variable<-as.character(cpue$variable)
+cpue$variable[cpue$variable == "Bigmouth Buffalo CPUE"]<-"BIB"
+cpue$variable[cpue$variable == "Common Carp CPUE"]<-"COC"
+cpue$variable<-droplevels(as.factor(cpue$variable))
+colnames(cpue) <- c("Lake","Site.Transect","Species","CPUE")
+
+# now need to match DF.17.18 format
+str(DF.17.18)
+str(cpue)
+DF2019<-groupwiseMean(CPUE~Lake+Species,
+                      cpue)
+head(DF2019)
+# remove top row: buff in blue
+# remove column 3 (samples) and 5 (conf. level)
+DF2019<-DF2019[-1,-c(3,5)]
+str(DF2019)
+# then continue adding bm densities as normal
 
 #                     lower biomass density limit - carp
 DF2019$L.BMD[DF2019$Lake == "Blue" &
@@ -1007,7 +1047,6 @@ DF2019$U.BMD[DF2019$Lake == "S Twin" &
 DF2019$U.BMD[DF2019$Lake == "Storm" &
              DF2019$Species == "BIB"] <-BM$B.U.BMDensity[BM$Lake == "Storm"]
 
-DF2019<-DF2019[,-c(3,5)] # removing sample size for mean
 DF2019$Year<-as.factor("2019")
 
 DF2019$Species<-as.character(DF2019$Species)
@@ -1038,11 +1077,16 @@ Now to create 6 plots, with regression lines (YAY!)
 #
 # I think biomass density might be beneficial here
 
-# Regression lines imply lm() but we'll see........
+# quick regressions with species split
 
-mod<-lm(Mean ~ BMD + Year, data = DF.17.18.19)
-summary(mod)
-R2<-format(summary(mod)$r.squared,digits=3)
+DF.17.18.19.Carp<-droplevels(subset(DF.17.18.19, Species == "Common Carp"))
+DF.17.18.19.Buff<-droplevels(subset(DF.17.18.19, Species == "Bigmouth Buffalo"))
+
+mod.carp<-lm(Mean ~ BMD + Year, data = DF.17.18.19.Carp)
+summary(mod.carp)
+
+mod.buff<-lm(Mean ~ BMD + Year, data = DF.17.18.19.Buff)
+summary(mod.buff)
 
 max(DF.17.18.19$U.BMD)
 max(DF.17.18.19$Trad.upper)
@@ -1051,7 +1095,8 @@ max(DF.17.18.19$Trad.upper)
 #source_gist("524eade46135f6348140")
 #require(devtools)
 
-packages("ggpmisc")
+packages(ggpmisc)
+library(ggpmisc)
 CPUE.Plot<-ggplot(DF.17.18.19, aes(x=BMD, y=Mean, label = Lake)) +
                             geom_point(size=2) +
                             geom_errorbar(aes(ymax = Trad.upper, ymin = Trad.lower),width=20) +
@@ -1060,8 +1105,8 @@ CPUE.Plot<-ggplot(DF.17.18.19, aes(x=BMD, y=Mean, label = Lake)) +
                             labs(title = NULL,
                                   x = "Estimated Common Carp Biomass Density (lbs. / acre)",
                                   y = "Catch per Unit Effort (fish/hour)") +
-                            facet_grid(vars(Species),vars(Year),
-                                       scales = "fixed")+ 
+                            facet_grid(vars(Year),vars(Species),
+                                       scales = "free_y")+ 
                             theme(panel.grid.major = element_blank(), 
                                   panel.grid.minor = element_blank(),
                                   panel.background = element_rect(fill="white",colour="grey50"),
@@ -1100,18 +1145,72 @@ BM<-read.csv("2019_BiomassDensityEstimates.csv",header = T)
 BM<-BM[,-1]
 levels(BM$Lake)
 
-str(cpue)
+df<-read.csv("2017-2020 Compiled Data.csv")
+str(df)
 
-cpue$Month<-factor(format(cpue$Date, "%m"))
-DF2019<-groupwiseMean(CPUE~Lake+Month+Species,cpue)
-warnings()
-DF2019<-droplevels(subset(DF2019, Species == "COC" |
-                                  Species == "BIB"))
+# only carp and buffalo cpue
+df<-droplevels(subset(df, Species == "COC" |
+                          Species == "BIB" |
+                          Species == "dummy"))
 
 
-DF2019$Lake<-as.character(DF2019$Lake)
-DF2019$Lake[DF2019$Lake == "5 Island"]<-"Five Island"
-DF2019$Lake<-as.factor(DF2019$Lake)
+# Only electrofishing
+levels(df$Gear)
+df2<-droplevels(subset(df, Gear == "Electroshocking"))
+
+
+# only 2019
+df2$Year<-as.factor(df2$Year)
+df2<-droplevels(subset(df2, Year == "2019"))
+# New month column
+df2$Date<-as.Date(df2$Date, "%m/%d/%Y")
+str(df2$Date)
+df2$Month<-factor(format(df2$Date, "%m"))
+
+str(df2$On.Time..s.)
+df2$On.Time..s.<-as.numeric(df2$On.Time..s.)
+catch.df<-dcast(df2, Date+Lake+Month+Site.Transect+On.Time..s. ~ Species + detect)
+
+# good so far.
+str(catch.df)
+
+#delete date column
+#catch.df<-droplevels(catch.df[,-1])
+#str(catch.df)
+
+# remove NA from on.time
+catch.df<-subset(catch.df, !is.na(catch.df$On.Time..s.))
+
+
+
+
+catch.df$`Bigmouth Buffalo CPUE`<-catch.df$BIB_1/(catch.df$On.Time..s./3600)
+catch.df$`Common Carp CPUE`<-catch.df$COC_1/(catch.df$On.Time..s./3600)
+
+# clean up some labels
+catch.df$Lake<-as.character(catch.df$Lake)
+catch.df$Lake[catch.df$Lake == "5 Island"] <- "Five Island"
+catch.df$Lake<-droplevels(as.factor(catch.df$Lake))
+
+# Need to figure out how to melt again so there's a species column:
+# first, delete dummy column:
+catch.df<-catch.df[,-c(5:8)]
+# try to remove date
+catch.df<-catch.df[,-1]
+# try to melt that frame
+catch.df.m<-melt(catch.df)
+
+DF2019<-groupwiseMean(value~Lake+Month+variable,
+                      catch.df.m)
+head(DF2019)
+
+# clean up variable
+DF2019$variable<-as.character(DF2019$variable)
+DF2019$variable[DF2019$variable == "Bigmouth Buffalo CPUE"] <- "BIB"
+DF2019$variable[DF2019$variable == "Common Carp CPUE"] <- "COC"
+DF2019$variable<-as.factor(DF2019$variable)
+colnames(DF2019)<-c("Lake","Month","Species","n","Mean","Conf.level", "Trad.lower", "Trad.upper")
+names(DF2019)
 
 
 #                     lower biomass density limit - carp
@@ -1226,26 +1325,29 @@ DF2019$Species<-as.factor(DF2019$Species)
 summary(DF2019)
 
 
-str(DF2019) # # have to figure out how to do this appropriately. Why do I have uneven carp/buff runs....
+str(DF2019) # # have to figure out how to do this appropriately. 
+# finally have even carp and buff runs
 
 
 
 
 
 DF2019$Month<-as.character(DF2019$Month)
-DF2019$Month[DF2019$Month == "5"] <- "May"
-DF2019$Month[DF2019$Month == "6"] <- "June"
-DF2019$Month[DF2019$Month == "7"] <- "July"
-DF2019$Month[DF2019$Month == "8"] <- "August"
-DF2019$Month[DF2019$Month == "9"] <- "September"
+
+DF2019$Month[DF2019$Month == "04"] <- "April"
+DF2019$Month[DF2019$Month == "05"] <- "May"
+DF2019$Month[DF2019$Month == "06"] <- "June"
+DF2019$Month[DF2019$Month == "07"] <- "July"
+DF2019$Month[DF2019$Month == "08"] <- "August"
+DF2019$Month[DF2019$Month == "09"] <- "September"
 DF2019$Month[DF2019$Month == "10"] <- "October"
 DF2019$Month[DF2019$Month == "11"] <- "November"
 DF2019$Month<-as.factor(DF2019$Month)
 DF2019$Lake<-as.character(DF2019$Lake)
 DF2019$Lake[DF2019$Lake == "5 Island"] <- "Five Island"
 DF2019$Lake<-as.factor(DF2019$Lake)
-DF2019$Month<- ordered(DF2019$Month, levels = c("May","June","July","August",
-                                            "September","October","November"))
+DF2019$Month<- ordered(DF2019$Month, levels = c("April","May","June","July","August",
+                                            "September","October"))
 
 
 head(DF2019)
@@ -1282,11 +1384,11 @@ BMD.plot<-ggplot(DF2019, aes(x= BMD,y=Mean))+
                   guides(shape = guide_legend(nrow=1))
 BMD.plot
 
+```
 
 
 
-
-
+```{r,}
 
 # gonna split by species then use grid.arrange to put them together.
 
@@ -1352,7 +1454,7 @@ change back from BW to have more fun
 
 
 ###################################################################################
-# 2018 Harvest
+# 2017-2019 Harvest
 - condense data frame
 - plot lakes on x axis, total harvest in lbs on y axis, species as paired bars
 - plot lakes on x axis, removal rate in lbs/acre on y axis, species as paired bars
