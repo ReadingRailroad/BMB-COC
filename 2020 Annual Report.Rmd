@@ -1733,6 +1733,8 @@ ages18<-read.csv("2018 Age Structure Estimates -  Spines.csv")
 str(ages18)
 ages18$Length<-as.numeric(ages18$Length) # length in mm
 ages18$Weight<-as.numeric(ages18$Weight) # weight in grams
+ages18$Foli.Age..Spine.<-as.numeric(as.character(ages18$Foli.Age..Spine.))
+summary(ages18$Foli.Age..Spine.)
 ```
 
 
@@ -1801,9 +1803,10 @@ for(i in 1:length(ages2plot)) {
 
 
 # Plots
+dev.off()
 plot.new()
 par(mfrow=c(7,2),
-    oma=c(1,1,1,1))
+    mar=c(2,2,2,2))
 fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
         main = "Blue Lake Carp 2017",
         xlim = c(0,35), ylim = c(200,900),
@@ -1821,21 +1824,19 @@ fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
 #
 b.carp <- droplevels(subset(ages18, Species == "COC" &
                                     Lake == "Blue" &
-                                    !is.na(ages18$Marcus.Age..Spine.) &
+                                    !is.na(ages18$Foli.Age..Spine.) &
                                     !is.na(ages18$Length)))
 summary(b.carp)
 b.carp$tl<-b.carp$Length
-b.carp$age<-as.numeric(b.carp$Marcus.Age..Spine.)
+b.carp$age<-as.numeric(b.carp$Foli.Age..Spine.)
 
 summary(b.carp$tl)
 summary(b.carp$age)
-
+#plot(tl~age,b.carp)
 # vbStarts and function variables
-svTypical<-vbStarts(tl~age,data=b.carp,
-                    methLinf = "oldAge",
-                    num4Linf = 5)
+svTypical<-vbStarts(tl~age,data=b.carp)
 unlist(svTypical)
-svTypical<-list(Linf=467.4772727,K=0.1115574,t0=-11.7962936)
+svTypical<-list(Linf=426.6693927,K=1.4285567,t0=0.7846017)
 
 # Fitting the model and boostrapping
 vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
@@ -1853,7 +1854,7 @@ headtail(bootTypical$coefboot,n=2)
 confint(bootTypical,plot=F)
 ests <- data.frame(bootTypical$coefboot)
 
-ages2plot<- 0:10                       # need to change this with each spp/lake combo
+ages2plot<- 0:11                       # need to change this with each spp/lake combo
 LCI<-UCI<-numeric(length(ages2plot))
 for(i in 1:length(ages2plot)) {
   pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
@@ -1870,6 +1871,8 @@ fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
       lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)+
       lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
 
+# checking a single obs (max length)
+b.carp$Env.Tag[b.carp$tl >= 650]
 
 ```
 
@@ -1929,7 +1932,7 @@ for(i in 1:length(ages2plot)) {
 # Plots
 
 fitPlot(fitTypical,xlab="Age",ylab="",
-        main = "Center Lake Carp",
+        main = "Center Lake Carp 2017",
         xlim = c(0,35), ylim = c(200,900),
         legend = T)
 lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
@@ -1967,7 +1970,7 @@ svTypical<-list(Linf=676.5430337,K=0.2442079,t0=-4.2210478)
 
 vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
 vbTyp<-vbFuns()
-vbTyp(3,Linf=c(704,0.2795948,-1.2430354))
+vbTyp(3,Linf=c(676,0.2442079,-4.2210478))
 
 fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
             control = list(maxiter=500), 
@@ -1994,7 +1997,7 @@ for(i in 1:length(ages2plot)) {
 # Plots
 
 fitPlot(fitTypical,xlab="Age",ylab="",
-        main = "Center Lake Carp",
+        main = "Center Lake Carp 2018",
         xlim = c(0,35), ylim = c(200,900),
         legend = T)
 lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
@@ -2004,6 +2007,10 @@ lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
 
 # Five Island von bert curves
 ```{r,}
+# trying to get a placeholder frame for five island in 2017
+plot(NULL)
+
+
 #############################################################################
 # Subset by species then lake
 #
@@ -2050,7 +2057,8 @@ headtail(bootTypical$coefboot,n=2)
 confint(bootTypical,plot=F)
 ests <- data.frame(bootTypical$coefboot)
 
-ages2plot<- 0:32                        # need to change this with each spp/lake combo
+summary(fi.carp$Marcus.Age..Spine.)
+ages2plot<- 0:18                        # need to change this with each spp/lake combo
 LCI<-UCI<-numeric(length(ages2plot))
 for(i in 1:length(ages2plot)) {
   pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
@@ -2095,7 +2103,7 @@ summary(nt.carp$age)
 svTypical<-vbStarts(tl~age,data=nt.carp)
 #svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.carp)
 unlist(svTypical)
-svTypical<-list(Linf=674.5,K=0.201306,t0=-2.387971)
+svTypical<-list(Linf=674.5,K=0.1976556,t0=-2.5083403)
 
 
 # Fitting the model and boostrapping
@@ -2119,6 +2127,7 @@ headtail(bootTypical$coefboot,n=2)
 confint(bootTypical,plot=F)
 ests <- data.frame(bootTypical$coefboot)
 
+summary(nt.carp$age)
 ages2plot<- 0:32                        # need to change this with each spp/lake combo
 LCI<-UCI<-numeric(length(ages2plot))
 for(i in 1:length(ages2plot)) {
@@ -2155,11 +2164,6 @@ summary(nt.carp)
 nt.carp$tl<-nt.carp$Length
 nt.carp$age<-nt.carp$Marcus.Age..Spine.
 
-# checking foli ages
-nt.carp$Foli.Age..Spine.<-as.numeric(nt.carp$Foli.Age..Spine.)
-summary(nt.carp$Foli.Age..Spine.)
-summary(nt.carp$tl)
-summary(nt.carp$age)
 
 # vbStarts and function variables
 svTypical<-vbStarts(tl~age,data=nt.carp)
@@ -2209,6 +2213,71 @@ lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
 
 ```
 
+# silver lake carp von berts
+
+```{r,}
+plot(NULL)
+#############################################################################
+# Subset by species then lake
+#
+#
+#           Silver Lake Carp (2018 spines)
+#
+#
+si.carp <- droplevels(subset(ages18, Species == "COC" &
+                                 Lake == "Silver" &
+                                 !is.na(ages18$Length)&
+                                 !is.na(ages18$Foli.Age..Spine.)))
+summary(si.carp)
+si.carp$tl<-si.carp$Length
+si.carp$age<-si.carp$Foli.Age..Spine. # spines
+
+summary(si.carp$tl)
+summary(si.carp$age)
+
+# vbStarts and function variables
+svTypical<-vbStarts(tl~age,data=si.carp)
+unlist(svTypical)
+svTypical<-list(Linf=745.515,K=0.69435,t0=0.7152428)
+
+
+# Fitting the model and boostrapping
+
+
+vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
+vbTyp<-vbFuns()
+vbTyp(3,Linf=c(745.515,0.69435,0.7152428))
+
+fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
+            control = list(maxiter=500,warnOnly=T), 
+            data=si.carp, start=svTypical)
+
+fitTypical <- nls(vbTypical,data=si.carp,start=svTypical,control=list(warnOnly=T))
+overview(fitTypical)
+
+bootTypical <- nlsBoot(fitTypical,niter=2000)
+headtail(bootTypical$coefboot,n=2)
+confint(bootTypical,plot=F)
+ests <- data.frame(bootTypical$coefboot)
+
+ages2plot<- 0:15                       # need to change this with each spp/lake combo
+LCI<-UCI<-numeric(length(ages2plot))
+for(i in 1:length(ages2plot)) {
+  pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
+  LCI[i] <-quantile(pv,0.025)
+  UCI[i] <-quantile(pv,0.975)
+}
+
+
+# Plots
+
+fitPlot(fitTypical,xlab="Age",ylab="",
+        main = "Silver Lake Carp 2018",
+        xlim = c(0,35), ylim = c(200,900),
+        legend = T)
+lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+```
 
 # south twin lake carp von berts
 
@@ -2257,6 +2326,7 @@ headtail(bootTypical$coefboot,n=2)
 confint(bootTypical,plot=F)
 ests <- data.frame(bootTypical$coefboot)
 
+summary(st.carp$age)
 ages2plot<- 0:13                       # need to change this with each spp/lake combo
 LCI<-UCI<-numeric(length(ages2plot))
 for(i in 1:length(ages2plot)) {
@@ -2269,7 +2339,7 @@ for(i in 1:length(ages2plot)) {
 # Plots
 
 fitPlot(fitTypical,xlab="Age",ylab="",
-        main = "S. Twin Lake Carp 2017",
+        main = "South Twin Lake Carp 2017",
         xlim = c(0,35), ylim = c(200,900),
         legend = T)
 lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
@@ -2290,16 +2360,15 @@ st.carp <- droplevels(subset(ages18, Species == "COC" &
                                  !is.na(ages18$Foli.Age..Spine.)))
 summary(st.carp)
 st.carp$tl<-st.carp$Length
-st.carp$age<-as.numeric(st.carp$Foli.Age..Spine.) # spines
+st.carp$age<-st.carp$Foli.Age..Spine. # spines
 
 summary(st.carp$tl)
 summary(st.carp$age)
 
 # vbStarts and function variables
 svTypical<-vbStarts(tl~age,data=st.carp,meth0 = "yngAge")
-#svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.carp)
 unlist(svTypical)
-svTypical<-list(Linf=610,K=0.1329682,t0=-8.6968473)
+svTypical<-list(Linf=389.5,K=1.2754392,t0=0.1468164)
 
 
 # Fitting the model and boostrapping
@@ -2307,7 +2376,7 @@ svTypical<-list(Linf=610,K=0.1329682,t0=-8.6968473)
 
 vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
 vbTyp<-vbFuns()
-vbTyp(3,Linf=c(610,0.1329682,-8.6968473))
+vbTyp(3,Linf=c(389.5,1.2754392,0.1468164))
 
 fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
             control = list(maxiter=500,warnOnly=T), 
@@ -2321,7 +2390,7 @@ headtail(bootTypical$coefboot,n=2)
 confint(bootTypical,plot=F)
 ests <- data.frame(bootTypical$coefboot)
 
-ages2plot<- 0:13                       # need to change this with each spp/lake combo
+ages2plot<- 0:8                       # need to change this with each spp/lake combo
 LCI<-UCI<-numeric(length(ages2plot))
 for(i in 1:length(ages2plot)) {
   pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
@@ -2333,7 +2402,74 @@ for(i in 1:length(ages2plot)) {
 # Plots
 
 fitPlot(fitTypical,xlab="Age",ylab="",
-        main = "S. Twin Lake Carp 2017",
+        main = "South Twin Lake Carp 2018",
+        xlim = c(0,35), ylim = c(200,900),
+        legend = T)
+lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+```
+
+
+# storm lake carp von berts
+
+```{r,}
+plot(NULL)
+#############################################################################
+# Subset by species then lake
+#
+#
+#           Silver Lake Carp (2018 spines)
+#
+#
+storm.carp <- droplevels(subset(ages18, Species == "COC" &
+                                 Lake == "Storm" &
+                                 !is.na(ages18$Length)&
+                                 !is.na(ages18$Foli.Age..Spine.)))
+summary(storm.carp)
+storm.carp$tl<-storm.carp$Length
+storm.carp$age<-storm.carp$Foli.Age..Spine. # spines
+
+summary(storm.carp$tl)
+summary(storm.carp$age)
+
+# vbStarts and function variables
+svTypical<-vbStarts(tl~age,data=storm.carp)
+unlist(svTypical)
+svTypical<-list(Linf=502.182,K=0.540008,t0=-1.838716)
+
+
+# Fitting the model and boostrapping
+
+
+vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
+vbTyp<-vbFuns()
+vbTyp(3,Linf=c(502.182,0.540008,-1.838716))
+
+fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
+            control = list(maxiter=500,warnOnly=T), 
+            data=storm.carp, start=svTypical)
+
+fitTypical <- nls(vbTypical,data=storm.carp,start=svTypical,control=list(warnOnly=T))
+overview(fitTypical)
+
+bootTypical <- nlsBoot(fitTypical,niter=2000)
+headtail(bootTypical$coefboot,n=2)
+confint(bootTypical,plot=F)
+ests <- data.frame(bootTypical$coefboot)
+
+ages2plot<- 0:15                       # need to change this with each spp/lake combo
+LCI<-UCI<-numeric(length(ages2plot))
+for(i in 1:length(ages2plot)) {
+  pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
+  LCI[i] <-quantile(pv,0.025)
+  UCI[i] <-quantile(pv,0.975)
+}
+
+
+# Plots
+
+fitPlot(fitTypical,xlab="Age",ylab="",
+        main = "Silver Lake Carp 2018",
         xlim = c(0,35), ylim = c(200,900),
         legend = T)
 lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
@@ -2347,12 +2483,7 @@ lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
 
 
 
-
-
-
-
-
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
@@ -2361,11 +2492,6 @@ lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
 ## Buffalo DIEM
 
 ```{r}
-
-# FSAsim package
-#if (!require('devtools')) install.packages('devtools'); require('devtools')
-#devtools::install_github('droglenc/FSAsim')
-#install.packages("tidyverse")
 # read in data
 ages<-read.csv("2017_Age_Estimates.csv",header=T)
 summary(ages)
@@ -2377,7 +2503,7 @@ summary(ages$TL.mm)
 # Subset by species then lake
 #
 #
-#           Center Lake Buffalo (spines only, no otoliths)
+#           Center Lake Buffalo 2017 (spines only, no otoliths)
 #
 #
 c.buff <- droplevels(subset(ages, Species == "BIB" &
@@ -2431,7 +2557,7 @@ for(i in 1:length(ages2plot)) {
 # Plots
 
 fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
-        main = "Center Lake Buffalo",
+        main = "Center Lake Buffalo 2017",
         xlim = c(0,26), ylim = c(200,900),
         legend = T)
 lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
@@ -2441,7 +2567,147 @@ lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
 # Subset by species then lake
 #
 #
+#           Center Lake Buffalo 2017 (spines only, no otoliths)
+#
+#
+c.buff <- droplevels(subset(ages18, Species == "BIB" &
+                                 Lake == "Center" &
+                                 !is.na(ages18$Length) &
+                                 !is.na(ages18$Marcus.Age..Spine.)))
+summary(c.buff)
+c.buff$tl<-c.buff$Length
+c.buff$age<-c.buff$Marcus.Age..Spine. # No otoliths taken from this lake 2017
+
+summary(c.buff$tl)
+summary(c.buff$age)
+
+# vbStarts and function variables
+svTypical<-vbStarts(tl~age,data=c.buff,
+                    methLinf = "oldAge")
+#svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.buff)
+unlist(svTypical)
+svTypical<-list(Linf=585,K=0.2932983,t0=-3.2984356)
+
+
+# Fitting the model and boostrapping
+
+
+vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
+vbTyp<-vbFuns()
+vbTyp(3,Linf=c(585,0.2932983,-3.2984356))
+
+fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
+            control = list(maxiter=500), 
+            data=c.buff, start=svTypical)
+summary(fitTyp)
+
+fitTypical <- nls(vbTypical,data=c.buff,start=svTypical)
+summary(fitTypical)
+overview(fitTypical)
+
+bootTypical <- nlsBoot(fitTypical,niter=2000)
+headtail(bootTypical$coefboot,n=2)
+confint(bootTypical,plot=F)
+ests <- data.frame(bootTypical$coefboot)
+
+ages2plot<- 0:15                        # need to change this with each spp/lake combo
+LCI<-UCI<-numeric(length(ages2plot))
+for(i in 1:length(ages2plot)) {
+  pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
+  LCI[i] <-quantile(pv,0.025)
+  UCI[i] <-quantile(pv,0.975)
+}
+
+
+# Plots
+
+fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
+        main = "Center Lake Buffalo 2018",
+        xlim = c(0,26), ylim = c(200,900),
+        legend = T)
+lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+
+```
+
+# Five Island
+
+```{r}
+#############################################################################
+# Subset by species then lake
+#
+#
 #           North Twin Lake Buffalo (Otoliths)
+#
+#
+levels(ages18$Lake)
+fi.buff <- droplevels(subset(ages18, Species == "BIB" &
+                                 Lake == "Five Island" &
+                                 !is.na(ages18$Length) &
+                                 !is.na(ages18$Foli.Age..Spine.)))
+summary(fi.buff)
+fi.buff$tl<-fi.buff$Length
+fi.buff$age<-fi.buff$Foli.Age..Spine. 
+
+summary(fi.buff$tl)
+summary(fi.buff$age)
+
+# vbStarts and function variables
+svTypical<-vbStarts(tl~age,data=fi.buff)
+#svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.buff)
+unlist(svTypical)
+svTypical<-list(Linf=674.9123,K=0.4222550,t0=-0.4462011)
+
+
+# Fitting the model and boostrapping
+
+vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
+vbTyp<-vbFuns()
+vbTyp(3,Linf=c(674.9123,0.4222550,-0.4462011))
+
+fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
+            control = list(maxiter=500), 
+            data=fi.buff, start=svTypical)
+summary(fitTyp)
+
+fitTypical <- nls(vbTypical,data=fi.buff,start=svTypical)
+summary(fitTypical)
+
+
+bootTypical <- nlsBoot(fitTypical,niter=2000)
+headtail(bootTypical$coefboot,n=2)
+confint(bootTypical,plot=F)
+ests <- data.frame(bootTypical$coefboot)
+
+plot(NULL) # placeholder plot
+ages2plot<- 0:15                       # need to change this with each spp/lake combo
+LCI<-UCI<-numeric(length(ages2plot))
+for(i in 1:length(ages2plot)) {
+  pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
+  LCI[i] <-quantile(pv,0.025)
+  UCI[i] <-quantile(pv,0.975)
+}
+
+
+# Plots
+
+fitPlot(fitTypical,xlab="Age",ylab="",
+        main = "Five Island Lake Buffalo 2018",
+        xlim = c(0,26), ylim = c(200,900),
+        legend = T)
+lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+
+```
+
+
+# North Twin Lake Buff Von Berts
+```{r,}
+#############################################################################
+# Subset by species then lake
+#
+#
+#           North Twin Lake Buffalo (2017)
 #
 #
 levels(ages$Lake)
@@ -2495,12 +2761,154 @@ for(i in 1:length(ages2plot)) {
 # Plots
 
 fitPlot(fitTypical,xlab="Age",ylab="",
-        main = "N. Twin Lake Buffalo",
+        main = "North Twin Lake Buffalo 2017",
         xlim = c(0,26), ylim = c(200,900),
         legend = T)
 lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
 lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
 
+
+
+
+#############################################################################
+# Subset by species then lake
+#
+#
+#           North Twin Lake Buffalo (2018)
+#
+#
+levels(ages18$Lake)
+nt.buff <- droplevels(subset(ages18, Species == "BIB" &
+                                 Lake == "N. Twin" &
+                                 !is.na(ages18$Length)&
+                                 !is.na(ages18$Foli.Age..Spine.)))
+summary(nt.buff)
+nt.buff$tl<-nt.buff$Length
+nt.buff$age<-nt.buff$Marcus.Age..Spine. 
+
+summary(nt.buff$tl)
+summary(nt.buff$age)
+
+# vbStarts and function variables
+svTypical<-vbStarts(tl~age,data=nt.buff,meth0 = "yngAge")
+#svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.buff)
+unlist(svTypical)
+svTypical<-list(Linf=737.4488,K=0.2088784,t0=-6.2929390)
+
+
+# Fitting the model and boostrapping
+
+vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
+vbTyp<-vbFuns()
+vbTyp(3,Linf=c(737.4488,0.2088784,-6.2929390))
+
+fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
+            control = list(maxiter=500), 
+            data=nt.buff, start=svTypical)
+summary(fitTyp)
+
+fitTypical <- nls(vbTypical,data=nt.buff,start=svTypical)
+summary(fitTypical)
+
+
+bootTypical <- nlsBoot(fitTypical,niter=2000)
+headtail(bootTypical$coefboot,n=2)
+confint(bootTypical,plot=F)
+ests <- data.frame(bootTypical$coefboot)
+
+ages2plot<- 0:13                       # need to change this with each spp/lake combo
+LCI<-UCI<-numeric(length(ages2plot))
+for(i in 1:length(ages2plot)) {
+  pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
+  LCI[i] <-quantile(pv,0.025)
+  UCI[i] <-quantile(pv,0.975)
+}
+
+
+# Plots
+
+fitPlot(fitTypical,xlab="Age",ylab="",
+        main = "North Twin Lake Buffalo 2018",
+        xlim = c(0,26), ylim = c(200,900),
+        legend = T)
+lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+
+```
+
+
+
+# Silver Lake 
+
+```{r}
+
+#############################################################################
+# Subset by species then lake
+#
+#
+#           Silver Lake Buffalo (2018)
+#
+#
+levels(ages18$Lake)
+nt.buff <- droplevels(subset(ages18, Species == "BIB" & # ignore that I kept this named 'nt.buff' for rest of chunk
+                                 Lake == "Silver" &
+                                 !is.na(ages18$Length)&
+                                 !is.na(ages18$Foli.Age..Spine.)))
+summary(nt.buff)
+nt.buff$tl<-nt.buff$Length
+nt.buff$age<-nt.buff$Marcus.Age..Spine. 
+
+summary(nt.buff$tl)
+summary(nt.buff$age)
+
+# vbStarts and function variables
+svTypical<-vbStarts(tl~age,data=nt.buff,meth0 = "yngAge")
+#svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.buff)
+unlist(svTypical)
+svTypical<-list(Linf=887.5229,K=0.1701503,t0=-1.5694065)
+
+
+# Fitting the model and boostrapping
+
+vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
+vbTyp<-vbFuns()
+vbTyp(3,Linf=c(887.5229,0.1701503,-1.5694065))
+
+fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
+            control = list(maxiter=500), 
+            data=nt.buff, start=svTypical)
+summary(fitTyp)
+
+fitTypical <- nls(vbTypical,data=nt.buff,start=svTypical)
+summary(fitTypical)
+
+
+bootTypical <- nlsBoot(fitTypical,niter=2000)
+headtail(bootTypical$coefboot,n=2)
+confint(bootTypical,plot=F)
+ests <- data.frame(bootTypical$coefboot)
+
+ages2plot<- 0:13                       # need to change this with each spp/lake combo
+LCI<-UCI<-numeric(length(ages2plot))
+for(i in 1:length(ages2plot)) {
+  pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
+  LCI[i] <-quantile(pv,0.025)
+  UCI[i] <-quantile(pv,0.975)
+}
+
+
+# Plots
+plot(NULL)
+fitPlot(fitTypical,xlab="Age",ylab="",
+        main = "Silver Lake Buffalo 2018",
+        xlim = c(0,26), ylim = c(200,900),
+        legend = T)
+lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
+```
+
+# south twin lake buff von berts
+``` {r,}
 #############################################################################
 # Subset by species then lake
 #
@@ -2511,19 +2919,20 @@ lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
 st.buff <- droplevels(subset(ages, Species == "BIB" &
                                  Lake == "S. Twin" &
                                  !is.na(ages$TL.mm)&
-                                 !is.na(ages$Spine.DRF)))
+                                 !is.na(ages$Spine.MAS)))
+
 summary(st.buff)
 st.buff$tl<-st.buff$TL.mm
-st.buff$age<-st.buff$Spine.DRF
+st.buff$age<-st.buff$Spine.MAS
 
 summary(st.buff$tl)
 summary(st.buff$age)
 
 # vbStarts and function variables
-svTypical<-vbStarts(tl~age,data=st.buff, meth0 = "yngAge")
+svTypical<-vbStarts(tl~age,data=st.buff, methLinf = "oldAge",num4Linf = 2)
 #svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.buff)
 unlist(svTypical)
-svTypical<-list(Linf=633.38,K=0.3588921,t0=-0.9641883) # screwed up starting values... try spines
+svTypical<-list(Linf=721.36,K=0.3,t0=5.6592866)
 
 
 # Fitting the model and boostrapping
@@ -2531,13 +2940,13 @@ svTypical<-list(Linf=633.38,K=0.3588921,t0=-0.9641883) # screwed up starting val
 
 vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
 vbTyp<-vbFuns()
-vbTyp(3,Linf=c(633.38,0.3588921,-0.9641883))
+vbTyp(3,Linf=c(647.7,0.1976491,-5.1246437))
 
 
 
 fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
             control = list(maxiter=500), 
-            data=st.buff, start=svTypical) # screwed up starting values... try spines
+            data=st.buff, start=svTypical)
 
 fitTypical <- nls(vbTypical,data=st.buff,start=svTypical)
 overview(fitTypical)
