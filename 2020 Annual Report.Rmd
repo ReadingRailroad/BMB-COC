@@ -1729,7 +1729,7 @@ Task 1: load in and format 2018 age estimate data
 - I'mma hate on question marks
 
 ```{r}
-
+ages18<-read.csv("2018 ")
 ```
 
 
