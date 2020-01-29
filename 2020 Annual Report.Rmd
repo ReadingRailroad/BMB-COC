@@ -435,7 +435,7 @@ effort.cast<-dcast(effort.melt, Lake + Site.Transect+Date ~ ., mean,)
 
 ```
 
-### Mean CPUE - This is corrected as of 1/28/2019
+### Mean CPUE - This is corrected as of 1/28/2020
 
 ```{r}
 df<-read.csv("2017-2020 Compiled Data.csv")
@@ -1459,99 +1459,21 @@ change back from BW to have more fun
 - plot lakes on x axis, total harvest in lbs on y axis, species as paired bars
 - plot lakes on x axis, removal rate in lbs/acre on y axis, species as paired bars
 
-- these two plots were accepted at the annual report meeting Jan 2019 but:
--- want to adjust harvests to follow season (Oct to May annually) and not split by calendar year
--- I'm going to split these up so that we can have some idea of historical harvest on the lakes
-------- (2015 to 2018)
--- then copy for standardized?
-
-```{r}
-harvest<-read.csv("Harvest_2018_Only.csv")
-str(harvest)
-harvest<-harvest[,-c(2,3,4)]
-levels(harvest$Lake)
-harvest$Pounds<-as.numeric(as.character(harvest$Pounds))
-
-#Drop lakes
-harvest<-droplevels(subset(harvest, Lake == "Center Lake" |
-                         Lake == "Five Island Lake" |
-                         Lake == "Silver Lake (Dickinson)" ))
-
-#drop freshwater drum
-harvest<-droplevels(subset(harvest, Species == "CAP"|
-                                    Species == "BMB"))
-
-# correct the species names for later plotting
-harvest$Species<-as.character(harvest$Species)
-harvest$Species[harvest$Species == "CAP"] <- "Common Carp"
-harvest$Species[harvest$Species == "BMB"] <- "Bigmouth Buffalo"
-harvest$Species<-factor(harvest$Species)
-
-# add acrage
-harvest$Acres[harvest$Lake == "Center Lake"] <- 220
-harvest$Acres[harvest$Lake == "Five Island Lake"] <- 973
-harvest$Acres[harvest$Lake == "Silver Lake (Dickinson)"] <- 1066
-
-# add column for pounds removed per acre
-harvest$Removal<-harvest$Pounds/harvest$Acres
-
-
-```
-
-
-```{r}
-#########################################
-#
-#       Plot 1: total harvest
-#
-#########################################
-# melt and cast to sum harvest for entire year
-harvest.melt<-melt(harvest, id.vars = c("Lake","Species"),
-                   measure.vars = "Pounds")
-
-tot.harvest<-ggplot(harvest.melt, aes(x = Lake, y = value, fill = Species)) +
-              geom_bar(stat="identity", position = "dodge", colour = "black") +
-              scale_fill_manual(values = wes_palette("Moonrise2")) +
-              theme_bw()+
-              theme(legend.position = "bottom", legend.title = element_blank()) +
-              labs (title = "2018 Total Commercial Harvest", 
-                    y = "Harvest (lbs.)")
-
-
-#########################################
-#
-#       Plot 2: standardized harvest by pounds
-#
-#########################################
-# melt and cast to sum harvest for entire year
-harvest.melt<-melt(harvest, id.vars = c("Lake","Species"),
-                   measure.vars = "Removal")
-
-std.harvest<-ggplot(harvest.melt, aes(x = Lake, y = value, fill = Species)) +
-              geom_bar(stat="identity", position = "dodge", colour = "black") +
-              scale_fill_manual(values = wes_palette("Moonrise2")) +
-              theme_bw()+
-              theme(legend.position = "bottom", legend.title = element_blank()) +
-              labs (title = "2018 Harvest - Standardized", 
-                    y = "Removal Rate (lbs. / Acre)")
-
-grid.arrange(tot.harvest,
-             std.harvest,
-             nrow = 1,
-             ncol = 2)
-
-```
 
 #######################################################################
-Update to plots from Jan 2019 meeting
+Update to plots including all 2019 harvest
 ```{r,}
-harvest<-read.csv("Harvest 2015 to 2018.csv")
+harvest<-read.csv("Commercial Harvest 2013 to 2019.csv")
 str(harvest)
-harvest<-harvest[,-c(2)]
+harvest<-harvest[,-c(2:3)]
 harvest$Year<-factor(harvest$Year)
-#harvest$Month<-factor(harvest$Month) - - - - - - - - - - - - maybe easier subsetting later
-harvest$Harvest<-as.numeric(as.character(harvest$Harvest))
-str(harvest)
+# harvest$Month<-factor(harvest$Month) 
+harvest$Harvest<-as.numeric(as.character(harvest$Pounds))
+
+nas<-subset(harvest, is.na(harvest$Harvest))
+harvest$Date<-as.Date(harvest$Date, "%m/%d/%Y")
+str(harvest$Date)
+summary(harvest)
 
 
 
@@ -1560,7 +1482,8 @@ str(harvest)
 levels(harvest$Lake)
 harvest<-droplevels(subset(harvest, Lake == "Center Lake" |
                          Lake == "Five Island Lake" |
-                         Lake == "Silver Lake (Dickinson)" ))
+                         Lake == "Silver Lake (Dickinson)" |
+                         Lake == "North Twin Lake"))
 
 
 
@@ -1578,6 +1501,7 @@ harvest$Species<-factor(harvest$Species)
 harvest$Acres[harvest$Lake == "Center Lake"] <- 220
 harvest$Acres[harvest$Lake == "Five Island Lake"] <- 973
 harvest$Acres[harvest$Lake == "Silver Lake (Dickinson)"] <- 1066
+harvest$Acres[harvest$Lake == "North Twin Lake"] <- 453
 
 # shorten silver lake name
 harvest$Lake<-as.character(harvest$Lake)
@@ -1589,11 +1513,13 @@ harvest$Lake<-factor(harvest$Lake)
 harvest$Removal<-harvest$Harvest/harvest$Acres
 
 
-
+str(harvest)
 ##################################
-# Lake: factor of lakes with harvest 2015 to 2018
+# Lake: factor of 4 lakes with harvest winter 2012/2013 through December 31 2019
+# Date: date column
 # Year: factor of year
-# Month: factor of months sampled (numeric) 
+# Month: NUMERIC VALUE of months sampled (numeric for subsetting later)
+# Species: both study species
 # Harvest: total removal in pounds
 # Acres: lake area in acres
 # Removal: standardized rough fish removal in pounds per acre
@@ -1647,6 +1573,17 @@ p2
 
 # Adding Season column to combine harvests across calendar years.
 summary(harvest$Month)
+
+harvest$Season[harvest$Year == "2012" &
+               harvest$Month >= 7 |
+               harvest$Year == "2013" &
+               harvest$Month <= 6]  <- "12-13"
+
+harvest$Season[harvest$Year == "2013" &
+               harvest$Month >= 7 |
+               harvest$Year == "2014" &
+               harvest$Month <= 6]  <- "13-14"
+
 harvest$Season[harvest$Year == "2014" &
                harvest$Month >= 7 |
                harvest$Year == "2015" &
@@ -1672,12 +1609,20 @@ harvest$Season[harvest$Year == "2018" &
                harvest$Year == "2019" &
                harvest$Month <= 6]  <- "18-19"
 
+harvest$Season[harvest$Year == "2019" &
+               harvest$Month >= 7 |
+               harvest$Year == "2020" &
+               harvest$Month <= 6]  <- "18-19"
+
 !is.na(harvest$Season)
+harvest$Season<-as.factor(harvest$Season)
 levels(harvest$Lake)
+
+head(harvest)
 ```
 
 - Plot it! 
--- Lakes (3) on x-axis
+-- Lakes (4) on x-axis
 -- lbs on y axis (lbs/acre on other y axis)
 -- Each season is a new bar for each lake
 -- perhaps stack based on Species??
@@ -1688,8 +1633,8 @@ str(harvest)
 
 harvest$Total.Harvest<-harvest$Harvest
 harvest$Std.Removal<-harvest$Removal
-harvest<-harvest[,-c(3,5:7)]
-harvest.m<-melt(harvest, id.vars = c("Lake", "Year","Species","Season"))
+harvest<-harvest[,-c(2:4,6:9)]
+harvest.m<-melt(harvest, id.vars = c("Lake", "Species","Season"))
 harvest.c<-dcast(harvest.m, Lake + Season + Species ~ variable, sum)
 harvest.m<-melt(harvest.c)
 p1<-ggplot(harvest.m,aes(x=Season, y=value, fill = Species))+
@@ -1700,12 +1645,13 @@ p1<-ggplot(harvest.m,aes(x=Season, y=value, fill = Species))+
                 panel.grid.minor = element_blank(),
                 panel.background = element_rect(fill="white",colour="grey50"), 
                 axis.line = element_line(colour = "black"),
-                legend.position = c(0.8,0.4),
+                legend.position = c(0.85,0.4),
                 legend.background = element_rect(fill = "white", colour="black"),
                 legend.title = element_blank())+
+           scale_y_continuous(labels = scales::comma)+
            labs(title = NULL,
                 x = "Harvest Season",
-                y = "Harvest")
+                y = "Harvest - (lbs. / acre)                             Harvest (lbs.)")
            
 p1
 
@@ -1768,21 +1714,28 @@ lines(LPI~ages2plot,type="l",col="red",lwd=2,lty=2)
 ```
 
 - now I need to apply the above example code to my data
-- find most accurate age estimate file, read it in, and start a plot
 
-- can't get the FSAsim package to load from GitHub.
-- Having problems with Linf blowing up too large on Blue.
-- Center carp seemed OK
+**************** Update 2020
+- creating two plot areas, one for each species
+- each plot area is 2 cols by 7 rows
+- 2017 von berts on left (NEED TO USE SPINE DATA)
+- 2018 von berts on right (need to use spine data as well)
 
-## CARPE DIEM
+- therefore, I will interject a new sub-chunk of code for each lake's 2018 estimates (and create new lakes)
+- split up real chunks between lakes
+
+Task 1: load in and format 2018 age estimate data
+- probably good to do a couple preliminary plots/summaries to look for wacky values
+- I'mma hate on question marks
 
 ```{r}
 
-# FSAsim package
-#if (!require('devtools')) install.packages('devtools'); require('devtools')
-#devtools::install_github('droglenc/FSAsim')
-#install.packages("tidyverse")
-# read in data
+```
+
+
+# CARPE DIEM
+
+```{r}
 
 packages("FSA")
 
