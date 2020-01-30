@@ -7,7 +7,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-As of 9/25/2019 This file is meant to assemble all the code and plots relative to data analysis for Chapter 2. But let's start small, with the code relative to the 2020 Midwest FW Conference presentation. 
+As of 9/25/2019 This file is meant to assemble all the code and plots relative to data analysis for Chapter 2. But let's start small, with the code relative to the 2020 Iowa AFS presentation. 
 
 Beginning abstract draft:
 
