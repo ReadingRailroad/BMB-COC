@@ -7,7 +7,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-As of 9/25/2019 This file is meant to assemble all the code and plots relative to data analysis for Chapter 2. But let's start small, with the code relative to the 2020 Iowa AFS presentation. 
+As of 1/31/2020 This file is meant to assemble all the code and plots relative to data analysis for Chapter 2. But let's start small, with the code relative to the 2020 Iowa AFS presentation. 
 
 Beginning abstract draft:
 
@@ -45,7 +45,15 @@ $f_{.i}$ is the number of marked fish caught in year i regardless of when they w
 $n_i$ is the number of marked fish caught after year i of fish marked before year i.
 
 ```{r}
+#m_i, number of fish marked at the start of the period
 
+#f_i., the number of fish marked in year i caught by fishers in all years, and
+
+
+#f_.i, the number of marked fish caught in year i from all marking occasions, and
+
+
+#n_i, the number of marked fish caught after year i OF FISH MARKED BEFORE YEAR i
 ```
 
 
@@ -90,7 +98,7 @@ b = \frac{1-\frac{S_i}{S_0}}{K_i}
 
 When $b = 0$ there is a completely compensatory response to harvest, and if $b=1$ there is a totally additive response to harvest; $b$ may take any value between 0 and 1 in instances of partial compensation to harvest.
 
-_in particular, $b$ may be variable across the range of $K$, indicating a non-linear response to harvest and unequal compenstation depending on harvest rate_ but that might be too much to deal with for MWFWC.
+_in particular, $b$ may be variable across the range of $K$, indicating a non-linear response to harvest and unequal compenstation depending on harvest rate_ but that might be too much to deal with for IA AFS 2020.
 
 ```{r}
 
@@ -106,7 +114,7 @@ Using Pollock's (1982) annual recruitment estimator, we can estimate the differe
 \]
 
 where
-$N_{t+1}$ is the abundance estimate for that species j in lake k in 2019 (for MWFWC), and
+$N_{t+1}$ is the abundance estimate for that species j in lake k in 2019 (for IA AFS), and
 $S_i$ is the annual survival rate for species j in lake k for 2018 _calculated above_, and
 $N_i$ is the abundance estimate for species j in lake k for 2018, and
 $n_i$ is
