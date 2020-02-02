@@ -44,8 +44,102 @@ $f_{i.}$ is the number of fish marked in year i caught by fishers over all years
 $f_{.i}$ is the number of marked fish caught in year i regardless of when they were marked, and
 $n_i$ is the number of marked fish caught after year i of fish marked before year i.
 
+```{r,include=FALSE}
+rm(list=ls())
+#reading in data
+dframe<-read.csv("2017-2020 Compiled Data.csv",header = T)
+dframe$Year<-as.factor(dframe$Year)
+dframe$TAG.NUMBER<-as.factor(dframe$TAG.NUMBER)
+dframe$Date<-as.Date(dframe$Date, "%m/%d/%Y")
+dframe$On.Time..s.<-as.numeric(dframe$On.Time..s.)
+str(dframe)
+# remove all other spp
+dframe$TAG.NUMBER[dframe$TAG.NUMBER == ""]<-NA
+dframe<-droplevels(subset(dframe, Species == "BIB" |
+                                  Species == "COC" &
+                                  !is.na(dframe$TAG.NUMBER)))
+levels(dframe$TAG.NUMBER)
+
+# 
+#Harvested tags recovered
+harvest<-read.csv("Harvest Tag Recovery.csv",header=T)
+str(harvest)
+harvest$Year<-as.factor(harvest$Year)
+harvest$TAG.NUMBER<-as.factor(harvest$TAG.NUMBER)
+harvest$Date<-as.Date(harvest$Date, "%m/%d/%Y")
+summary(harvest$Lake)
+# can delete the single "five island" because it's an escaped fish caught in DSM
+harvest<-droplevels(subset(harvest, Lake != "Five Island" &
+                                    Lake != "Storm" &
+                                    Lake != "S Twin" &
+                                    Lake != "Blue"))
+levels(harvest$Lake)
+harvest$Lake<-as.character(harvest$Lake)
+harvest$Lake[harvest$Lake == "N Twin "] <- "N Twin"
+harvest$Lake[harvest$Lake == "5 Island"]<- "Five Island"
+harvest$Lake<-as.factor(harvest$Lake)
+levels(harvest$Notes)
+harvest$detect<-1
+#
+# correct a couple things
+names(dframe)
+names(harvest)
+#
+# Try to merge the frames now!
+df<-rbind(dframe,harvest)
+```
+
+```{r}
+# front matter
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
+
+#packages(rcompanion)
+packages(vegan)
+packages(ggplot2)
+packages(gridExtra)
+packages(reshape2)
+packages(FSA)
+packages(nnet)
+#packages(multcomp)
+#packages(plyr)
+#packages(rv)
+packages(arm)
+packages(lattice)
+packages(tikzDevice)
+packages(FSAdata)
+packages(nlstools)
+#packages(GGally)
+packages(wesanderson)
+#packages(DescTools)
+#packages(mvnormtest)
+#packages(HH)
+#packages(biotools)
+#packages(car)
+#packages(psych)
+#packages(GPArotation)
+packages(doBy)
+packages(dplyr)
+packages(tidyr)
+packages(rcompanion)
+packages(GISTools)
+#packages(maps)
+#packages(mapproj)
+packages(ggpmisc)
+```
+
 ```{r}
 #m_i, number of fish marked at the start of the period
+# want to write a function to get a value for each lake based on break points (harvest)
+HarvMort <- function(x, data){
+  m_i.c<-sum()
+}
+
 
 #f_i., the number of fish marked in year i caught by fishers in all years, and
 
