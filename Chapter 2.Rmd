@@ -56,9 +56,14 @@ str(dframe)
 # remove all other spp
 dframe$TAG.NUMBER[dframe$TAG.NUMBER == ""]<-NA
 dframe<-droplevels(subset(dframe, Species == "BIB" |
-                                  Species == "COC" &
-                                  !is.na(dframe$TAG.NUMBER)))
-levels(dframe$TAG.NUMBER)
+                                  Species == "COC" ))
+# remove all dissected fish and non-tagged fish
+dframe<-droplevels(subset(dframe, !is.na(as.numeric(as.character(dframe$TAG.NUMBER)))))
+# change five island
+dframe$Lake<-as.character(dframe$Lake)
+dframe$Lake[dframe$Lake == "5 Island"]<- "Five Island"
+dframe$Lake<-as.factor(dframe$Lake)
+
 
 # 
 #Harvested tags recovered
@@ -80,6 +85,18 @@ harvest$Lake[harvest$Lake == "5 Island"]<- "Five Island"
 harvest$Lake<-as.factor(harvest$Lake)
 levels(harvest$Notes)
 harvest$detect<-1
+
+levels(harvest$Gear)
+harvest$Gear<-as.character(harvest$Gear)
+harvest$Gear[harvest$Gear == "Seine"] <- "COMMERCIAL HARVEST"
+harvest$Gear<-as.factor(harvest$Gear)
+
+
+harvest$Species<-factor(harvest$Species, levels = c("BIB","COC"))
+dframe.blend <- dframe[!duplicated(dframe$TAG.NUMBER),]
+harvest.blend<-left_join(harvest,dframe.blend, by = "TAG.NUMBER")
+harvest$Species<-harvest.blend$Species.y
+harvest<-droplevels(subset(harvest, !is.na(harvest$Species)))
 #
 # correct a couple things
 names(dframe)
@@ -87,9 +104,19 @@ names(harvest)
 #
 # Try to merge the frames now!
 df<-rbind(dframe,harvest)
+str(df)
+summary(df$detect)
+## CAN I SET SPECIES BY LOOKING UP PREV TAG NUMBER?
+levels(df$Species)
+levels(dframe$Species)
+levels(harvest$Species)
+
+
+
+
 ```
 
-```{r}
+```{r, include=FALSE}
 # front matter
 packages<-function(x, repos="http://cran.r-project.org", ...){
 x<-as.character(match.call()[[2]])
@@ -131,23 +158,56 @@ packages(GISTools)
 #packages(maps)
 #packages(mapproj)
 packages(ggpmisc)
+packages(lubridate)
 ```
 
 ```{r}
-#m_i, number of fish marked at the start of the period
-# want to write a function to get a value for each lake based on break points (harvest)
-HarvMort <- function(x, data){
-  m_i.c<-sum()
+
+# want to write a function to get a Ki value for each lake based on break points (harvest)
+HarvMort <- function(x){
+  
+               #m_i, number of fish marked at the start of the period
+                    df.c<-melt(x, id.var = c("Date","Lake","Species","Gear"),measure.var= "detect")
+                    df.c<-dcast(df.m, Date+Lake+Species+Gear~variable)
+
+                            for(i in 1:length(df.c$Date)){
+  
+                # sum of all 
+  
+     
+     
+               #f_i., the number of fish marked in year i caught by fishers in all years, and
+     
+     
+     
+     
+              
+               #f_.i, the number of marked fish caught in year i from all marking occasions, and
+     
+     
+     
+              
+
+                #n_i, the number of marked fish caught after year i OF FISH MARKED BEFORE YEAR i
+     
+     
+     
+     ########### k_i, the final estimate of harvest mortality:
+     
+     k_i<-data.frame(cbind(Lake,i,Species,(f_i. * f_.i)/(m_i * n_i)))
+     colnames(k_i)<-c("Lake","Period","Species","Harvest Mortality")
+     print(k_i)
+    
+      }
+  } 
 }
 
-
-#f_i., the number of fish marked in year i caught by fishers in all years, and
-
-
-#f_.i, the number of marked fish caught in year i from all marking occasions, and
+# add plot faceted lake x species
 
 
-#n_i, the number of marked fish caught after year i OF FISH MARKED BEFORE YEAR i
+
+
+
 ```
 
 
