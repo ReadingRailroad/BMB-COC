@@ -92,6 +92,7 @@ harvest$Gear[harvest$Gear == "Seine"] <- "COMMERCIAL HARVEST"
 harvest$Gear<-as.factor(harvest$Gear)
 
 
+## CAN I SET SPECIES BY LOOKING UP PREV TAG NUMBER?
 harvest$Species<-factor(harvest$Species, levels = c("BIB","COC"))
 dframe.blend <- dframe[!duplicated(dframe$TAG.NUMBER),]
 harvest.blend<-left_join(harvest,dframe.blend, by = "TAG.NUMBER")
@@ -106,7 +107,6 @@ names(harvest)
 df<-rbind(dframe,harvest)
 str(df)
 summary(df$detect)
-## CAN I SET SPECIES BY LOOKING UP PREV TAG NUMBER?
 levels(df$Species)
 levels(dframe$Species)
 levels(harvest$Species)
@@ -162,15 +162,20 @@ packages(lubridate)
 ```
 
 ```{r}
+# report time of knitting
+now()
+```
+
+
+```{r, include = F}
 
 # want to write a function to get a Ki value for each lake based on break points (harvest)
 HarvMort <- function(x){
   
                #m_i, number of fish marked at the start of the period
-                    df.c<-melt(x, id.var = c("Date","Lake","Species","Gear"),measure.var= "detect")
-                    df.c<-dcast(df.m, Date+Lake+Species+Gear~variable)
-
-                            for(i in 1:length(df.c$Date)){
+                    df.2<- df %>%
+                      filter(Date[Gear])
+                      )
   
                 # sum of all 
   
@@ -268,10 +273,10 @@ Using Pollock's (1982) annual recruitment estimator, we can estimate the differe
 \]
 
 where
-$N_{t+1}$ is the abundance estimate for that species j in lake k in 2019 (for IA AFS), and
+$N_{t+1}$ is the abundance estimate for species j in lake k in 2019 (for IA AFS), and
 $S_i$ is the annual survival rate for species j in lake k for 2018 _calculated above_, and
 $N_i$ is the abundance estimate for species j in lake k for 2018, and
-$n_i$ is
+$n_i$ is _maybe the number of fish caputred in the ith sample_
 $R_i$ is the number of fish captured in the ith sample that are released _calculated above_.
 
 
