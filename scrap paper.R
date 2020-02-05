@@ -90,11 +90,37 @@ F_.3<-data.frame(t(c(with(merge(subset(ntwin, Date >= "2019-11-11" &
 
 # n_i, the number of marked fish caught after period i of fish marked before period i
 
-n_1<-data.frame(c(0,0))
+## DON'T WANT ZEROS IN THE DENOMINATOR THOUGH!
 
-n_2<-data.frame(t(c(with(merge(subset(ntwin, Date <= "2019-04-03" & 
-                                            ntwin$Species == "BIB"),  
-                                   ntwin.har, by = "TAG.NUMBER"), length(Gear.y)),
-                        with(merge(subset(ntwin, Date <= "2019-04-03" & 
+n_1<-data.frame(t(c(with(merge(subset(ntwin, Date <= "2018-11-11" &  
+                                        ntwin$Species == "BIB"),  
+                               subset(ntwin.har, Date >= "2019-05-20"),
+                               by = "TAG.NUMBER"), length(Gear.y)),
+                    with(merge(subset(ntwin, Date <= "2018-11-11" & 
+                                        ntwin$Species == "COC"),  
+                               subset(ntwin.har, Date >= "2019-05-20"),
+                               by = "TAG.NUMBER"), length(Gear.y))))) 
+
+
+n_2<-data.frame(t(c(with(merge(subset(ntwin, Date <= "2019-10-05" &  
+                                            ntwin$Species == "BIB"),
+                               subset(ntwin.har, Date >= "2019-11-23"),
+                               by = "TAG.NUMBER"), length(Gear.y)),
+                        with(merge(subset(ntwin, Date <= "2019-10-05" & 
                                             ntwin$Species == "COC"),  
-                                   ntwin.har, by = "TAG.NUMBER"), length(Gear.y)))))
+                                   subset(ntwin.har, Date >= "2019-11-23"),
+                                   by = "TAG.NUMBER"), length(Gear.y)))))
+
+n_3<-data.frame(c(0,0)) # Data ends at period 3, the last harvest in 2019
+
+
+
+
+
+
+
+
+
+
+
+

@@ -233,6 +233,25 @@ $m_i$ is the number of marked fish in sample i, and
 $R_i$ is the number of fish captured in the ith sample that are released.
 
 ```{r}
+#########################
+#
+#   North Twin
+#
+############################
+
+# Mi
+
+M_1<- data.frame(t(colSums(ntwin.c[c(1:31),c(3,4)]))) # marked in period 1 = pre 2019 harvest
+M_2<- M_1+
+      data.frame(t(colSums(ntwin.c[c(39:55),c(3,4)])))-
+      data.frame(t(colSums(ntwin.c[c(32:38),c(3,4)])))# marked in period 2 = 2019 field season
+M_3<- M_2+
+      data.frame(ntwin.c[57,c(3,4)])-
+      data.frame(ntwin.c[56,c(3,4)])# marked in one seine tag event before another late harvest 2019
+
+
+
+
 
 ```
 
