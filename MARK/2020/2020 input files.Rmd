@@ -169,5 +169,7 @@ return(collect.models())
 robust.results=run.robust()
 
 robust.results
+
+cleanup(ask=F)
 ```
 
