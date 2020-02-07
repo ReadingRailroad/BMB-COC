@@ -68,7 +68,7 @@ packages(ggpmisc)
 
 
 # Compiling and cleaning 2019 data with 2017-2018 data
-
+## do not need to run
 ```{r}
 dat.frame<-read.csv("2018 and 2017 Compiled Data.csv", header = T)
 dat.frame$Year<-as.factor(dat.frame$Year)
@@ -1535,6 +1535,7 @@ summary(ages18$Foli.Age..Spine.)
 
 ```{r,}
 packages("FSA")
+packages("nlstools")
 ages<-read.csv("2017_Age_Estimates.csv",header=T)
 summary(ages)
 str(ages)
@@ -1563,7 +1564,7 @@ svTypical<-vbStarts(tl~age,data=b.carp,
                     methLinf = "oldAge")
 #svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.carp)
 unlist(svTypical)
-svTypical<-list(Linf=530,K=0.1509417,t0=-4.1269841)
+svTypical<-list(Linf=530,K=0.1509417,t0=0)
 
 
 
@@ -1629,7 +1630,7 @@ summary(b.carp$age)
 # vbStarts and function variables
 svTypical<-vbStarts(tl~age,data=b.carp)
 unlist(svTypical)
-svTypical<-list(Linf=426.6693927,K=1.4285567,t0=0.7846017)
+svTypical<-list(Linf=426.6693927,K=1.4285567,t0=0)
 
 # Fitting the model and boostrapping
 vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
@@ -1691,7 +1692,7 @@ summary(c.carp$age)
 svTypical<-vbStarts(tl~age,data=c.carp)
 #svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.carp)
 unlist(svTypical)
-svTypical<-list(Linf=704,K=0.2795948,t0=-1.2430354)
+svTypical<-list(Linf=704,K=0.2795948,t0=0)
 
 
 # Fitting the model and boostrapping
@@ -1755,7 +1756,7 @@ summary(c.carp$age)
 svTypical<-vbStarts(tl~age,data=c.carp)
 #svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.carp)
 unlist(svTypical)
-svTypical<-list(Linf=676.5430337,K=0.2442079,t0=-4.2210478)
+svTypical<-list(Linf=676.5430337,K=0.2442079,t0=0)
 
 
 # Fitting the model and boostrapping
@@ -1763,7 +1764,7 @@ svTypical<-list(Linf=676.5430337,K=0.2442079,t0=-4.2210478)
 
 vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
 vbTyp<-vbFuns()
-vbTyp(3,Linf=c(676,0.2442079,-4.2210478))
+vbTyp(3,Linf=c(676,0.2442079,0))
 
 fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
             control = list(maxiter=500), 
@@ -1827,7 +1828,7 @@ summary(fi.carp$age)
 svTypical<-vbStarts(tl~age,data=fi.carp)
 #svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.carp)
 unlist(svTypical)
-svTypical<-list(Linf=679.8183989,K=0.6044431,t0=1.8686500)
+svTypical<-list(Linf=679.8183989,K=0.6044431,t0=0)
 
 
 # Fitting the model and boostrapping
@@ -1894,7 +1895,7 @@ summary(nt.carp$age)
 svTypical<-vbStarts(tl~age,data=nt.carp)
 #svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.carp)
 unlist(svTypical)
-svTypical<-list(Linf=674.5,K=0.1976556,t0=-2.5083403)
+svTypical<-list(Linf=674.5,K=0.1976556,t0=0)
 
 
 # Fitting the model and boostrapping
@@ -1902,7 +1903,7 @@ svTypical<-list(Linf=674.5,K=0.1976556,t0=-2.5083403)
 
 vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
 vbTyp<-vbFuns()
-vbTyp(3,Linf=c(674.5,0.201306,-2.387971))
+vbTyp(3,Linf=c(674.5,0.201306,0))
 
 fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
             control = list(maxiter=500), 
@@ -1960,7 +1961,7 @@ nt.carp$age<-nt.carp$Marcus.Age..Spine.
 svTypical<-vbStarts(tl~age,data=nt.carp)
 #svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.carp)
 unlist(svTypical)
-svTypical<-list(Linf=777.7,K=0.1713801,t0=-3.4099646)
+svTypical<-list(Linf=777.7,K=0.1713801,t0=0)
 
 
 # Fitting the model and boostrapping
@@ -1968,7 +1969,7 @@ svTypical<-list(Linf=777.7,K=0.1713801,t0=-3.4099646)
 
 vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
 vbTyp<-vbFuns()
-vbTyp(3,Linf=c(777.7,0.1713801,-3.4099646))
+vbTyp(3,Linf=c(777.7,0.1713801,0))
 
 fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
             control = list(maxiter=500), 
@@ -2029,7 +2030,7 @@ summary(si.carp$age)
 # vbStarts and function variables
 svTypical<-vbStarts(tl~age,data=si.carp)
 unlist(svTypical)
-svTypical<-list(Linf=745.515,K=0.69435,t0=0.7152428)
+svTypical<-list(Linf=745.515,K=0.69435,t0=0)
 
 
 # Fitting the model and boostrapping
@@ -2037,7 +2038,7 @@ svTypical<-list(Linf=745.515,K=0.69435,t0=0.7152428)
 
 vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
 vbTyp<-vbFuns()
-vbTyp(3,Linf=c(745.515,0.69435,0.7152428))
+vbTyp(3,Linf=c(745.515,0.69435,0))
 
 fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
             control = list(maxiter=500,warnOnly=T), 
@@ -2095,7 +2096,7 @@ summary(st.carp$age)
 svTypical<-vbStarts(tl~age,data=st.carp)
 #svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.carp)
 unlist(svTypical)
-svTypical<-list(Linf=495,K=1.145066,t0=1.061007)
+svTypical<-list(Linf=495,K=1.145066,t0=1)
 
 
 # Fitting the model and boostrapping
@@ -2103,7 +2104,7 @@ svTypical<-list(Linf=495,K=1.145066,t0=1.061007)
 
 vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
 vbTyp<-vbFuns()
-vbTyp(3,Linf=c(495,1.145066,1.061007))
+vbTyp(3,Linf=c(495,1.145066,1))
 
 fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
             control = list(maxiter=500), 
@@ -2159,7 +2160,7 @@ summary(st.carp$age)
 # vbStarts and function variables
 svTypical<-vbStarts(tl~age,data=st.carp,meth0 = "yngAge")
 unlist(svTypical)
-svTypical<-list(Linf=389.5,K=1.2754392,t0=0.1468164)
+svTypical<-list(Linf=389.5,K=1.2754392,t0=0)
 
 
 # Fitting the model and boostrapping
@@ -2167,7 +2168,7 @@ svTypical<-list(Linf=389.5,K=1.2754392,t0=0.1468164)
 
 vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
 vbTyp<-vbFuns()
-vbTyp(3,Linf=c(389.5,1.2754392,0.1468164))
+vbTyp(3,Linf=c(389.5,1.2754392,0))
 
 fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
             control = list(maxiter=500,warnOnly=T), 
@@ -2209,7 +2210,7 @@ plot(NULL)
 # Subset by species then lake
 #
 #
-#           Silver Lake Carp (2018 spines)
+#           Storm Lake Carp (2018 spines)
 #
 #
 storm.carp <- droplevels(subset(ages18, Species == "COC" &
@@ -2226,7 +2227,7 @@ summary(storm.carp$age)
 # vbStarts and function variables
 svTypical<-vbStarts(tl~age,data=storm.carp)
 unlist(svTypical)
-svTypical<-list(Linf=502.182,K=0.540008,t0=-1.838716)
+svTypical<-list(Linf=502.182,K=0.540008,t0=0)
 
 
 # Fitting the model and boostrapping
@@ -2234,7 +2235,7 @@ svTypical<-list(Linf=502.182,K=0.540008,t0=-1.838716)
 
 vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
 vbTyp<-vbFuns()
-vbTyp(3,Linf=c(502.182,0.540008,-1.838716))
+vbTyp(3,Linf=c(502.182,0.540008,0))
 
 fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
             control = list(maxiter=500,warnOnly=T), 
@@ -2312,7 +2313,7 @@ svTypical<-vbStarts(tl~age,data=c.buff,
                     methLinf = "oldAge")
 #svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.buff)
 unlist(svTypical)
-svTypical<-list(Linf=699,K=0.05632404,t0=-13.11349714)
+svTypical<-list(Linf=699,K=0.05632404,t0=0)
 
 
 # Fitting the model and boostrapping
@@ -2320,7 +2321,7 @@ svTypical<-list(Linf=699,K=0.05632404,t0=-13.11349714)
 
 vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
 vbTyp<-vbFuns()
-vbTyp(3,Linf=c(Linf=699,K=0.05632404,t0=-13.11349714))
+vbTyp(3,Linf=c(Linf=699,K=0.05632404,t0=0))
 
 fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
             control = list(maxiter=500), 
@@ -2381,7 +2382,7 @@ svTypical<-vbStarts(tl~age,data=c.buff,
                     methLinf = "oldAge")
 #svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.buff)
 unlist(svTypical)
-svTypical<-list(Linf=585,K=0.2932983,t0=-3.2984356)
+svTypical<-list(Linf=585,K=0.2932983,t0=0)
 
 
 # Fitting the model and boostrapping
@@ -2389,7 +2390,7 @@ svTypical<-list(Linf=585,K=0.2932983,t0=-3.2984356)
 
 vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
 vbTyp<-vbFuns()
-vbTyp(3,Linf=c(585,0.2932983,-3.2984356))
+vbTyp(3,Linf=c(585,0.2932983,0))
 
 fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
             control = list(maxiter=500), 
@@ -2451,14 +2452,14 @@ summary(fi.buff$age)
 svTypical<-vbStarts(tl~age,data=fi.buff)
 #svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.buff)
 unlist(svTypical)
-svTypical<-list(Linf=674.9123,K=0.4222550,t0=-0.4462011)
+svTypical<-list(Linf=674.9123,K=0.4222550,t0=0)
 
 
 # Fitting the model and boostrapping
 
 vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
 vbTyp<-vbFuns()
-vbTyp(3,Linf=c(674.9123,0.4222550,-0.4462011))
+vbTyp(3,Linf=c(674.9123,0.4222550,0))
 
 fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
             control = list(maxiter=500), 
@@ -2521,14 +2522,14 @@ summary(nt.buff$age)
 svTypical<-vbStarts(tl~age,data=nt.buff)
 #svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.buff)
 unlist(svTypical)
-svTypical<-list(Linf=633,K=0.238783,t0=-2.887681)
+svTypical<-list(Linf=633,K=0.238783,t0=0)
 
 
 # Fitting the model and boostrapping
 
 vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
 vbTyp<-vbFuns()
-vbTyp(3,Linf=c(633,0.238783,-2.887681))
+vbTyp(3,Linf=c(633,0.238783,0))
 
 fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
             control = list(maxiter=500), 
@@ -2588,14 +2589,14 @@ summary(nt.buff$age)
 svTypical<-vbStarts(tl~age,data=nt.buff,meth0 = "yngAge")
 #svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.buff)
 unlist(svTypical)
-svTypical<-list(Linf=737.4488,K=0.2088784,t0=-6.2929390)
+svTypical<-list(Linf=737.4488,K=0.2088784,t0=0)
 
 
 # Fitting the model and boostrapping
 
 vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
 vbTyp<-vbFuns()
-vbTyp(3,Linf=c(737.4488,0.2088784,-6.2929390))
+vbTyp(3,Linf=c(737.4488,0.2088784,0))
 
 fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
             control = list(maxiter=500), 
@@ -2660,14 +2661,14 @@ summary(nt.buff$age)
 svTypical<-vbStarts(tl~age,data=nt.buff,meth0 = "yngAge")
 #svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.buff)
 unlist(svTypical)
-svTypical<-list(Linf=887.5229,K=0.1701503,t0=-1.5694065)
+svTypical<-list(Linf=887.5229,K=0.1701503,t0=0)
 
 
 # Fitting the model and boostrapping
 
 vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
 vbTyp<-vbFuns()
-vbTyp(3,Linf=c(887.5229,0.1701503,-1.5694065))
+vbTyp(3,Linf=c(887.5229,0.1701503,0))
 
 fitTyp<-nls(tl~vbTyp(age,Linf,K,t0), 
             control = list(maxiter=500), 
@@ -2735,7 +2736,7 @@ st.buff2<-subset(st.buff, mean.age <= 10)
 svTypical.2<-vbStarts(tl~age,data=st.buff2)
 
 unlist(svTypical.2)
-svTypical<-list(Linf=579.1508347,K=0.3065546,t0=-1.2960263)
+svTypical<-list(Linf=579.1508347,K=0.3065546,t0=0)
 
 
 # Fitting the model and boostrapping
@@ -2743,7 +2744,7 @@ svTypical<-list(Linf=579.1508347,K=0.3065546,t0=-1.2960263)
 
 vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
 vbTyp<-vbFuns()
-vbTyp(3,Linf=c(579.1508347,0.3065546,-1.2960263))
+vbTyp(3,Linf=c(579.1508347,0.3065546,0))
 
 
 
