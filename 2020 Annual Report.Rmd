@@ -22,11 +22,6 @@ require(x,character.only=TRUE)
 }
 }
 
-#remove.packages(c("ggplot2", "data.table"))
-#install.packages('Rcpp', dependencies = TRUE)
-#install.packages('ggplot2', dependencies = TRUE)
-#install.packages('data.table', dependencies = TRUE)
-
 #packages(rcompanion)
 #packages(vegan)
 packages(ggplot2)
@@ -359,6 +354,7 @@ GearPlot.Carp<-ggplot(GearCatch, aes(x=Lake, y = COC, fill = Gear))+
                 theme_classic()
 
 
+GearPlot.Carp
 ```
 
 # Table 1
@@ -376,7 +372,7 @@ dat.frame<-droplevels(subset(dat.frame, Year == "2019"))
 dat.frame<-droplevels(subset(dat.frame, !is.na(dat.frame$On.Time..s.)))
 effort.melt<-melt(dat.frame, id.var = c("Lake","Site.Transect","Date"),
               measure.vars = "On.Time..s.")
-effort.cast<-dcast(effort.melt, Lake + Site.Transect+Date ~ ., mean,)
+effort.cast<-dcast(effort.melt, Lake + Site.Transect+Date ~ ., mean)
 
 
 

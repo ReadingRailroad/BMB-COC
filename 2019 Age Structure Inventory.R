@@ -11,10 +11,6 @@ packages<-function(x, repos="http://cran.r-project.org", ...){
   }
 }
 
-#remove.packages(c("ggplot2", "data.table"))
-#install.packages('Rcpp', dependencies = TRUE)
-#install.packages('ggplot2', dependencies = TRUE)
-#install.packages('data.table', dependencies = TRUE)
 
 packages(rcompanion)
 packages(vegan)
