@@ -2716,23 +2716,23 @@ st.buff <- droplevels(subset(ages, Species == "BIB" &
 
 summary(st.buff)
 st.buff$tl<-st.buff$TL.mm
-st.buff$mean.age<-rowMeans(st.buff[,6:13],na.rm=T)
 st.buff$age<-st.buff$Spine.PVG
 summary(st.buff$tl)
 summary(st.buff$age)
 summary(st.buff$mean.age)
-#plot(tl~mean.age,st.buff2)
+#plot(tl~age,st.buff)
+# checking some ages
+junky<-droplevels(subset(st.buff, age == 4))
+
 
 
 # vbStarts and function variables ****** problems converging ******
-svTypical<-vbStarts(tl~mean.age,data=st.buff)
+svTypical<-vbStarts(tl~age,data=st.buff, methLinf = "oldAge")
 
-# removing two oddball high age buffs
-st.buff2<-subset(st.buff, mean.age <= 10)
-svTypical.2<-vbStarts(tl~age,data=st.buff2)
 
-unlist(svTypical.2)
-svTypical<-list(Linf=579.1508347,K=0.3065546,t0=0)
+
+unlist(svTypical)
+svTypical<-list(Linf=629.92,K=0.08136705,t0=0)
 
 
 # Fitting the model and boostrapping
@@ -2740,7 +2740,7 @@ svTypical<-list(Linf=579.1508347,K=0.3065546,t0=0)
 
 vbTypical <- tl ~ Linf*(1-exp(-K*(age-t0)))
 vbTyp<-vbFuns()
-vbTyp(3,Linf=c(579.1508347,0.3065546,0))
+vbTyp(3,Linf=c(629.92,0.08136705,0))
 
 
 
@@ -3070,7 +3070,7 @@ bm<-ggplot(frame, aes(x= Year, y = BM, ymin=L.BM, ymax=U.BM))+
                       panel.background = element_rect(fill="white",colour="grey50"), 
                       axis.line = element_line(colour = "black"),
                       legend.position = "none")+
-                labs (title = "Change in Total Biomass 2017-2019", 
+                labs (title = "Total Biomass 2017-2019", 
                     y = "Biomass Estimate (in thousands of pounds)")
 bm
 
@@ -3097,7 +3097,7 @@ bmD<-ggplot(frame, aes(x= Year, y = BMDensity, ymin=L.BMDensity, ymax=U.BMDensit
                       panel.background = element_rect(fill="white",colour="grey50"), 
                       axis.line = element_line(colour = "black"),
                       legend.position = "none")+
-                labs (title = "Change in Biomass Density 2017-2019", 
+                labs (title = "Biomass Density 2017-2019", 
                     y = "Estimated Biomass Density (lbs. / acre)")
 bmD
 
@@ -3120,7 +3120,7 @@ bm<-ggplot(frame, aes(x= Year, y = CPUE, ymin=Lower, ymax=Upper))+
                 geom_errorbar(width = 0.2) +
                 facet_wrap(~Species+Lake)+
                 theme_bw()+
-                labs (title = "Change in CPUE 2017-2018", 
+                labs (title = "Catch Per Unit Effort 2017-2018", 
                     y = "CPUE (Fish per Hour)")
 bm
 ```
