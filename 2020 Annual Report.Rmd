@@ -1315,45 +1315,6 @@ str(harvest)
 #################################
 ```
 
-```{r}
-#############################
-#    quick alternate plot for my IA AFS presentation: 
-#    just figure of harvest in center in 2017
-c.harvest<-droplevels(subset(harvest,Lake == "Center Lake"))
-c.harvest<-droplevels(subset(c.harvest, Year == "2018"))
-p1<-ggplot(c.harvest,aes(x=Species, y=Harvest))+
-           geom_bar(stat="identity",position="Dodge")+
-           theme(panel.grid.major = element_blank(), 
-                panel.grid.minor = element_blank(),
-                panel.background = element_rect(fill="white",colour="grey50"), 
-                axis.line = element_line(colour = "black"),
-                legend.position = "bottom")+
-           labs(title = "Center Lake Harvest",
-                x = "Species",
-                y = "Harvest (lbs)")
-           
-p1
-
-p2<-ggplot(harvest,aes(x=Species, y=Removal))+
-           geom_bar(stat="identity",position="Dodge")+
-           theme(panel.grid.major = element_blank(), 
-                panel.grid.minor = element_blank(),
-                panel.background = element_rect(fill="white",colour="grey50"), 
-                axis.line = element_line(colour = "black"),
-                legend.position = "bottom",
-                legend.background = element_rect(colour="grey20"))+
-           labs(title = "Center Lake Removal",
-                x = "Species",
-                y = "Harvest Removal (lbs/acre)")
-           
-p2
-
-
-```
-
-
-
-
 
 - need to adjust DF so that we have another column representing a season. 
 -- maybe like "15-16" could represent fall 15 and spring 16 harvest. Eh?
@@ -1448,61 +1409,6 @@ p1
 ```
 
 # Von Bertalanffy Growth Curves
-```{r}
-
-data(Croaker2)
-crm<-Subset(Croaker2, sex == "M")
-
-# starting points, infinite length at age, and growth rate K
-svTypical<-vbStarts(tl~age,data=crm)
-unlist(svTypical)
-svTypical<-list(Linf=376,K=0.3,t0=-1.8)
-
-vbTypical <- tl~Linf*(1-exp(-K*(age-t0)))
-fitTypical <- nls(vbTypical,data=crm,start=svTypical)
-
-fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",main = "")
-overview(fitTypical)
-
-bootTypical <- nlsBoot(fitTypical,niter=200)
-ests <- data.frame(bootTypical$coefboot)
-pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(8-ests[,"t0"])))
-quantile(pv,c(0.025,0.975))
-
-
-
-# plot with CIs
-ages2plot<- 0:15
-fitPlot(fitTypical,xlab="Age",ylab = "Total Length (mm)",
-        xlim = range(ages2plot),main="")
-LCI<- UCI <- numeric(length(ages2plot))
-
-for (i in 1:length(ages2plot)) {
-  pv<-ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
-  LCI[i] <- quantile(pv,0.025)
-  UCI[i] <- quantile(pv,0,975)
-}
-
-lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
-lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
-
-# plot with two CIs 90 and 95
-LCI <- UCI <- LPI <- UPI <- numeric(length(ages2plot))
-for (i in 1:length(ages2plot)) {
-    pv <- ests[,"Linf"]*(1-exp(-ests[,"K"]*(ages2plot[i]-ests[,"t0"])))
-    LCI[i] <- quantile(pv,0.025)
-    UCI[i] <- quantile(pv,0.975)
-    LPI[i] <- quantile(pv-bootTypical$rse,0.025)
-    UPI[i] <- quantile(pv+bootTypical$rse,0.975)
-}
-lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
-lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
-lines(UPI~ages2plot,type="l",col="red",lwd=2,lty=2)
-lines(LPI~ages2plot,type="l",col="red",lwd=2,lty=2)
-
-```
-
-- now I need to apply the above example code to my data
 
 **************** Update 2020
 - creating two plot areas, one for each species
@@ -3211,6 +3117,10 @@ grid.arrange(p1,p2, ncol=1)
 
 Trying some PSDs with the all fyke and ef data 
 
+******** New 2020 development: CANNOT have ef and fyke in same PSD table. 
+- gears are size selective
+- so now we split them up and make 2 psd tables! Life is grand
+
 ```{r}
 packages("FSA")
 
@@ -3253,13 +3163,18 @@ psd.frame<-droplevels(subset(psd.frame, Species != "dummy"))
 length(levels(psd.frame$Species))
 
 
-summary(psd.frame$Species[psd.frame$Lake == "Blue"])
+summary(psd.frame$Species[psd.frame$Lake == "Blue" & psd.frame$Gear == "Fyke"])
 summary(psd.frame$Species[psd.frame$Lake == "Center"])
 summary(psd.frame$Species[psd.frame$Lake == "Five Island"])
 summary(psd.frame$Species[psd.frame$Lake == "N Twin"])
 summary(psd.frame$Species[psd.frame$Lake == "Silver"])
 summary(psd.frame$Species[psd.frame$Lake == "S Twin"])
 summary(psd.frame$Species[psd.frame$Lake == "Storm"])
+
+# always, always gotta remove those pesky yellow bass from storm lake
+psd.frame$Species[psd.frame$Lake == "Storm" & psd.frame$Species == "Yellow Bass"] <- "White Bass"
+
+
 # remove fish that aren't included in Ogle's FSA (Gablehouse (PSD) lengths)
 summary(psd.frame$Lake[psd.frame$Species == "Painted Turtle"])
 
@@ -3267,46 +3182,236 @@ levels(psd.frame$Species)
 
 # Also remove Carp and buff because of uneven sampling
 psd.frame<-droplevels(subset(psd.frame, Species != "Madtom" &
-                                       Species != "Orangespotted Sunfish"&
-                                       Species != "Painted Turtle"&
-                                       Species != "Hybrid Sunfish"&
-                                       Species != "Emerald Shiner"&
-                                       Species != "Hybrid White Bass"&
+                                        Species != "Orangespotted Sunfish"&
+                                        Species != "Painted Turtle"&
+                                        Species != "Hybrid Sunfish"&
+                                        Species != "Emerald Shiner"&
+                                        Species != "Hybrid White Bass"&
                                         Species != "Spotfin shiner"&
-                                        Species != "Spottail shiner"&
-                                        Species != "Common Carp"&
-                                        Species != "Bigmouth Buffalo"))
+                                        Species != "Spottail shiner"))
 
 levels(psd.frame$Species)
 
+# time to split by gear!
+psd.frame.fyke<-droplevels(subset(psd.frame, Gear == "Fyke"))
+psd.frame.ef<-droplevels(subset(psd.frame, Gear == "Electroshocking"))
+```
 
-psd.frame$PSDcat<-psdAdd(Length..mm.~Species, data = psd.frame,
-                        units = "mm")
-head(psd.frame)
-first.table<-data.frame(t1 <- with(psd.frame, table(interaction(Species, Lake),PSDcat)))
+
+## Fyke Net PSD table
+```{r,}
+psd.frame.fyke$PSDcat<-psdAdd(Length..mm.~Species, 
+                              data = psd.frame.fyke,
+                              units = "mm")
+head(psd.frame.fyke)
+
+first.table<-data.frame(t1 <- with(psd.frame.fyke, table(interaction(Species, Lake),PSDcat)))
 packages("reshape2")
 second.table<-dcast(first.table, Var1 ~ PSDcat, fun.aggregate = NULL )
 
 second.table$Total<-rowSums(second.table[,2:7])
-#write.csv(second.table, "2019_PSD_Sportfish.csv")
+write.csv(second.table, "2019_PSD_Fyke.csv", row.names = F)
 
 
 
 
 
-( t1r <- t(apply(t1[,-1],MARGIN=1,FUN=rcumsum)) )
+(t1r <- t(apply(t1[,-1],MARGIN=1,FUN=rcumsum)) )
 
 third.table<-data.frame( t1p <- round(t1r[,-1]/t1r[,1]*100,1) )
 third.table$Total<-rowSums(third.table)
-#write.csv(third.table, "2019_PSD_Sportfish2.csv")
+third.table<-cbind(second.table[,1],third.table)
+write.csv(third.table, "2019_PSD_Fyke 2.csv", row.names = F)
 
 ```
 
 2019: got photos of some white bass and yellow bass from storm on the same measuring board. We'll see how this year goes!~
+2020: Yep the consensus in the lab is that they're still not yellow bas in Storm. So I suck at fish, which is nice.
+
+
+## Electrofishing Net PSD table
+```{r,}
+psd.frame.ef$Date<-as.Date(psd.frame.ef$Date, "%m/%d/%Y")
+#Need to do COC and BIB only from the std sample days....
+psd.frame.ef<-droplevels(subset(psd.frame.ef, Date == "2019-06-03" | # silver and center
+                                              Date == "2019-05-15" & Site.Transect != "Bonus" | # storm
+                                              Date == "2019-06-17" & Site.Transect != "Bonus 1" | # five island
+                                              Date == "2019-05-07" & Lake == "S Twin" |
+                                              Date == "2019-05-06" & Lake == "N Twin" |
+                                              Date == "2019-05-13" & Lake == "N Twin" |
+                                              Date == "2019-05-17" & Lake == "Blue")) 
+
+
+psd.frame.ef$PSDcat<-psdAdd(Length..mm.~Species, 
+                              data = psd.frame.ef,
+                              units = "mm")
+head(psd.frame.ef)
+
+first.table<-data.frame(t1 <- with(psd.frame.ef, table(interaction(Species, Lake),PSDcat)))
+packages("reshape2")
+second.table<-dcast(first.table, Var1 ~ PSDcat, fun.aggregate = NULL )
+
+second.table$Total<-rowSums(second.table[,2:7])
+write.csv(second.table, "2019_PSD_Efish.csv", row.names = F)
 
 
 
 
+
+(t1r <- t(apply(t1[,-1],MARGIN=1,FUN=rcumsum)) )
+
+third.table<-data.frame( t1p <- round(t1r[,-1]/t1r[,1]*100,1) )
+third.table$Total<-rowSums(third.table)
+third.table<-cbind(second.table[,1],third.table)
+write.csv(third.table, "2019_PSD_Efish 2.csv", row.names = F)
+
+```
+
+
+
+Trying some PSDs with the all fyke and ef data                                (2018 data --- 2018 data -- 2018 data)
+
+******** New 2020 development: CANNOT have ef and fyke in same PSD table. 
+- gears are size selective
+- so now we split them up and make 2 psd tables! Life is grand
+
+```{r}
+str(diversity)
+
+levels(diversity$Species)
+psd.frame<-diversity
+
+psd.frame$Species<-as.character(psd.frame$Species)
+psd.frame$Species[psd.frame$Species == "BLC"]<-"Black Crappie"
+psd.frame$Species[psd.frame$Species == "BBH"]<-"Brown Bullhead"
+psd.frame$Species[psd.frame$Species == "BIB"]<-"Bigmouth Buffalo"
+psd.frame$Species[psd.frame$Species == "BLB"]<-"Black Bullhead"
+psd.frame$Species[psd.frame$Species == "BLG"]<-"Bluegill"
+psd.frame$Species[psd.frame$Species == "COC"]<-"Common Carp"
+psd.frame$Species[psd.frame$Species == "FWD"]<-"Freshwater Drum"
+psd.frame$Species[psd.frame$Species == "GZS"]<-"Gizzard Shad"
+psd.frame$Species[psd.frame$Species == "GSF"]<-"Green Sunfish"
+psd.frame$Species[psd.frame$Species == "NOP"]<-"Northern Pike"
+psd.frame$Species[psd.frame$Species == "OSS"]<-"Orangespotted Sunfish"
+psd.frame$Species[psd.frame$Species == "SMB"]<-"Smallmouth Bass"
+psd.frame$Species[psd.frame$Species == "WHB"]<-"White Bass"
+psd.frame$Species[psd.frame$Species == "WHS"]<-"White Sucker"
+psd.frame$Species[psd.frame$Species == "YEB"]<-"Yellow Bullhead"
+psd.frame$Species[psd.frame$Species == "YEP"]<-"Yellow Perch"
+psd.frame$Species[psd.frame$Species == "YLB"]<-"Yellow Bass"
+psd.frame$Species[psd.frame$Species == "YLP"]<-"Yellow Perch"
+psd.frame$Species[psd.frame$Species == "CCF"]<-"Channel Catfish"
+psd.frame$Species[psd.frame$Species == "LMB"]<-"Largemouth Bass"
+psd.frame$Species[psd.frame$Species == "WAE"]<-"Walleye"
+psd.frame$Species[psd.frame$Species == "WHC"]<-"White Crappie"
+psd.frame$Species[psd.frame$Species == "BLGxGSF"]<-"Hybrid Sunfish"
+psd.frame$Species[psd.frame$Species == "WHX"]<-"Hybrid White Bass"
+psd.frame$Species[psd.frame$Species == "SNG"]<-"Shortnose Gar"
+psd.frame$Species[psd.frame$Species == "GIS"]<-"Gizzard Shad"
+
+psd.frame$Species<-as.factor(psd.frame$Species)
+levels(psd.frame$Species)
+
+length(levels(psd.frame$Species))
+
+
+summary(psd.frame$Species[psd.frame$Lake == "Blue"])
+summary(psd.frame$Species[psd.frame$Lake == "Center"])
+summary(psd.frame$Species[psd.frame$Lake == "Five Island"])
+summary(psd.frame$Species[psd.frame$Lake == "N Twin"])
+summary(psd.frame$Species[psd.frame$Lake == "Silver"])
+summary(psd.frame$Species[psd.frame$Lake == "S Twin"])
+summary(psd.frame$Species[psd.frame$Lake == "Storm"])
+
+
+
+psdVal()
+levels(psd.frame$Species)
+
+# Also remove Carp and buff because of uneven sampling
+psd.frame<-droplevels(subset(psd.frame, Species != "Golden Shiner" &
+                                        Species != "Orangespotted Sunfish"&
+                                        Species != "Painted turtle"&
+                                        Species != "Hybrid Sunfish"&
+                                        Species != "Emerald Shiner"&
+                                        Species != "Shortnose Gar"&
+                                        Species != "Spotfin shiner"&
+                                        Species != "Spottail shiner" &
+                                        Species != "Snapping Turtle" &
+                                        Species != "Softshell Turtle"))
+
+levels(psd.frame$Species)
+
+# time to split by gear!
+psd.frame.fyke<-droplevels(subset(psd.frame, Gear == "Fyke"))
+psd.frame.ef<-droplevels(subset(psd.frame, Gear == "Electroshocking"))
+```
+
+
+## Fyke Net PSD table
+```{r,}
+psd.frame.fyke$PSDcat<-psdAdd(Length..mm.~Species, 
+                              data = psd.frame.fyke,
+                              units = "mm")
+head(psd.frame.fyke)
+
+first.table<-data.frame(t1 <- with(psd.frame.fyke, table(interaction(Species, Lake),PSDcat)))
+packages("reshape2")
+second.table<-dcast(first.table, Var1 ~ PSDcat, fun.aggregate = NULL )
+
+second.table$Total<-rowSums(second.table[,2:7])
+write.csv(second.table, "2018_PSD_Fyke.csv", row.names = F)
+
+
+
+
+
+(t1r <- t(apply(t1[,-1],MARGIN=1,FUN=rcumsum)) )
+
+third.table<-data.frame( t1p <- round(t1r[,-1]/t1r[,1]*100,1) )
+third.table<-cbind(second.table[,1],third.table)
+write.csv(third.table, "2018_PSD_Fyke 2.csv", row.names = F)
+
+```
+
+
+
+## Electrofishing Net PSD table
+```{r,}
+levels(psd.frame$Lake)
+#Need to do COC and BIB only from the std sample days....
+psd.frame.ef<-droplevels(subset(psd.frame.ef, Date == "2018-05-17" & Lake == "Center" |
+                                              Date == "2018-05-18" & Lake == "Silver" | 
+                                              Date == "2018-06-13" & Lake == "Blue"   | 
+                                              Date == "2018-05-21" & Lake == "Storm"  |
+                                              Date == "2018-06-04" & Lake == "N. Twin" |
+                                              Date == "2018-05-23" & Lake == "Five Island")) 
+
+
+psd.frame.ef$PSDcat<-psdAdd(Length..mm.~Species, 
+                              data = psd.frame.ef,
+                              units = "mm")
+head(psd.frame.ef)
+
+first.table<-data.frame(t1 <- with(psd.frame.ef, table(interaction(Species, Lake),PSDcat)))
+packages("reshape2")
+second.table<-dcast(first.table, Var1 ~ PSDcat, fun.aggregate = NULL )
+
+second.table$Total<-rowSums(second.table[,2:7])
+write.csv(second.table, "2018_PSD_Efish.csv", row.names = F)
+
+
+
+
+
+(t1r <- t(apply(t1[,-1],MARGIN=1,FUN=rcumsum)) )
+
+third.table<-data.frame( t1p <- round(t1r[,-1]/t1r[,1]*100,1) )
+third.table$Total<-rowSums(third.table)
+third.table<-cbind(second.table[,1],third.table)
+write.csv(third.table, "2018_PSD_Efish 2.csv", row.names = F)
+
+```
 
 
 
