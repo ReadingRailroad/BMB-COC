@@ -1022,21 +1022,21 @@ Date, Lake, Species, CPUE, Transect #
 
 ```{r}
 # load in data
-frame2019<-read.csv("2019/2019 CPUE efishing data.csv", header = T)
+frame2019<-read.csv("2017-2020 Compiled Data.csv", header = T)
 str(frame2019)
 
 # trim the fat
 
-frame2019<-frame2019[,c(1,2,4,10:13,17)]
+frame2019<-frame2019[,c(1,2,4,10:13,17,21,22)]
+frame2019$Year<-as.factor(frame2019$Year)
+frame2019<-droplevels(subset(frame2019, Year == "2019"))
 
 # try to set the date column
-frame2019$Date <- as.Date(frame2019$Date , "%m/%d/%y")
+frame2019$Date <- as.Date(frame2019$Date , "%m/%d/%Y")
 str(frame2019)
 
 # sort lake names:
 levels(frame2019$Lake)
-frame2019$Lake[frame2019$Lake == "5 Island "] <- "5 Island"
-droplevels(frame2019$Lake)
 
 # subset the species we want, carp buffalo, and dummy
 levels(frame2019$Species)
@@ -1047,7 +1047,7 @@ levels(frame2019$Species)
 
 # electrofishing only
 levels(frame2019$Gear)
-frame2019<-droplevels(subset(frame2019, Gear != "Seine "))
+frame2019<-droplevels(subset(frame2019, Gear == "Electroshocking"))
 
 # sort out the standard transects
 levels(frame2019$Start.Latitude)
@@ -1149,60 +1149,129 @@ stdRuns<-droplevels(subset(frame2019, Start.Latitude == "5 Island  trans. 3" |
                              Start.Latitude == "Strom trans. 7"     |
                              Start.Latitude == "Strom trans. 9" ))
 
-levels(stdRuns$Transect)
-stdRuns$Transect[stdRuns$Transect == "11"] <- "2"
-stdRuns<-droplevels(subset(stdRuns, Transect != "Bonus 1" ))
-stdRuns<-droplevels(subset(stdRuns, Transect != "Bonus 2" ))
-stdRuns<-droplevels(subset(stdRuns, Transect != "Bonus 4" ))
+levels(stdRuns$Site.Transect)
+stdRuns<-droplevels(subset(stdRuns, Site.Transect != "Bonus 1" ))
+stdRuns<-droplevels(subset(stdRuns, Site.Transect != "Bonus 2" ))
+stdRuns<-droplevels(subset(stdRuns, Site.Transect != "Bonus 4" ))
 
 # set transect levels to be consistent among lakes and years
-levels(stdRuns$Transect)
-
-stdRuns$Transect[stdRuns$Transect == "Standard 2"] <- "2"
-stdRuns$Transect[stdRuns$Transect == "Standard 3"] <- "3"
-stdRuns$Transect[stdRuns$Transect == "Standard 4"] <- "4"
-stdRuns$Transect[stdRuns$Transect == "Standard 5"] <- "5"
-stdRuns$Transect[stdRuns$Transect == "Standard1"] <- "1"
-stdRuns$Transect[stdRuns$Transect == "Std 1"] <- "1"
-stdRuns$Transect[stdRuns$Transect == "Std 2"] <- "2"
-stdRuns$Transect[stdRuns$Transect == "Std 3"] <- "3"
-stdRuns$Transect[stdRuns$Transect == "Std 4"] <- "4"
-stdRuns$Transect[stdRuns$Transect == "Std 5"] <- "5"
-stdRuns$Transect[stdRuns$Transect == "Storm  trans 5"] <- "5"
-stdRuns$Transect[stdRuns$Transect == "Storm 5"] <- "5"
-stdRuns$Transect[stdRuns$Transect == "Storm 7"] <- "7"
-stdRuns$Transect[stdRuns$Transect == "Storm trans 2"] <- "2"
-stdRuns$Transect[stdRuns$Transect == "Storm trans 4"] <- "4"
-stdRuns$Transect[stdRuns$Transect == "Storm trans 9"] <- "9"
-stdRuns$Transect[stdRuns$Transect == "Strom trans 1"] <- "1"
-stdRuns$Transect<-droplevels(stdRuns$Transect)
-levels(stdRuns$Transect)
+levels(stdRuns$Site.Transect)
 
 # trim out notes and gear and start latitude columns
+str(stdRuns)
 stdRuns<-stdRuns[,-c(4,5,7)]
 
 # check that the on-time in seconds is approximately 900 seconds
-summary(stdRuns$On.time..s.)
+summary(stdRuns$On.Time..s.)
 # center lake transect 1 on 5-14-2019
-stdRuns<-droplevels(subset(stdRuns, On.time..s. != 1909))
-# north twin lake on 5-17
-stdRuns<-droplevels(subset(stdRuns, On.time..s. != 1430))
-stdRuns<-droplevels(subset(stdRuns, On.time..s. != 1069))
-stdRuns<-droplevels(subset(stdRuns, On.time..s. != 678))
-summary(stdRuns$On.time..s.)
+stdRuns<-droplevels(subset(stdRuns, On.Time..s. != 1909))
 
-# adding a dummy variable for observation as "count" of species
-stdRuns$Obs<-1
+stdRuns<-droplevels(subset(stdRuns, On.Time..s. != 1493))
+
+# north twin lake on 5-17
+stdRuns<-droplevels(subset(stdRuns, On.Time..s. != 1430))
+stdRuns<-droplevels(subset(stdRuns, On.Time..s. != 1069))
+stdRuns<-droplevels(subset(stdRuns, On.Time..s. != 678))
+stdRuns<-droplevels(subset(stdRuns, On.Time..s. != 575))
+summary(stdRuns$On.Time..s.)
+
 
 # adding an effort column, the on-time divided by an hour (3600 seconds)
-stdRuns$Effort<-stdRuns$On.time..s./3600
+stdRuns$Effort<-stdRuns$On.Time..s./3600
 
-cpue<-aggregate(Obs~Date+Lake+Transect+Species+Effort, data = stdRuns, sum, na.action=NULL)
-cpue$cpue<-cpue$Obs/cpue$Effort
-# so now I have the cpue per each date/lake/transect combo 
+cpue<-aggregate(detect~Date+Lake+Site.Transect+Species+Effort, 
+                data = stdRuns, sum, na.action=NULL)
+
 # for two species and "dummy" for goose eggs
 head(cpue)
 
+# let me assign seasons here to get a groupwise mean
+cpue$Season[cpue$Date <= "2019-05-31"] <- "Spring"
+cpue$Season[cpue$Date >= "2019-06-01" & cpue$Date <= "2019-07-31"] <- "Summer"
+cpue$Season[cpue$Date >= "2019-08-01"] <- "Fall"
+length(is.na(cpue$Season))
+
+# ignoring storm because it's problematic
+cpue<-droplevels(subset(cpue, Lake != "Storm"))
+# ignoring blue and south twin for ia afs 2020
+cpue<-droplevels(subset(cpue, Lake != "Blue"))
+cpue<-droplevels(subset(cpue, Lake != "S Twin"))
+
+# finding out about 'std' runs '6' in five island and '7' in silver
+junks<-droplevels(subset(cpue, Lake == "5 Island" & Date == "2019-08-02"))
+# these are the std runs, just numbered 3-7 and not 1-5 for some reason :(
+cpue$Site.Transect[cpue$Lake == "5 Island" & 
+                   cpue$Date == "2019-08-02" &
+                   cpue$Site.Transect == "Std 3"]<-"Std 1"
+cpue$Site.Transect[cpue$Lake == "5 Island" & 
+                   cpue$Date == "2019-08-02" &
+                   cpue$Site.Transect == "Std 4"]<-"Std 2"
+cpue$Site.Transect[cpue$Lake == "5 Island" & 
+                   cpue$Date == "2019-08-02" &
+                   cpue$Site.Transect == "Std 5"]<-"Std 3"
+cpue$Site.Transect[cpue$Lake == "5 Island" & 
+                   cpue$Date == "2019-08-02" &
+                   cpue$Site.Transect == "Std 6"]<-"Std 4"
+cpue$Site.Transect[cpue$Lake == "5 Island" & 
+                   cpue$Date == "2019-08-02" &
+                   cpue$Site.Transect == "Std 7"]<-"Std 5"
+junks<-droplevels(subset(cpue, Lake == "5 Island" & Date == "2019-08-02"))
+
+# now for five island but on june 25
+junks<-droplevels(subset(cpue, Lake == "5 Island" & Date == "2019-06-25"))
+cpue$Site.Transect[cpue$Lake == "5 Island" & 
+                   cpue$Date == "2019-06-25" &
+                   cpue$Site.Transect == "Std 4"]<-"Std 3"
+cpue$Site.Transect[cpue$Lake == "5 Island" & 
+                   cpue$Date == "2019-06-25" &
+                   cpue$Site.Transect == "Std 5"]<-"Std 4"
+cpue$Site.Transect[cpue$Lake == "5 Island" & 
+                   cpue$Date == "2019-06-25" &
+                   cpue$Site.Transect == "Std 6"]<-"Std 5"
+junks<-droplevels(subset(cpue, Lake == "5 Island" & Date == "2019-06-25"))
+
+# now for silver on 6-3
+junks<-droplevels(subset(cpue, Lake == "Silver" & Date == "2019-06-03"))
+cpue$Site.Transect[cpue$Lake == "Silver" & 
+                   cpue$Date == "2019-06-03" &
+                   cpue$Site.Transect == "Std 7"]<-"Std 6"
+
+# setting dummy to coc and bib
+coc.extra<-droplevels(subset(cpue, Species == "dummy"))
+coc.extra$Species<-as.character(coc.extra$Species)
+coc.extra$Species[coc.extra$Species == "dummy"] <- "COC"
+coc.extra$Species<-as.factor(coc.extra$Species)
+coc.extra$detect<-0
+
+# will add on the coc.extra frame shortly. changing buff species and detect
+cpue$detect[cpue$Species == "dummy"] <- 0
+cpue$Species[cpue$Species == "dummy"] <- "BIB"
+
+# adding on coc.extra
+cpue<-rbind(cpue, coc.extra)
+
+cpue$cpue<-cpue$detect/cpue$Effort
+# so now I have the cpue per each date/lake/transect combo 
+
+cpue2<-groupwiseMean(cpue~Season + Lake + Species + Site.Transect, cpue, mean)
+
+
+df.efish.m<-melt(cpue2)
+efish.cpue.cast<-dcast(df.efish.m, 
+                       Lake + Season + Site.Transect ~ Species, 
+                       value.var = "value", fun.aggregate = mean)
+
+
+
+
+
+
+
+```
+
+
+
+```{r,}
 # OK I'm gonna send this to Sarah for now, and see what she thinks and needs it to change.
 write.csv(cpue, "2019 Raw CPUE Data.csv", row.names = F)
 ```
