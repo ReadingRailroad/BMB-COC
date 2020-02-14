@@ -1436,8 +1436,6 @@ summary(ages18$Foli.Age..Spine.)
 # CARPE DIEM
 
 ```{r,}
-packages("FSA")
-packages("nlstools")
 ages<-read.csv("2017_Age_Estimates.csv",header=T)
 summary(ages)
 str(ages)
@@ -1502,8 +1500,8 @@ for(i in 1:length(ages2plot)) {
 dev.off()
 plot.new()
 par(mfrow=c(7,2),
-    mar=c(2,2,2,2))
-fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
+    mar=c(4,4,2,2))
+fitPlot(fitTypical,xlab="Age Estimate",ylab="Length (mm)",
         main = "Blue Lake Carp 2017",
         xlim = c(0,35), ylim = c(200,900),
         legend = T)+
@@ -1560,7 +1558,7 @@ for(i in 1:length(ages2plot)) {
 
 
 # Plots
-fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
+fitPlot(fitTypical,xlab="Age Estimate",ylab="Length (mm)",
         main = "Blue Lake Carp 2018",
         xlim = c(0,35), ylim = c(200,900),
         legend = T)+
@@ -1627,7 +1625,7 @@ for(i in 1:length(ages2plot)) {
 
 # Plots
 
-fitPlot(fitTypical,xlab="Age",ylab="",
+fitPlot(fitTypical,xlab="Age Estimate",ylab="Length (mm)",
         main = "Center Lake Carp 2017",
         xlim = c(0,35), ylim = c(200,900),
         legend = T)
@@ -1692,7 +1690,7 @@ for(i in 1:length(ages2plot)) {
 
 # Plots
 
-fitPlot(fitTypical,xlab="Age",ylab="",
+fitPlot(fitTypical,xlab="Age Estimate",ylab="Length (mm)",
         main = "Center Lake Carp 2018",
         xlim = c(0,35), ylim = c(200,900),
         legend = T)
@@ -1730,7 +1728,7 @@ summary(fi.carp$age)
 svTypical<-vbStarts(tl~age,data=fi.carp)
 #svAlternate<-vbStartsDP(TL.mm,Otolith.MAS,data=b.carp)
 unlist(svTypical)
-svTypical<-list(Linf=679.8183989,K=0.6044431,t0=0)
+svTypical<-list(Linf=679.8183989,K=0.6044431,t0=1.86865)
 
 
 # Fitting the model and boostrapping
@@ -1764,7 +1762,7 @@ for(i in 1:length(ages2plot)) {
 
 
 # Plots
-fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
+fitPlot(fitTypical,xlab="Age Estimate",ylab="Length (mm)",
         main = "Five Island Lake Carp 2018",
         xlim = c(0,35), ylim = c(200,900),
         legend = T)
@@ -1833,7 +1831,7 @@ for(i in 1:length(ages2plot)) {
 
 # Plots
 
-fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
+fitPlot(fitTypical,xlab="Age Estimate",ylab="Length (mm)",
         main = "North Twin Lake Carp 2017",
         xlim = c(0,35), ylim = c(200,900),
         legend = T)
@@ -1898,7 +1896,7 @@ for(i in 1:length(ages2plot)) {
 
 # Plots
 
-fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
+fitPlot(fitTypical,xlab="Age Estimate",ylab="Length (mm)",
         main = "North Twin Lake Carp 2018",
         xlim = c(0,35), ylim = c(200,900),
         legend = T)
@@ -1965,7 +1963,7 @@ for(i in 1:length(ages2plot)) {
 
 # Plots
 
-fitPlot(fitTypical,xlab="Age",ylab="",
+fitPlot(fitTypical,xlab="Age Estimate",ylab="Length (mm)",
         main = "Silver Lake Carp 2018",
         xlim = c(0,35), ylim = c(200,900),
         legend = T)
@@ -2032,7 +2030,7 @@ for(i in 1:length(ages2plot)) {
 
 # Plots
 
-fitPlot(fitTypical,xlab="Age",ylab="",
+fitPlot(fitTypical,xlab="Age Estimate",ylab="Length (mm)",
         main = "South Twin Lake Carp 2017",
         xlim = c(0,35), ylim = c(200,900),
         legend = T)
@@ -2095,7 +2093,7 @@ for(i in 1:length(ages2plot)) {
 
 # Plots
 
-fitPlot(fitTypical,xlab="Age",ylab="",
+fitPlot(fitTypical,xlab="Age Estimate",ylab="Length (mm)",
         main = "South Twin Lake Carp 2018",
         xlim = c(0,35), ylim = c(200,900),
         legend = T)
@@ -2162,7 +2160,7 @@ for(i in 1:length(ages2plot)) {
 
 # Plots
 
-fitPlot(fitTypical,xlab="Age",ylab="",
+fitPlot(fitTypical,xlab="Age Estimate",ylab="Length (mm)",
         main = "Storm Lake Carp 2018",
         xlim = c(0,35), ylim = c(200,900),
         legend = T)
@@ -2253,8 +2251,8 @@ for(i in 1:length(ages2plot)) {
 dev.off()
 plot.new()
 par(mfrow=c(4,2),
-    mar=c(2,2,2,2))
-fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
+    mar=c(4,4,2,2))
+fitPlot(fitTypical,xlab="Age Estimate",ylab="Length (mm)",
         main = "Center Lake Buffalo 2017",
         xlim = c(0,26), ylim = c(200,900),
         legend = T)
@@ -2319,7 +2317,7 @@ for(i in 1:length(ages2plot)) {
 
 # Plots
 
-fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
+fitPlot(fitTypical,xlab="Age Estimate",ylab="Length (mm)",
         main = "Center Lake Buffalo 2018",
         xlim = c(0,26), ylim = c(200,900),
         legend = T)
@@ -2389,7 +2387,7 @@ for(i in 1:length(ages2plot)) {
 
 # Plots
 plot(NULL) # placeholder plot
-fitPlot(fitTypical,xlab="Age",ylab="",
+fitPlot(fitTypical,xlab="Age Estimate",ylab="Length (mm)",
         main = "Five Island Lake Buffalo 2018",
         xlim = c(0,26), ylim = c(200,900),
         legend = T)
@@ -2458,7 +2456,7 @@ for(i in 1:length(ages2plot)) {
 
 # Plots
 
-fitPlot(fitTypical,xlab="Age",ylab="",
+fitPlot(fitTypical,xlab="Age Estimate",ylab="Length (mm)",
         main = "North Twin Lake Buffalo 2017",
         xlim = c(0,26), ylim = c(200,900),
         legend = T)
@@ -2525,13 +2523,12 @@ for(i in 1:length(ages2plot)) {
 
 # Plots
 
-fitPlot(fitTypical,xlab="Age",ylab="",
+fitPlot(fitTypical,xlab="Age Estimate",ylab="Length (mm)",
         main = "North Twin Lake Buffalo 2018",
         xlim = c(0,26), ylim = c(200,900),
         legend = T)
 lines(UCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
 lines(LCI~ages2plot,type="l",col="blue",lwd=2,lty=2)
-
 ```
 
 
@@ -2597,7 +2594,7 @@ for(i in 1:length(ages2plot)) {
 
 # Plots
 plot(NULL)
-fitPlot(fitTypical,xlab="Age",ylab="",
+fitPlot(fitTypical,xlab="Age Estimate",ylab="Length (mm)",
         main = "Silver Lake Buffalo 2018",
         xlim = c(0,26), ylim = c(200,900),
         legend = T)
@@ -2673,7 +2670,7 @@ for(i in 1:length(ages2plot)) {
 
 # Plots
 
-fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
+fitPlot(fitTypical,xlab="Age Estimate",ylab="Length (mm)",
         main = "South Twin Buffalo 2017",
         xlim = c(0,26), ylim = c(200,900),
         legend = T)
@@ -2743,7 +2740,7 @@ for(i in 1:length(ages2plot)) {
 
 # Plots
 
-fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
+fitPlot(fitTypical,xlab="Age Estimate",ylab="Length (mm)",
         main = "South Twin Lake Buffalo 2018",
         xlim = range(ages2plot), ylim = c(200,900),
         legend = T)
@@ -2820,7 +2817,7 @@ for(i in 1:length(ages2plot)) {
 
 # Plots
 plot(NULL)
-fitPlot(fitTypical,xlab="Age",ylab="Total Length (mm)",
+fitPlot(fitTypical,xlab="Age Estimate",ylab="Length (mm)",
         main = "Storm Lake Buffalo 2018",
         xlim = range(ages2plot), ylim = c(200,900),
         legend = T)
@@ -3376,7 +3373,7 @@ write.csv(third.table, "2018_PSD_Fyke 2.csv", row.names = F)
 
 
 
-## Electrofishing Net PSD table
+## Electrofishing PSD table
 ```{r,}
 levels(psd.frame$Lake)
 #Need to do COC and BIB only from the std sample days....

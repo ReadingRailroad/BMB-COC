@@ -1265,19 +1265,121 @@ cpue<-rbind(cpue, coc.extra)
 cpue$cpue<-cpue$detect/cpue$Effort
 
 
-cpue2<-groupwiseMean(cpue~Season + Lake + Species + Site.Transect, cpue, mean)
 
 
-df.efish.m<-melt(cpue2)
-efish.cpue.cast<-dcast(df.efish.m, 
-                       Lake + Season + Site.Transect ~ Species, 
-                       value.var = "value", fun.aggregate = mean)
+# finding out which date/transect combos don't match between species
+buff1<-droplevels(subset(cpue, Species == "BIB"))
+carp1<-droplevels(subset(cpue, Species == "COC"))
+
+buff1$DLR<-paste(buff1$Date,buff1$Lake,buff1$Site.Transect, sep = "-")
+carp1$DLR<-paste(carp1$Date,carp1$Lake,carp1$Site.Transect, sep = "-")
 
 
+setdiff(buff1$DLR,carp1$DLR) # entries in buff frame not in carp frame
+str(cpue)
+a <- c("2019-09-22","Center","Std 4","COC",NA,0,"Fall",0)
+b <- c("2019-09-22","Center","Std 5","COC",NA,0,"Fall",0)
+c <- c("2019-08-06","5 Island","Std 1","COC",NA,0,"Fall",0)
+d <- c("2019-08-05","Center","Std 1","COC",NA,0,"Fall",0)  
+e <- c("2019-09-07","Center","Std 3","COC",NA,0,"Fall",0)
+f <- c("2019-05-27","5 Island","Std 2","COC",NA,0,"Spring",0)
+g <- c("2019-09-21","5 Island","Std 2","COC",NA,0,"Fall",0)
+h <- c("2019-09-21","5 Island","Std 1","COC",NA,0,"Fall",0)
+i <- c("2019-09-22","Center","Std 1","COC",NA,0,"Fall",0)
+j <- c("2019-09-07","Center","Std 1","COC",NA,0,"Fall",0)
+k <- c("2019-09-07","Center","Std 2","COC",NA,0,"Fall",0)
+l <- c("2019-09-22","Center","Std 3","COC",NA,0,"Fall",0)  
+m <- c("2019-05-27","5 Island","Std 5","COC",NA,0,"Spring",0)
+
+add.on<-data.frame(t(data.frame(a,b,c,d,e,f,g,h,i,j,k,l,m)),
+                   stringsAsFactors = F)
+
+setdiff(carp1$DLR,buff1$DLR) # entries in carp frame not in buff frame
+a <- c("2019-06-03","Center","Std 4","BIB",NA,0,"Summer",0)
+b <- c("2019-04-27","Center","Std 4","BIB",NA,0,"Spring",0)
+c <- c("2019-06-03","Center","Std 3","BIB",NA,0,"Summer",0)
+d <- c("2019-04-27","Center","Std 2","BIB",NA,0,"Spring",0)
+e <- c("2019-07-30","Center","Std 3","BIB",NA,0,"Summer",0)
+f <- c("2019-07-30","Silver","Std 1","BIB",NA,0,"Summer",0)
+g <- c("2019-09-08","5 Island","Std 2","BIB",NA,0,"Fall",0)
+h <- c("2019-09-08","5 Island","Std 3","BIB",NA,0,"Fall",0)
+i <- c("2019-08-06","5 Island","Std 4","BIB",NA,0,"Fall",0)
+j <- c("2019-08-05","Center","Std 4","BIB",NA,0,"Fall",0)
+k <- c("2019-07-30","Silver","Std 4","BIB",NA,0,"Summer",0)
+l <- c("2019-07-30","Silver","Std 6","BIB",NA,0,"Summer",0)  
+m <- c("2019-09-21","5 Island","Std 4","BIB",NA,0,"Fall",0)
+n <- c("2019-07-30","Silver","Std 2","BIB",NA,0,"Summer",0)
+o <- c("2019-08-02","5 Island","Std 1","BIB",NA,0,"Fall",0)
+p <- c("2019-09-21","Silver","Std 5","BIB",NA,0,"Fall",0)  
+q <- c("2019-06-14","5 Island","Std 5","BIB",NA,0,"Summer",0)
+r <- c("2019-08-05","Center","Std 2","BIB",NA,0,"Fall",0)
+s <- c("2019-08-02","5 Island","Std 4","BIB",NA,0,"Fall",0)
+t <- c("2019-06-03","Silver","Std 2","BIB",NA,0,"Summer",0)  
+u <- c("2019-10-20","5 Island","Std 5","BIB",NA,0,"Fall",0)
+v <- c("2019-06-18","Silver","Std 5","BIB",NA,0,"Summer",0)
+w <- c("2019-08-02","5 Island","Std 3","BIB",NA,0,"Fall",0)
+x <- c("2019-09-21","5 Island","Std 5","BIB",NA,0,"Fall",0)
+y <- c("2019-07-30","Center","Std 1","BIB",NA,0,"Summer",0)
+z <- c("2019-09-21","Silver","Std 1","BIB",NA,0,"Fall",0)
+
+aa<- c("2019-06-18","Silver","Std 2","BIB",NA,0,"Summer",0)
+bb<- c("2019-07-30","Silver","Std 3","BIB",NA,0,"Summer",0)  
+cc<- c("2019-08-06","5 Island","Std 2","BIB",NA,0,"Fall",0)
+dd<- c("2019-08-02","5 Island","Std 5","BIB",NA,0,"Fall",0)
+ee<- c("2019-09-21","Silver","Std 3","BIB",NA,0,"Fall",0)
+ff<- c("2019-06-11","Center","Std 1","BIB",NA,0,"Summer",0)  
+gg<- c("2019-09-21","5 Island","Std 3","BIB",NA,0,"Fall",0)
+hh<- c("2019-08-06","5 Island","Std 5","BIB",NA,0,"Fall",0)
+ii<- c("2019-06-17","5 Island","Std 2","BIB",NA,0,"Summer",0)
+jj<- c("2019-06-18","Silver","Std 1","BIB",NA,0,"Summer",0)  
+kk<- c("2019-06-25","5 Island","Std 1","BIB",NA,0,"Summer",0)
+ll<- c("2019-08-02","5 Island","Std 2","BIB",NA,0,"Fall",0)
+mm<- c("2019-09-21","Silver","Std 6","BIB",NA,0,"Fall",0)
+nn<- c("2019-06-17","5 Island","Std 1","BIB",NA,0,"Summer",0)
+oo<- c("2019-09-21","Silver","Std 4","BIB",NA,0,"Fall",0)
+pp<- c("2019-06-17","5 Island","Std 3","BIB",NA,0,"Summer",0)
+qq<- c("2019-06-18","Silver","Std 6","BIB",NA,0,"Summer",0)
+rr<- c("2019-09-08","5 Island","Std 5","BIB",NA,0,"Fall",0)
+ss<- c("2019-06-18","Silver","Std 3","BIB",NA,0,"Summer",0)
+tt<- c("2019-05-29","Center","Std 1","BIB",NA,0,"Spring",0)
+uu<- c("2019-06-03","Silver","Std 1","BIB",NA,0,"Summer",0)
+vv<- c("2019-05-20","Silver","Std 6","BIB",NA,0,"Spring",0)  
+xx<- c("2019-06-25","5 Island","Std 5","BIB",NA,0,"Summer",0)
+yy<- c("2019-06-25","5 Island","Std 3","BIB",NA,0,"Summer",0)
+zz<- c("2019-05-14","Center","Std 3","BIB",NA,0,"Spring",0)
+
+aaa<-c("2019-06-17","5 Island","Std 4","BIB",NA,0,"Summer",0)
+bbb<-c("2019-06-25","5 Island","Std 4","BIB",NA,0,"Summer",0)
+ccc<-c("2019-04-27","Center","Std 1","BIB",NA,0,"Spring",0)
+ddd<-c("2019-06-14","5 Island","Std 2","BIB",NA,0,"Summer",0)
+eee<-c("2019-06-25","5 Island","Std 2","BIB",NA,0,"Summer",0)
+fff<-c("2019-05-27","5 Island","Std 4","BIB",NA,0,"Spring",0)
+ggg<-c("2019-06-12","Silver","Std 1","BIB",NA,0,"Summer",0)
+hhh<-c("2019-06-14","5 Island","Std 1","BIB",NA,0,"Summer",0)
+
+add.on2<-data.frame(t(data.frame(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,
+                                 aa,bb,cc,dd,ee,ff,gg,hh,ii,jj,kk,ll,mm,nn,oo,pp,qq,rr,ss,tt,uu,vv,xx,yy,zz,
+                                 aaa,bbb,ccc,ddd,eee,fff,ggg,hhh)),
+                   stringsAsFactors = F)
+names(add.on)<-c("Date","Lake","Site.Transect","Species","Effort","detect","Season","cpue")
+names(add.on2)<-c("Date","Lake","Site.Transect","Species","Effort","detect","Season","cpue")
 
 
+# throw that ish together
+cpue2<-rbind(cpue,add.on,add.on2)
+cpue2<-droplevels(cpue2)
+str(cpue2)
+cpue2$Effort<-as.numeric(as.character(cpue2$Effort))
+cpue2$detect<-as.numeric(as.character(cpue2$detect))
+cpue2$Season<-as.factor(cpue2$Season)
+cpue2$cpue<-as.numeric(as.character(cpue2$cpue))
+str(cpue2)
 
+cpue3<-aggregate(cpue ~ Lake + Species + Site.Transect + Season, cpue2,mean)
 
+cpue.m<-melt(cpue3)
+
+cpue.cast<-dcast(cpue.m, Lake + Site.Transect + Season ~ Species, value.var = "value")
 
 ```
 
@@ -1285,7 +1387,7 @@ efish.cpue.cast<-dcast(df.efish.m,
 
 ```{r,}
 # OK I'm gonna send this to Sarah for now, and see what she thinks and needs it to change.
-write.csv(cpue, "2019 Raw CPUE Data.csv", row.names = F)
+write.csv(cpue.cast, "Hanna_2019_CPUE.csv", row.names = F)
 ```
 
 
