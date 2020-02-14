@@ -1242,7 +1242,7 @@ coc.extra$Species<-as.character(coc.extra$Species)
 coc.extra$Species[coc.extra$Species == "dummy"] <- "COC"
 coc.extra$Species<-as.factor(coc.extra$Species)
 coc.extra$detect<-0
-
+head(coc.extra)
 # will add on the coc.extra frame shortly. changing buff species and detect
 cpue$detect[cpue$Species == "dummy"] <- 0
 cpue$Species[cpue$Species == "dummy"] <- "BIB"
@@ -1250,8 +1250,20 @@ cpue$Species[cpue$Species == "dummy"] <- "BIB"
 # adding on coc.extra
 cpue<-rbind(cpue, coc.extra)
 
+# NOW! big problem in figuring out how to add 0 catch for one species when the other was observed.....
+
+
+
+
+
+
+
+
+
+
+
 cpue$cpue<-cpue$detect/cpue$Effort
-# so now I have the cpue per each date/lake/transect combo 
+
 
 cpue2<-groupwiseMean(cpue~Season + Lake + Species + Site.Transect, cpue, mean)
 
