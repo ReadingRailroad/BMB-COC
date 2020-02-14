@@ -120,7 +120,7 @@ a <- ggplot(harvest.dat, aes(x=Year,y=Pounds, fill = Species))+
                 labs(title = "Harvest in Pounds through Time",
                  x="Date",
                  y="Pounds Removed") +
-            facet_grid(Lake~., scales = "free_x")+
+            facet_grid(Lake~.)+
             theme(panel.grid.major = element_blank(), 
                               panel.grid.minor = element_blank(),
                               panel.background = element_rect(fill="white",colour="grey50"), 
