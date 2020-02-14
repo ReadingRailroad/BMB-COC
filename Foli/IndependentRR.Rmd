@@ -176,6 +176,11 @@ Boxplots of all water quality variables for each Lake
 
 ```{r}
 
+hist(water.dat$`Chlorophyll a`)
+hist(water.dat$TN)
+hist(water.dat$TP)
+hist(water.dat$`Secchi Depth`)
+
 #Nutrient bois
 
 dev.off()
@@ -208,3 +213,5 @@ boxplot(water.dat$Chlorophyta~water.dat$Lake, ylab= 'Chlorophyta (mg/L)', xlab= 
 boxplot(water.dat$Cyanophyta~water.dat$Lake, ylab= 'Cyanophyta (mg/L)', xlab= 'Lake', main= 'Cyanophyta Densities of Each Lake')
 
 ```
+
+
