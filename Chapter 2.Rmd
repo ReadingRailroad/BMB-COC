@@ -6,7 +6,50 @@ output: pdf_document
 editor_options: 
   chunk_output_type: console
 ---
+```{r, include=FALSE}
+# front matter
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
 
+#packages(rcompanion)
+packages(vegan)
+packages(ggplot2)
+packages(gridExtra)
+packages(reshape2)
+packages(FSA)
+packages(nnet)
+#packages(multcomp)
+#packages(plyr)
+#packages(rv)
+packages(arm)
+packages(lattice)
+packages(tikzDevice)
+packages(FSAdata)
+packages(nlstools)
+#packages(GGally)
+packages(wesanderson)
+#packages(DescTools)
+#packages(mvnormtest)
+#packages(HH)
+#packages(biotools)
+#packages(car)
+#packages(psych)
+#packages(GPArotation)
+packages(doBy)
+packages(dplyr)
+packages(tidyr)
+packages(rcompanion)
+packages(GISTools)
+#packages(maps)
+#packages(mapproj)
+packages(ggpmisc)
+packages(lubridate)
+```
 As of 1/31/2020 This file is meant to assemble all the code and plots relative to data analysis for Chapter 2. But let's start small, with the code relative to the 2020 Iowa AFS presentation. 
 
 Beginning abstract draft:
@@ -116,50 +159,7 @@ levels(harvest$Species)
 
 ```
 
-```{r, include=FALSE}
-# front matter
-packages<-function(x, repos="http://cran.r-project.org", ...){
-x<-as.character(match.call()[[2]])
-if (!require(x,character.only=TRUE)){
-install.packages(pkgs=x, repos=repos, ...)
-require(x,character.only=TRUE)
-}
-}
 
-#packages(rcompanion)
-packages(vegan)
-packages(ggplot2)
-packages(gridExtra)
-packages(reshape2)
-packages(FSA)
-packages(nnet)
-#packages(multcomp)
-#packages(plyr)
-#packages(rv)
-packages(arm)
-packages(lattice)
-packages(tikzDevice)
-packages(FSAdata)
-packages(nlstools)
-#packages(GGally)
-packages(wesanderson)
-#packages(DescTools)
-#packages(mvnormtest)
-#packages(HH)
-#packages(biotools)
-#packages(car)
-#packages(psych)
-#packages(GPArotation)
-packages(doBy)
-packages(dplyr)
-packages(tidyr)
-packages(rcompanion)
-packages(GISTools)
-#packages(maps)
-#packages(mapproj)
-packages(ggpmisc)
-packages(lubridate)
-```
 
 ```{r}
 # report time of knitting
@@ -316,22 +316,513 @@ where $W_i$ is the individual fish weight, and
 $W_s$ is a length-specific standard weight predicted from a weight-length regression developed to represent the body form of carp and buffalo along their geographical range (provided in Blackwell et al 2000). 
 
 ```{r}
+# data frame - massage and subset
+dframe<-read.csv("2017-2020 Compiled Data.csv",header = T)
+dframe$Year<-as.factor(dframe$Year)
+dframe$TAG.NUMBER<-as.factor(dframe$TAG.NUMBER)
+dframe$Date<-as.Date(dframe$Date, "%m/%d/%Y")
+dframe$On.Time..s.<-as.numeric(dframe$On.Time..s.)
+dframe<-droplevels(subset(dframe, Species == "BIB" |
+                                  Species == "COC" ))
+# change five island
+dframe$Lake<-as.character(dframe$Lake)
+dframe$Lake[dframe$Lake == "5 Island"]<- "Five Island"
+dframe$Lake<-as.factor(dframe$Lake)
+#structure
+str(dframe)
+
+
+cond<-droplevels(subset(dframe, !is.na(dframe$Weight..g.)))
+summary(cond$Lake)
+cond$Species<-as.character(cond$Species)
+cond$Species[cond$Species == "COC"] <- "Common Carp"
+cond$Species[cond$Species == "BIB"] <- "Bigmouth Buffalo"
+cond$Species<-as.factor(cond$Species)
+
+
+# quick plot to examine how weights are distributed in each lake
+require(ggplot2)
+a<-ggplot(cond, aes(x=Weight..g.))+
+    geom_histogram()+
+    facet_grid(Lake ~ Species)
+a
+
+# Condition
+levels(WSlit$species) # "Bigmouth Buffalo" and "Common Carp" are required spelling for names
+cond$w_r<-wrAdd(Weight..g. ~ Length..mm. + Species, 
+                  data = cond,
+                  units = "metric") # was supposed to append two columns to cond
+
+# Means for each species and year and lake??
+Summarize(w_r~Lake*Species, data = cond, digits = 1)
+Summarize(w_r~Year*Species, data = cond, digits = 1)
+```
+
+```{r,}
+# Derek Ogle says other Wr comparisons cannot be made before determining if Wr differs across fish length categories.
+cond$PSDcat<-psdAdd(Length..mm. ~ Species, data = cond, units = "mm") # ok then
+#### now to subset and run within-year and within-lake ANOVAs
+
+##################################
+#
+#           Center Lake
+#
+##################################
+cond.carp.center.17<-droplevels(subset(cond, Species == "Common Carp" &
+                                             Lake == "Center" &
+                                             Year == "2017"))
+lm0<-lm(w_r~PSDcat,data=cond.carp.center.17)
+anova(lm0) # evidence for a significant difference between PSD categories for condition in center lake carp '17
+
+cond.carp.center.18<-droplevels(subset(cond, Species == "Common Carp" &
+                                             Lake == "Center" &
+                                             Year == "2018"))
+lm1<-lm(w_r~PSDcat,data=cond.carp.center.18)
+anova(lm1) # some evidence for a difference between PSD categories within carp in center in 2018
+
+cond.carp.center.19<-droplevels(subset(cond, Species == "Common Carp" &
+                                             Lake == "Center" &
+                                             Year == "2019"))
+lm2<-lm(w_r~PSDcat,data=cond.carp.center.19)
+anova(lm2) # no evidence to support conclusion that there is a difference in PSD cats
+
+cond.buff.center.17<-droplevels(subset(cond, Species == "Bigmouth Buffalo" &
+                                   Lake == "Center" &
+                                   Year == "2017"))
+lm3<-lm(w_r~PSDcat,data=cond.buff.center.17)
+anova(lm3) # strong evidence for a difference in condition among PSD groups in center buff 2017
+
+cond.buff.center.18<-droplevels(subset(cond, Species == "Bigmouth Buffalo" &
+                                   Lake == "Center" &
+                                   Year == "2018"))
+lm4<-lm(w_r~PSDcat,data=cond.buff.center.18)
+anova(lm4) # evidence for a difference in condition
+
+cond.buff.center.19<-droplevels(subset(cond, Species == "Bigmouth Buffalo" &
+                                   Lake == "Center" &
+                                   Year == "2019"))
+lm5<-lm(w_r~PSDcat,data=cond.buff.center.19)
+anova(lm5) # NO EVIDENCE for a change in condition among PSD groups
+```
+
+```{r}
+##################################
+#
+#           Five Island Lake
+#
+##################################
+
+cond.carp.FiveIsland.18<-droplevels(subset(cond, Species == "Common Carp" &
+                                             Lake == "Five Island" &
+                                             Year == "2018"))
+lm1<-lm(w_r~PSDcat,data=cond.carp.FiveIsland.18)
+anova(lm1) # STRONG evidence for a difference between PSD categories within carp in Five Island in 2018
+
+cond.carp.FiveIsland.19<-droplevels(subset(cond, Species == "Common Carp" &
+                                             Lake == "FiveIsland" &
+                                             Year == "2019"))
+lm2<-lm(w_r~PSDcat,data=cond.carp.FiveIsland.19)
+anova(lm2) # no evidence to support conclusion that there is a difference in PSD cats
+
+cond.buff.FiveIsland.18<-droplevels(subset(cond, Species == "Bigmouth Buffalo" &
+                                   Lake == "Five Island" &
+                                   Year == "2018"))
+lm4<-lm(w_r~PSDcat,data=cond.buff.FiveIsland.18)
+anova(lm4) # evidence for a difference in condition
+
+cond.buff.FiveIsland.19<-droplevels(subset(cond, Species == "Bigmouth Buffalo" &
+                                   Lake == "Five Island" &
+                                   Year == "2019"))
+lm5<-lm(w_r~PSDcat,data=cond.buff.FiveIsland.19)
+anova(lm5) # STRONG evidence for a change in condition among PSD groups
+```
+
+```{r}
+##################################
+#
+#           Blue Lake
+#
+##################################
+cond.carp.blue.17<-droplevels(subset(cond, Species == "Common Carp" &
+                                             Lake == "Blue" &
+                                             Year == "2017"))
+lm0<-lm(w_r~PSDcat,data=cond.carp.blue.17)
+anova(lm0) # evidence for a significant difference between PSD categories for condition in center lake carp '17
+
+cond.carp.blue.18<-droplevels(subset(cond, Species == "Common Carp" &
+                                             Lake == "Blue" &
+                                             Year == "2018"))
+lm1<-lm(w_r~PSDcat,data=cond.carp.blue.18)
+anova(lm1) # strong evidence for a difference between PSD categories within carp in center in 2018
+
+cond.carp.blue.19<-droplevels(subset(cond, Species == "Common Carp" &
+                                             Lake == "Blue" &
+                                             Year == "2019"))
+lm2<-lm(w_r~PSDcat,data=cond.carp.blue.19)
+anova(lm2) # strong evidence to support conclusion that there is a difference in PSD cats
 
 ```
+
+```{r}
+##################################
+#
+#           North Twin Lake
+#
+##################################
+cond.carp.ntwin.17<-droplevels(subset(cond, Species == "Common Carp" &
+                                             Lake == "N Twin" &
+                                             Year == "2017"))
+lm0<-lm(w_r~PSDcat,data=cond.carp.ntwin.17)
+anova(lm0) # evidence for a significant difference between PSD categories for condition in center lake carp '17
+
+cond.carp.ntwin.18<-droplevels(subset(cond, Species == "Common Carp" &
+                                             Lake == "N Twin" &
+                                             Year == "2018"))
+lm1<-lm(w_r~PSDcat,data=cond.carp.ntwin.18)
+anova(lm1) # No Evidence
+
+cond.carp.ntwin.19<-droplevels(subset(cond, Species == "Common Carp" &
+                                             Lake == "N Twin" &
+                                             Year == "2019"))
+lm2<-lm(w_r~PSDcat,data=cond.carp.ntwin.19)
+anova(lm2) # no evidence to support conclusion that there is a difference in PSD cats
+
+cond.buff.ntwin.17<-droplevels(subset(cond, Species == "Bigmouth Buffalo" &
+                                   Lake == "N Twin" &
+                                   Year == "2017"))
+lm3<-lm(w_r~PSDcat,data=cond.buff.ntwin.17)
+anova(lm3) # strong evidence for a difference in condition among PSD groups in center buff 2017
+
+cond.buff.ntwin.18<-droplevels(subset(cond, Species == "Bigmouth Buffalo" &
+                                   Lake == "N Twin" &
+                                   Year == "2018"))
+lm4<-lm(w_r~PSDcat,data=cond.buff.ntwin.18)
+anova(lm4) # strongevidence for a difference in condition
+
+cond.buff.ntwin.19<-droplevels(subset(cond, Species == "Bigmouth Buffalo" &
+                                   Lake == "N Twin" &
+                                   Year == "2019"))
+lm5<-lm(w_r~PSDcat,data=cond.buff.ntwin.19)
+anova(lm5) # Some evidence for a change in condition among PSD groups
+```
+
+```{r}
+##################################
+#
+#           Silver Lake
+#
+##################################
+cond.carp.silver.18<-droplevels(subset(cond, Species == "Common Carp" &
+                                             Lake == "Silver" &
+                                             Year == "2018"))
+lm1<-lm(w_r~PSDcat,data=cond.carp.silver.18)
+anova(lm1) # some evidence for a difference between PSD categories within carp in center in 2018
+
+cond.carp.silver.19<-droplevels(subset(cond, Species == "Common Carp" &
+                                             Lake == "Silver" &
+                                             Year == "2019"))
+lm2<-lm(w_r~PSDcat,data=cond.carp.silver.19)
+anova(lm2) # STRONG evidence to support conclusion that there is a difference in PSD cats
+
+cond.buff.silver.18<-droplevels(subset(cond, Species == "Bigmouth Buffalo" &
+                                   Lake == "Silver" &
+                                   Year == "2018"))
+lm4<-lm(w_r~PSDcat,data=cond.buff.silver.18)
+anova(lm4) # STRONG evidence for a difference in condition
+
+cond.buff.silver.19<-droplevels(subset(cond, Species == "Bigmouth Buffalo" &
+                                   Lake == "Silver" &
+                                   Year == "2019"))
+lm5<-lm(w_r~PSDcat,data=cond.buff.silver.19)
+anova(lm5) # EVIDENCE for a change in condition among PSD groups
+```
+
+```{r}
+##################################
+#
+#           South Twin Lake
+#
+##################################
+cond.carp.stwin.17<-droplevels(subset(cond, Species == "Common Carp" &
+                                             Lake == "S Twin" &
+                                             Year == "2017"))
+lm0<-lm(w_r~PSDcat,data=cond.carp.stwin.17)
+anova(lm0) # evidence for a significant difference between PSD categories for condition in center lake carp '17
+
+cond.carp.stwin.18<-droplevels(subset(cond, Species == "Common Carp" &
+                                             Lake == "S Twin" &
+                                             Year == "2018"))
+lm1<-lm(w_r~PSDcat,data=cond.carp.stwin.18)
+anova(lm1) # some evidence for a difference between PSD categories within carp in center in 2018
+
+cond.carp.stwin.19<-droplevels(subset(cond, Species == "Common Carp" &
+                                             Lake == "S Twin" &
+                                             Year == "2019"))
+lm2<-lm(w_r~PSDcat,data=cond.carp.stwin.19)
+anova(lm2) # no evidence to support conclusion that there is a difference in PSD cats
+
+cond.buff.stwin.17<-droplevels(subset(cond, Species == "Bigmouth Buffalo" &
+                                   Lake == "S Twin" &
+                                   Year == "2017"))
+lm3<-lm(w_r~PSDcat,data=cond.buff.stwin.17)
+anova(lm3) # NO evidence for a difference in condition among PSD groups in center buff 2017
+
+cond.buff.stwin.18<-droplevels(subset(cond, Species == "Bigmouth Buffalo" &
+                                   Lake == "S Twin" &
+                                   Year == "2018"))
+lm4<-lm(w_r~PSDcat,data=cond.buff.stwin.18)
+anova(lm4) # NO evidence for a difference in condition
+
+cond.buff.stwin.19<-droplevels(subset(cond, Species == "Bigmouth Buffalo" &
+                                   Lake == "S Twin" &
+                                   Year == "2019"))
+lm5<-lm(w_r~PSDcat,data=cond.buff.stwin.19)
+anova(lm5) # NO EVIDENCE for a change in condition among PSD groups
+```
+### Interesting that there is no evidence for a difference in condition among PSD categories in South Twin Buffalo for all 3 years. Interesting.
+
+```{r}
+##################################
+#
+#           Storm Lake
+#
+##################################
+cond.carp.Storm.18<-droplevels(subset(cond, Species == "Common Carp" &
+                                             Lake == "Storm" &
+                                             Year == "2018"))
+lm1<-lm(w_r~PSDcat,data=cond.carp.Storm.18)
+anova(lm1) # STRONG evidence for a difference between PSD categories within carp in Storm in 2018
+
+cond.carp.Storm.19<-droplevels(subset(cond, Species == "Common Carp" &
+                                             Lake == "Storm" &
+                                             Year == "2019"))
+lm2<-lm(w_r~PSDcat,data=cond.carp.Storm.19)
+anova(lm2) # WEAK evidence to support conclusion that there is a difference in PSD cats
+
+cond.buff.Storm.18<-droplevels(subset(cond, Species == "Bigmouth Buffalo" &
+                                   Lake == "Storm" &
+                                   Year == "2018"))
+lm4<-lm(w_r~PSDcat,data=cond.buff.Storm.18)
+anova(lm4) # evidence for a difference in condition
+
+cond.buff.Storm.19<-droplevels(subset(cond, Species == "Bigmouth Buffalo" &
+                                   Lake == "Storm" &
+                                   Year == "2019"))
+lm5<-lm(w_r~PSDcat,data=cond.buff.Storm.19)
+anova(lm5) # NO EVIDENCE for a change in condition among PSD groups.... SMALL SAMPLE SIZE
+```
+
+OK now that junk is done I guess. Informed me that there are differences in condition among PSD categories for both carp and buffalo in nearly all years (except South Twin Buffalo). Great that Ogle didn't specify what comes next once one determines that information...
 
 
 ### Condition ANOVA 1: within lakes between years
 
 ```{r}
+# split by species first
+cond.buff.cent<-droplevels(subset(cond, Species == "Bigmouth Buffalo" &
+                                        Lake == "Center"))
+
+levels(cond.buff.cent$Year)
+lm.cent<-lm(w_r~Year,cond.buff.cent)
+summary(lm.cent)
+anova(lm.cent)
+fitPlot(lm.cent)
+
+cond.buff.five<-droplevels(subset(cond, Species == "Bigmouth Buffalo" &
+                                        Lake == "Five Island"))
+
+levels(cond.buff.five$Year)
+lm.suc<-lm(w_r~Year,cond.buff.five)
+summary(lm.suc)
+anova(lm.suc)
+fitPlot(lm.suc)
+
+cond.buff.ntwin<-droplevels(subset(cond, Species == "Bigmouth Buffalo" &
+                                        Lake == "N Twin"))
+
+levels(cond.buff.ntwin$Year)
+lm.suc<-lm(w_r~Year,cond.buff.ntwin)
+summary(lm.suc)
+anova(lm.suc)
+fitPlot(lm.suc)
+
+cond.buff.stwin<-droplevels(subset(cond, Species == "Bigmouth Buffalo" &
+                                        Lake == "S Twin"))
+
+levels(cond.buff.stwin$Year)
+lm.suc<-lm(w_r~Year,cond.buff.stwin)
+summary(lm.suc)
+anova(lm.suc)
+fitPlot(lm.suc)
+
+cond.buff.silver<-droplevels(subset(cond, Species == "Bigmouth Buffalo" &
+                                        Lake == "Silver"))
+
+levels(cond.buff.silver$Year)
+lm.suc<-lm(w_r~Year,cond.buff.silver)
+summary(lm.suc)
+anova(lm.suc)
+fitPlot(lm.suc)
+
+cond.buff.storm<-droplevels(subset(cond, Species == "Bigmouth Buffalo" &
+                                        Lake == "Storm"))
+
+levels(cond.buff.storm$Year)
+lm.suc<-lm(w_r~Year,cond.buff.storm)
+summary(lm.suc)
+anova(lm.suc)
+fitPlot(lm.suc)
+
+
+# now same is for carp carp carp
+# split by species first
+cond.carp.cent<-droplevels(subset(cond, Species == "Common Carp" &
+                                        Lake == "Center"))
+
+levels(cond.carp.cent$Year)
+lm.cent<-lm(w_r~Year,cond.carp.cent)
+summary(lm.cent)
+anova(lm.cent)
+fitPlot(lm.cent)
+
+cond.carp.five<-droplevels(subset(cond, Species == "Common Carp" &
+                                        Lake == "Five Island"))
+
+levels(cond.carp.five$Year)
+lm.suc<-lm(w_r~Year,cond.carp.five)
+summary(lm.suc)
+anova(lm.suc)
+fitPlot(lm.suc)
+
+cond.carp.ntwin<-droplevels(subset(cond, Species == "Common Carp" &
+                                         Lake == "N Twin"))
+
+levels(cond.carp.ntwin$Year)
+lm.suc<-lm(w_r~Year,cond.carp.ntwin)
+summary(lm.suc)
+anova(lm.suc)
+fitPlot(lm.suc)
+
+cond.carp.stwin<-droplevels(subset(cond, Species == "Common Carp" &
+                                         Lake == "S Twin"))
+
+levels(cond.carp.stwin$Year)
+lm.suc<-lm(w_r~Year,cond.carp.stwin)
+summary(lm.suc)
+anova(lm.suc)
+fitPlot(lm.suc)
+
+cond.carp.silver<-droplevels(subset(cond, Species == "Common Carp" &
+                                          Lake == "Silver"))
+
+levels(cond.carp.silver$Year)
+lm.suc<-lm(w_r~Year,cond.carp.silver)
+summary(lm.suc)
+anova(lm.suc)
+fitPlot(lm.suc)
+
+cond.carp.storm<-droplevels(subset(cond, Species == "Common Carp" &
+                                        Lake == "Storm"))
+
+levels(cond.carp.storm$Year)
+lm.suc<-lm(w_r~Year,cond.carp.storm)
+summary(lm.suc)
+anova(lm.suc)
+fitPlot(lm.suc)
+
+
 
 ```
 
 ### Condition ANOVA 2: within years between lakes
 
 ```{r}
+# split by species first
+cond.buff.17<-droplevels(subset(cond, Species == "Bigmouth Buffalo" &
+                                      Year == "2017"))
+
+levels(cond.buff.17$Lake)
+lm.suc<-lm(w_r~Lake,cond.buff.17)
+summary(lm.suc)
+anova(lm.suc)
+fitPlot(lm.suc)
+
+cond.buff.18<-droplevels(subset(cond, Species == "Bigmouth Buffalo" &
+                                      Year == "2018"))
+
+levels(cond.buff.18$Lake)
+lm.suc<-lm(w_r~Lake,cond.buff.18)
+summary(lm.suc)
+anova(lm.suc)
+fitPlot(lm.suc)
+
+cond.buff.19<-droplevels(subset(cond, Species == "Bigmouth Buffalo" &
+                                      Year == "2019"))
+
+levels(cond.buff.19$Lake)
+lm.suc<-lm(w_r~Lake,cond.buff.19)
+summary(lm.suc)
+anova(lm.suc)
+fitPlot(lm.suc)
+
+# split by common carp second
+cond.carp.17<-droplevels(subset(cond, Species == "Common Carp" &
+                                      Year == "2017"))
+
+levels(cond.carp.17$Lake)
+lm.suc<-lm(w_r~Lake,cond.carp.17)
+summary(lm.suc)
+anova(lm.suc)
+fitPlot(lm.suc)
+
+cond.carp.18<-droplevels(subset(cond, Species == "Common Carp" &
+                                      Year == "2018"))
+
+levels(cond.carp.18$Lake)
+lm.suc<-lm(w_r~Lake,cond.carp.18)
+summary(lm.suc)
+anova(lm.suc)
+fitPlot(lm.suc)
+
+cond.carp.19<-droplevels(subset(cond, Species == "Common Carp" &
+                                      Year == "2019"))
+
+levels(cond.carp.19$Lake)
+lm.suc<-lm(w_r~Lake,cond.carp.19)
+summary(lm.suc)
+Anova(lm.suc,type="II")
+fitPlot(lm.suc)
+```
+
+### Additive Anova: years and lakes
+
+```{r}
+cond.buff<-droplevels(subset(cond, Species == "Bigmouth Buffalo"))
+all.buff<-lm(w_r~Year+Lake, cond.buff)
+summary(all.buff)
+anova(all.buff)
+fitPlot(all.buff, main = "Bigmouth Buffalo Condition 2017 - 2019",
+        ylab = "Relative Weight (Wr)", xlab = "Year",
+        ylim = c(70,120),
+        legend = "topleft")
+
+cond.carp<-droplevels(subset(cond, Species == "Common Carp"))
+all.carp<-lm(w_r~Year+Lake, cond.carp)
+summary(all.carp)
+anova(all.carp)
+fitPlot(all.carp, main = "Common Carp Condition 2017 - 2019",
+        ylab = "Relative Weight (Wr)", xlab = "Year",
+        ylim = c(70,120),
+        legend = "topleft")
 
 ```
 
-_do some head scratchin' about this one! we may be really only interested in the CHANGE in condition between years_
+### Plots of condition for each species, but as a function of that year's Biomass Density.
 
+Will need to merge the BMD file and this w_r file.
+- merge by lake and year and species. This might look a lot like the bmd vs cpue plots in the annual report
+
+```{r}
+
+```
 
