@@ -356,11 +356,13 @@ cond$w_r<-wrAdd(Weight..g. ~ Length..mm. + Species,
 # Means for each species and year and lake??
 Summarize(w_r~Lake*Species, data = cond, digits = 1)
 Summarize(w_r~Year*Species, data = cond, digits = 1)
+
+# Derek Ogle says other Wr comparisons cannot be made before determining if Wr differs across fish length categories.
+cond$PSDcat<-psdAdd(Length..mm. ~ Species, data = cond, units = "mm") # ok then
 ```
 
 ```{r,}
-# Derek Ogle says other Wr comparisons cannot be made before determining if Wr differs across fish length categories.
-cond$PSDcat<-psdAdd(Length..mm. ~ Species, data = cond, units = "mm") # ok then
+
 #### now to subset and run within-year and within-lake ANOVAs
 
 ##################################
@@ -804,7 +806,9 @@ anova(all.buff)
 fitPlot(all.buff, main = "Bigmouth Buffalo Condition 2017 - 2019",
         ylab = "Relative Weight (Wr)", xlab = "Year",
         ylim = c(70,120),
-        legend = "topleft")
+        legend = "topleft",
+        lwd = 3,
+        col=c("darkorange1","burlywood","cadetblue1","chartreuse4","coral2","darkgoldenrod1"))
 
 cond.carp<-droplevels(subset(cond, Species == "Common Carp"))
 all.carp<-lm(w_r~Year+Lake, cond.carp)
@@ -813,9 +817,13 @@ anova(all.carp)
 fitPlot(all.carp, main = "Common Carp Condition 2017 - 2019",
         ylab = "Relative Weight (Wr)", xlab = "Year",
         ylim = c(70,120),
-        legend = "topleft")
+        legend = "topleft",
+        lwd = 3,
+        col=c("blue","darkorange1","burlywood","cadetblue3","chartreuse4","coral2","darkgoldenrod1"))
 
 ```
+
+- colors look a bit better; could split colors by harvest/non-harvest lakes????
 
 ### Plots of condition for each species, but as a function of that year's Biomass Density.
 
@@ -823,6 +831,70 @@ Will need to merge the BMD file and this w_r file.
 - merge by lake and year and species. This might look a lot like the bmd vs cpue plots in the annual report
 
 ```{r}
+# let's trim some fat
+cond<-cond[,c(1,2,4,21,23)]
+head(cond)
+cond<-droplevels(subset(cond, !is.na(cond$w_r)))
+
+cond2<-groupwiseMean(w_r~Lake+Year+Species,cond)
+
+# this looks pretty good; don't need the sample size (n) or conf.level columns. 
+cond2<-cond2[,-c(4,6)]
+levels(cond2$Lake)
+cond2$Lake<-factor(cond2$Lake)
+
+
+# bmd
+bmd<-read.csv("Biomass Density 2017 - 2019.csv", header = T)
+head(bmd)
+bmd$Lake<-factor(bmd$Lake)
+levels(bmd$Lake)
+
+
+# now to merge/join the data frames
+setdiff(bmd$Lake,cond2$Lake) # check to make sure that lakes are identical between frames
+levels(cond2$Lake)
+df<-merge(cond2,bmd, all = T)
+head(df)
 
 ```
 
+### plot that ish
+
+```{r}
+df.carp<-droplevels(subset(df, Species == "Common Carp"))
+df.buff<-droplevels(subset(df, Species == "Bigmouth Buffalo"))
+
+
+mod.carp<-lm(Mean ~ BMD + Year, data = df.carp)
+summary(mod.carp)
+
+mod.buff<-lm(Mean ~ BMD + Year, data = df.buff)
+summary(mod.buff)
+
+summary(df$Upper.BMD)
+summary(df$Trad.upper)
+
+
+BMD.Cond <- ggplot(df, aes(x=BMD, y=Mean, label = Lake)) +
+                            geom_point(size=2) +
+                            geom_errorbar(aes(ymax = Trad.upper, ymin = Trad.lower),width=20) +
+                            geom_errorbarh(aes(xmax= Upper.BMD, xmin = Lower.BMD),height=5) +
+                            geom_text(aes(label=Lake),hjust = -.25, vjust = .75, size = 3)+
+                            labs(title = NULL,
+                                  x = "Estimated Biomass Density (lbs. / acre)",
+                                  y = "Relative Weight (Wr)") +
+                            facet_grid(vars(Year),vars(Species))+ 
+                            theme(panel.grid.major = element_blank(), 
+                                  panel.grid.minor = element_blank(),
+                                  panel.background = element_rect(fill="white",colour="grey50"),
+                                  axis.line = element_line(colour = "black")) +
+                            geom_smooth(method=lm,se=F) +
+                            stat_poly_eq(formula = y~x,
+                                         aes(label = paste(..eq.label..,..rr.label..,sep = "~~~")),
+                                         parse=T)
+BMD.Cond
+
+```
+
+not too shabby. Need input from MJW

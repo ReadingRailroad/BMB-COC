@@ -28,12 +28,14 @@ library(reshape2)
 df.fyke.m<-melt(df.fyke, id.vars = c("Lake","Site.Transect","Species"), 
                 measure.vars = "Length..mm.")
 fyke.tl.cast<-dcast(df.fyke.m, Species ~ Lake, value.var = "value", mean)
+fyke.tl.cast[,c(2:4)]<-round(fyke.tl.cast[,c(2:4)]/25.4,1)
+
 
 # Electrofishing mean total length, melted and casted by species
 df.efish.m<-melt(df.efish, id.vars = c("Lake","Site.Transect","Species"), 
                  measure.vars = "Length..mm.")
 efish.tl.cast<-dcast(df.efish.m, Species ~ Lake, value.var = "value",mean)
-
+efish.tl.cast[,c(2:5)]<-round(efish.tl.cast[,c(2:5)]/25.4,1)
 ########################################################################################################
 
 
@@ -43,16 +45,16 @@ df.fyke.m<-melt(df.fyke, id.vars = c("Lake","Site.Transect","Species"),
                 measure.vars = "detect")
 fyke.cpue.cast<-dcast(df.fyke.m, Species ~ Lake, value.var = "value")
 # need to divide by number of nets in each lake to get average # fish per net for each species in each lake
-fyke.cpue.cast[,2]<-fyke.cpue.cast[,2]/6 # 6 nets in center lake
-fyke.cpue.cast[,3]<-fyke.cpue.cast[,3]/11 # 11 nets in Silver Lake
-fyke.cpue.cast[,4]<-fyke.cpue.cast[,4]/10 # 10 nets in Storm Lake
+fyke.cpue.cast[,2]<-round(fyke.cpue.cast[,2]/6,1) # 6 nets in center lake
+fyke.cpue.cast[,3]<-round(fyke.cpue.cast[,3]/11,1) # 11 nets in Silver Lake
+fyke.cpue.cast[,4]<-round(fyke.cpue.cast[,4]/10,1) # 10 nets in Storm Lake
 
 
 ## Electrofishing CPUE is N/hour (SPRING EF STD RUNS ONLY!! and no bonus runs)
-df.efish<-droplevels(subset(df.efish, Date == "2019-06-03" | # silver and center
+df.efish<-droplevels(subset(df.efish, Date == "2019-06-03" & Site.Transect != "Bonus 2" & Site.Transect != "Bonus 3" | # silver and center
                            Date == "2019-05-15" & Site.Transect != "Bonus" | # storm
                            Date == "2019-06-17" & Site.Transect != "Bonus 1")) # five island
-
+levels(df.efish$Site.Transect)
 df.efish$Effort<-df.efish$On.Time..s./3600
 efish.cpue<-aggregate(detect~Lake+Species + Site.Transect + Effort, data = df.efish, sum)
 efish.cpue$cpue<-efish.cpue$detect/efish.cpue$Effort
@@ -60,3 +62,4 @@ cpue<-aggregate(cpue ~ Lake + Species, data = efish.cpue, mean)
 
 df.efish.m<-melt(cpue)
 efish.cpue.cast<-dcast(df.efish.m, Species ~ Lake, value.var = "value")
+efish.cpue.cast[,c(2:5)]<-round(efish.cpue.cast[,c(2:5)],1)
