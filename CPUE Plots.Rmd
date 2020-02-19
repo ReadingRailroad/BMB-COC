@@ -1152,19 +1152,19 @@ stdRuns<-droplevels(subset(frame2019, Start.Latitude == "5 Island  trans. 3" |
 levels(stdRuns$Site.Transect)
 stdRuns<-droplevels(subset(stdRuns, Site.Transect != "Bonus 1" ))
 stdRuns<-droplevels(subset(stdRuns, Site.Transect != "Bonus 2" ))
+stdRuns<-droplevels(subset(stdRuns, Site.Transect != "Bonus 3" ))
 stdRuns<-droplevels(subset(stdRuns, Site.Transect != "Bonus 4" ))
+stdRuns<-droplevels(subset(stdRuns, Site.Transect != "Bonus 7" ))
 
 # set transect levels to be consistent among lakes and years
 levels(stdRuns$Site.Transect)
 
 # trim out notes and gear and start latitude columns
 str(stdRuns)
-stdRuns<-stdRuns[,-c(4,5,7)]
+stdRuns<-stdRuns[,-c(4,5,7,9)]
 
 # check that the on-time in seconds is approximately 900 seconds
 summary(stdRuns$On.Time..s.)
-# center lake transect 1 on 5-14-2019
-stdRuns<-droplevels(subset(stdRuns, On.Time..s. != 1909))
 
 stdRuns<-droplevels(subset(stdRuns, On.Time..s. != 1493))
 
@@ -1196,45 +1196,6 @@ cpue<-droplevels(subset(cpue, Lake != "Storm"))
 # ignoring blue and south twin for ia afs 2020
 cpue<-droplevels(subset(cpue, Lake != "Blue"))
 cpue<-droplevels(subset(cpue, Lake != "S Twin"))
-
-# finding out about 'std' runs '6' in five island and '7' in silver
-junks<-droplevels(subset(cpue, Lake == "5 Island" & Date == "2019-08-02"))
-# these are the std runs, just numbered 3-7 and not 1-5 for some reason :(
-cpue$Site.Transect[cpue$Lake == "5 Island" & 
-                   cpue$Date == "2019-08-02" &
-                   cpue$Site.Transect == "Std 3"]<-"Std 1"
-cpue$Site.Transect[cpue$Lake == "5 Island" & 
-                   cpue$Date == "2019-08-02" &
-                   cpue$Site.Transect == "Std 4"]<-"Std 2"
-cpue$Site.Transect[cpue$Lake == "5 Island" & 
-                   cpue$Date == "2019-08-02" &
-                   cpue$Site.Transect == "Std 5"]<-"Std 3"
-cpue$Site.Transect[cpue$Lake == "5 Island" & 
-                   cpue$Date == "2019-08-02" &
-                   cpue$Site.Transect == "Std 6"]<-"Std 4"
-cpue$Site.Transect[cpue$Lake == "5 Island" & 
-                   cpue$Date == "2019-08-02" &
-                   cpue$Site.Transect == "Std 7"]<-"Std 5"
-junks<-droplevels(subset(cpue, Lake == "5 Island" & Date == "2019-08-02"))
-
-# now for five island but on june 25
-junks<-droplevels(subset(cpue, Lake == "5 Island" & Date == "2019-06-25"))
-cpue$Site.Transect[cpue$Lake == "5 Island" & 
-                   cpue$Date == "2019-06-25" &
-                   cpue$Site.Transect == "Std 4"]<-"Std 3"
-cpue$Site.Transect[cpue$Lake == "5 Island" & 
-                   cpue$Date == "2019-06-25" &
-                   cpue$Site.Transect == "Std 5"]<-"Std 4"
-cpue$Site.Transect[cpue$Lake == "5 Island" & 
-                   cpue$Date == "2019-06-25" &
-                   cpue$Site.Transect == "Std 6"]<-"Std 5"
-junks<-droplevels(subset(cpue, Lake == "5 Island" & Date == "2019-06-25"))
-
-# now for silver on 6-3
-junks<-droplevels(subset(cpue, Lake == "Silver" & Date == "2019-06-03"))
-cpue$Site.Transect[cpue$Lake == "Silver" & 
-                   cpue$Date == "2019-06-03" &
-                   cpue$Site.Transect == "Std 7"]<-"Std 6"
 
 # setting dummy to coc and bib
 coc.extra<-droplevels(subset(cpue, Species == "dummy"))
@@ -1290,8 +1251,9 @@ j <- c("2019-09-07","Center","Std 1","COC",NA,0,"Fall",0)
 k <- c("2019-09-07","Center","Std 2","COC",NA,0,"Fall",0)
 l <- c("2019-09-22","Center","Std 3","COC",NA,0,"Fall",0)  
 m <- c("2019-05-27","5 Island","Std 5","COC",NA,0,"Spring",0)
+n <- c("2019-06-18","Silver","Std 6","COC",NA,0,"Summer",0)
 
-add.on<-data.frame(t(data.frame(a,b,c,d,e,f,g,h,i,j,k,l,m)),
+add.on<-data.frame(t(data.frame(a,b,c,d,e,f,g,h,i,j,k,l,m,n)),
                    stringsAsFactors = F)
 
 setdiff(carp1$DLR,buff1$DLR) # entries in carp frame not in buff frame
@@ -1331,7 +1293,7 @@ ff<- c("2019-06-11","Center","Std 1","BIB",NA,0,"Summer",0)
 gg<- c("2019-09-21","5 Island","Std 3","BIB",NA,0,"Fall",0)
 hh<- c("2019-08-06","5 Island","Std 5","BIB",NA,0,"Fall",0)
 ii<- c("2019-06-17","5 Island","Std 2","BIB",NA,0,"Summer",0)
-jj<- c("2019-06-18","Silver","Std 1","BIB",NA,0,"Summer",0)  
+jj<- c("2019-06-18","Silver","Std 4","BIB",NA,0,"Summer",0)  
 kk<- c("2019-06-25","5 Island","Std 1","BIB",NA,0,"Summer",0)
 ll<- c("2019-08-02","5 Island","Std 2","BIB",NA,0,"Fall",0)
 mm<- c("2019-09-21","Silver","Std 6","BIB",NA,0,"Fall",0)
@@ -1341,12 +1303,12 @@ pp<- c("2019-06-17","5 Island","Std 3","BIB",NA,0,"Summer",0)
 qq<- c("2019-06-18","Silver","Std 6","BIB",NA,0,"Summer",0)
 rr<- c("2019-09-08","5 Island","Std 5","BIB",NA,0,"Fall",0)
 ss<- c("2019-06-18","Silver","Std 3","BIB",NA,0,"Summer",0)
-tt<- c("2019-05-29","Center","Std 1","BIB",NA,0,"Spring",0)
+tt<- c("2019-06-18","Silver","Std 1","BIB",NA,0,"Spring",0)
 uu<- c("2019-06-03","Silver","Std 1","BIB",NA,0,"Summer",0)
 vv<- c("2019-05-20","Silver","Std 6","BIB",NA,0,"Spring",0)  
 xx<- c("2019-06-25","5 Island","Std 5","BIB",NA,0,"Summer",0)
 yy<- c("2019-06-25","5 Island","Std 3","BIB",NA,0,"Summer",0)
-zz<- c("2019-05-14","Center","Std 3","BIB",NA,0,"Spring",0)
+#zz<- c("2019-05-14","Center","Std 3","BIB",NA,0,"Spring",0)
 
 aaa<-c("2019-06-17","5 Island","Std 4","BIB",NA,0,"Summer",0)
 bbb<-c("2019-06-25","5 Island","Std 4","BIB",NA,0,"Summer",0)
@@ -1355,10 +1317,10 @@ ddd<-c("2019-06-14","5 Island","Std 2","BIB",NA,0,"Summer",0)
 eee<-c("2019-06-25","5 Island","Std 2","BIB",NA,0,"Summer",0)
 fff<-c("2019-05-27","5 Island","Std 4","BIB",NA,0,"Spring",0)
 ggg<-c("2019-06-12","Silver","Std 1","BIB",NA,0,"Summer",0)
-hhh<-c("2019-06-14","5 Island","Std 1","BIB",NA,0,"Summer",0)
+hhh<-c("2019-06-14","5 Island","Std 4","BIB",NA,0,"Summer",0)
 
 add.on2<-data.frame(t(data.frame(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,
-                                 aa,bb,cc,dd,ee,ff,gg,hh,ii,jj,kk,ll,mm,nn,oo,pp,qq,rr,ss,tt,uu,vv,xx,yy,zz,
+                                 aa,bb,cc,dd,ee,ff,gg,hh,ii,jj,kk,ll,mm,nn,oo,pp,qq,rr,ss,tt,uu,vv,xx,yy,
                                  aaa,bbb,ccc,ddd,eee,fff,ggg,hhh)),
                    stringsAsFactors = F)
 names(add.on)<-c("Date","Lake","Site.Transect","Species","Effort","detect","Season","cpue")
@@ -1374,6 +1336,19 @@ cpue2$detect<-as.numeric(as.character(cpue2$detect))
 cpue2$Season<-as.factor(cpue2$Season)
 cpue2$cpue<-as.numeric(as.character(cpue2$cpue))
 str(cpue2)
+
+# triple check those zero fish runs
+buff1<-droplevels(subset(cpue2, Species == "BIB"))
+carp1<-droplevels(subset(cpue2, Species == "COC"))
+
+buff1$DLR<-paste(buff1$Date,buff1$Lake,buff1$Site.Transect, sep = "-")
+carp1$DLR<-paste(carp1$Date,carp1$Lake,carp1$Site.Transect, sep = "-")
+
+
+setdiff(buff1$DLR,carp1$DLR) # entries in buff frame not in carp frame
+setdiff(carp1$DLR,buff1$DLR)
+
+
 
 cpue3<-aggregate(cpue ~ Lake + Species + Site.Transect + Season, cpue2,mean)
 
