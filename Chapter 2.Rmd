@@ -88,7 +88,7 @@ $f_{.i}$ is the number of marked fish caught in year i regardless of when they w
 $n_i$ is the number of marked fish caught after year i of fish marked before year i.
 
 ```{r,include=FALSE}
-rm(list=ls())
+#rm(list=ls())
 #reading in data
 dframe<-read.csv("2017-2020 Compiled Data.csv",header = T)
 dframe$Year<-as.factor(dframe$Year)
@@ -137,8 +137,10 @@ harvest$Gear<-as.factor(harvest$Gear)
 
 ## CAN I SET SPECIES BY LOOKING UP PREV TAG NUMBER?
 harvest$Species<-factor(harvest$Species, levels = c("BIB","COC"))
-dframe.blend <- dframe[!duplicated(dframe$TAG.NUMBER),]
+dframe.blend <- dframe[!duplicated(dframe$TAG.NUMBER),] # removing recaps
 harvest.blend<-left_join(harvest,dframe.blend, by = "TAG.NUMBER")
+sum(is.na(harvest.blend$Species.y)) # have about 21 tags recovered with no prior record at silver, Center, and N Twin
+sum(is.na(harvest.blend$Species.y))/length(harvest.blend$TAG.NUMBER) # about 1.6% of all recovered tags do not have prior info
 harvest$Species<-harvest.blend$Species.y
 harvest<-droplevels(subset(harvest, !is.na(harvest$Species)))
 #
@@ -166,52 +168,317 @@ levels(harvest$Species)
 now()
 ```
 
-
+# North Twin Fishing Mortality
 ```{r, include = F}
+ntwin<-droplevels(subset(df, Lake == "N Twin"))
+str(ntwin)
 
-# want to write a function to get a Ki value for each lake based on break points (harvest)
-HarvMort <- function(x){
-  
-               #m_i, number of fish marked at the start of the period
-                    df.2<- df %>%
-                      filter(Date[Gear])
-                      )
-  
-                # sum of all 
-  
-     
-     
-               #f_i., the number of fish marked in year i caught by fishers in all years, and
-     
-     
-     
-     
-              
-               #f_.i, the number of marked fish caught in year i from all marking occasions, and
-     
-     
-     
-              
 
-                #n_i, the number of marked fish caught after year i OF FISH MARKED BEFORE YEAR i
-     
-     
-     
-     ########### k_i, the final estimate of harvest mortality:
-     
-     k_i<-data.frame(cbind(Lake,i,Species,(f_i. * f_.i)/(m_i * n_i)))
-     colnames(k_i)<-c("Lake","Period","Species","Harvest Mortality")
-     print(k_i)
-    
-      }
-  } 
-}
+unique(ntwin$Date[ntwin$Gear != "COMMERCIAL HARVEST"])
+ntwin.tag<-droplevels(subset(ntwin, Gear != "COMMERCIAL HARVEST"))
+ntwin.tag<-subset(ntwin.tag, Date != "2019-05-06") # fish not tagged May 6 2019, std runs for recaps only
+ntwin.tag<-subset(ntwin.tag, Date != "2019-05-17") # fish not tagged May 17 2019, std runs for recaps only
+
+unique(ntwin$Date[ntwin$Gear == "COMMERCIAL HARVEST"])
+ntwin.har<-droplevels(subset(ntwin, Gear == "COMMERCIAL HARVEST"))
+
+ntwin<-rbind(ntwin.tag,ntwin.har)
+ntwin<-ntwin[order(as.Date(ntwin$Date, format = "%Y-%m-%d")),]
+
+
+ntwin.c<-dcast(ntwin, Date+Gear ~ Species + detect)
+
+
+# harvest date breaks at:
+### 2019-04-04; 2019-04-05; 2019-04-07; 2019-04-08; 2019-04-09
+### 2019-5-16; 2019-5-17
+### 2019-11-23; 2019-11-30, 2019-11-06, 2019-11-25
+
+#  M_i is the number of fish marked at the start of the period (all tags - harvest)
+
+M_1<-data.frame(t(colSums(ntwin.c[c(1:31),c(3,4)]))) # marked in period 1 = pre 2019 harvest
+M_2<- M_1+
+      data.frame(t(colSums(ntwin.c[c(39:55),c(3,4)])))-
+      data.frame(t(colSums(ntwin.c[c(32:38),c(3,4)])))# marked in period 2 = 2019 field season
+M_3<- M_2+
+      data.frame(ntwin.c[57,c(3,4)])-
+      data.frame(ntwin.c[56,c(3,4)])# marked in one seine tag event before another late harvest 2019
+
+
+
+# F_i., the number of fish marked in period i caught by fishers in all periods
+
+
+F_1.<-data.frame(t(c(with(merge(subset(ntwin, Date <= "2019-04-03" & 
+                                         ntwin$Species == "BIB"),  
+                                ntwin.har, by = "TAG.NUMBER"), length(Gear.y)),
+                     with(merge(subset(ntwin, Date <= "2019-04-03" & 
+                                         ntwin$Species == "COC"),  
+                                ntwin.har, by = "TAG.NUMBER"), length(Gear.y)))))
+
+F_2.<-data.frame(t(c(with(merge(subset(ntwin, Date >= "2019-05-18" &
+                                              Date <= "2019-10-04" & 
+                                              ntwin$Species == "BIB"),  
+                                ntwin.har, by = "TAG.NUMBER"), length(Gear.y)),
+                     with(merge(subset(ntwin, Date >= "2019-05-18" &
+                                              Date <= "2019-10-04" & 
+                                              ntwin$Species == "COC"),  
+                                ntwin.har, by = "TAG.NUMBER"), length(Gear.y)))))
+
+F_3.<-data.frame(t(c(with(merge(subset(ntwin, Date == "2019-11-10" & 
+                                              ntwin$Species == "BIB"),  
+                                ntwin.har, by = "TAG.NUMBER"), length(Gear.y)),
+                     with(merge(subset(ntwin, Date == "2019-11-10" & 
+                                              ntwin$Species == "COC"),  
+                                ntwin.har, by = "TAG.NUMBER"), length(Gear.y)))))
+
+
+# F_.i, the number of fish caught in period i from all marking occasions
+
+F_.1<-data.frame(t(c(with(merge(subset(ntwin, Date >= "2019-04-03" & 
+                                              Date <= "2019-05-17" &
+                                              ntwin$Species == "BIB"),  
+                                ntwin.tag, by = "TAG.NUMBER"), length(Gear.y)),
+                     with(merge(subset(ntwin, Date >= "2019-04-03" & 
+                                              Date <= "2019-05-17" &
+                                              ntwin$Species == "COC"),  
+                                ntwin.tag, by = "TAG.NUMBER"), length(Gear.y)))))
+
+
+F_.2<-data.frame(t(c(with(merge(subset(ntwin, Date == "2019-11-06" &
+                                         ntwin$Species == "BIB"),  
+                                ntwin.tag, by = "TAG.NUMBER"), length(Gear.y)),
+                     with(merge(subset(ntwin, Date == "2019-11-06" &
+                                         ntwin$Species == "COC"),  
+                                ntwin.tag, by = "TAG.NUMBER"), length(Gear.y)))))
+
+
+F_.3<-data.frame(t(c(with(merge(subset(ntwin, Date >= "2019-11-11" &
+                                         ntwin$Species == "BIB"),  
+                                ntwin.tag, by = "TAG.NUMBER"), length(Gear.y)),
+                     with(merge(subset(ntwin, Date >= "2019-11-11" &
+                                         ntwin$Species == "COC"),  
+                                ntwin.tag, by = "TAG.NUMBER"), length(Gear.y)))))                    
+
+# n_i, the number of marked fish caught after period i of fish marked before period i
+
+n_1<-data.frame(t(c(with(merge(subset(ntwin, Date <= "2018-11-11" &  
+                                        ntwin$Species == "BIB"),  
+                               subset(ntwin.har, Date >= "2019-05-20"),
+                               by = "TAG.NUMBER"), length(Gear.y)),
+                    with(merge(subset(ntwin, Date <= "2018-11-11" & 
+                                        ntwin$Species == "COC"),  
+                               subset(ntwin.har, Date >= "2019-05-20"),
+                               by = "TAG.NUMBER"), length(Gear.y))))) 
+
+
+n_2<-data.frame(t(c(with(merge(subset(ntwin, Date <= "2019-10-05" &  
+                                            ntwin$Species == "BIB"),
+                               subset(ntwin.har, Date >= "2019-11-06"),
+                               by = "TAG.NUMBER"), length(Gear.y)),
+                        with(merge(subset(ntwin, Date <= "2019-10-05" & 
+                                            ntwin$Species == "COC"),  
+                                   subset(ntwin.har, Date >= "2019-11-06"),
+                                   by = "TAG.NUMBER"), length(Gear.y)))))
+
+n_3<-data.frame(t(c(with(merge(subset(ntwin, Date <= "2019-11-08" &  
+                                        ntwin$Species == "BIB"),
+                               subset(ntwin.har, Date >= "2019-11-21"),
+                               by = "TAG.NUMBER"), length(Gear.y)),
+                    with(merge(subset(ntwin, Date <= "2019-11-08" & 
+                                        ntwin$Species == "COC"),  
+                               subset(ntwin.har, Date >= "2019-11-21"),
+                               by = "TAG.NUMBER"), length(Gear.y)))))
+
+# now to aggregate this all together.
+# data frame that will be: Lake, Species, Period (i), F_i., F_.i, M_i, and n_i. Use those to compute mu_i
+
+Lake<-factor(rep("N Twin",6))
+Species<-factor(rep(c("Bigmouth Buffalo","Common Carp"),3))
+
+NTWIN<-data.frame(Lake,Species)
+NTWIN$Period<-factor(c("1","1","2","2","3","3"))
+NTWIN$F_i.<-as.numeric(as.character(c(F_1.,F_2.,F_3.)))
+NTWIN$F_.i<-as.numeric(as.character(c(F_.1,F_.2,F_.3)))
+NTWIN$M_i<-as.numeric(as.character(c(M_1,M_2,M_3)))
+NTWIN$n_i<-as.numeric(as.character(c(n_1,n_2,n_3)))
+
+# applying formula for mu_i
+NTWIN<-data.frame(NTWIN)
+str(NTWIN)
+NTWIN$mu_i<-(NTWIN$F_i. * NTWIN$F_.i) / (NTWIN$M_i * NTWIN$n_i) # provides some biased estimates.
+# DOES NOT ACCOUNT FOR TAG LOSS
+
+NTWIN$fishing.mortality<-round(NTWIN$mu_i * 100, 1)
+
+
+
 
 # add plot faceted lake x species
 
 
 
 
+
+```
+
+
+#### center fishing mortality
+```{r}
+center<-droplevels(subset(df, Lake == "Center"))
+str(center)
+
+
+unique(center$Date[center$Gear != "COMMERCIAL HARVEST"])
+center.tag<-droplevels(subset(center, Gear != "COMMERCIAL HARVEST"))
+
+unique(center$Date[center$Gear == "COMMERCIAL HARVEST"])
+center.har<-droplevels(subset(center, Gear == "COMMERCIAL HARVEST"))
+
+center<-rbind(center.tag,center.har)
+center<-center[order(as.Date(center$Date, format = "%Y-%m-%d")),]
+
+
+
+
+
+
+##
+center.c<-dcast(center, Date+Gear ~ Species + detect) # need to ID harvest periods, after checking for harvest dates.
+##
+
+
+
+
+
+
+
+# harvest date breaks at:
+### 
+
+#  M_i is the number of fish marked at the start of the period (all tags - harvest)
+
+M_1<-data.frame(t(colSums(center.c[c(1:31),c(3,4)]))) # marked in period 1 = pre 2019 harvest
+M_2<- M_1+
+      data.frame(t(colSums(center.c[c(39:55),c(3,4)])))-
+      data.frame(t(colSums(center.c[c(32:38),c(3,4)])))# marked in period 2 = 2019 field season
+M_3<- M_2+
+      data.frame(center.c[57,c(3,4)])-
+      data.frame(center.c[56,c(3,4)])# marked in one seine tag event before another late harvest 2019
+
+
+
+# F_i., the number of fish marked in period i caught by fishers in all periods
+
+
+F_1.<-data.frame(t(c(with(merge(subset(center, Date <= "2019-04-03" & 
+                                         center$Species == "BIB"),  
+                                center.har, by = "TAG.NUMBER"), length(Gear.y)),
+                     with(merge(subset(center, Date <= "2019-04-03" & 
+                                         center$Species == "COC"),  
+                                center.har, by = "TAG.NUMBER"), length(Gear.y)))))
+
+F_2.<-data.frame(t(c(with(merge(subset(center, Date >= "2019-05-18" &
+                                              Date <= "2019-10-04" & 
+                                              center$Species == "BIB"),  
+                                center.har, by = "TAG.NUMBER"), length(Gear.y)),
+                     with(merge(subset(center, Date >= "2019-05-18" &
+                                              Date <= "2019-10-04" & 
+                                              center$Species == "COC"),  
+                                center.har, by = "TAG.NUMBER"), length(Gear.y)))))
+
+F_3.<-data.frame(t(c(with(merge(subset(center, Date == "2019-11-10" & 
+                                              center$Species == "BIB"),  
+                                center.har, by = "TAG.NUMBER"), length(Gear.y)),
+                     with(merge(subset(center, Date == "2019-11-10" & 
+                                              center$Species == "COC"),  
+                                center.har, by = "TAG.NUMBER"), length(Gear.y)))))
+
+
+# F_.i, the number of fish caught in period i from all marking occasions
+
+F_.1<-data.frame(t(c(with(merge(subset(center, Date >= "2019-04-03" & 
+                                              Date <= "2019-05-17" &
+                                              center$Species == "BIB"),  
+                                center.tag, by = "TAG.NUMBER"), length(Gear.y)),
+                     with(merge(subset(center, Date >= "2019-04-03" & 
+                                              Date <= "2019-05-17" &
+                                              center$Species == "COC"),  
+                                center.tag, by = "TAG.NUMBER"), length(Gear.y)))))
+
+
+F_.2<-data.frame(t(c(with(merge(subset(center, Date == "2019-11-06" &
+                                         center$Species == "BIB"),  
+                                center.tag, by = "TAG.NUMBER"), length(Gear.y)),
+                     with(merge(subset(center, Date == "2019-11-06" &
+                                         center$Species == "COC"),  
+                                center.tag, by = "TAG.NUMBER"), length(Gear.y)))))
+
+
+F_.3<-data.frame(t(c(with(merge(subset(center, Date >= "2019-11-11" &
+                                         center$Species == "BIB"),  
+                                center.tag, by = "TAG.NUMBER"), length(Gear.y)),
+                     with(merge(subset(center, Date >= "2019-11-11" &
+                                         center$Species == "COC"),  
+                                center.tag, by = "TAG.NUMBER"), length(Gear.y)))))                    
+
+# n_i, the number of marked fish caught after period i of fish marked before period i
+
+n_1<-data.frame(t(c(with(merge(subset(center, Date <= "2018-11-11" &  
+                                        center$Species == "BIB"),  
+                               subset(center.har, Date >= "2019-05-20"),
+                               by = "TAG.NUMBER"), length(Gear.y)),
+                    with(merge(subset(center, Date <= "2018-11-11" & 
+                                        center$Species == "COC"),  
+                               subset(center.har, Date >= "2019-05-20"),
+                               by = "TAG.NUMBER"), length(Gear.y))))) 
+
+
+n_2<-data.frame(t(c(with(merge(subset(center, Date <= "2019-10-05" &  
+                                            center$Species == "BIB"),
+                               subset(center.har, Date >= "2019-11-06"),
+                               by = "TAG.NUMBER"), length(Gear.y)),
+                        with(merge(subset(center, Date <= "2019-10-05" & 
+                                            center$Species == "COC"),  
+                                   subset(center.har, Date >= "2019-11-06"),
+                                   by = "TAG.NUMBER"), length(Gear.y)))))
+
+n_3<-data.frame(t(c(with(merge(subset(center, Date <= "2019-11-08" &  
+                                        center$Species == "BIB"),
+                               subset(center.har, Date >= "2019-11-21"),
+                               by = "TAG.NUMBER"), length(Gear.y)),
+                    with(merge(subset(center, Date <= "2019-11-08" & 
+                                        center$Species == "COC"),  
+                               subset(center.har, Date >= "2019-11-21"),
+                               by = "TAG.NUMBER"), length(Gear.y)))))
+
+# now to aggregate this all together.
+# data frame that will be: Lake, Species, Period (i), F_i., F_.i, M_i, and n_i. Use those to compute mu_i
+
+Lake<-factor(rep("Center",6))
+Species<-factor(rep(c("Bigmouth Buffalo","Common Carp"),3))
+
+center<-data.frame(Lake,Species)
+center$Period<-factor(c("1","1","2","2","3","3"))
+center$F_i.<-as.numeric(as.character(c(F_1.,F_2.,F_3.)))
+center$F_.i<-as.numeric(as.character(c(F_.1,F_.2,F_.3)))
+center$M_i<-as.numeric(as.character(c(M_1,M_2,M_3)))
+center$n_i<-as.numeric(as.character(c(n_1,n_2,n_3)))
+
+# applying formula for mu_i
+center<-data.frame(center)
+str(center)
+center$mu_i<-(center$F_i. * center$F_.i) / (center$M_i * center$n_i) # provides some biased estimates.
+# DOES NOT ACCOUNT FOR TAG LOSS
+
+center$fishing.mortality<-round(center$mu_i * 100, 1)
+
+
+
+```
+
+#### Silver Lake Fishing Mortality
+```{r}
 
 ```
 
@@ -249,14 +516,16 @@ M_3<- M_2+
       data.frame(ntwin.c[57,c(3,4)])-
       data.frame(ntwin.c[56,c(3,4)])# marked in one seine tag event before another late harvest 2019
 
+# mi numer of marked fish insample i
 
+m_1<-
 
 
 
 ```
 
 
-Variance of $S_i$ is calculated by methods outlined in seber 1982:
+## Variance of $S_i$ is calculated by methods outlined in seber 1982:
 
 _put in equation for variance here!_
 

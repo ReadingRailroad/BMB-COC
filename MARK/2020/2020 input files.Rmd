@@ -9,6 +9,7 @@ editor_options:
 
 
 ```{r}
+rm(list=ls())
 library(RMark)
 library(dplyr)
 library(tidyr)
@@ -125,16 +126,16 @@ c.c.ch.month<-capt.hist[,2] # code: Center.Carp.CaptureHistory.Month - capture h
 
 # attempt at saving to try in MARK itself
 write.csv(c.b.ch.month, "CenterBuffRD.inp",row.names = F)
+write.csv(c.c.ch.month, "CenterCarpRD.inp",row.names=F)
 ```
 
 
 # robust design models with monthly capture histories - Center Lake Buffalo
 
 ```{r}
-#Identify time intervals
-levels(df2$Year.Month)
 
-run.robust=function()
+
+run.robust=function(x)
 {
 #
 # data from Robust.dbf with MARK
@@ -144,7 +145,7 @@ time.intervals=c(0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0)
 #
 #
 
-rd <- process.data(data = c.b.ch.month,
+rd <- process.data(data = x,
                   model = "Robust",
                   time.intervals = time.intervals)
                   
@@ -157,14 +158,18 @@ p.time.session=list(formula=~-1+session:time,share=TRUE)
 model.1=mark(data = rd, model = "Robust", 
             time.intervals=time.intervals,
             model.parameters=list(S=S.time,
-            p=p.time.session),threads=2)
+                                  p=p.time.session,
+                                  Gamma` = 0,
+                                  Gamma`` = 0,
+                                  ),threads=2)
 
 S.time.session=list(formula=~-1+session:time,share=TRUE)
 p.time.session=list(formula=~-1+session:time,share=TRUE)
 model.2=mark(data = rd, model = "Robust",
              time.intervals=time.intervals,
              model.parameters=list(S=S.time,
-                                   p=p.time.session),threads=2)
+                                   p=p.time.session,
+                                   ),threads=2)
 
 S.time.session=list(formula=~1,share=TRUE)
 p.time.session=list(formula=~1,share=TRUE)
@@ -176,9 +181,9 @@ model.3=mark(data=rd,model="Robust",
 
 return(collect.models())
 }
-robust.results=run.robust()
+c.b.robust.results=run.robust(c.b.ch.month)
 
-robust.results
+c.b.robust.results
 
 cleanup(ask=F)
 ```
