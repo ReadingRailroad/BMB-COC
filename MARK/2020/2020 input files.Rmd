@@ -18,6 +18,8 @@ dframe<-read.csv("2017-2020 Compiled Data.csv",header=T)
 dframe$Date<-as.Date(dframe$Date, "%m/%d/%Y")
 dframe$Year.Month<-factor(format(dframe$Date, "%Y.%m"))
 dframe$Year<-factor(format(dframe$Date, "%Y"))
+dframe
+
 
 str(dframe)
 ```
@@ -31,7 +33,7 @@ str(dframe)
 
 df<-droplevels(subset(dframe, Lake == "Center" &
                           Species == "BIB" &
-                          !is.na(df$TAG.NUMBER)))
+                          !is.na(dframe$TAG.NUMBER)))
 # remove dissections and others
 df$TAG.NUMBER[df$TAG.NUMBER == ""]<-NA
 df<-droplevels(subset(df, !is.na(as.numeric(as.character(df$TAG.NUMBER)))))
@@ -188,3 +190,179 @@ c.b.robust.results
 cleanup(ask=F)
 ```
 
+
+# University of Montana edition, on Center Lake Buffalo
+
+```{r,}
+# set up time intervals for 5 primary occasions each with 3 secondary occasions
+# 5 primary sessions with secondary sessions of length 2,6,6
+#
+time.intervals=c(0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0)
+#
+
+rd <- process.data(data = c.b.ch.month,
+                  model = "Robust",
+                  time.intervals = time.intervals)
+                  
+names(rd)
+
+# take a look at the data
+head(rd$data)
+
+# check the number of primary occasions 
+rd$nocc
+
+# check the number of secondary occasions 
+rd$nocc.secondary
+```
+
+### Set up models to run
+
+we want only specific combinations of S, p, gamma' and gamma'' and so need to dictate which ones we want one model at a time.
+
+```{r}
+run.robust <- function() {
+
+  # In all models, gamma' and gamma'' are fixed at 0 (no temporary emigration)
+  
+  # 3 variations of survival
+  
+  # 3 variations of recapture prob
+  
+  # Apparent survival varies by year
+  S.time = list(formula =  ~ time)
+  # Apparent survival is constant
+  S.dot = list(formula = ~ 1)
+  # Apparent survival varies within and between primary and secondary periods
+  S.session.time = list(formula = ~ session:time)
+  
+  # p varies by primary session but not among secondaries within primary
+  # session = varies by primary, time=varies by secondary
+  p.session = list(formula =  ~ session, share = TRUE)
+  # session:time = varies by both
+  p.session.time = list(formula =  ~ session:time, share = TRUE)
+  # p=c due to use of "share=TRUE"
+  p.dot = list(formula = ~ 1, share = TRUE)
+  p.time = list(formula = ~ time, share = T)
+  
+  # we are excluding temporary emigration, fixing these at 0 for all models
+  GammaDoublePrime.zero = list(formula =  ~ 1,
+                                 fixed = 0)
+  GammaPrime.zero = list(formula = ~ 1,
+                         fixed = 0)
+  
+
+  # Model 1: Dot Model for survival and recapture prob
+  mod.dot = mark(data = rd,
+                    model.parameters = list(
+                      S = S.dot,
+                      p = p.dot,
+                      GammaDoublePrime = GammaDoublePrime.zero,
+                      GammaPrime = GammaPrime.zero))
+  
+  # Model 2: Survival varies by year, recapture is constant
+  
+  mod.Stime.pDot = mark(data = rd,
+                    model.parameters = list(
+                      S = S.time,
+                      p = p.dot,
+                      GammaDoublePrime = GammaDoublePrime.zero,
+                      GammaPrime = GammaPrime.zero))
+  
+  # model 3: survival varies by all periods, recapture is null (dot)
+  
+    #mod.Ssessiontime.p.dot = mark(data = rd, 
+     #                         model.parameters = list(
+      #                         S = S.session.time,
+       #                        p = p.dot,
+        #                       GammaDoublePrime = GammaDoublePrime.zero,
+         #                      GammaPrime = GammaPrime.zero))
+           
+  # Model 4 survival is constant, recapture varies within years but is same between years?
+       # I don't think this makes sense, unequal sample periods
+  
+  mod.Sdot.pSession = mark(data = rd, 
+                      model.parameters = list(
+                         S = S.dot,
+                         p = p.session,
+                         GammaDoublePrime = GammaDoublePrime.zero,
+                         GammaPrime = GammaPrime.zero))
+  
+  # model 5: survival is constant, recapture is constant within on year but varies between years
+  mod.Sdot.pTime = mark(data = rd, 
+                              model.parameters = list(
+                               S = S.dot,
+                               p = p.time,
+                               GammaDoublePrime = GammaDoublePrime.zero,
+                               GammaPrime = GammaPrime.zero))
+  
+  
+  
+  # model 6: survival is constant, recapture varies within years and between years
+  mod.Sdot.pSessionTime = mark(data = rd, 
+                              model.parameters = list(
+                               S = S.dot,
+                               p = p.session.time,
+                               GammaDoublePrime = GammaDoublePrime.zero,
+                               GammaPrime = GammaPrime.zero))
+  
+  # model 7: survival varies by years, recapture varies by session but not year
+    mod.Stime.pSession = mark(data = rd, 
+                              model.parameters = list(
+                               S = S.time,
+                               p = p.session,
+                               GammaDoublePrime = GammaDoublePrime.zero,
+                               GammaPrime = GammaPrime.zero))
+    
+  # model 8: survival varies by eyar, recapture varies in season and in year
+    mod.Stime.pTime = mark(data = rd, 
+                                   model.parameters = list(
+                                    S = S.time,
+                                    p = p.time,
+                                    GammaDoublePrime = GammaDoublePrime.zero,
+                                    GammaPrime = GammaPrime.zero))
+    
+  # model 8: survival varies year, recapture varies in season and in year
+    mod.Stime.pSessionTime = mark(data = rd, 
+                                   model.parameters = list(
+                                    S = S.time,
+                                    p = p.session.time,
+                                    GammaDoublePrime = GammaDoublePrime.zero,
+                                    GammaPrime = GammaPrime.zero))
+    
+
+# Return model table and list of models
+return(collect.models())
+}
+```
+
+### Run the models and examine the output
+
+It's very simple to then use the function to run each of the models. As implemented here, the output from each of the models appears in the console where it can be reviewed. One can also examine model-specific output in other ways as shown below. 
+
+```{r}
+robust.results=run.robust()
+```
+
+### Examine model-selection table
+
+```{r}
+options(width = 90)
+robust.results
+names(robust.results)
+```
+
+### Examine output from top two models
+
+```{r}
+# survival varies by time, recapture prob varies by month and year
+round(robust.results$mod.Stime.pSessionTime$results$real[, 1:4], 3)
+round(robust.results$mod.Stime.pSessionTime$results$derived$`N Population Size`, 3)
+
+# surviavl is dot, recapture is varied by month and year
+round(robust.results$mod.random$results$real[, 1:4], 3)
+round(robust.results$mod.random$results$derived$`N Population Size`, 3)
+
+round(robust.results$mod.ZeroTE$results$real[, 1:4], 3)
+round(robust.results$mod.ZeroTE$results$derived$`N Population Size`, 3)
+```

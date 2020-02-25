@@ -35,25 +35,60 @@ packages(dplyr)
 
 ```{r}
 
-## Age comparison plots for North Twin Lake
+## Age comparison plots 
 #
 # Buffalo and Carp
 #
 #
-age<-read.csv("2017_STwin_Age_Estimates.csv",header=T)
+age<-read.csv("2019 Age Estimates.csv",header=T)
 summary(age)
 
 
+# delete notes / comments, delet date, why not env.tag too
+
+age2<-age[-c(1,3,5)]
 
 
+ggplot(age2, aes(x=Marcus.Age..Spine., y = Hannah.Age..Spine.))+
+        geom_point(size = 5, alpha = 0.1)+
+        geom_abline(slope = 1, intercept = 0)+
+        ggtitle("2019 Fish Age Spine comparison: Marcus + Hannah")+
+        facet_grid(Lake ~ Species)+
+        theme(panel.grid.major = element_blank(), 
+                      panel.grid.minor = element_blank(),
+                      panel.background = element_rect(fill="white",colour="grey50"), 
+                      axis.line = element_line(colour = "black"),
+                      legend.position = "none")
+
+ggplot(age2, aes(x=Marcus.Age..Spine., y = Marty.Age..Spine.))+
+        geom_point(size = 5, alpha = 0.1)+
+        geom_abline(slope = 1, intercept = 0)+
+        ggtitle("2019 Fish Age Spine comparison: Marcus + Marty")+
+        facet_grid(Lake ~ Species)+
+        theme(panel.grid.major = element_blank(), 
+                      panel.grid.minor = element_blank(),
+                      panel.background = element_rect(fill="white",colour="grey50"), 
+                      axis.line = element_line(colour = "black"),
+                      legend.position = "none")
+
+ggplot(age2, aes(x=Hannah.Age..Spine., y = Marty.Age..Spine.))+
+        geom_point(size = 5, alpha = 0.1)+
+        geom_abline(slope = 1, intercept = 0)+
+        ggtitle("2019 Fish Age Spine comparison: Hannah + Marty")+
+        facet_grid(Lake ~ Species)+
+        theme(panel.grid.major = element_blank(), 
+                      panel.grid.minor = element_blank(),
+                      panel.background = element_rect(fill="white",colour="grey50"), 
+                      axis.line = element_line(colour = "black"),
+                      legend.position = "none")
 
 
 # Need to compare three two estimates with each structure
           # Spines
-ggplot(age, aes(x=Otolith.MAS, y=Otolith.DRF, shape= Species))+
-  geom_point(size=5, alpha = 0.5)+
+ggplot(age2, aes(x=Marcus.Age..Spine., y=Hannah.Age..Spine., shape= Species))+
+  geom_point(size=5, alpha = 0.2)+
   geom_abline(slope = 1, intercept = 0)+
-  ggtitle("Otolith Age Readings: Marty vs. Drake")+
+  ggtitle("Spine Readings 2019")+
   theme_classic()
           # Otoliths
 ggplot(age, aes(x=Spine.MAS, y=Spine.DRF, shape= Species))+
