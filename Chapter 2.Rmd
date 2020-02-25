@@ -585,6 +585,7 @@ where $W_i$ is the individual fish weight, and
 $W_s$ is a length-specific standard weight predicted from a weight-length regression developed to represent the body form of carp and buffalo along their geographical range (provided in Blackwell et al 2000). 
 
 ```{r}
+library(FSA)
 # data frame - massage and subset
 dframe<-read.csv("2017-2020 Compiled Data.csv",header = T)
 dframe$Year<-as.factor(dframe$Year)
@@ -1104,9 +1105,9 @@ Will need to merge the BMD file and this w_r file.
 cond<-cond[,c(1,2,4,21,23)]
 head(cond)
 cond<-droplevels(subset(cond, !is.na(cond$w_r)))
-
+library(rcompanion)
 cond2<-groupwiseMean(w_r~Lake+Year+Species,cond)
-
+head(cond2)
 # this looks pretty good; don't need the sample size (n) or conf.level columns. 
 cond2<-cond2[,-c(4,6)]
 levels(cond2$Lake)
@@ -1167,3 +1168,140 @@ BMD.Cond
 ```
 
 not too shabby. Need input from MJW
+- input from mjw is to change x axis to prior year's harvest amount (lbs/acre)
+- change y axis to change in condition between that year.
+
+```{r}
+# let's trim some fat
+cond<-cond[,c(1,2,4,21,23)]
+head(cond)
+cond<-droplevels(subset(cond, !is.na(cond$w_r)))
+library(rcompanion)
+cond2<-groupwiseMean(w_r~Lake+Year+Species,cond)
+head(cond2)
+# this looks pretty good; don't need the sample size (n) or conf.level columns. 
+cond2<-cond2[,-c(4,6:8)]
+levels(cond2$Lake)
+cond2$Lake<-factor(cond2$Lake)
+
+cond.2017<-droplevels(subset(cond2, Year == "2017"))
+cond.2018<-droplevels(subset(cond2, Year == "2018"))
+cond.2019<-droplevels(subset(cond2, Year == "2019"))
+library(reshape2)
+cond.melt<-melt(cond2)
+cond.cast<-dcast(cond.melt, Lake + Species ~ Year)
+# now create differences:
+cond.cast$`17-18`<-cond.cast$`2018`-cond.cast$`2017`
+cond.cast$`18-19`<-cond.cast$`2019`-cond.cast$`2018`
+
+cond.cast<-cond.cast[,-c(3:5)]
+cond3<-melt(cond.cast)
+
+colnames(cond3)<-c("Lake","Species","Season","Delta Wr")
+levels(harvest2$Lake)
+levels(cond3$Lake)
+
+cond3$Lake<-as.character(cond3$Lake)
+cond3$Lake[cond3$Lake == "Blue"] <- "Blue Lake"
+cond3$Lake[cond3$Lake == "Center"] <- "Center Lake"
+cond3$Lake[cond3$Lake == "Five Island"] <- "Five Island Lake"
+cond3$Lake[cond3$Lake == "N Twin"] <- "North Twin Lake"
+cond3$Lake[cond3$Lake == "S Twin"] <- "South Twin Lake"
+cond3$Lake[cond3$Lake == "Silver"] <- "Silver Lake"
+cond3$Lake[cond3$Lake == "Storm"] <- "Storm Lake"
+cond3$Lake<-as.factor(cond3$Lake)
+########################################################################################
+# harvested fish:
+harvest<-read.csv("Commercial Harvest 2013 to 2019.csv")
+str(harvest)
+harvest<-harvest[,-c(2:3)]
+harvest$Year<-factor(harvest$Year)
+#harvest$Month<-factor(harvest$Month) 
+
+nas<-subset(harvest, is.na(harvest$Harvest)) # should be empty
+harvest$Date<-as.Date(harvest$Date, "%m/%d/%Y")
+str(harvest$Date)
+summary(harvest)
+
+#Drop lakes
+levels(harvest$Lake)
+harvest<-droplevels(subset(harvest, Lake == "Center Lake" |
+                         Lake == "Five Island Lake" |
+                         Lake == "Silver Lake (Dickinson)" |
+                         Lake == "North Twin Lake"))
+
+
+
+#drop freshwater drum
+harvest<-droplevels(subset(harvest, Species == "CAP"|
+                                    Species == "BMB"))
+
+# correct the species names for later plotting
+harvest$Species<-as.character(harvest$Species)
+harvest$Species[harvest$Species == "CAP"] <- "Common Carp"
+harvest$Species[harvest$Species == "BMB"] <- "Bigmouth Buffalo"
+harvest$Species<-factor(harvest$Species)
+
+# add acrage
+harvest$Acres[harvest$Lake == "Center Lake"] <- 220
+harvest$Acres[harvest$Lake == "Five Island Lake"] <- 973
+harvest$Acres[harvest$Lake == "Silver Lake (Dickinson)"] <- 1066
+harvest$Acres[harvest$Lake == "North Twin Lake"] <- 453
+
+# shorten silver lake name
+harvest$Lake<-as.character(harvest$Lake)
+harvest$Lake[harvest$Lake == "Silver Lake (Dickinson)"] <- "Silver Lake"
+harvest$Lake<-factor(harvest$Lake)
+
+
+# add column for pounds removed per acre
+harvest$Removal<-harvest$Pounds/harvest$Acres
+
+
+str(harvest)
+# set harvest summed by season
+# season 2017: harvest between 2017 and spring 2018. 
+# Season 2018: harvest between 2018 and spring 2019
+
+harvest$Season[harvest$Year == "2017" &
+               harvest$Month >= 7 |
+               harvest$Year == "2018" &
+               harvest$Month <= 6]  <- "17-18"
+
+harvest$Season[harvest$Year == "2018" &
+               harvest$Month >= 7 |
+               harvest$Year == "2019" &
+               harvest$Month <= 6]  <- "18-19"
+harvest<-droplevels(subset(harvest, !is.na(harvest$Season)))
+
+harvest2<-groupwiseSum(Removal ~ Lake + Season + Species, harvest)
+
+# that looks good for harvest sums!
+
+
+
+# now to merge/join the data frames
+setdiff(harvest2$Lake,cond3$Lake) # check to make sure that lakes are identical between frames
+
+df<-merge(cond3,harvest2, all = T)
+head(df)
+df<-df[,-5] # removing n column
+df$Sum[is.na(df$Sum)] <- 0
+summary(df)
+
+require(ggpmisc)
+harvest.Cond <- ggplot(df, aes(x=Sum, y=`Delta Wr`, shape = Lake)) +
+                            geom_point(size=3,) +
+                            scale_shape_manual(values=1:nlevels(df$Lake)) +
+                            geom_abline(slope = 0, intercept = 0, lty = 2)+
+                            labs(title = NULL,
+                                  x = "Estimated Biomass Removed (lbs. / acre)",
+                                  y = "Change in Relative Weight (Wr)") +
+                            facet_grid(vars(Season),vars(Species))+ 
+                            theme(panel.grid.major = element_blank(), 
+                                  panel.grid.minor = element_blank(),
+                                  panel.background = element_rect(fill="white",colour="grey50"),
+                                  axis.line = element_line(colour = "black")) 
+harvest.Cond
+```
+

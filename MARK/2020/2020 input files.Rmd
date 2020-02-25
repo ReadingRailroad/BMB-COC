@@ -125,14 +125,14 @@ capt.hist<-df2 %>%
 
 # well that worked, now to make it a .inp file
 c.c.ch.month<-capt.hist[,2] # code: Center.Carp.CaptureHistory.Month - capture histories of carp condensed to months
-
+c.c.ch.month$freq<-1
 # attempt at saving to try in MARK itself
 write.csv(c.b.ch.month, "CenterBuffRD.inp",row.names = F)
 write.csv(c.c.ch.month, "CenterCarpRD.inp",row.names=F)
 ```
 
 
-# robust design models with monthly capture histories - Center Lake Buffalo
+# robust design models with monthly capture histories - Center Lake Buffalo - probably worth deleting now
 
 ```{r}
 
@@ -225,7 +225,7 @@ run.robust <- function() {
 
   # In all models, gamma' and gamma'' are fixed at 0 (no temporary emigration)
   
-  # 3 variations of survival
+  # 2 variations of survival
   
   # 3 variations of recapture prob
   
@@ -233,8 +233,6 @@ run.robust <- function() {
   S.time = list(formula =  ~ time)
   # Apparent survival is constant
   S.dot = list(formula = ~ 1)
-  # Apparent survival varies within and between primary and secondary periods
-  S.session.time = list(formula = ~ session:time)
   
   # p varies by primary session but not among secondaries within primary
   # session = varies by primary, time=varies by secondary
@@ -347,7 +345,6 @@ robust.results=run.robust()
 ### Examine model-selection table
 
 ```{r}
-options(width = 90)
 robust.results
 names(robust.results)
 ```
@@ -356,13 +353,1476 @@ names(robust.results)
 
 ```{r}
 # survival varies by time, recapture prob varies by month and year
-round(robust.results$mod.Stime.pSessionTime$results$real[, 1:4], 3)
-round(robust.results$mod.Stime.pSessionTime$results$derived$`N Population Size`, 3)
+Center.Buff.Params<-round(robust.results$mod.Stime.pSessionTime$results$real[, 1:4], 3)
+Center.Buff.Params
+# Survival for two intervals, capture prob for 14 intervals, number unmarked in three years
+Center.Buff.Nhat<-round(robust.results$mod.Stime.pSessionTime$results$derived$`N Population Size`, 3)
+Center.Buff.Nhat
+# survial is dot, recapture is varied by month and year
+round(robust.results$mod.Sdot.pSessionTime$results$real[, 1:4], 3)
+round(robust.results$mod.Sdot.pSessionTime$results$derived$`N Population Size`, 3)
 
-# surviavl is dot, recapture is varied by month and year
-round(robust.results$mod.random$results$real[, 1:4], 3)
-round(robust.results$mod.random$results$derived$`N Population Size`, 3)
-
-round(robust.results$mod.ZeroTE$results$real[, 1:4], 3)
-round(robust.results$mod.ZeroTE$results$derived$`N Population Size`, 3)
 ```
+
+
+# Center Lake Carp
+
+```{r,}
+# set up time intervals for 5 primary occasions each with 3 secondary occasions
+# 5 primary sessions with secondary sessions of length 2,6,6
+#
+time.intervals=c(0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0)
+#
+
+rd <- process.data(data = c.c.ch.month,
+                  model = "Robust",
+                  time.intervals = time.intervals)
+                  
+names(rd)
+
+# take a look at the data
+head(rd$data)
+
+# check the number of primary occasions 
+rd$nocc
+
+# check the number of secondary occasions 
+rd$nocc.secondary
+```
+
+### Set up models to run
+
+we want only specific combinations of S, p, gamma' and gamma'' and so need to dictate which ones we want one model at a time.
+
+```{r}
+run.robust <- function() {
+
+  # In all models, gamma' and gamma'' are fixed at 0 (no temporary emigration)
+  
+  # 2 variations of survival
+  
+  # 3 variations of recapture prob
+  
+  # Apparent survival varies by year
+  S.time = list(formula =  ~ time)
+  # Apparent survival is constant
+  S.dot = list(formula = ~ 1)
+  
+  # p varies by primary session but not among secondaries within primary
+  # session = varies by primary, time=varies by secondary
+  p.session = list(formula =  ~ session, share = TRUE)
+  # session:time = varies by both
+  p.session.time = list(formula =  ~ session:time, share = TRUE)
+  # p=c due to use of "share=TRUE"
+  p.dot = list(formula = ~ 1, share = TRUE)
+  p.time = list(formula = ~ time, share = T)
+  
+  # we are excluding temporary emigration, fixing these at 0 for all models
+  GammaDoublePrime.zero = list(formula =  ~ 1,
+                                 fixed = 0)
+  GammaPrime.zero = list(formula = ~ 1,
+                         fixed = 0)
+  
+
+  # Model 1: Dot Model for survival and recapture prob
+  mod.dot = mark(data = rd,
+                    model.parameters = list(
+                      S = S.dot,
+                      p = p.dot,
+                      GammaDoublePrime = GammaDoublePrime.zero,
+                      GammaPrime = GammaPrime.zero))
+  
+  # Model 2: Survival varies by year, recapture is constant
+  
+  mod.Stime.pDot = mark(data = rd,
+                    model.parameters = list(
+                      S = S.time,
+                      p = p.dot,
+                      GammaDoublePrime = GammaDoublePrime.zero,
+                      GammaPrime = GammaPrime.zero))
+  
+  # model 3: survival varies by all periods, recapture is null (dot)
+  
+    #mod.Ssessiontime.p.dot = mark(data = rd, 
+     #                         model.parameters = list(
+      #                         S = S.session.time,
+       #                        p = p.dot,
+        #                       GammaDoublePrime = GammaDoublePrime.zero,
+         #                      GammaPrime = GammaPrime.zero))
+           
+  # Model 4 survival is constant, recapture varies within years but is same between years?
+       # I don't think this makes sense, unequal sample periods
+  
+  mod.Sdot.pSession = mark(data = rd, 
+                      model.parameters = list(
+                         S = S.dot,
+                         p = p.session,
+                         GammaDoublePrime = GammaDoublePrime.zero,
+                         GammaPrime = GammaPrime.zero))
+  
+  # model 5: survival is constant, recapture is constant within on year but varies between years
+  mod.Sdot.pTime = mark(data = rd, 
+                              model.parameters = list(
+                               S = S.dot,
+                               p = p.time,
+                               GammaDoublePrime = GammaDoublePrime.zero,
+                               GammaPrime = GammaPrime.zero))
+  
+  
+  
+  # model 6: survival is constant, recapture varies within years and between years
+  mod.Sdot.pSessionTime = mark(data = rd, 
+                              model.parameters = list(
+                               S = S.dot,
+                               p = p.session.time,
+                               GammaDoublePrime = GammaDoublePrime.zero,
+                               GammaPrime = GammaPrime.zero))
+  
+  # model 7: survival varies by years, recapture varies by session but not year
+    mod.Stime.pSession = mark(data = rd, 
+                              model.parameters = list(
+                               S = S.time,
+                               p = p.session,
+                               GammaDoublePrime = GammaDoublePrime.zero,
+                               GammaPrime = GammaPrime.zero))
+    
+  # model 8: survival varies by eyar, recapture varies in season and in year
+    mod.Stime.pTime = mark(data = rd, 
+                                   model.parameters = list(
+                                    S = S.time,
+                                    p = p.time,
+                                    GammaDoublePrime = GammaDoublePrime.zero,
+                                    GammaPrime = GammaPrime.zero))
+    
+  # model 8: survival varies year, recapture varies in season and in year
+    mod.Stime.pSessionTime = mark(data = rd, 
+                                   model.parameters = list(
+                                    S = S.time,
+                                    p = p.session.time,
+                                    GammaDoublePrime = GammaDoublePrime.zero,
+                                    GammaPrime = GammaPrime.zero))
+    
+
+# Return model table and list of models
+return(collect.models())
+}
+```
+
+### Run the models and examine the output
+
+It's very simple to then use the function to run each of the models. As implemented here, the output from each of the models appears in the console where it can be reviewed. One can also examine model-specific output in other ways as shown below. 
+
+```{r}
+robust.results=run.robust()
+```
+
+### Examine model-selection table
+
+```{r}
+robust.results
+names(robust.results)
+```
+
+### Examine output from top two models
+
+```{r}
+# survival varies by time, recapture prob varies by month and year
+Center.Carp.Params<-round(robust.results$mod.Stime.pSessionTime$results$real[, 1:4], 3)
+# Survival for two intervals, capture prob for 14 intervals, number unmarked in three years
+Center.Carp.Nhat<-round(robust.results$mod.Stime.pSessionTime$results$derived$`N Population Size`, 3)
+
+# survial is dot, recapture is varied by month and year
+round(robust.results$mod.Sdot.pSessionTime$results$real[, 1:4], 3)
+round(robust.results$mod.Sdot.pSessionTime$results$derived$`N Population Size`, 3)
+
+```
+
+# move on to North Twin Lake input files
+
+## getting capture history together
+
+```{r}
+# for the moment, let's just do center lake 
+
+# and for the moment buffalo only:
+
+df<-droplevels(subset(dframe, Lake == "N Twin" &
+                          Species == "BIB" &
+                          !is.na(dframe$TAG.NUMBER)))
+
+# remove dissections and others
+df$TAG.NUMBER[df$TAG.NUMBER == ""]<-NA
+df<-droplevels(subset(df, !is.na(as.numeric(as.character(df$TAG.NUMBER)))))
+levels(df$Notes)
+
+
+
+# condense to year and tag number and detect
+
+df2<-df[,c(3,21,22)]
+
+
+capt.hist<-df2 %>%
+  # remove duplicates when fish are caught more than once in an event
+  distinct() %>%
+  # spread out data. Fill = 0 adds rows for combinations of ID and event w/o observations
+  spread(Year, detect, fill = 0) %>%
+  # for every individual
+  group_by(TAG.NUMBER) %>%
+  # paste together 0s and 1s
+  # unite is similar to paste
+  unite("ch",2:tail(names(.),1),sep = "")
+
+# well that worked, now to make it a .inp file
+c.b.ch.year<-capt.hist[,2] # code: Center.Buffalo.CaptureHistory.Year - capture histories of buff condensed to years
+
+# making it work for months over years (robust design)
+df2<-df[,c(3,23,22)]
+capt.hist<-df2 %>%
+  # remove duplicates when fish are caught more than once in an event
+  distinct() %>%
+  # spread out data. Fill = 0 adds rows for combinations of ID and event w/o observations
+  spread(Year.Month, detect, fill = 0) %>%
+  # for every individual
+  group_by(TAG.NUMBER) %>%
+  # paste together 0s and 1s
+  # unite is similar to paste
+  unite("ch",2:tail(names(.),1),sep = "")
+
+# well that worked, now to make it a .inp file
+nt.b.ch.month<-capt.hist[,2] # code: Center.Buffalo.CaptureHistory.Month - capture histories of buff condensed to Months
+nt.b.ch.month$freq<-1
+
+############
+#
+# Carp
+#
+###########
+df<-droplevels(subset(dframe, Lake == "N Twin" &
+                          Species == "COC" ))
+# remove dissections and others
+df$TAG.NUMBER[df$TAG.NUMBER == ""]<-NA
+df<-droplevels(subset(df, !is.na(as.numeric(as.character(df$TAG.NUMBER)))))
+
+levels(df$Year.Month)
+
+
+# condense to year and tag number and detect
+
+df2<-df[,c(3,21,22)]
+
+
+capt.hist<-df2 %>%
+  # remove duplicates when fish are caught more than once in an event
+  distinct() %>%
+  # spread out data. Fill = 0 adds rows for combinations of ID and event w/o observations
+  spread(Year, detect, fill = 0) %>%
+  # for every individual
+  group_by(TAG.NUMBER) %>%
+  # paste together 0s and 1s
+  # unite is similar to paste
+  unite("ch",2:tail(names(.),1),sep = "")
+
+# well that worked, now to make it a .inp file
+c.c.ch.year<-capt.hist[,2] # code: Center.Carp.CaptureHistory.Year - capture histories of carp condensed to years
+
+# condense to tag number, month, and detect
+df2<-df[,c(3,23,22)]
+capt.hist<-df2 %>%
+  # remove duplicates when fish are caught more than once in an event
+  distinct() %>%
+  # spread out data. Fill = 0 adds rows for combinations of ID and event w/o observations
+  spread(Year.Month, detect, fill = 0) %>%
+  # for every individual
+  group_by(TAG.NUMBER) %>%
+  # paste together 0s and 1s
+  # unite is similar to paste
+  unite("ch",2:tail(names(.),1),sep = "")
+
+# well that worked, now to make it a .inp file
+nt.c.ch.month<-capt.hist[,2] # code: Center.Carp.CaptureHistory.Month - capture histories of carp condensed to months
+nt.c.ch.month$freq<-1
+# attempt at saving to try in MARK itself
+write.csv(nt.b.ch.month, "NTwinBuffRD.inp",row.names = F)
+write.csv(nt.c.ch.month, "NTwinCarpRD.inp",row.names=F)
+```
+
+# University of Montana edition, on North Twin Lake Buffalo
+
+```{r,}
+# set up time intervals for 5 primary occasions each with 3 secondary occasions
+# 5 primary sessions with secondary sessions of length 2,6,6 - same as center lake
+#
+levels(df$Year.Month)
+time.intervals=c(0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0)
+#
+
+rd <- process.data(data = nt.b.ch.month,
+                  model = "Robust",
+                  time.intervals = time.intervals)
+                  
+names(rd)
+
+# take a look at the data
+head(rd$data)
+
+# check the number of primary occasions 
+rd$nocc
+
+# check the number of secondary occasions 
+rd$nocc.secondary
+```
+
+### Set up models to run
+
+we want only specific combinations of S, p, gamma' and gamma'' and so need to dictate which ones we want one model at a time.
+
+```{r}
+run.robust <- function() {
+
+  # In all models, gamma' and gamma'' are fixed at 0 (no temporary emigration)
+  
+  # 2 variations of survival
+  
+  # 3 variations of recapture prob
+  
+  # Apparent survival varies by year
+  S.time = list(formula =  ~ time)
+  # Apparent survival is constant
+  S.dot = list(formula = ~ 1)
+  
+  # p varies by primary session but not among secondaries within primary
+  # session = varies by primary, time=varies by secondary
+  p.session = list(formula =  ~ session, share = TRUE)
+  # session:time = varies by both
+  p.session.time = list(formula =  ~ session:time, share = TRUE)
+  # p=c due to use of "share=TRUE"
+  p.dot = list(formula = ~ 1, share = TRUE)
+  p.time = list(formula = ~ time, share = T)
+  
+  # we are excluding temporary emigration, fixing these at 0 for all models
+  GammaDoublePrime.zero = list(formula =  ~ 1,
+                                 fixed = 0)
+  GammaPrime.zero = list(formula = ~ 1,
+                         fixed = 0)
+  
+
+  # Model 1: Dot Model for survival and recapture prob
+  mod.dot = mark(data = rd,
+                    model.parameters = list(
+                      S = S.dot,
+                      p = p.dot,
+                      GammaDoublePrime = GammaDoublePrime.zero,
+                      GammaPrime = GammaPrime.zero))
+  
+  # Model 2: Survival varies by year, recapture is constant
+  
+  mod.Stime.pDot = mark(data = rd,
+                    model.parameters = list(
+                      S = S.time,
+                      p = p.dot,
+                      GammaDoublePrime = GammaDoublePrime.zero,
+                      GammaPrime = GammaPrime.zero))
+  
+  # model 3: survival varies by all periods, recapture is null (dot)
+  
+    #mod.Ssessiontime.p.dot = mark(data = rd, 
+     #                         model.parameters = list(
+      #                         S = S.session.time,
+       #                        p = p.dot,
+        #                       GammaDoublePrime = GammaDoublePrime.zero,
+         #                      GammaPrime = GammaPrime.zero))
+           
+  # Model 4 survival is constant, recapture varies within years but is same between years?
+       # I don't think this makes sense, unequal sample periods
+  
+  mod.Sdot.pSession = mark(data = rd, 
+                      model.parameters = list(
+                         S = S.dot,
+                         p = p.session,
+                         GammaDoublePrime = GammaDoublePrime.zero,
+                         GammaPrime = GammaPrime.zero))
+  
+  # model 5: survival is constant, recapture is constant within on year but varies between years
+  mod.Sdot.pTime = mark(data = rd, 
+                              model.parameters = list(
+                               S = S.dot,
+                               p = p.time,
+                               GammaDoublePrime = GammaDoublePrime.zero,
+                               GammaPrime = GammaPrime.zero))
+  
+  
+  
+  # model 6: survival is constant, recapture varies within years and between years
+  mod.Sdot.pSessionTime = mark(data = rd, 
+                              model.parameters = list(
+                               S = S.dot,
+                               p = p.session.time,
+                               GammaDoublePrime = GammaDoublePrime.zero,
+                               GammaPrime = GammaPrime.zero))
+  
+  # model 7: survival varies by years, recapture varies by session but not year
+    mod.Stime.pSession = mark(data = rd, 
+                              model.parameters = list(
+                               S = S.time,
+                               p = p.session,
+                               GammaDoublePrime = GammaDoublePrime.zero,
+                               GammaPrime = GammaPrime.zero))
+    
+  # model 8: survival varies by eyar, recapture varies in season and in year
+   # mod.Stime.pTime = mark(data = rd, 
+    #                               model.parameters = list(
+     #                               S = S.time,
+      #                              p = p.time,
+       #                             GammaDoublePrime = GammaDoublePrime.zero,
+        #                            GammaPrime = GammaPrime.zero))
+    
+  # model 8: survival varies year, recapture varies in season and in year
+    mod.Stime.pSessionTime = mark(data = rd, 
+                                   model.parameters = list(
+                                    S = S.time,
+                                    p = p.session.time,
+                                    GammaDoublePrime = GammaDoublePrime.zero,
+                                    GammaPrime = GammaPrime.zero))
+    
+
+# Return model table and list of models
+return(collect.models())
+}
+```
+
+### Run the models and examine the output
+
+It's very simple to then use the function to run each of the models. As implemented here, the output from each of the models appears in the console where it can be reviewed. One can also examine model-specific output in other ways as shown below. 
+
+```{r}
+robust.results=run.robust()
+```
+
+### Examine model-selection table
+
+```{r}
+robust.results
+names(robust.results)
+```
+
+### Examine output from top two models
+
+```{r}
+
+# survial is dot, recapture is varied by month and year
+round(robust.results$mod.Sdot.pSessionTime$results$real[, 1:4], 3)
+round(robust.results$mod.Sdot.pSessionTime$results$derived$`N Population Size`, 3)
+
+# survival varies by time, recapture prob varies by month and year
+NTwin.Buff.Params<-round(robust.results$mod.Stime.pSessionTime$results$real[, 1:4], 3)
+# Survival for two intervals, capture prob for 14 intervals, number unmarked in three years
+NTwin.Buff.Nhat<-round(robust.results$mod.Stime.pSessionTime$results$derived$`N Population Size`, 3)
+
+```
+
+
+## North Twin Lake Carp
+
+```{r,}
+# set up time intervals for 5 primary occasions each with 3 secondary occasions
+# 5 primary sessions with secondary sessions of length 2,6,6
+#
+
+time.intervals=c(0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0)
+#
+
+rd <- process.data(data = nt.c.ch.month,
+                  model = "Robust",
+                  time.intervals = time.intervals)
+                  
+names(rd)
+
+# take a look at the data
+head(rd$data)
+
+# check the number of primary occasions 
+rd$nocc
+
+# check the number of secondary occasions 
+rd$nocc.secondary
+```
+
+### Set up models to run
+
+we want only specific combinations of S, p, gamma' and gamma'' and so need to dictate which ones we want one model at a time.
+
+```{r}
+run.robust <- function() {
+
+  # In all models, gamma' and gamma'' are fixed at 0 (no temporary emigration)
+  
+  # 2 variations of survival
+  
+  # 3 variations of recapture prob
+  
+  # Apparent survival varies by year
+  S.time = list(formula =  ~ time)
+  # Apparent survival is constant
+  S.dot = list(formula = ~ 1)
+  
+  # p varies by primary session but not among secondaries within primary
+  # session = varies by primary, time=varies by secondary
+  p.session = list(formula =  ~ session, share = TRUE)
+  # session:time = varies by both
+  p.session.time = list(formula =  ~ session:time, share = TRUE)
+  # p=c due to use of "share=TRUE"
+  p.dot = list(formula = ~ 1, share = TRUE)
+  p.time = list(formula = ~ time, share = T)
+  
+  # we are excluding temporary emigration, fixing these at 0 for all models
+  GammaDoublePrime.zero = list(formula =  ~ 1,
+                                 fixed = 0)
+  GammaPrime.zero = list(formula = ~ 1,
+                         fixed = 0)
+  
+
+  # Model 1: Dot Model for survival and recapture prob
+  mod.dot = mark(data = rd,
+                    model.parameters = list(
+                      S = S.dot,
+                      p = p.dot,
+                      GammaDoublePrime = GammaDoublePrime.zero,
+                      GammaPrime = GammaPrime.zero))
+  
+  # Model 2: Survival varies by year, recapture is constant
+  
+  mod.Stime.pDot = mark(data = rd,
+                    model.parameters = list(
+                      S = S.time,
+                      p = p.dot,
+                      GammaDoublePrime = GammaDoublePrime.zero,
+                      GammaPrime = GammaPrime.zero))
+  
+  # model 3: survival varies by all periods, recapture is null (dot)
+  
+    #mod.Ssessiontime.p.dot = mark(data = rd, 
+     #                         model.parameters = list(
+      #                         S = S.session.time,
+       #                        p = p.dot,
+        #                       GammaDoublePrime = GammaDoublePrime.zero,
+         #                      GammaPrime = GammaPrime.zero))
+           
+  # Model 4 survival is constant, recapture varies within years but is same between years?
+       # I don't think this makes sense, unequal sample periods
+  
+  mod.Sdot.pSession = mark(data = rd, 
+                      model.parameters = list(
+                         S = S.dot,
+                         p = p.session,
+                         GammaDoublePrime = GammaDoublePrime.zero,
+                         GammaPrime = GammaPrime.zero))
+  
+  # model 5: survival is constant, recapture is constant within on year but varies between years
+  mod.Sdot.pTime = mark(data = rd, 
+                              model.parameters = list(
+                               S = S.dot,
+                               p = p.time,
+                               GammaDoublePrime = GammaDoublePrime.zero,
+                               GammaPrime = GammaPrime.zero))
+  
+  
+  
+  # model 6: survival is constant, recapture varies within years and between years
+  mod.Sdot.pSessionTime = mark(data = rd, 
+                              model.parameters = list(
+                               S = S.dot,
+                               p = p.session.time,
+                               GammaDoublePrime = GammaDoublePrime.zero,
+                               GammaPrime = GammaPrime.zero))
+  
+  # model 7: survival varies by years, recapture varies by session but not year
+    mod.Stime.pSession = mark(data = rd, 
+                              model.parameters = list(
+                               S = S.time,
+                               p = p.session,
+                               GammaDoublePrime = GammaDoublePrime.zero,
+                               GammaPrime = GammaPrime.zero))
+    
+  # model 8: survival varies by eyar, recapture varies in season and in year
+    mod.Stime.pTime = mark(data = rd, 
+                                   model.parameters = list(
+                                    S = S.time,
+                                    p = p.time,
+                                    GammaDoublePrime = GammaDoublePrime.zero,
+                                    GammaPrime = GammaPrime.zero))
+    
+  # model 8: survival varies year, recapture varies in season and in year
+    mod.Stime.pSessionTime = mark(data = rd, 
+                                   model.parameters = list(
+                                    S = S.time,
+                                    p = p.session.time,
+                                    GammaDoublePrime = GammaDoublePrime.zero,
+                                    GammaPrime = GammaPrime.zero))
+    
+
+# Return model table and list of models
+return(collect.models())
+}
+```
+
+### Run the models and examine the output
+
+It's very simple to then use the function to run each of the models. As implemented here, the output from each of the models appears in the console where it can be reviewed. One can also examine model-specific output in other ways as shown below. 
+
+```{r}
+robust.results=run.robust()
+```
+
+### Examine model-selection table
+
+```{r}
+robust.results
+names(robust.results)
+```
+
+### Examine output from top two models
+
+```{r}
+# survival varies by time, recapture prob varies by month and year
+NTwin.Carp.Params<-round(robust.results$mod.Stime.pSessionTime$results$real[, 1:4], 3)
+# Survival for two intervals, capture prob for 14 intervals, number unmarked in three years
+NTwin.Carp.Nhat<-round(robust.results$mod.Stime.pSessionTime$results$derived$`N Population Size`, 3)
+
+# survial is dot, recapture is varied by month and year
+round(robust.results$mod.Sdot.pSessionTime$results$real[, 1:4], 3)
+round(robust.results$mod.Sdot.pSessionTime$results$derived$`N Population Size`, 3)
+```
+
+# South Twin Lake
+
+## getting capture history together
+
+```{r}
+# for the moment, let's just do center lake 
+
+# and for the moment buffalo only:
+
+df<-droplevels(subset(dframe, Lake == "S Twin" &
+                          Species == "BIB" &
+                          !is.na(dframe$TAG.NUMBER)))
+
+# remove dissections and others
+df$TAG.NUMBER[df$TAG.NUMBER == ""]<-NA
+df<-droplevels(subset(df, !is.na(as.numeric(as.character(df$TAG.NUMBER)))))
+levels(df$Notes)
+
+df3<-levels(df$Year.Month)
+
+
+# condense to year and tag number and detect
+
+df2<-df[,c(3,21,22)]
+
+
+capt.hist<-df2 %>%
+  # remove duplicates when fish are caught more than once in an event
+  distinct() %>%
+  # spread out data. Fill = 0 adds rows for combinations of ID and event w/o observations
+  spread(Year, detect, fill = 0) %>%
+  # for every individual
+  group_by(TAG.NUMBER) %>%
+  # paste together 0s and 1s
+  # unite is similar to paste
+  unite("ch",2:tail(names(.),1),sep = "")
+
+# well that worked, now to make it a .inp file
+c.b.ch.year<-capt.hist[,2] # code: Center.Buffalo.CaptureHistory.Year - capture histories of buff condensed to years
+
+# making it work for months over years (robust design)
+df2<-df[,c(3,23,22)]
+capt.hist<-df2 %>%
+  # remove duplicates when fish are caught more than once in an event
+  distinct() %>%
+  # spread out data. Fill = 0 adds rows for combinations of ID and event w/o observations
+  spread(Year.Month, detect, fill = 0) %>%
+  # for every individual
+  group_by(TAG.NUMBER) %>%
+  # paste together 0s and 1s
+  # unite is similar to paste
+  unite("ch",2:tail(names(.),1),sep = "")
+
+# well that worked, now to make it a .inp file
+st.b.ch.month<-capt.hist[,2] # code: Center.Buffalo.CaptureHistory.Month - capture histories of buff condensed to Months
+st.b.ch.month$freq<-1
+
+############
+#
+# Carp
+#
+###########
+df<-droplevels(subset(dframe, Lake == "S Twin" &
+                          Species == "COC" ))
+# remove dissections and others
+df$TAG.NUMBER[df$TAG.NUMBER == ""]<-NA
+df<-droplevels(subset(df, !is.na(as.numeric(as.character(df$TAG.NUMBER)))))
+
+levels(df$Year.Month)
+
+
+# condense to year and tag number and detect
+
+df2<-df[,c(3,21,22)]
+
+
+capt.hist<-df2 %>%
+  # remove duplicates when fish are caught more than once in an event
+  distinct() %>%
+  # spread out data. Fill = 0 adds rows for combinations of ID and event w/o observations
+  spread(Year, detect, fill = 0) %>%
+  # for every individual
+  group_by(TAG.NUMBER) %>%
+  # paste together 0s and 1s
+  # unite is similar to paste
+  unite("ch",2:tail(names(.),1),sep = "")
+
+# well that worked, now to make it a .inp file
+c.c.ch.year<-capt.hist[,2] # code: Center.Carp.CaptureHistory.Year - capture histories of carp condensed to years
+
+# condense to tag number, month, and detect
+df2<-df[,c(3,23,22)]
+capt.hist<-df2 %>%
+  # remove duplicates when fish are caught more than once in an event
+  distinct() %>%
+  # spread out data. Fill = 0 adds rows for combinations of ID and event w/o observations
+  spread(Year.Month, detect, fill = 0) %>%
+  # for every individual
+  group_by(TAG.NUMBER) %>%
+  # paste together 0s and 1s
+  # unite is similar to paste
+  unite("ch",2:tail(names(.),1),sep = "")
+
+# well that worked, now to make it a .inp file
+st.c.ch.month<-capt.hist[,2] # code: Center.Carp.CaptureHistory.Month - capture histories of carp condensed to months
+st.c.ch.month$freq<-1
+# attempt at saving to try in MARK itself
+write.csv(st.b.ch.month, "StBuffRD.inp",row.names = F)
+write.csv(st.c.ch.month, "StCarpRD.inp",row.names=F)
+```
+
+# University of Montana edition, on South Twin Lake Buffalo
+
+```{r,}
+# set up time intervals for 5 primary occasions each with 3 secondary occasions
+# 5 primary sessions with secondary sessions of length 2,6,6 - same as center lake
+#
+df3
+time.intervals=c(0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0)
+
+#
+
+rd <- process.data(data = st.b.ch.month,
+                  model = "Robust",
+                  time.intervals = time.intervals)
+                  
+names(rd)
+
+# take a look at the data
+head(rd$data)
+
+# check the number of primary occasions 
+rd$nocc
+
+# check the number of secondary occasions 
+rd$nocc.secondary
+```
+
+### Set up models to run
+
+we want only specific combinations of S, p, gamma' and gamma'' and so need to dictate which ones we want one model at a time.
+
+```{r}
+run.robust <- function() {
+
+  # In all models, gamma' and gamma'' are fixed at 0 (no temporary emigration)
+  
+  # 2 variations of survival
+  
+  # 3 variations of recapture prob
+  
+  # Apparent survival varies by year
+  S.time = list(formula =  ~ time)
+  # Apparent survival is constant
+  S.dot = list(formula = ~ 1)
+  
+  # p varies by primary session but not among secondaries within primary
+  # session = varies by primary, time=varies by secondary
+  p.session = list(formula =  ~ session, share = TRUE)
+  # session:time = varies by both
+  p.session.time = list(formula =  ~ session:time, share = TRUE)
+  # p=c due to use of "share=TRUE"
+  p.dot = list(formula = ~ 1, share = TRUE)
+  p.time = list(formula = ~ time, share = T)
+  
+  # we are excluding temporary emigration, fixing these at 0 for all models
+  GammaDoublePrime.zero = list(formula =  ~ 1,
+                                 fixed = 0)
+  GammaPrime.zero = list(formula = ~ 1,
+                         fixed = 0)
+  
+
+  # Model 1: Dot Model for survival and recapture prob
+  mod.dot = mark(data = rd,
+                    model.parameters = list(
+                      S = S.dot,
+                      p = p.dot,
+                      GammaDoublePrime = GammaDoublePrime.zero,
+                      GammaPrime = GammaPrime.zero))
+  
+  # Model 2: Survival varies by year, recapture is constant
+  
+  mod.Stime.pDot = mark(data = rd,
+                    model.parameters = list(
+                      S = S.time,
+                      p = p.dot,
+                      GammaDoublePrime = GammaDoublePrime.zero,
+                      GammaPrime = GammaPrime.zero))
+  
+  # model 3: survival varies by all periods, recapture is null (dot)
+  
+    #mod.Ssessiontime.p.dot = mark(data = rd, 
+     #                         model.parameters = list(
+      #                         S = S.session.time,
+       #                        p = p.dot,
+        #                       GammaDoublePrime = GammaDoublePrime.zero,
+         #                      GammaPrime = GammaPrime.zero))
+           
+  # Model 4 survival is constant, recapture varies within years but is same between years?
+       # I don't think this makes sense, unequal sample periods
+  
+  mod.Sdot.pSession = mark(data = rd, 
+                      model.parameters = list(
+                         S = S.dot,
+                         p = p.session,
+                         GammaDoublePrime = GammaDoublePrime.zero,
+                         GammaPrime = GammaPrime.zero))
+  
+  # model 5: survival is constant, recapture is constant within on year but varies between years
+  mod.Sdot.pTime = mark(data = rd, 
+                              model.parameters = list(
+                               S = S.dot,
+                               p = p.time,
+                               GammaDoublePrime = GammaDoublePrime.zero,
+                               GammaPrime = GammaPrime.zero))
+  
+  
+  
+  # model 6: survival is constant, recapture varies within years and between years
+  mod.Sdot.pSessionTime = mark(data = rd, 
+                              model.parameters = list(
+                               S = S.dot,
+                               p = p.session.time,
+                               GammaDoublePrime = GammaDoublePrime.zero,
+                               GammaPrime = GammaPrime.zero))
+  
+  # model 7: survival varies by years, recapture varies by session but not year
+    mod.Stime.pSession = mark(data = rd, 
+                              model.parameters = list(
+                               S = S.time,
+                               p = p.session,
+                               GammaDoublePrime = GammaDoublePrime.zero,
+                               GammaPrime = GammaPrime.zero))
+    
+   # model 8: survival varies by eyar, recapture varies in season and in year
+    mod.Stime.pTime = mark(data = rd, 
+                                  model.parameters = list(
+                                   S = S.time,
+                                   p = p.time,
+                                   GammaDoublePrime = GammaDoublePrime.zero,
+                                   GammaPrime = GammaPrime.zero))
+    
+  # model 8: survival varies year, recapture varies in season and in year
+    mod.Stime.pSessionTime = mark(data = rd, 
+                                   model.parameters = list(
+                                    S = S.time,
+                                    p = p.session.time,
+                                    GammaDoublePrime = GammaDoublePrime.zero,
+                                    GammaPrime = GammaPrime.zero))
+    
+
+# Return model table and list of models
+return(collect.models())
+}
+```
+
+### Run the models and examine the output
+
+It's very simple to then use the function to run each of the models. As implemented here, the output from each of the models appears in the console where it can be reviewed. One can also examine model-specific output in other ways as shown below. 
+
+```{r}
+robust.results=run.robust()
+```
+
+### Examine model-selection table
+
+```{r}
+robust.results
+names(robust.results)
+```
+
+### Examine output from top two models
+
+```{r}
+
+# survial is dot, recapture is varied by month and year
+round(robust.results$mod.Sdot.pSessionTime$results$real[, 1:4], 3)
+round(robust.results$mod.Sdot.pSessionTime$results$derived$`N Population Size`, 3)
+
+# survival varies by time, recapture prob varies by month and year
+STwin.Buff.Params<-round(robust.results$mod.Stime.pSessionTime$results$real[, 1:4], 3)
+# Survival for two intervals, capture prob for 14 intervals, number unmarked in three years
+STwin.Buff.Nhat<-round(robust.results$mod.Stime.pSessionTime$results$derived$`N Population Size`, 3)
+
+```
+
+
+## South Twin Lake Carp
+
+```{r,}
+# set up time intervals for 5 primary occasions each with 3 secondary occasions
+# 5 primary sessions with secondary sessions of length 2,6,6
+#
+
+time.intervals=c(0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0)
+#
+
+rd <- process.data(data = st.c.ch.month,
+                  model = "Robust",
+                  time.intervals = time.intervals)
+                  
+names(rd)
+
+# take a look at the data
+head(rd$data)
+
+# check the number of primary occasions 
+rd$nocc
+
+# check the number of secondary occasions 
+rd$nocc.secondary
+```
+
+### Set up models to run
+
+we want only specific combinations of S, p, gamma' and gamma'' and so need to dictate which ones we want one model at a time.
+
+```{r}
+run.robust <- function() {
+
+  # In all models, gamma' and gamma'' are fixed at 0 (no temporary emigration)
+  
+  # 2 variations of survival
+  
+  # 3 variations of recapture prob
+  
+  # Apparent survival varies by year
+  S.time = list(formula =  ~ time)
+  # Apparent survival is constant
+  S.dot = list(formula = ~ 1)
+  
+  # p varies by primary session but not among secondaries within primary
+  # session = varies by primary, time=varies by secondary
+  p.session = list(formula =  ~ session, share = TRUE)
+  # session:time = varies by both
+  p.session.time = list(formula =  ~ session:time, share = TRUE)
+  # p=c due to use of "share=TRUE"
+  p.dot = list(formula = ~ 1, share = TRUE)
+  p.time = list(formula = ~ time, share = T)
+  
+  # we are excluding temporary emigration, fixing these at 0 for all models
+  GammaDoublePrime.zero = list(formula =  ~ 1,
+                                 fixed = 0)
+  GammaPrime.zero = list(formula = ~ 1,
+                         fixed = 0)
+  
+
+  # Model 1: Dot Model for survival and recapture prob
+  mod.dot = mark(data = rd,
+                    model.parameters = list(
+                      S = S.dot,
+                      p = p.dot,
+                      GammaDoublePrime = GammaDoublePrime.zero,
+                      GammaPrime = GammaPrime.zero))
+  
+  # Model 2: Survival varies by year, recapture is constant
+  
+  mod.Stime.pDot = mark(data = rd,
+                    model.parameters = list(
+                      S = S.time,
+                      p = p.dot,
+                      GammaDoublePrime = GammaDoublePrime.zero,
+                      GammaPrime = GammaPrime.zero))
+  
+  # model 3: survival varies by all periods, recapture is null (dot)
+  
+    #mod.Ssessiontime.p.dot = mark(data = rd, 
+     #                         model.parameters = list(
+      #                         S = S.session.time,
+       #                        p = p.dot,
+        #                       GammaDoublePrime = GammaDoublePrime.zero,
+         #                      GammaPrime = GammaPrime.zero))
+           
+  # Model 4 survival is constant, recapture varies within years but is same between years?
+       # I don't think this makes sense, unequal sample periods
+  
+  mod.Sdot.pSession = mark(data = rd, 
+                      model.parameters = list(
+                         S = S.dot,
+                         p = p.session,
+                         GammaDoublePrime = GammaDoublePrime.zero,
+                         GammaPrime = GammaPrime.zero))
+  
+  # model 5: survival is constant, recapture is constant within on year but varies between years
+  mod.Sdot.pTime = mark(data = rd, 
+                              model.parameters = list(
+                               S = S.dot,
+                               p = p.time,
+                               GammaDoublePrime = GammaDoublePrime.zero,
+                               GammaPrime = GammaPrime.zero))
+  
+  
+  
+  # model 6: survival is constant, recapture varies within years and between years
+  mod.Sdot.pSessionTime = mark(data = rd, 
+                              model.parameters = list(
+                               S = S.dot,
+                               p = p.session.time,
+                               GammaDoublePrime = GammaDoublePrime.zero,
+                               GammaPrime = GammaPrime.zero))
+  
+  # model 7: survival varies by years, recapture varies by session but not year
+    mod.Stime.pSession = mark(data = rd, 
+                              model.parameters = list(
+                               S = S.time,
+                               p = p.session,
+                               GammaDoublePrime = GammaDoublePrime.zero,
+                               GammaPrime = GammaPrime.zero))
+    
+  # model 8: survival varies by eyar, recapture varies in season and in year
+    mod.Stime.pTime = mark(data = rd, 
+                                   model.parameters = list(
+                                    S = S.time,
+                                    p = p.time,
+                                    GammaDoublePrime = GammaDoublePrime.zero,
+                                    GammaPrime = GammaPrime.zero))
+    
+  # model 8: survival varies year, recapture varies in season and in year
+    mod.Stime.pSessionTime = mark(data = rd, 
+                                   model.parameters = list(
+                                    S = S.time,
+                                    p = p.session.time,
+                                    GammaDoublePrime = GammaDoublePrime.zero,
+                                    GammaPrime = GammaPrime.zero))
+    
+
+# Return model table and list of models
+return(collect.models())
+}
+```
+
+### Run the models and examine the output
+
+It's very simple to then use the function to run each of the models. As implemented here, the output from each of the models appears in the console where it can be reviewed. One can also examine model-specific output in other ways as shown below. 
+
+```{r}
+robust.results=run.robust()
+```
+
+### Examine model-selection table
+
+```{r}
+robust.results
+names(robust.results)
+```
+
+### Examine output from top two models
+
+```{r}
+# survival varies by time, recapture prob varies by month and year
+STwin.Carp.Params<-round(robust.results$mod.Stime.pSessionTime$results$real[, 1:4], 3)
+# Survival for two intervals, capture prob for 14 intervals, number unmarked in three years
+Stwin.Carp.Nhat<-round(robust.results$mod.Stime.pSessionTime$results$derived$`N Population Size`, 3)
+
+# survial is dot, recapture is varied by month and year
+round(robust.results$mod.Sdot.pSessionTime$results$real[, 1:4], 3)
+round(robust.results$mod.Sdot.pSessionTime$results$derived$`N Population Size`, 3)
+```
+
+# Blue Lake
+
+## getting capture history together
+
+```{r}
+
+############
+#
+# Carp
+#
+###########
+df<-droplevels(subset(dframe, Lake == "Blue" &
+                          Species == "COC" ))
+# remove dissections and others
+df$TAG.NUMBER[df$TAG.NUMBER == ""]<-NA
+df<-droplevels(subset(df, !is.na(as.numeric(as.character(df$TAG.NUMBER)))))
+
+levels(df$Year.Month)
+
+
+# condense to year and tag number and detect
+
+df2<-df[,c(3,21,22)]
+
+
+capt.hist<-df2 %>%
+  # remove duplicates when fish are caught more than once in an event
+  distinct() %>%
+  # spread out data. Fill = 0 adds rows for combinations of ID and event w/o observations
+  spread(Year, detect, fill = 0) %>%
+  # for every individual
+  group_by(TAG.NUMBER) %>%
+  # paste together 0s and 1s
+  # unite is similar to paste
+  unite("ch",2:tail(names(.),1),sep = "")
+
+# well that worked, now to make it a .inp file
+c.c.ch.year<-capt.hist[,2] # code: Center.Carp.CaptureHistory.Year - capture histories of carp condensed to years
+
+# condense to tag number, month, and detect
+df2<-df[,c(3,23,22)]
+capt.hist<-df2 %>%
+  # remove duplicates when fish are caught more than once in an event
+  distinct() %>%
+  # spread out data. Fill = 0 adds rows for combinations of ID and event w/o observations
+  spread(Year.Month, detect, fill = 0) %>%
+  # for every individual
+  group_by(TAG.NUMBER) %>%
+  # paste together 0s and 1s
+  # unite is similar to paste
+  unite("ch",2:tail(names(.),1),sep = "")
+
+# well that worked, now to make it a .inp file
+b.c.ch.month<-capt.hist[,2] # code: Center.Carp.CaptureHistory.Month - capture histories of carp condensed to months
+b.c.ch.month$freq<-1
+# attempt at saving to try in MARK itself
+write.csv(b.c.ch.month, "StCarpRD.inp",row.names=F)
+```
+
+# University of Montana edition, on blue lake carp
+
+```{r,}
+# set up time intervals for 5 primary occasions each with 3 secondary occasions
+# 5 primary sessions with secondary sessions of length 2,6,6 - same as center lake
+#
+levels(df$Year.Month)
+time.intervals=c(0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0)
+
+#
+
+rd <- process.data(data = b.c.ch.month,
+                  model = "Robust",
+                  time.intervals = time.intervals)
+                  
+names(rd)
+
+# take a look at the data
+head(rd$data)
+
+# check the number of primary occasions 
+rd$nocc
+
+# check the number of secondary occasions 
+rd$nocc.secondary
+```
+
+### Set up models to run
+
+we want only specific combinations of S, p, gamma' and gamma'' and so need to dictate which ones we want one model at a time.
+
+```{r}
+run.robust <- function() {
+
+  # In all models, gamma' and gamma'' are fixed at 0 (no temporary emigration)
+  
+  # 2 variations of survival
+  
+  # 3 variations of recapture prob
+  
+  # Apparent survival varies by year
+  S.time = list(formula =  ~ time)
+  # Apparent survival is constant
+  S.dot = list(formula = ~ 1)
+  
+  # p varies by primary session but not among secondaries within primary
+  # session = varies by primary, time=varies by secondary
+  p.session = list(formula =  ~ session, share = TRUE)
+  # session:time = varies by both
+  p.session.time = list(formula =  ~ session:time, share = TRUE)
+  # p=c due to use of "share=TRUE"
+  p.dot = list(formula = ~ 1, share = TRUE)
+  p.time = list(formula = ~ time, share = T)
+  
+  # we are excluding temporary emigration, fixing these at 0 for all models
+  GammaDoublePrime.zero = list(formula =  ~ 1,
+                                 fixed = 0)
+  GammaPrime.zero = list(formula = ~ 1,
+                         fixed = 0)
+  
+
+  # Model 1: Dot Model for survival and recapture prob
+ # mod.dot = mark(data = rd,
+  #                  model.parameters = list(
+   #                   S = S.dot,
+    #                  p = p.dot,
+     #                 GammaDoublePrime = GammaDoublePrime.zero,
+      #                GammaPrime = GammaPrime.zero))
+  
+  # Model 2: Survival varies by year, recapture is constant
+  
+  mod.Stime.pDot = mark(data = rd,
+                    model.parameters = list(
+                      S = S.time,
+                      p = p.dot,
+                      GammaDoublePrime = GammaDoublePrime.zero,
+                      GammaPrime = GammaPrime.zero))
+  
+  # model 3: survival varies by all periods, recapture is null (dot)
+  
+    #mod.Ssessiontime.p.dot = mark(data = rd, 
+     #                         model.parameters = list(
+      #                         S = S.session.time,
+       #                        p = p.dot,
+        #                       GammaDoublePrime = GammaDoublePrime.zero,
+         #                      GammaPrime = GammaPrime.zero))
+           
+  # Model 4 survival is constant, recapture varies within years but is same between years?
+       # I don't think this makes sense, unequal sample periods
+  
+  mod.Sdot.pSession = mark(data = rd, 
+                      model.parameters = list(
+                         S = S.dot,
+                         p = p.session,
+                         GammaDoublePrime = GammaDoublePrime.zero,
+                         GammaPrime = GammaPrime.zero))
+  
+  # model 5: survival is constant, recapture is constant within on year but varies between years
+  mod.Sdot.pTime = mark(data = rd, 
+                              model.parameters = list(
+                               S = S.dot,
+                               p = p.time,
+                               GammaDoublePrime = GammaDoublePrime.zero,
+                               GammaPrime = GammaPrime.zero))
+  
+  
+  
+  # model 6: survival is constant, recapture varies within years and between years
+  mod.Sdot.pSessionTime = mark(data = rd, 
+                              model.parameters = list(
+                               S = S.dot,
+                               p = p.session.time,
+                               GammaDoublePrime = GammaDoublePrime.zero,
+                               GammaPrime = GammaPrime.zero))
+  
+  # model 7: survival varies by years, recapture varies by session but not year
+    mod.Stime.pSession = mark(data = rd, 
+                              model.parameters = list(
+                               S = S.time,
+                               p = p.session,
+                               GammaDoublePrime = GammaDoublePrime.zero,
+                               GammaPrime = GammaPrime.zero))
+    
+   # model 8: survival varies by eyar, recapture varies in season and in year
+    mod.Stime.pTime = mark(data = rd, 
+                                  model.parameters = list(
+                                   S = S.time,
+                                   p = p.time,
+                                   GammaDoublePrime = GammaDoublePrime.zero,
+                                   GammaPrime = GammaPrime.zero))
+    
+  # model 8: survival varies year, recapture varies in season and in year
+    mod.Stime.pSessionTime = mark(data = rd, 
+                                   model.parameters = list(
+                                    S = S.time,
+                                    p = p.session.time,
+                                    GammaDoublePrime = GammaDoublePrime.zero,
+                                    GammaPrime = GammaPrime.zero))
+    
+
+# Return model table and list of models
+return(collect.models())
+}
+```
+
+### Run the models and examine the output
+
+It's very simple to then use the function to run each of the models. As implemented here, the output from each of the models appears in the console where it can be reviewed. One can also examine model-specific output in other ways as shown below. 
+
+```{r}
+robust.results=run.robust()
+```
+
+### Examine model-selection table
+
+```{r}
+robust.results
+names(robust.results)
+```
+
+### Examine output from top two models
+
+```{r}
+
+# survial is dot, recapture is varied by month and year
+round(robust.results$mod.Sdot.pSessionTime$results$real[, 1:4], 3)
+round(robust.results$mod.Sdot.pSessionTime$results$derived$`N Population Size`, 3)
+
+# survival varies by time, recapture prob varies by month and year
+Blue.Carp.Params<-round(robust.results$mod.Stime.pSessionTime$results$real[, 1:4], 3)
+# Survival for two intervals, capture prob for 14 intervals, number unmarked in three years
+Blue.Carp.Nhat<-round(robust.results$mod.Stime.pSessionTime$results$derived$`N Population Size`, 3)
+
+```
+
+
+##################################################################################################################################
+#
+## now to get some plots together maybe
+
+The model that we are interested in, and was one of top 2 models for each lake and species, is:
+
+mod.Stime.pSessionTime
+
+- Need to compile objects of params above
+
+```{r}
+
+BuffSurvival<-rbind(Center.Buff.Params[c(1,2),],
+                    NTwin.Buff.Params[c(1,2),],
+                    STwin.Buff.Params[c(1,2),])
+BuffSurvival$Lake<-as.factor(c("Center Lake","Center Lake","North Twin Lake","North Twin Lake","South Twin Lake","South Twin Lake"))
+BuffSurvival$Year<-as.factor(as.character(c("2017","2018","2017","2018","2017","2018")))
+
+CarpSurvival<-rbind(Center.Carp.Params[c(1,2),],
+                    NTwin.Carp.Params[c(1,2),],
+                    STwin.Carp.Params[c(1,2),],
+                    Blue.Carp.Params[c(1,2),])
+CarpSurvival$Lake<-as.factor(c("Center Lake","Center Lake",
+                               "North Twin Lake","North Twin Lake",
+                               "South Twin Lake","South Twin Lake",
+                               "Blue Lake","Blue Lake"))
+CarpSurvival$Year<-as.factor(as.character(c("2017","2018","2017","2018","2017","2018","2017","2018")))
+
+```
+
+### plotting survival:
+
+side-by-side boxplot, or using lattice to split Open vs. Winter
+- potential bargraph but those are whack sauce
+
+survival (phi) on y axis
+Year on x axis
+
+
+
+
+Now to create 2 carp plots, 
+- Carp actual top model (Phi(Center(.),N=S(.)) p (g*t))
+```{r,}
+library(ggplot2)
+# Carp FIrst
+carp1<-ggplot(CarpSurvival, aes(x=Year, y=estimate)) +
+  geom_point(stat="identity", size = 4) +
+  scale_y_continuous(limits=c(0,1))+
+  geom_errorbar(aes(ymax = ucl, ymin = lcl),width=0.2) +
+  labs(title = "Common Carp Survival",
+       x = "Year",
+       y = "Survival") +
+   facet_grid(Lake ~ .)+
+        theme(panel.grid.major = element_blank(), 
+                      panel.grid.minor = element_blank(),
+                      panel.background = element_rect(fill="white",colour="grey50"), 
+                      axis.line = element_line(colour = "black"),
+                      legend.position = "none")
+carp1
+
+
+```
+
+```{r}
+
+# Buffalo
+Buff1<-ggplot(BuffSurvival, aes(x=Year, y=estimate)) +
+  geom_point(stat="identity", size = 4) +
+  scale_y_continuous(limits=c(0,1))+
+  geom_errorbar(aes(ymax = ucl, ymin = lcl), width = 0.2) +
+  labs(title = "Buffalo Survival",
+       x = "Year",
+       y = "Survival") +
+  facet_grid(Lake ~ .)+
+        theme(panel.grid.major = element_blank(), 
+                      panel.grid.minor = element_blank(),
+                      panel.background = element_rect(fill="white",colour="grey50"), 
+                      axis.line = element_line(colour = "black"),
+                      legend.position = "none")
+Buff1
+
+```
+
+
+### considerations:
+
+- no accounting for tag loss
+- low low buffalo recaptures
+- add lakes where 2018 survival is available?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+################ new new
+
+# 2020 input files, split by species, all lakes, censoring tags that get harvested. 
+
+```{r}
+# carp first:
+c.c.ch.month$Lake <- "Center"
+nt.c.ch.month$Lake <- "North Twin"
+st.c.ch.month$Lake<- "South Twin"
+b.c.ch.month$Lake<- "Blue"
+
+carp.ch.month<-rbind(c.c.ch.month,
+                     nt.c.ch.month,
+                     st.c.ch.month,
+                     b.c.ch.month)
+
+```
+
