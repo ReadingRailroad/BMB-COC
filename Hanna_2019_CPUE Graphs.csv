@@ -1,0 +1,37 @@
+Lake,Site.Transect,Season,BIB,COC,,,,Five Island ,
+5 Island,Std 1,Fall,3.168627451,6.130569948,,,Spcecies,Season,Average CPUE
+5 Island,Std 1,Spring,0,0,,,COC,Spring,2.59
+5 Island,Std 1,Summer,1.247401247,9.823441848,,,,summer,14.2
+5 Island,Std 2,Fall,4.690691994,8.680995934,,,,fall,8.17
+5 Island,Std 2,Spring,3.995560488,0,,,,,
+5 Island,Std 2,Summer,0,17.88512273,,,BIB,Spring ,2.23
+5 Island,Std 3,Fall,1.413150147,8.272753775,,,,Summer,0.25
+5 Island,Std 3,Spring,3.995560488,3.995560488,,,,Fall,8.17
+5 Island,Std 3,Summer,0,10.41673801,,,,,
+5 Island,Std 4,Fall,2.229102167,7.041583278,,,,,
+5 Island,Std 4,Spring,0,8.933002481,,,,,
+5 Island,Std 4,Summer,0,10.52311584,,,,,
+5 Island,Std 5,Fall,0,10.74001563,,,,,
+5 Island,Std 5,Spring,3.169014085,0,,,,,
+5 Island,Std 5,Summer,0,22.36777487,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+,,,,,,,,,
+Center,Std 1,Fall,12.6680791,0,,,,,
+Center,Std 1,Spring,0,25.33924477,,,,,
+Center,Std 1,Summer,14.89141675,6.387041058,,,,,
+Center,Std 2,Fall,10.33333333,3.985267035,,,,Center Lake,
+Center,Std 2,Spring,0,12.66119578,,,Species,Season,Average CPUE
+Center,Std 2,Summer,6.689139546,5.189139546,,,COC,Spring ,15.83
+Center,Std 3,Fall,14.8,0,,,,Summer,9.71
+Center,Std 3,Spring,0,3.20569902,,,,Fall,1.62
+Center,Std 3,Summer,0,8.499832944,,,,,
+Center,Std 4,Fall,8.571428571,2.666666667,,,BIB,Spring ,0.00
+Center,Std 4,Spring,0,37.94466403,,,,Summer,9.32
+Center,Std 4,Summer,9.988901221,7.823022963,,,,Fall,10.99
+Center,Std 5,Fall,8.569729913,1.428571429,,,,,
+Center,Std 5,Spring,0,0,,,,,
+Center,Std 5,Summer,15.04326843,20.64267538,,,,,

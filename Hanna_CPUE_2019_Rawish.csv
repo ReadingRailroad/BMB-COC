@@ -1,0 +1,95 @@
+"Lake","Site.Transect","Season","Species","n","Mean","Conf.level","Trad.lower","Trad.upper"
+"5 Island","Std 1","Fall","BIB",5,3.17,0.95,0,7.25
+"5 Island","Std 1","Fall","COC",5,6.13,0.95,0,17
+"5 Island","Std 1","Spring","BIB",1,0,0.95,NA,NA
+"5 Island","Std 1","Spring","COC",1,0,0.95,NA,NA
+"5 Island","Std 1","Summer","BIB",3,1.25,0.95,0,6.61
+"5 Island","Std 1","Summer","COC",3,9.82,0.95,0,19.9
+"5 Island","Std 2","Fall","BIB",5,4.69,0.95,0,12.7
+"5 Island","Std 2","Fall","COC",5,8.68,0.95,0,17.5
+"5 Island","Std 2","Spring","BIB",1,4,0.95,NA,NA
+"5 Island","Std 2","Spring","COC",1,0,0.95,NA,NA
+"5 Island","Std 2","Summer","BIB",3,0,0.95,0,0
+"5 Island","Std 2","Summer","COC",3,17.9,0.95,7.87,27.9
+"5 Island","Std 3","Fall","BIB",5,1.41,0.95,0,5.34
+"5 Island","Std 3","Fall","COC",5,8.27,0.95,0,16.8
+"5 Island","Std 3","Spring","BIB",1,4,0.95,NA,NA
+"5 Island","Std 3","Spring","COC",1,4,0.95,NA,NA
+"5 Island","Std 3","Summer","BIB",3,0,0.95,0,0
+"5 Island","Std 3","Summer","COC",3,10.4,0.95,0,37.1
+"5 Island","Std 4","Fall","BIB",5,2.23,0.95,0,8.42
+"5 Island","Std 4","Fall","COC",5,7.04,0.95,0,16.4
+"5 Island","Std 4","Spring","BIB",1,0,0.95,NA,NA
+"5 Island","Std 4","Spring","COC",1,8.93,0.95,NA,NA
+"5 Island","Std 4","Summer","BIB",3,0,0.95,0,0
+"5 Island","Std 4","Summer","COC",3,10.5,0.95,0,28.8
+"5 Island","Std 5","Fall","BIB",5,0,0.95,0,0
+"5 Island","Std 5","Fall","COC",5,10.7,0.95,3.43,18.1
+"5 Island","Std 5","Spring","BIB",1,3.17,0.95,NA,NA
+"5 Island","Std 5","Spring","COC",1,0,0.95,NA,NA
+"5 Island","Std 5","Summer","BIB",2,0,0.95,0,0
+"5 Island","Std 5","Summer","COC",2,22.4,0.95,0,237
+"Center","Std 1","Fall","BIB",3,12.7,0.95,0,31.8
+"Center","Std 1","Fall","COC",3,0,0.95,0,0
+"Center","Std 1","Spring","BIB",1,0,0.95,NA,NA
+"Center","Std 1","Spring","COC",1,47.3,0.95,NA,NA
+"Center","Std 1","Summer","BIB",3,14.9,0.95,0,79
+"Center","Std 1","Summer","COC",3,6.39,0.95,0.877,11.9
+"Center","Std 2","Fall","BIB",3,10.3,0.95,0,32.6
+"Center","Std 2","Fall","COC",3,3.99,0.95,0,13.9
+"Center","Std 2","Spring","BIB",1,0,0.95,NA,NA
+"Center","Std 2","Spring","COC",1,12.7,0.95,NA,NA
+"Center","Std 2","Summer","BIB",3,6.69,0.95,0.265,13.1
+"Center","Std 2","Summer","COC",3,5.19,0.95,0.859,9.52
+"Center","Std 3","Fall","BIB",3,14.8,0.95,0,55.5
+"Center","Std 3","Fall","COC",3,0,0.95,0,0
+"Center","Std 3","Summer","BIB",2,0,0.95,0,0
+"Center","Std 3","Summer","COC",2,8.5,0.95,4.93,12.1
+"Center","Std 4","Fall","BIB",3,8.57,0.95,0,45.5
+"Center","Std 4","Fall","COC",3,2.67,0.95,0,14.1
+"Center","Std 4","Spring","BIB",1,0,0.95,NA,NA
+"Center","Std 4","Spring","COC",1,37.9,0.95,NA,NA
+"Center","Std 4","Summer","BIB",2,9.99,0.95,0,137
+"Center","Std 4","Summer","COC",2,7.82,0.95,0,56.5
+"Center","Std 5","Fall","BIB",3,8.57,0.95,0,36.7
+"Center","Std 5","Fall","COC",3,1.43,0.95,0,7.58
+"Center","Std 5","Spring","BIB",1,0,0.95,NA,NA
+"Center","Std 5","Spring","COC",1,0,0.95,NA,NA
+"Center","Std 5","Summer","BIB",2,15,0.95,0,160
+"Center","Std 5","Summer","COC",2,20.6,0.95,0,190
+"Silver","Std 1","Fall","BIB",1,0,0.95,NA,NA
+"Silver","Std 1","Fall","COC",1,31.5,0.95,NA,NA
+"Silver","Std 1","Spring","BIB",3,0,0.95,0,0
+"Silver","Std 1","Spring","COC",2,0,0.95,0,0
+"Silver","Std 1","Summer","BIB",3,0,0.95,0,0
+"Silver","Std 1","Summer","COC",4,11.1,0.95,0,25.8
+"Silver","Std 2","Fall","BIB",1,3.8,0.95,NA,NA
+"Silver","Std 2","Fall","COC",1,19,0.95,NA,NA
+"Silver","Std 2","Spring","BIB",2,1.83,0.95,0,25.1
+"Silver","Std 2","Spring","COC",2,5.49,0.95,0,75.3
+"Silver","Std 2","Summer","BIB",4,1.39,0.95,0,5.82
+"Silver","Std 2","Summer","COC",4,21,0.95,0,48.9
+"Silver","Std 3","Fall","BIB",1,0,0.95,NA,NA
+"Silver","Std 3","Fall","COC",1,15.5,0.95,NA,NA
+"Silver","Std 3","Spring","BIB",2,1.82,0.95,0,24.9
+"Silver","Std 3","Spring","COC",2,9.1,0.95,0,125
+"Silver","Std 3","Summer","BIB",4,3.66,0.95,0,11.7
+"Silver","Std 3","Summer","COC",4,11,0.95,3.27,18.7
+"Silver","Std 4","Fall","BIB",1,0,0.95,NA,NA
+"Silver","Std 4","Fall","COC",1,39.7,0.95,NA,NA
+"Silver","Std 4","Spring","BIB",2,1.97,0.95,0,27
+"Silver","Std 4","Spring","COC",2,3.94,0.95,0,54
+"Silver","Std 4","Summer","BIB",3,2.47,0.95,0,13.1
+"Silver","Std 4","Summer","COC",3,24.7,0.95,17.7,31.7
+"Silver","Std 5","Fall","BIB",1,0,0.95,NA,NA
+"Silver","Std 5","Fall","COC",1,7.97,0.95,NA,NA
+"Silver","Std 5","Spring","BIB",2,3.4,0.95,0,46.5
+"Silver","Std 5","Spring","COC",2,3.4,0.95,0,46.5
+"Silver","Std 5","Summer","BIB",3,12.9,0.95,0,60.3
+"Silver","Std 5","Summer","COC",3,34.4,0.95,0,88.4
+"Silver","Std 6","Fall","BIB",1,0,0.95,NA,NA
+"Silver","Std 6","Fall","COC",1,11.2,0.95,NA,NA
+"Silver","Std 6","Spring","BIB",2,0,0.95,0,0
+"Silver","Std 6","Spring","COC",2,5,0.95,0,68.6
+"Silver","Std 6","Summer","BIB",3,1.11,0.95,0,5.9
+"Silver","Std 6","Summer","COC",3,7.78,0.95,0,34.4
