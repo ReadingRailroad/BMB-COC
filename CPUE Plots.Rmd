@@ -1356,6 +1356,10 @@ cpue.m<-melt(cpue3)
 
 cpue.cast<-dcast(cpue.m, Lake + Site.Transect + Season ~ Species, value.var = "value")
 
+
+cpue5<-groupwiseMean(cpue~Lake+Species+Season,cpue2)
+
+
 ```
 
 
