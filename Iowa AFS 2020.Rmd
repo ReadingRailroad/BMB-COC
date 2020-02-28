@@ -1,0 +1,31 @@
+---
+title: "Iowa AFS 2020"
+author: "Martin Simonson"
+date: "2/28/2020"
+output: pdf_document
+---
+
+# objective 
+coallate the various code from Chapter 2 RMD working file into the "final products" needed for the Iowa AFS 2020 presentation. 
+
+Potentially ditching CMR for this talk, focusing on 
+
+- Survival (CJS models maybe, but MJW will be picky) [ same approach as Wr - differences ]
+
+- Abundance/Biomass Density Changes
+
+- Growth in Length
+
+- Size Structure (how it changes after harvest) [ same approach as Wr - differences]
+
+- Fecundity (recruitment of 2 yo and 3 yo fish)
+
+## Another way to look at this is tax exploitation:
+
+X axis is tax returns (exploitation) from 0 to 100%
+Y is % change in population, from -100 to 100
+One-one line from middle y axis (0) to 100% on x axis. Anything above that is compensatory response!
+
+_problem_ is that the change in population is year-year, so we only have 2 data points for Center and N Twin and only have 1 data point for Silver, Storm. Plus, how the F do I handle the change in the variation around BMD from year to year? Top CI in 2018 minus top CI in 2017???
+
+## What next? CJS Survival? OK OK OK
