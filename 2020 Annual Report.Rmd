@@ -59,9 +59,6 @@ packages(ggpmisc)
 
 
 
-
-
-
 # Compiling and cleaning 2019 data with 2017-2018 data
 ## do not need to run
 ```{r}
@@ -290,6 +287,14 @@ text(coords$Long,
      pos=c(2,4,4,2,4,4,4),col='black',cex=1.75)
 # Adding a title
 title(main="Carp & Buffalo Mgmt. Lakes")
+
+x<-(-93.7)
+y<-(41.1)
+legend(x,y, legend=c("Traditional Harvest",
+                     "No Harvest",
+                     "Incentivized Harvest"),
+       col="blue", pch=c(13,1,19), cex=1.2)
+
 ```
 
 
