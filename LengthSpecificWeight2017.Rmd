@@ -76,14 +76,14 @@ subset lake first.
 
 ```{r,}
 #Lakes
-data<-read.csv("2018 and 2017 Compiled Data.csv", header = T)
+data<-read.csv("2017-2020 Compiled Data.csv", header = T)
 levels(data$Lake)
 Blue <- subset(data, Lake == "Blue")
 Center<-subset(data, Lake == "Center")
 FiveIsland<-subset(data, Lake == "5 Island")
-NTwin<-subset(data, Lake == "N. Twin")
+NTwin<-subset(data, Lake == "N Twin")
 Silver<-subset(data, Lake == "Silver")
-STwin<-subset(data, Lake == "S. Twin")
+STwin<-subset(data, Lake == "S Twin")
 Storm<-subset(data,Lake == "Storm")
 
 

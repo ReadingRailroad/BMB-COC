@@ -62,14 +62,17 @@ subset lake first.
 
 ```{r,}
 #Lakes
-data<-read.csv("2018_COC_BIB_CMR_Data.csv", header = T)
+data<-read.csv("2017-2020 Compiled Data.csv", header = T)
+data<-droplevels(subset(data, Year == 2018))
+
+
 levels(data$Lake)
 Blue <- subset(data, Lake == "Blue")
 Center<-subset(data, Lake == "Center")
-FiveIsland<-subset(data, Lake == "Five Island")
-NTwin<-subset(data, Lake == "N. Twin")
+FiveIsland<-subset(data, Lake == "5 Island")
+NTwin<-subset(data, Lake == "N Twin")
 Silver<-subset(data, Lake == "Silver")
-STwin<-subset(data, Lake == "S. Twin")
+STwin<-subset(data, Lake == "S Twin")
 Storm<-subset(data,Lake == "Storm")
 ```
 
@@ -1132,7 +1135,7 @@ STwin.bib.50$LowerBM<-STwin.bib.50$percent * STwin.bib.50$mweight * 18839 # mult
 B.L.BM<-sum(STwin.bib.50$LowerBM/453.592)
 
 STwin.bib.50$BMest<-STwin.bib.50$percent * STwin.bib.50$mweight * 34227 # multiply fraction, mean weight, pop. est
-B.BM<-sum(STwin.bib.50$BMest/453.592)
+B.BM<-sum(STwin.bib.50$BMest)/453.592
 
 STwin.bib.50$UpperBM<-STwin.bib.50$percent * STwin.bib.50$mweight * 49715 # multiply fraction, mean weight, upper pop.
 B.U.BM<-sum(STwin.bib.50$UpperBM/453.592)

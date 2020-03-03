@@ -161,139 +161,319 @@ head(bmd18)
 bmd19<-read.csv("2019_BiomassDensityEstimates.csv",header=T)
 head(bmd19)
 
+
+applejacks<-read.csv("BMD.17.18.19.csv",header=T)
+
+
 bmd<-rbind(bmd17,bmd18,bmd19)
 levels(bmd$Lake)
 bmd$Lake[bmd$Lake == "5 Island"] <- "Five Island"
 
 
 # create new DF 
-Lake <- c("Blue","Blue",
+Lake <- as.factor(as.character(c("Blue","Blue",
           "Center","Center","Center","Center",
           "Five Island","Five Island",
           "N Twin","N Twin","N Twin","N Twin",
           "S Twin","S Twin","S Twin","S Twin",
           "Silver","Silver",
-          "Storm","Storm")
-Species<-c("Common Carp","Common Carp", # two years blue
+          "Storm","Storm")))
+Species<-as.factor(as.character(c("Common Carp","Common Carp", # two years blue
            "Common Carp","Bigmouth Buffalo","Common Carp","Bigmouth Buffalo", # two years two species center
            "Common Carp","Bigmouth Buffalo", # one year two species five island
            "Common Carp","Bigmouth Buffalo","Common Carp","Bigmouth Buffalo", # two years two species north twin
            "Common Carp","Bigmouth Buffalo","Common Carp","Bigmouth Buffalo", # two years two species south twin
            "Common Carp","Bigmouth Buffalo", # one year two species silver
-           "Common Carp","Bigmouth Buffalo") # one year two species storm
-Year.Range<-c("2017-2018","2018-2019",
+           "Common Carp","Bigmouth Buffalo"))) # one year two species storm
+Year.Range<-as.factor(as.character(c("2017-2018","2018-2019",
               "2017-2018","2017-2018","2018-2019","2018-2019",
               "2018-2019","2018-2019",
               "2017-2018","2017-2018","2018-2019","2018-2019",
               "2017-2018","2017-2018","2018-2019","2018-2019",
               "2018-2019","2018-2019",
-              "2018-2019","2018-2019")
+              "2018-2019","2018-2019")))
 
-bmd.change<-data.frame(cbind(Lake,Species,Year.Range))
+bmd.change<-data.frame(Lake,Species,Year.Range)
 head(bmd.change)
+```
 
+
+```{r,}
 # now need to set up the change in biomass densities. The Response variable
 ## as a percent
 ### means the biomass density in year two divided by the biomass density in year one times 100
 str(droplevels(bmd))
-delta.bmd<-as.character(rep(NA,20))
-delta.bmd[[1]]<-bmd$BMD[bmd$Lake == "Blue" & bmd$Species == "Common Carp" & bmd$Year == 2018] / 
-                bmd$BMD[bmd$Lake == "Blue" & bmd$Species == "Common Carp" & bmd$Year == 2017] * 100
-delta.bmd[[2]]<-bmd$BMD[bmd$Lake == "Blue" & bmd$Species == "Common Carp" & bmd$Year == 2019] / 
-                bmd$BMD[bmd$Lake == "Blue" & bmd$Species == "Common Carp" & bmd$Year == 2018] * 100
-delta.bmd[[1]]<-bmd$BMD[bmd$Lake == "Blue" & bmd$Species == "Common Carp" & bmd$Year == 2018] / 
-                bmd$BMD[bmd$Lake == "Blue" & bmd$Species == "Common Carp" & bmd$Year == 2017] * 100
+delta.bmd<-as.character(rep(".",20))
+delta.bmd[[1]]<-((bmd$C.BMDensity[bmd$Lake == "Blue" & bmd$Year == 2018] / 
+                bmd$C.BMDensity[bmd$Lake == "Blue" & bmd$Year == 2017])-1) * 100
+delta.bmd[[2]]<-((bmd$C.BMDensity[bmd$Lake == "Blue" & bmd$Year == 2019] / 
+                bmd$C.BMDensity[bmd$Lake == "Blue" & bmd$Year == 2018])-1) * 100
+#
+delta.bmd[[3]]<-((bmd$C.BMDensity[bmd$Lake == "Center" & bmd$Year == 2018] / 
+                bmd$C.BMDensity[bmd$Lake == "Center" & bmd$Year == 2017])-1) * 100
+delta.bmd[[4]]<-((bmd$B.BMDensity[bmd$Lake == "Center" & bmd$Year == 2018] / 
+                bmd$B.BMDensity[bmd$Lake == "Center" & bmd$Year == 2017])-1) * 100
+delta.bmd[[5]]<-((bmd$C.BMDensity[bmd$Lake == "Center" & bmd$Year == 2019] / 
+                bmd$C.BMDensity[bmd$Lake == "Center" & bmd$Year == 2018])-1) * 100
+delta.bmd[[6]]<-((bmd$B.BMDensity[bmd$Lake == "Center" & bmd$Year == 2019] / 
+                bmd$B.BMDensity[bmd$Lake == "Center" & bmd$Year == 2018])-1) * 100
+#
+
+delta.bmd[[7]]<-((bmd$C.BMDensity[bmd$Lake == "Five Island" & bmd$Year == 2019] / 
+                bmd$C.BMDensity[bmd$Lake == "Five Island" & bmd$Year == 2018])-1) * 100
+delta.bmd[[8]]<-((bmd$B.BMDensity[bmd$Lake == "Five Island" & bmd$Year == 2019] / 
+                bmd$B.BMDensity[bmd$Lake == "Five Island" & bmd$Year == 2018])-1) * 100
+#
+
+delta.bmd[[9]]<-((bmd$C.BMDensity[bmd$Lake == "N Twin" & bmd$Year == 2018] / 
+                bmd$C.BMDensity[bmd$Lake == "N Twin" & bmd$Year == 2017])-1) * 100
+delta.bmd[[10]]<-((bmd$B.BMDensity[bmd$Lake == "N Twin" & bmd$Year == 2018] / 
+                bmd$B.BMDensity[bmd$Lake == "N Twin" & bmd$Year == 2017])-1) * 100
+delta.bmd[[11]]<-((bmd$C.BMDensity[bmd$Lake == "N Twin" & bmd$Year == 2019] / 
+                bmd$C.BMDensity[bmd$Lake == "N Twin" & bmd$Year == 2018])-1) * 100
+delta.bmd[[12]]<-((bmd$B.BMDensity[bmd$Lake == "N Twin" & bmd$Year == 2019] / 
+                bmd$B.BMDensity[bmd$Lake == "N Twin" & bmd$Year == 2018])-1) * 100
+#
+
+delta.bmd[[13]]<-((bmd$C.BMDensity[bmd$Lake == "S Twin" & bmd$Year == 2018] / 
+                bmd$C.BMDensity[bmd$Lake == "S Twin" & bmd$Year == 2017])-1) * 100
+delta.bmd[[14]]<-((bmd$B.BMDensity[bmd$Lake == "S Twin" & bmd$Year == 2018] / 
+                bmd$B.BMDensity[bmd$Lake == "S Twin" & bmd$Year == 2017])-1) * 100
+delta.bmd[[15]]<-((bmd$C.BMDensity[bmd$Lake == "S Twin" & bmd$Year == 2019] / 
+                bmd$C.BMDensity[bmd$Lake == "S Twin" & bmd$Year == 2018])-1) * 100
+delta.bmd[[16]]<-((bmd$B.BMDensity[bmd$Lake == "S Twin" & bmd$Year == 2019] / 
+                bmd$B.BMDensity[bmd$Lake == "S Twin" & bmd$Year == 2018])-1) * 100
+#
+
+delta.bmd[[17]]<-((bmd$C.BMDensity[bmd$Lake == "Center" & bmd$Year == 2019] / 
+                bmd$C.BMDensity[bmd$Lake == "Center" & bmd$Year == 2018])-1) * 100
+delta.bmd[[18]]<-((bmd$B.BMDensity[bmd$Lake == "Center" & bmd$Year == 2019] / 
+                bmd$B.BMDensity[bmd$Lake == "Center" & bmd$Year == 2018])-1) * 100
+#
+
+delta.bmd[[19]]<-((bmd$C.BMDensity[bmd$Lake == "Center" & bmd$Year == 2019] / 
+                bmd$C.BMDensity[bmd$Lake == "Center" & bmd$Year == 2018])-1) * 100
+delta.bmd[[20]]<-((bmd$B.BMDensity[bmd$Lake == "Center" & bmd$Year == 2019] / 
+                bmd$B.BMDensity[bmd$Lake == "Center" & bmd$Year == 2018])-1) * 100
+
+bmd.change$delta.bmd<-as.numeric(as.character(delta.bmd))
+bmd.change
+
 
 ```
 
 ```{r}
 ##### 
-# Front Matter
-setwd("~/BMB-COC")
+dframe<-read.csv("2017-2020 Compiled Data.csv",header = T)
+dframe$Year<-as.factor(dframe$Year)
+dframe$TAG.NUMBER<-as.factor(dframe$TAG.NUMBER)
+dframe$Date<-as.Date(dframe$Date, "%m/%d/%Y")
+dframe$On.Time..s.<-as.numeric(dframe$On.Time..s.)
+str(dframe)
+# remove all other spp
+dframe$TAG.NUMBER[dframe$TAG.NUMBER == ""]<-NA
+dframe<-droplevels(subset(dframe, Species == "BIB" |
+                                  Species == "COC" ))
+# remove all dissected fish and non-tagged fish
+dframe<-droplevels(subset(dframe, !is.na(as.numeric(as.character(dframe$TAG.NUMBER)))))
+# change five island
+dframe$Lake<-as.character(dframe$Lake)
+dframe$Lake[dframe$Lake == "5 Island"]<- "Five Island"
+dframe$Lake<-as.factor(dframe$Lake)
 
-#2019 tagging data
-nineteen<-read.csv("2019 Carp and Buffalo Data Entry.csv")
-str(nineteen)
-levels(nineteen$Lake)
-nineteen$Lake[nineteen$Lake == "N. Twin"] <- "N Twin"
-nineteen<-droplevels(subset(nineteen, Species == "COC" |
-                                      Species == "BIB"))
-Silver19<-droplevels(subset(nineteen, Lake == "Silver"))
-NTwin19<-droplevels(subset(nineteen, Lake == "N Twin"))
 
-# 2019 harvest data
-harvest<-read.csv("2019  Harvest Tag Recovery.csv")
+# 
+#Harvested tags recovered
+harvest<-read.csv("Harvest Tag Recovery.csv",header=T)
 str(harvest)
+harvest$Year<-as.factor(harvest$Year)
+harvest$TAG.NUMBER<-as.factor(harvest$TAG.NUMBER)
+harvest$Date<-as.Date(harvest$Date, "%m/%d/%Y")
+summary(harvest$Lake)
+# can delete the single "five island" because it's an escaped fish caught in DSM
+harvest<-droplevels(subset(harvest, Lake != "Five Island" &
+                                    Lake != "Storm" &
+                                    Lake != "S Twin" &
+                                    Lake != "Blue"))
 levels(harvest$Lake)
-harvest$Lake[harvest$Lake == "N. Twin"] <- "N Twin"
-SilverHarvest<-droplevels(subset(harvest, Lake == "Silver"))
-NTwinHarvest<-droplevels(subset(harvest, Lake == "N Twin"))
+harvest$Lake<-as.character(harvest$Lake)
+harvest$Lake[harvest$Lake == "N Twin "] <- "N Twin"
+harvest$Lake[harvest$Lake == "5 Island"]<- "Five Island"
+harvest$Lake<-as.factor(harvest$Lake)
+levels(harvest$Notes)
+harvest$detect<-1
+
+levels(harvest$Gear)
+harvest$Gear<-as.character(harvest$Gear)
+harvest$Gear[harvest$Gear == "Seine"] <- "COMMERCIAL HARVEST"
+harvest$Gear<-as.factor(harvest$Gear)
 
 
-# Silver first, most straightforward
-## Find # of tags from harvest that came from each species in Silver Lake
-## setdiff(x,y) provides values in X but not in Y, where X and Y can be vectors or data frames
+## CAN I SET SPECIES BY LOOKING UP PREV TAG NUMBER?
+harvest$Species<-factor(harvest$Species, levels = c("BIB","COC"))
+dframe.blend <- dframe[!duplicated(dframe$TAG.NUMBER),] # removing recaps
+harvest.blend<-left_join(harvest,dframe.blend, by = "TAG.NUMBER")
+sum(is.na(harvest.blend$Species.y)) # have about 21 tags recovered with no prior record at silver, Center, and N Twin
+sum(is.na(harvest.blend$Species.y))/length(harvest.blend$TAG.NUMBER) # about 1.6% of all recovered tags do not have prior info
+harvest$Species<-harvest.blend$Species.y
+harvest<-droplevels(subset(harvest, !is.na(harvest$Species)))
+#
+# correct a couple things
+names(dframe)
+names(harvest)
+#
+# Try to merge the frames now!
+df<-rbind(dframe,harvest)
+str(df)
+summary(df$detect)
+levels(df$Species)
+levels(dframe$Species)
+levels(harvest$Species)
+levels(harvest$Lake)
+```
 
-length(setdiff(SilverHarvest$TAG.NUM, Silver19$TAG.NUM))
-# 83 tags recovered were NOT from 2019 tagging events
-tags19<-length(SilverHarvest$TAG.NUM)-83
-# so 150 tags recovered ARE in 2019 tagging events
-
-
-# First crack at exploitation:
-#### Denominator is total number of 2019 tags deployed for that species
-#### Numerator is total number of 2019 tags recovered by each species.
-silver.buff.exploit<-(length(SilverHarvest$TAG.NUM)-length(setdiff(SilverHarvest$TAG.NUM,Silver19$TAG.NUM[Silver19$Species=="BIB"]))) /
-                      (length(Silver19$TAG.NUM[Silver19$Species == "BIB"]))
-silver.carp.exploit<-(length(SilverHarvest$TAG.NUM)-length(setdiff(SilverHarvest$TAG.NUM,Silver19$TAG.NUM[Silver19$Species=="COC"]))) /
-                      (length(Silver19$TAG.NUM[Silver19$Species == "COC"]))
-# Is overall exploitation the same as the sum of both exploitation rates?
-silver.exploit<-(length(SilverHarvest$TAG.NUM)-length(setdiff(SilverHarvest$TAG.NUM,Silver19$TAG.NUM))) /
-                  (length(Silver19$TAG.NUM)) # not currently. gotta check with someone else!
-
-silver<-data.frame(silver.exploit,silver.buff.exploit,silver.carp.exploit)
-silver
-
-
-#### Try with N Twin now
-NTwin.buff.exploit<-(length(NTwinHarvest$TAG.NUM)-length(setdiff(NTwinHarvest$TAG.NUM,NTwin19$TAG.NUM[NTwin19$Species=="BIB"]))) /
-  (length(NTwin19$TAG.NUM[NTwin19$Species == "BIB"]))
-NTwin.carp.exploit<-(length(NTwinHarvest$TAG.NUM)-length(setdiff(NTwinHarvest$TAG.NUM,NTwin19$TAG.NUM[NTwin19$Species=="COC"]))) /
-  (length(NTwin19$TAG.NUM[NTwin19$Species == "COC"]))
-# Is overall exploitation the same as the sum of both exploitation rates?
-NTwin.exploit<-(length(NTwinHarvest$TAG.NUM)-length(setdiff(NTwinHarvest$TAG.NUM,NTwin19$TAG.NUM))) /
-  (length(NTwin19$TAG.NUM)) # not currently. gotta check with someone else!
-
-NTWIN<-data.frame(NTwin.exploit,NTwin.buff.exploit,NTwin.carp.exploit)
-NTWIN
+```{r}
+ntwin<-droplevels(subset(df, Lake == "N Twin"))
+str(ntwin)
 
 
-# remember that final tagging day after population was already harvested then harvested again.(11/10/19)
-### Could exclude that day up front and not use it in exploitation estimates?
-## Shoot for my own consience I'll try to see how different N Twin is without that final tag day
+unique(ntwin$Date[ntwin$Gear != "COMMERCIAL HARVEST"])
+ntwin.tag<-droplevels(subset(ntwin, Gear != "COMMERCIAL HARVEST"))
+ntwin.tag<-subset(ntwin.tag, Date != "2019-05-06") # fish not tagged May 6 2019, std runs for recaps only
+ntwin.tag<-subset(ntwin.tag, Date != "2019-05-17") # fish not tagged May 17 2019, std runs for recaps only
 
-levels(NTwin19$Date)
-NTwin19.2<-droplevels(subset(NTwin19, Date != "11/10/19"))
-# Same as before
-NTwin.buff.exploit<-(length(NTwinHarvest$TAG.NUM)-length(setdiff(NTwinHarvest$TAG.NUM,NTwin19$TAG.NUM[NTwin19.2$Species=="BIB"]))) /
-  (length(NTwin19$TAG.NUM[NTwin19$Species == "BIB"]))
-NTwin.carp.exploit<-(length(NTwinHarvest$TAG.NUM)-length(setdiff(NTwinHarvest$TAG.NUM,NTwin19$TAG.NUM[NTwin19.2$Species=="COC"]))) /
-  (length(NTwin19$TAG.NUM[NTwin19$Species == "COC"]))
-# Is overall exploitation the same as the sum of both exploitation rates? Not so below.
-NTwin.exploit<-(length(NTwinHarvest$TAG.NUM)-length(setdiff(NTwinHarvest$TAG.NUM,NTwin19$TAG.NUM))) /
-  (length(NTwin19$TAG.NUM)) # not currently. gotta check with someone else!
+unique(ntwin$Date[ntwin$Gear == "COMMERCIAL HARVEST"])
+ntwin.har<-droplevels(subset(ntwin, Gear == "COMMERCIAL HARVEST"))
 
-NTWIN<-data.frame(NTwin.exploit,NTwin.buff.exploit,NTwin.carp.exploit)
-NTWIN
-# hardly changed. Good to see here.
+ntwin<-rbind(ntwin.tag,ntwin.har)
+ntwin<-ntwin[order(as.Date(ntwin$Date, format = "%Y-%m-%d")),]
 
-# checking sum?
-(NTWIN$NTwin.buff.exploit+NTWIN$NTwin.carp.exploit)
-# checking average
-(NTWIN$NTwin.buff.exploit+NTWIN$NTwin.carp.exploit)/2
-# hell check the difference
 
-(NTWIN$NTwin.buff.exploit-NTWIN$NTwin.carp.exploit)
-# Closer... ask brandon upstairs
+ntwin.c<-dcast(ntwin, Date+Gear ~ Species + detect)
+
+
+# harvest date breaks at:
+### 2019-04-04; 2019-04-05; 2019-04-07; 2019-04-08; 2019-04-09
+### 2019-5-16; 2019-5-17
+### 2019-11-23; 2019-11-30, 2019-11-06, 2019-11-25
+
+# North Twin Cast frame (columns 3 and 4)
+# targeting only the harvest in April and May 2019, and that exploitation rate
+
+#  M_i is the number of fish marked at the start of the period (all tags - harvest)
+
+M_1<-data.frame(t(colSums(ntwin.c[c(1:31),c(3,4)]))) # marked in period 1 = pre 2019 harvest
+exp_2<- t(data.frame(t(colSums(ntwin.c[c(32:38),c(3,4)]))) / M_1)*100 # tags recovered april and may 2019
+
+
+
+
+
+
+# Five Island Lake
+ntwin<-droplevels(subset(df, Lake == "Five Island"))
+str(ntwin)
+
+unique(ntwin$Date[ntwin$Gear != "COMMERCIAL HARVEST"])
+ntwin.tag<-droplevels(subset(ntwin, Gear != "COMMERCIAL HARVEST"))
+
+unique(ntwin$Date[ntwin$Gear == "COMMERCIAL HARVEST"])
+ntwin.har<-droplevels(subset(ntwin, Gear == "COMMERCIAL HARVEST"))
+
+ntwin<-rbind(ntwin.tag,ntwin.har)
+ntwin<-ntwin[order(as.Date(ntwin$Date, format = "%Y-%m-%d")),]
+
+ntwin.c<-dcast(ntwin, Date+Gear ~ Species + detect)
+
+M_1<-data.frame(t(colSums(ntwin.c[c(1:17),c(3,4)]))) # marked in period 1 = pre 2019 harvest
+exp_3<- t(data.frame(t(colSums(ntwin.c[c(18:21),c(3,4)]))) / M_1)*100 # tags recovered april and may 2019
+
+
+
+# Silver Lake
+ntwin<-droplevels(subset(df, Lake == "Silver"))
+str(ntwin)
+
+unique(ntwin$Date[ntwin$Gear != "COMMERCIAL HARVEST"])
+ntwin.tag<-droplevels(subset(ntwin, Gear != "COMMERCIAL HARVEST"))
+
+unique(ntwin$Date[ntwin$Gear == "COMMERCIAL HARVEST"])
+ntwin.har<-droplevels(subset(ntwin, Gear == "COMMERCIAL HARVEST" & 
+                                    Date == "2018-10-24"))
+
+ntwin<-rbind(ntwin.tag,ntwin.har)
+ntwin<-ntwin[order(as.Date(ntwin$Date, format = "%Y-%m-%d")),]
+
+ntwin.c<-dcast(ntwin, Date+Gear ~ Species + detect)
+
+M_1<-data.frame(t(colSums(ntwin.c[c(1:20),c(3,4)]))) # marked in period 1 = pre 2019 harvest
+exp_4<- t(data.frame(t(colSums(ntwin.c[21,c(3,4)]))) / M_1)*100 # tags recovered april and may 2019
+
+
+# Center Lake
+ntwin<-droplevels(subset(df, Lake == "Center"))
+str(ntwin)
+
+unique(ntwin$Date[ntwin$Gear != "COMMERCIAL HARVEST"])
+ntwin.tag<-droplevels(subset(ntwin, Gear != "COMMERCIAL HARVEST"))
+
+unique(ntwin$Date[ntwin$Gear == "COMMERCIAL HARVEST"])
+ntwin.har<-droplevels(subset(ntwin, Gear == "COMMERCIAL HARVEST"))
+
+ntwin<-rbind(ntwin.tag,ntwin.har)
+ntwin<-ntwin[order(as.Date(ntwin$Date, format = "%Y-%m-%d")),]
+
+ntwin.c<-dcast(ntwin, Date+Gear ~ Species + detect)
+
+M_1<-data.frame(t(colSums(ntwin.c[c(1:32),c(3,4)]))) # marked in period 1 = pre 2019 harvest
+exp_1<- t(data.frame(t(colSums(ntwin.c[33,c(3,4)]))) / M_1)*100 # tags recovered april and may 2019
+
+
+
+Tag.exp<-c(0,0, # no harvest in blue
+           NA,NA,exp_1[2,],exp_2[1,], # center
+           exp_3[2,],exp_3[1,],
+           0,0,exp_2[2,],exp_2[1,],
+           0,0,0,0,
+           exp_4[2,],exp_4[1,],
+           0,0)
+
+
+bmd.change$tag.exp<-Tag.exp
+```
+
+# get a plot in there:
+
+```{r}
+str(bmd.change)
+max(bmd.change$delta.bmd)
+bmd.change$tag.exp[bmd.change$Lake == "S Twin" & 
+                   bmd.change$Species == "Bigmouth Buffalo" & 
+                   bmd.change$Year.Range == "2017-2018"]<- NA
+bmd.change$delta.bmd[bmd.change$Lake == "N Twin" & 
+                     bmd.change$Species == "Common Carp" & 
+                     bmd.change$Year.Range == "2017-2018"]<- ((34/21.2)-1)*100
+
+
+fig5<-ggplot(bmd.change, aes(x=tag.exp, y = delta.bmd))+
+          geom_point(aes(shape=Lake,color=Year.Range), size =5)+
+          geom_abline(intercept=0,slope=-1,lty=2)+
+          facet_grid(.~Species)+
+          xlim(c(0,30))+
+          ylim(c(-100,100))+
+          scale_shape_manual(values = c(15,16,17,8,13,11,25)) +
+                  theme(panel.grid.major = element_blank(), 
+                       panel.grid.minor = element_blank(),
+                       panel.background = element_rect(fill="white",colour="gray50"), 
+                       axis.line = element_line(colour = "black"),
+                       legend.position= "bottom",
+                       legend.direction = "horizontal",
+                       legend.title = element_blank(),
+                       legend.background = element_blank())+
+                  guides(shape = guide_legend(nrow=1))+
+                  labs( x = "Percent exploitation (tags recovered from harvest)",
+                        y = "Percent change in population",
+                        title = "Percent Change in Population vs. Percent tags recovered")
+fig5
 ```
 
