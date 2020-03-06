@@ -150,7 +150,7 @@ Euth<-subset(datframe, Notes == "euthanized")
 E.melt<-melt(Euth, id.var = c("Species","Lake"),
              measure.vars = "detect")
 EuthTotal<-dcast(E.melt, Species~Lake)
-write.csv(EuthTotal, "2018 Catch-Euthanized.csv")
+#write.csv(EuthTotal, "2018 Catch-Euthanized.csv")
 
 ```
 
