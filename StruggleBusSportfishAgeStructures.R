@@ -29,21 +29,17 @@ levels(datframe$Notes)
 datframe<-droplevels(subset(datframe, Species != "BIB" &
                                       Species != "COC"))
 datframe<-droplevels(subset(datframe, Lake == "N. Twin" |
-                                      Lake == "S. Twin"))
-length(datframe$Species[datframe$Notes == "euthanized"])
-datframe$Notes[datframe$Notes == "Aging Fish" |
-                 datframe$Notes == "Aging Fish " |
-                 datframe$Notes == "Aging Fish - 2017 Tag Loss" |
-                 datframe$Notes == "Aging Fish - 2017 Tag Loss Female" |
-                 datframe$Notes == "Aging Fish - Female" |
-                 datframe$Notes == "Aging Fish - Male" |
-                 datframe$Notes == "Aging Fish - Mirror" |
-                 datframe$Notes == "Aging Fish - Scoliosis" |
-                 datframe$Notes == "Aging Fish 2017 Tag Loss Female"] <- "euthanized"
-datframe$Notes<-droplevels(datframe$Notes)
+                                      Lake == "S. Twin" ))
 levels(datframe$Notes)
-df<-droplevels(subset(datframe, Notes == "euthanized"))
+df.check<-datframe
 
+df.check$Length..mm.<-df.check$Length..mm./25.4 # convert mm to inches
+
+summary(df.check$Weight..g.)
+df.check$Weight..g.<-df.check$Weight..g./28.3495 
+
+summary(df.check)
+write.csv(df.check, "2018/2018 Twin Lake Sportfish Age Envelope.csv",row.names = F)
 
 
 
