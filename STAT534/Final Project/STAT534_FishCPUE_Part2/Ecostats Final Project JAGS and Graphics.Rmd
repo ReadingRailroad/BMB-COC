@@ -248,7 +248,7 @@ ggplot(cpue.plot.data, aes(x = Date, y = log(CPUE)))+
 
 ## Part 2:
 
-We've taken the provided rjags code (Mari.r and chunks above) and model fit in the .bug file (Marti.bug - full and Marti2.bug - reduced) and adapted it for a new scenario. New files are this R Markdown (Ecostats Final Project JAGS and Graphics.Rmd) and bugs model (NTWIN.bug)
+We've taken the provided rjags code (Marti.r and chunks above) and model fit in the .bug file (Marti.bug - full and Marti2.bug - reduced) and adapted it for a new scenario. New files are this R Markdown (Ecostats Final Project JAGS and Graphics.Rmd) and bugs model (NTWIN.bug)
 
 We switched study system (lake) from Blue Lake to North Twin lake, for a few reasons:
 
