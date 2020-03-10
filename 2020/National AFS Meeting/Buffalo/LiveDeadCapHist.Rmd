@@ -1,0 +1,137 @@
+---
+title: "Live-Dead Input Files"
+author: "Martin Simonson"
+date: "3/10/2020"
+output: word_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+# front matter
+```{r,include=FALSE}
+rm(list=ls())
+```
+
+```{r,}
+
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
+
+#packages(rcompanion)
+#packages(vegan)
+packages(ggplot2)
+packages(gridExtra)
+packages(reshape2)
+packages(FSA)
+packages(nnet)
+#packages(multcomp)
+#packages(plyr)
+#packages(rv)
+packages(arm)
+packages(lattice)
+packages(tikzDevice)
+packages(FSAdata)
+packages(nlstools)
+#packages(GGally)
+packages(wesanderson)
+#packages(DescTools)
+#packages(mvnormtest)
+#packages(HH)
+#packages(biotools)
+#packages(car)
+#packages(psych)
+#packages(GPArotation)
+packages(doBy)
+packages(dplyr)
+packages(tidyr)
+packages(rcompanion)
+packages(GISTools)
+packages(maps)
+packages(mapproj)
+packages(ggpmisc)
+```
+
+#loading in data
+
+```{r}
+long.LD<-read.csv("2020/National AFS Meeting/Buffalo/LiveDead_LongFormat.csv",header=T)
+str(long.LD)
+long.LD$Year<-as.factor(long.LD$Year)
+```
+
+# converting to shorter capture history in LD format
+
+- need to keep lake variable
+- could drop carp at first to make figuring it out easier
+- length may not be important
+- tag loss most likely irrelevant
+- Gear is there to help ID when fish were recovered dead
+- Year is factor at the moment, can also set year.month column if collapsing capture history to months
+- good luck!
+
+```{r}
+
+# create dummy capture data; id is animal and date is the date it was captured or recaptured
+levels(long.LD$Gear)
+df=droplevels(subset(long.LD, Gear !="COMMERCIAL HARVEST")) # live encounters
+ddf=droplevels(subset(long.LD, Gear == "COMMERCIAL HARVEST")) # dead recoveries
+#create date intervals that are approximately every 6 months
+intervals=as.Date("2017-04-01")+seq(30,15*365,182.5)
+
+
+
+
+
+
+# cut the dates into intervals
+occasions=cut(df$date,intervals)
+
+
+
+#create the count table with id for rows and years for columns
+## dch is for dead recoveries
+ch=with(df,table(id,occasions))
+
+
+
+# can be caught multiple times in an occasion; change all >0 to 1
+ch[ch>0]=1
+ch
+
+
+# create capture history as a string
+chstr=apply(ch,1,paste,collapse="")
+
+
+
+
+# to match the id and occasions between ch and dch
+recapture$id=factor(as.character(recapture$id),levels=levels(capture$id))
+
+
+
+
+fullmat=matrix(NA,nrow=nrow(ch),ncol=2*ncol(ch))
+fullmat[,seq(1,2*ncol(ch),2)]=ch
+fullmat[,seq(2,2*ncol(ch),2)]=dch
+fullch=apply(fullmat,1,paste,collapse="")
+
+
+# create dataframe for Rmark....
+markdata=data.frame(ch=chstr,stringsAsFactors=FALSE)
+
+
+
+
+
+```
+
+
+
+

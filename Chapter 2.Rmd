@@ -116,11 +116,16 @@ harvest$Year<-as.factor(harvest$Year)
 harvest$TAG.NUMBER<-as.factor(harvest$TAG.NUMBER)
 harvest$Date<-as.Date(harvest$Date, "%m/%d/%Y")
 summary(harvest$Lake)
-# can delete the single "five island" because it's an escaped fish caught in DSM
+# these are all the other tags that need to get censored
+Censor <-droplevels(subset(harvest, Lake == "Five Island" | # found in dsm river
+                                    Lake == "Storm" | # recovered dead
+                                    Lake == "S Twin" | # sent off to hort farm
+                                    Lake == "Blue")) # recreational catch, tags removed
+# can split out the tags that were actually harvested
 harvest<-droplevels(subset(harvest, Lake != "Five Island" &
-                                    Lake != "Storm" &
-                                    Lake != "S Twin" &
-                                    Lake != "Blue"))
+                                    Lake != "Storm" & # recovered dead
+                                    Lake != "S Twin" & # sent off to hort farm
+                                    Lake != "Blue")) # recreational catch, tags removed
 levels(harvest$Lake)
 harvest$Lake<-as.character(harvest$Lake)
 harvest$Lake[harvest$Lake == "N Twin "] <- "N Twin"
@@ -144,6 +149,20 @@ sum(is.na(harvest.blend$Species.y))/length(harvest.blend$TAG.NUMBER) # about 1.6
 harvest$Species<-harvest.blend$Species.y
 harvest<-droplevels(subset(harvest, !is.na(harvest$Species)))
 #
+
+# CENSOR TAGS FROM DF ABOVE
+w <- which(levels(dframe$TAG.NUMBER) %in% levels(Censor$TAG.NUMBER)) # Get only those that are "matched"
+w
+dframe<-droplevels(subset(dframe, TAG.NUMBER != "3382" &
+                                  TAG.NUMBER != "4494" &
+                                  TAG.NUMBER != "8626" &
+                                  TAG.NUMBER != "13309"&
+                                  TAG.NUMBER != "13587"&
+                                  TAG.NUMBER != "21278"&
+                                  TAG.NUMBER != "23445"&
+                                  TAG.NUMBER != "23952"&
+                                  TAG.NUMBER != "24106"))
+
 # correct a couple things
 names(dframe)
 names(harvest)
@@ -152,13 +171,12 @@ names(harvest)
 df<-rbind(dframe,harvest)
 str(df)
 summary(df$detect)
-levels(df$Species)
-levels(dframe$Species)
 levels(harvest$Species)
+summary(df$TAG.NUMBER) # about 14 fish with 4 observations, many more with 3.
 
-
-
-
+# delete extraneous information
+df2<-df[,c(1,2,3,4,5,8,11,21,22)]
+# write.csv(df2, "2020/National AFS Meeting/Buffalo/LiveDead_LongFormat.csv",row.names=F)
 ```
 
 
@@ -168,7 +186,8 @@ levels(harvest$Species)
 now()
 ```
 
-# North Twin Fishing Mortality
+# Master live-dead INP file
+
 ```{r, include = F}
 ntwin<-droplevels(subset(df, Lake == "N Twin"))
 str(ntwin)
@@ -486,6 +505,13 @@ center$fishing.mortality<-round(center$mu_i * 100, 1)
 ```{r}
 
 ```
+
+
+
+
+
+
+
 
 
 #### Annual survival
