@@ -1,0 +1,185 @@
+---
+title: 'Preliminary Exams: Dr. Kaiser'
+author: "Marty Simonson"
+date: "3/27/2020"
+output: word_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r,include=FALSE}
+rm(list=ls())
+
+
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
+
+
+#packages(rcompanion)
+#packages(vegan)
+packages(ggplot2)
+packages(gridExtra)
+packages(reshape2)
+#packages(FSA)
+#packages(nnet)
+#packages(multcomp)
+#packages(plyr)
+#packages(rv)
+#packages(arm)
+#packages(lattice)
+#packages(tikzDevice)
+#packages(FSAdata)
+#packages(nlstools)
+#packages(GGally)
+#packages(wesanderson)
+#packages(DescTools)
+#packages(mvnormtest)
+#packages(HH)
+#packages(biotools)
+#packages(car)
+#packages(psych)
+#packages(GPArotation)
+#packages(doBy)
+packages(dplyr)
+packages(tidyr)
+#packages(rcompanion)
+#packages(GISTools)
+#packages(maps)
+#packages(mapproj)
+packages(fBasics)
+```
+
+# The generalized Gamma Distribution
+
+Suppose that $X$ has a standard gamma distribution with the probability density function, for $\alpha > 0$ and $\beta > 0$,
+
+\[
+f(x|\alpha,\beta) = \frac{1}{(\alpha^\beta)\Gamma(\beta)} x^{\beta-1}e^{-x/\alpha}, x>0
+\]
+
+_Note that this is the alternative form of the gamma distribution P.D.F. and is different than what was given in the problem._ And a generalized gamma distribution results from the transformation
+
+\[
+Y = X^c
+\]
+
+where $c$ is a known constant such that $c>0$. Larger values of $c$ result in more extreme right tails in the resulting density function.
+
+## 1.) Derive the P.D.F. of $Y$ using the Jacobian method
+
+The general formula for the Jacobian transformation is 
+
+\[
+pdf(Y) = | \frac{\partial x}{\partial y} | * pdf(X)
+\]
+
+where the pdf of $X$ is given above. And if $Y=X^c$ then $X=Y^{-c}$. The Jacobian determinant of this term is $| \frac{\partial x}{\partial y} | = -cy^{-c-1}$, and $y^{-c}$ can be substituted for $x$ in the distribution function for $X$, our new equation is:
+
+\[
+pdf(Y) = -c*y^{(-c-1)} * \frac{1}{(\alpha^\beta)\Gamma(\alpha)} * (y^{-c})^{\beta-1} * e^{(-y^{-c})/\alpha)}
+\]
+
+Which, for positive nonzero $\alpha$, $\beta$, and $c$, simplifies to:
+
+\[
+pdf(Y) = -\frac{c*\alpha^{-\beta}*y^{\beta(-c)-1} * e^{(-y^{-c})/\alpha)}}{\Gamma(\beta)}
+\]
+
+for all values of $y \geq 0$, 0 elsewhere.
+
+## 2.) Sample Statistics
+
+Simulate a set of data of size $n=100$ from a generalized gamma distribution with $\alpha=9$, $\beta = 3$, and $c=3.25$. Note that this is most easily accomplished by first simulating the set of data from a gamma distribution with $\alpha = 10$ and $\beta=3$. 
+
+```{r,}
+# Simulating Data
+
+## Original Gamma Distribution
+n<-100 # sample size of data
+alpha<-10 # shape parameter
+beta<-3 # scale parameter
+gamma.sim<-data.frame(rgamma(n,shape=alpha,scale=beta))
+colnames(gamma.sim)<-c("Value") # set column name for our 100 simulated values.
+```
+
+
+For this example, first use the original sample of the gamma distribution to compute:
+
+- The sample mean
+- Sample variance
+- Skewness
+
+```{r}
+# Sample Mean
+mean(gamma.sim$Value)
+# Variance
+var(gamma.sim$Value)
+# Skewness
+s<-skewness(gamma.sim$Value)
+s[[1]]
+```
+
+
+Second, use the generalized gamma function to compute:
+
+- The sample mean
+- Sample variance
+- Skewness
+
+```{r}
+# Mew simulated data - Generalized gamma distribution
+f<-function(n,c.gen=3.25,beta.gen=3,alpha.gen=9){
+ (rgamma(n,shape=alpha.gen,scale=beta.gen))^c.gen
+}
+n=100
+gen.gamma.sim<-data.frame(f(n))
+
+# Sample Mean
+mean(gen.gamma.sim$f.n.)
+# Variance
+var(gen.gamma.sim$f.n.)
+# Skewness
+s2<-skewness(gen.gamma.sim$f.n.)
+s2[[1]]
+```
+
+
+
+## 3.) Plot Empirical vs. Theoretical densities
+
+Graph the empirical density of the generalized gamma sample (histogram on a probability scale) and overlay a curve giving the theoretical probability density function that was derived in part 1. __The area shaded green is the density curve for the simulated (empirical) data, the red line (without shading) is the density curve for the theoretical density from the formula.__
+
+```{r, echo=F}
+library(scales)
+range<-runif(100,min=0,max=1)
+f3<-function(x, c.gen=3.25,beta.gen=3,alpha.gen=9){
+  - (  c.gen*
+      (alpha.gen*-beta.gen)*
+      (exp((-x^(-c.gen))/alpha.gen))*
+      (x^((beta.gen*(-c.gen))-1))) / gamma(beta.gen)
+}
+gen.gamma.sim2<-data.frame(f3(range))
+
+gen.gamma.sim %>%
+  ggplot( aes(x=f.n.)) +
+    geom_density(fill="#69b3a2", color="#e9ecef", alpha=0.8)+
+  theme(legend.position = "bottom",panel.grid.major = element_blank(), 
+                                panel.grid.minor = element_blank(),
+                                panel.background = element_rect(fill="white",colour="grey50"), 
+                                axis.line = element_line(colour = "black"))+
+  labs(title="Density of Simulated Generalized Gamma Sample Data",
+       x="Value",
+       y="Density")+
+  scale_x_continuous(labels= comma)+
+  scale_y_continuous(labels= comma)+
+  geom_density(data = gen.gamma.sim2,
+               aes(x=f3.range.),
+               color="red")
+```
+

@@ -79,11 +79,14 @@ long.LD$Year<-as.factor(long.LD$Year)
 
 # create dummy capture data; id is animal and date is the date it was captured or recaptured
 levels(long.LD$Gear)
-df=droplevels(subset(long.LD, Gear !="COMMERCIAL HARVEST")) # live encounters
-ddf=droplevels(subset(long.LD, Gear == "COMMERCIAL HARVEST")) # dead recoveries
-#create date intervals that are approximately every 6 months
-intervals=as.Date("2017-04-01")+seq(30,15*365,182.5)
+df=droplevels(subset(long.LD, Gear !="COMMERCIAL HARVEST")) # live encounters stored in "df"
+ddf=droplevels(subset(long.LD, Gear == "COMMERCIAL HARVEST")) # dead recoveries stored in "ddf"
 
+
+#create date intervals that accompany 
+levels(ddf$Date)
+intervals=as.Date(c("2017-04-01"))
+intervals
 
 
 
