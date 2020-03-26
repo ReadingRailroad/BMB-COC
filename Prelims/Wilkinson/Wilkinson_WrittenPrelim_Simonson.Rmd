@@ -1,0 +1,167 @@
+---
+title: "Dr. Wilkinson Written Preliminary Exam Questions"
+author: "Marty Simonson"
+date: "3/25/2020"
+output: word_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r,include=FALSE, warning=FALSE}
+rm(list=ls())
+
+
+packages<-function(x, repos="http://cran.r-project.org", ...){
+x<-as.character(match.call()[[2]])
+if (!require(x,character.only=TRUE)){
+install.packages(pkgs=x, repos=repos, ...)
+require(x,character.only=TRUE)
+}
+}
+
+
+#packages(rcompanion)
+#packages(vegan)
+packages(ggplot2)
+packages(gridExtra)
+packages(reshape2)
+#packages(FSA)
+#packages(nnet)
+#packages(multcomp)
+#packages(plyr)
+#packages(rv)
+#packages(arm)
+#packages(lattice)
+#packages(tikzDevice)
+#packages(FSAdata)
+#packages(nlstools)
+#packages(GGally)
+#packages(wesanderson)
+#packages(DescTools)
+#packages(mvnormtest)
+#packages(HH)
+#packages(biotools)
+#packages(car)
+#packages(psych)
+#packages(GPArotation)
+#packages(doBy)
+packages(dplyr)
+packages(tidyr)
+#packages(rcompanion)
+#packages(GISTools)
+#packages(maps)
+#packages(mapproj)
+packages(fBasics)
+packages(anytime)
+```
+
+```{r, include = F, warning=FALSE}
+setwd("C:/Users/M_Sim/OneDrive/IOWA/Iowa State University/CarpR/BMB-COC/Prelims/Wilkinson")
+plankton<-read.csv("GVL_PlanktonData.csv")
+HistoricalALM<-read.csv("Historical_ALM.csv")
+
+
+# examine data
+str(plankton)
+summary(plankton)
+str(HistoricalALM)
+
+HistoricalALM$Date<-anytime(HistoricalALM$sampleDate) # convert sampleDate into POSIX date format
+HistoricalALM$Year<-as.factor(as.character(HistoricalALM$Year)) # year as a factor (plotting later)
+HistoricalALM<-droplevels(subset(HistoricalALM, detect == "TRUE"))# removing samples below detection limit
+#trim some columns that are causing problems :)
+HistoricalALM<-HistoricalALM[,c(4,5,8,9,13)]
+HistoricalALM.m<-melt(HistoricalALM, id.vars = c("Date","Year","Treatment","analyte"),na.rm=T)
+alm.cast<-dcast(HistoricalALM.m, Year + Treatment ~ analyte, mean)
+
+```
+
+# Questions
+
+## 1.	Generate at least 3 hypotheses as to the mechanisms driving the change in water quality in Green Valley Lake, before and after the 2008-2010 restoration. Please note, the hypotheses do not have to be mutually exclusive.
+
+- a. __External Loading:__ Phosphorous entering the lake from the diked inlets is not precipitating out of dissolved form in the settlement basins created by the silt dikes, and perhaps anaerobic conditions in those arms is releasing more P into the lake, causing the observed increase in P after the restoration. Increased non-point watershed inputs may also be driving an increase in P (Not all inputs to the lake are diked).
+
+- b. __Internal Loading:__  Dredging activity both increased sediment resusupension in the short term, and exposed buried sediments to bioturbation in the long term (caused by benthic feeding by carp, catfish invertebrates, etc.). The internal loading and cycling of phosphorous in this lake became higher (and more variable) after the restoration.
+
+- c. __Positive Feedback Loop:__ Renovation actually increased the stock of available P in the lake, and watershed inputs maintain or add to P stock. Anaerobic conditions in the hypolimnion cause  dissolution of P from the metals it precipitated with, and subsequent algae blooms. The oxygenated algae layer in epilimnion restricts photosynthesis in hypolimnion, with more anaerobic P release. Blooms, after death, release $PO_4^{3-}$.
+
+
+
+## 2.	Use the historical Ambient Lake Monitoring data to evaluate your hypotheses, where feasible. You may also pull in other data sources, if available, although this is not required. If data are not readily available, describe what historical data sets you would like to acquire and briefly how you would analyze them to evaluate your hypotheses. 
+
+- a. __External Loading:__ Because the Ambient Lake Monitoring Program only collects water samples at or near the deepest point in the lake (in this case nearer to the outflow than any inflows), measuring external loading from the data on hand is not possible. A historical data set to evaluate this hypothesis would ideally include samples taken before and after the dikes were constructed. Sample design would be to collect surface and bottom water samples from streams 50 m upstream of the diked areas, within the diked areas, at 25, 50, and 100 meters outward from the 5 culverts at each silt dike, 3 times per year. In addition, are a few smaller inputs to the lake (West arm) that are not diked; collecting surface and bottom water samples at the source, and again at 25, 50, and 100m outward toward open water, 3 times per year. 
+
+This type of data would fit a Before-After-Control-Impact (BACI) analysis. First, a test of each diked and undiked area (4-5 sample locations each, surface and bottom) before and after the construction of the dikes would allow for comparisons of how phosphorous flows changed as a result of creating the sediment basins through dikes. Second, samples of dissolved oxygen saturation at the bottom of each sample point at both diked and undiked sites before and after dike construction could inform whether the dikes changed the oxic state of these zones in the lake. Outside of a BACI design, comparisons of different phosphorous concentrations among all inflows through time would suggest which inflow is contributing most to external phosphorous loading. 
+
+- b. __Internal Loading:__ Using Ambient Lake Monitoring water quality data (averaged in each year), one can continue examining before-after effects of renovation to examine 1) if the Orthophosphate to Total Phosphorous ratio (PO4:TP) changes, and 2) if total suspended solids increased or decreased after renovation. First, shifts in the PO4:TP ratio toward 1 would indicate higher biologically available orthophosphate concentrations relative to phosphorous bound in macromolecules and biota, it is expected that this ratio will decrease as overall system productivity increases and P is cycled within the lake. Second, total suspended solids could decrease with sedimentation occurring in the diked areas or increase from dredging and bioturbation.
+
+```{r, echo=F, warning = F}
+# Second Hypothesis: Internal Loading
+# 1) PO4:TP Ratio
+#     Boxplot to show distribution of po4:TP ratios in years pre- and post-treatment
+alm.cast$po4.tp<-alm.cast$`Orthophosphate (as P)`/alm.cast$`Total Phosphorus`
+alm.cast$Treatment<-ordered(factor(alm.cast$Treatment, levels = c("Pre","Post")))
+ggplot(alm.cast, aes(x=Treatment, y=po4.tp))+
+  geom_boxplot(stat= "boxplot")+
+  labs(title = "Orthophosphate : Total Phosphorous Ratio",
+       y = "Distribution of PO4:TP Ratio (averaged within each year)")
+
+
+# 2) TSS (mg/L)
+#     Boxplot of annual mean TSS distributions, by treatment
+ggplot(alm.cast, aes(x=Treatment, y=`Total suspended solids`))+
+  geom_boxplot(stat= "boxplot")+
+  labs(title = "Total Suspended Solids",
+       y = "Distribution of annual mean TSS (mg/L)")
+```
+
+In both evaluations, an increase in the response variable was observed after renovation. The distribution of annual mean Orthophosphate : Total Phosphorous ratio showed that orthophosphate rose relatively higher than total phosphorous in the system after renovation. The increase in Total Suspended Solids showed more variability but generally higher annual mean measurements. 
+
+- c. __Positive Feedback Loop:__ A quick (and incomplete) evaluation of this hypothesis would be to run a few analyses of phytoplankton community data, to see if cyanophytes increased after renovation; cyanophytes respond positively to increased phosphorous, have vacuoles for buoyancy to out-compete other plants and algae for light, and fix nitrogen (leading to a whole other feedback loop). There are many other ways to chop up the provided ALM data, but for this quick evaluation the trends of organic carbon in the system through time could suggest if biomass is continuously increasing in this lake.
+
+```{r, echo = F, warning = F}
+# 1) Phytoplankton dynamics
+
+plankton$Treatment[plankton$Year <= 2007] <- "Pre"
+plankton$Treatment[plankton$Year >= 2009] <- "Post"
+plankton$Treatment<-ordered(factor(plankton$Treatment, levels = c("Pre","Post")))
+#!is.na(plankton$Treatment)
+a<-ggplot(plankton, aes(x=Year, y=`Cyanophyta`, group = Treatment))+
+  geom_point(stat= "identity",aes(colour=Treatment, size = 2, alpha = .8))+
+  labs(title = "Cyanophytes through time",
+       y = "Cyanophyte Density (ug/L)")+
+  theme(legend.position= "none")
+b<-ggplot(plankton, aes(x=Year, y=`Chlorophyta`, group = Treatment))+
+  geom_point(stat= "identity",aes(colour=Treatment, size = 2, alpha = .8))+
+  labs(title = "Chlorophytes through time",
+       y = "Chlorophyte Density (ug/L)")+
+  theme(legend.position= "none")
+grid.arrange(a,b,ncol=1)
+
+plankton$ratio<-plankton$Chlorophyta/plankton$Cyanophyta
+ggplot(plankton, aes(x=Year, y=ratio, group = Treatment))+
+  geom_point(stat= "identity",aes(colour=Treatment, size = 2, alpha = .8))+
+  labs(title = "Chlorophyte:Cyanophyte ratio through time",
+       y = "Chlorophyte:Cyanotphyte ratio")
+
+
+# 2) OC (mg/L)
+#     Dotplot of OC  by treatment
+alm.cast<-dcast(HistoricalALM.m, Date + Treatment ~ analyte, sum)
+ggplot(alm.cast, aes(x=Date, y=`Organic carbon`, group = Treatment))+
+  geom_point(stat= "identity",aes(colour=Treatment,size=2, alpha = .8))+
+  labs(title = "Organic Carbon through time",
+       y = "Organic Carbon (mg/L)")
+
+```
+
+First, cyanophyte density appeared to be increasing through time, and some severe blooms may have occurred after renovation. Second, Chlorophytes had fewer blooms after 2004 but before the renovation, but continued to have a few blooms post renovation. The ratio between chlorophytes : cyanophytes shows that before 2004 chlorophytes dominated algal biomass, the ratio approached zero before the renovation. AFter the renovation, there is some variability but overall the ratio remains low. Two very high points in 2000 may be outliers in the data. Finally, the organic carbon plot shows that Organic carbon, highest before the renovation, but shortly after the renovation there were a few years of similar OC content to before renovation, but a lot more measurements of zero organic carbon in lakes; this result did not support my hypothesis.
+
+
+
+
+## 3.	Based on the hypotheses you’ve generated and fully (or partially) evaluated, design a study to determine the cause of the change in water quality in Green Valley Lake following the 2008 restoration. Please briefly justify the study design. The overall goal of your study is to identify the source(s) of the water quality problem and provide management recommendations to the state and local managers. 
+
+
