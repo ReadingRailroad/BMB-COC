@@ -109,7 +109,7 @@ colnames(gamma.sim)<-c("Value") # set column name for our 100 simulated values.
 ```
 
 
-For this example, first use the original sample of the gamma distribution to compute:
+### For this example, first use the _original sample of the gamma distribution_ to compute:
 
 - The sample mean
 - Sample variance
@@ -126,7 +126,7 @@ s[[1]]
 ```
 
 
-Second, use the generalized gamma function to compute:
+### Second, use the _generalized gamma function_ to compute:
 
 - The sample mean
 - Sample variance
