@@ -23,6 +23,9 @@ packages(lubridate)
 # trying to get a single CPUE frame from all data:
 std.cpue<-read.csv("CPUE Bayes Data.csv",header=T)
 
+summary(std.cpue)
+
+hist(std.cpue$CPUE)
 
 ########################################################################
 #
@@ -37,7 +40,7 @@ std.cpue2<-droplevels(subset(std.cpue, Species == "BIB"))
 
 cpue.m <- jags.model(
   'FirstAttempt.bug',
-  data=list(logPop=std.cpue2$logPop, # log pouplation size and 
+  data=list(logPop=std.cpue2$logPop, # log population size and 
             sdlogPop=std.cpue2$sdlogPop, # log sd of population size from data (sdlogpop becomes Tau) 
             n=dim(std.cpue2)[1], # number of samples
             logCPUE=log(std.cpue2$CPUE+1), # log-transformed CPUE from data + 1 to fix ln(0) problem
