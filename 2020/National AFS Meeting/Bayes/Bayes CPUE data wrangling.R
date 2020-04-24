@@ -40,7 +40,7 @@ std.data<-droplevels(subset(all.data, Site.Transect == "Std 1" |
 levels(std.data$Species)
 std.data<-droplevels(subset(std.data, Species == "BIB" |
                               Species == "COC" |
-                              Species == "dummy"))
+                              Species == "dummy")) # dummy represents samples with 0 of both species
 
 # adding an effort column, the on-time divided by an hour (3600 seconds)
 std.data$Effort<-std.data$On.Time..s./3600
@@ -67,7 +67,7 @@ head(std.cpue) # data frame of total captured in both species (and dummy)
 
 
 
-# cpue column:
+# cpue column: amount of fish caught divided by effort in hours
 std.cpue$CPUE<-std.cpue$detect/std.cpue$Effort
 
 # check data frame:
@@ -80,10 +80,17 @@ std.cpue<-std.cpue[,-c(5,7)]
 
 # Now, I suppose that I could use the mean for each day, 
 #                   which is what we did in class I think:
-
 std.cpue2<-aggregate(CPUE~Date+Lake+Species+Water.Temp..C., 
                      data = std.cpue, mean, na.action=NULL)
-# 4-28-2019 at Silver is all zeros, but that's accurate. Only fish that day was by the bridge
+# 4-28-2019 at Silver is zero CPUE for both species, but that's accurate. 
+## Only fish that day was by the bridge, none caught at the std. transects
+
+## ADD SD
+junk<-aggregate(CPUE~Date+Lake+Species+Water.Temp..C., 
+                data = std.cpue, sd, na.action=NULL)
+
+std.cpue2$CPUE.SD<-junk$CPUE
+
 
 ############################################################
 #
@@ -127,14 +134,20 @@ std.cpue2$SDI[std.cpue2$Lake == "Storm"] <- 1.7
 std.cpue2$SDI[std.cpue2$Lake == "S Twin"] <- 1.3
 std.cpue2$SDI[std.cpue2$Lake == "N Twin"] <- 1.9
 
-colnames(std.cpue2)[4]<-"WaterTemp"
+colnames(std.cpue2)[4]<-"WaterTemp" # water temp on sample day in Celsius
+
+std.cpue2$Year<-year(mdy(std.cpue2$Date))
 
 head(std.cpue2)
+
+
 # wow, that might be it!!
-################################################################
-std.cpue2$Year<-year(mdy(std.cpue2$Date))
 # NOPE!
 # Need logN and sdlogpop for each lake too
+
+################################################################
+
+
 std.cpue2$logPop[std.cpue2$Lake == "5 Island" & 
                    std.cpue2$Species == "BIB" & 
                    std.cpue2$Year == 2018] <- log(2300)
@@ -325,5 +338,7 @@ head(std.cpue2)
 std.cpue2<-droplevels(subset(std.cpue2, !is.na(std.cpue2$logPop)))
 
 summary(std.cpue2$LakeSize)
+
+# write the csv:
 
 # write.csv(std.cpue2, "CPUE Bayes Data.csv",row.names=F)

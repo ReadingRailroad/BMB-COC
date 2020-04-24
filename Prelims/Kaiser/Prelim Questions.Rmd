@@ -1,7 +1,8 @@
 ---
 title: 'Preliminary Exams: Dr. Kaiser'
+subtitle: 'Revised Submission'
 author: "Marty Simonson"
-date: "3/27/2020"
+date: "4/15/2020"
 output: word_document
 editor_options: 
   chunk_output_type: console
@@ -53,6 +54,7 @@ packages(tidyr)
 #packages(maps)
 #packages(mapproj)
 packages(fBasics)
+packages(scales)
 ```
 
 # The generalized Gamma Distribution
@@ -60,10 +62,10 @@ packages(fBasics)
 Suppose that $X$ has a standard gamma distribution with the probability density function, for $\alpha > 0$ and $\beta > 0$,
 
 \[
-f(x|\alpha,\beta) = \frac{1}{(\alpha^\beta)\Gamma(\beta)} x^{\beta-1}e^{-x/\alpha}, x>0
+f(x|\alpha,\beta) = \frac{\beta^\alpha}{\Gamma(\alpha)} x^{\alpha-1}e^{-\beta x}; x>0
 \]
 
-_Note that this is the alternative form of the gamma distribution P.D.F. and is different than what was given in the problem._ And a generalized gamma distribution results from the transformation
+And a generalized gamma distribution results from the transformation
 
 \[
 Y = X^c
@@ -79,16 +81,19 @@ The general formula for the Jacobian transformation is
 pdf(Y) = | \frac{\partial x}{\partial y} | * pdf(X)
 \]
 
-where the pdf of $X$ is given above. And if $Y=X^c$ then $X=Y^{-c}$. The Jacobian determinant of this term is $| \frac{\partial x}{\partial y} | = -cy^{-c-1}$, and $y^{-c}$ can be substituted for $x$ in the distribution function for $X$, our new equation is:
+where the pdf of $X$ is given above. And if $Y=X^c$, then $X=Y^\frac{1}{c}$. The Jacobian determinant of this term is $| \frac{y^{(\frac{1}{c-1})}}{c} |$, and $y^\frac{1}{c}$ can be substituted in the distribution function for $x$, thus our new equation is:
 
 \[
-pdf(Y) = -c*y^{(-c-1)} * \frac{1}{(\alpha^\beta)\Gamma(\alpha)} * (y^{-c})^{\beta-1} * e^{(-y^{-c})/\alpha)}
+pdf(Y) = |\frac{y^{(\frac{1}{c})-1}}{c}| * \frac{\beta^\alpha}{\Gamma(\alpha)} * (y^\frac{1}{c})^{\alpha-1} * e^{(-\beta *y^\frac{1}{c})}
 \]
 
 Which, for positive nonzero $\alpha$, $\beta$, and $c$, simplifies to:
 
 \[
-pdf(Y) = -\frac{c*\alpha^{-\beta}*y^{\beta(-c)-1} * e^{(-y^{-c})/\alpha)}}{\Gamma(\beta)}
+pdf(Y) = \frac{ \beta^\alpha * 
+          y^{\frac{\alpha-c}{c}} * 
+          e^{(\beta*-y^{(1/c)})}}
+          {c * \Gamma(\alpha)}
 \]
 
 for all values of $y \geq 0$, 0 elsewhere.
@@ -101,11 +106,14 @@ Simulate a set of data of size $n=100$ from a generalized gamma distribution wit
 # Simulating Data
 
 ## Original Gamma Distribution
-n<-100 # sample size of data
+n<-10000 # sample size of data
 alpha<-10 # shape parameter
 beta<-3 # scale parameter
 gamma.sim<-data.frame(rgamma(n,shape=alpha,scale=beta))
-colnames(gamma.sim)<-c("Value") # set column name for our 100 simulated values.
+colnames(gamma.sim)<-c("Value")# set column name for our 100 simulated values.
+
+hist(gamma.sim$Value, prob=T, main = "Gamma, Alpha = 10 and Beta = 3",xlab="Variate value (n=10,000)", ylab = "density")
+
 ```
 
 
@@ -134,10 +142,10 @@ s[[1]]
 
 ```{r}
 # Mew simulated data - Generalized gamma distribution
-f<-function(n,c.gen=3.25,beta.gen=3,alpha.gen=9){
- (rgamma(n,shape=alpha.gen,scale=beta.gen))^c.gen
+f<-function(n,c.gen=3.25,beta.gen=3,alpha.gen=10){
+ (rgamma(n,shape=alpha.gen,rate=beta.gen))^c.gen
 }
-n=100
+n=10000
 gen.gamma.sim<-data.frame(f(n))
 
 # Sample Mean
@@ -147,39 +155,52 @@ var(gen.gamma.sim$f.n.)
 # Skewness
 s2<-skewness(gen.gamma.sim$f.n.)
 s2[[1]]
+
+hist(gen.gamma.sim$f.n., prob=T, main = "Generalized Gamma: Alpha = 10, Beta = 3, c = 3.25", xlab = "Variate value (n=10,000)",
+     ylab="Density")
 ```
 
 
 
 ## 3.) Plot Empirical vs. Theoretical densities
 
-Graph the empirical density of the generalized gamma sample (histogram on a probability scale) and overlay a curve giving the theoretical probability density function that was derived in part 1. __The area shaded green is the density curve for the simulated (empirical) data, the red line (without shading) is the density curve for the theoretical density from the formula.__
+Graph the empirical density of the generalized gamma sample (histogram on a probability scale) and overlay a curve giving the theoretical probability density function that was derived in part 1. 
 
-```{r, echo=F}
-library(scales)
-range<-runif(100,min=0,max=1)
-f3<-function(x, c.gen=3.25,beta.gen=3,alpha.gen=9){
-  - (  c.gen*
-      (alpha.gen*-beta.gen)*
-      (exp((-x^(-c.gen))/alpha.gen))*
-      (x^((beta.gen*(-c.gen))-1))) / gamma(beta.gen)
-}
-gen.gamma.sim2<-data.frame(f3(range))
+__The area shaded green is the density curve for the simulated (empirical) data, the red line (without very light shading) is the density curve for the theoretical density from the derived formula.__
 
+```{r,}
+# paramaters
+c.gen<-3.25
+alpha.gen<-9
+beta.gen<-3
+# max value
+n<-700
+# sequence of values
+values<-seq(0.1,n,.01) 
+#values<-runif(100,0,700) ---- ended up providing the same curve
+
+# break down PDF(y) into parts
+prt1<-(beta.gen^alpha.gen)*values^((alpha.gen-c.gen)/c.gen)
+prt2<-exp(beta.gen*(-values^(1/c.gen)))
+prt3<-c.gen*gamma(alpha.gen)
+pdfy<-data.frame(values,((prt1*prt2)/prt3))
+
+# plot both transformed distributions
 gen.gamma.sim %>%
   ggplot( aes(x=f.n.)) +
-    geom_density(fill="#69b3a2", color="#e9ecef", alpha=0.8)+
-  theme(legend.position = "bottom",panel.grid.major = element_blank(), 
-                                panel.grid.minor = element_blank(),
-                                panel.background = element_rect(fill="white",colour="grey50"), 
-                                axis.line = element_line(colour = "black"))+
-  labs(title="Density of Simulated Generalized Gamma Sample Data",
+    geom_density(fill="#69b3a2", color="#e9ecef", alpha=0.9)+
+      theme(legend.position = "bottom",
+            panel.grid.major = element_blank(), 
+            panel.grid.minor = element_blank(),
+            panel.background = element_rect(fill="white",
+                                            colour="grey50"), 
+            axis.line = element_line(colour = "black"))+
+  labs(title="Densities of Transformed Gamma R.V.s",
        x="Value",
        y="Density")+
-  scale_x_continuous(labels= comma)+
-  scale_y_continuous(labels= comma)+
-  geom_density(data = gen.gamma.sim2,
-               aes(x=f3.range.),
-               color="red")
+  geom_ribbon(data=pdfy,
+            aes(x=values,ymin=0,ymax=X..prt1...prt2..prt3.),
+            color="red",fill="red",alpha=0.1)
 ```
+
 
